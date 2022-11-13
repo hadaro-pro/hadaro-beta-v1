@@ -7,33 +7,33 @@ import ImageSlider from "../../ImageSlider/ImageSlider";
 
 // import { Swiper, SwiperSlide } from "swiper/react";
 
-const sliderData = [
-  {
-    avatar: "/images/avatarcol-1.png",
-    title: "Music",
-  },
-  {
-    avatar: "/images/avatarcol-2.png",
-    title: "Domain Names",
-  },
-  {
-    avatar: "/images/avatarcol-3.png",
-    title: "Art",
-  },
-  {
-    avatar: "/images/avatarcol-4.png",
-    title: "Virtual World",
-  },
-  {
-    avatar: "/images/avatarcol-1.png",
-    title: "Music",
-  },
-  ,
-  {
-    avatar: "/images/avatarcol-3.png",
-    title: "Art",
-  }
-];
+// const sliderData = [
+//   {
+//     avatar: "/images/avatarcol-1.png",
+//     title: "Music",
+//   },
+//   {
+//     avatar: "/images/avatarcol-2.png",
+//     title: "Domain Names",
+//   },
+//   {
+//     avatar: "/images/avatarcol-3.png",
+//     title: "Art",
+//   },
+//   {
+//     avatar: "/images/avatarcol-4.png",
+//     title: "Virtual World",
+//   },
+//   {
+//     avatar: "/images/avatarcol-1.png",
+//     title: "Music",
+//   },
+//   ,
+//   {
+//     avatar: "/images/avatarcol-3.png",
+//     title: "Art",
+//   }
+// ];
 
 const ExploreCollection = () => {
   return (
