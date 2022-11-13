@@ -1,0 +1,350 @@
+.mainContainer {
+  // outline: 3px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .caption {
+    display: flex;
+    width: 60%;
+    // outline: 3px solid  orange;
+
+    h1 {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 3rem;
+    }
+  }
+
+  .mainComp {
+    background: #523e93;
+    width: 60%;
+    border-radius: 30px;
+    padding: 2rem 1rem;
+    margin-top: 10rem;
+    margin-bottom: 40rem;
+  }
+
+  .mainCompInner {
+    background: darken($color: #523e93, $amount: 3.5);
+    width: 100%;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    padding-left: 2rem !important;
+
+    .imgPart {
+      border: 10px solid #00000073;
+      width: fit-content;
+      border-radius: 50%;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto 0;
+
+      img {
+        object-fit: cover;
+        width: 9rem;
+        height: 9rem;
+      }
+    }
+
+    .lowerPart {
+      // outline: 3px solid chartreuse;
+      margin-top: 5rem;
+      padding: 2rem;
+      width: 100%;
+      margin-bottom: 8rem;
+
+      .menuItem {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        // align-items: center;
+        // justify-content: flex-start;
+
+        // padding-bottom: 1rem;
+        // margin-bottom: 1rem;
+
+
+
+        height: fit-content;
+        border-bottom: 2px solid #00000073;
+
+
+        img {
+          width: 3rem;
+          height: 3rem;
+        }
+        p {
+          color: #ffffff;
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin-left: 2rem;
+        }
+
+        .menuItemTop {
+          // outline: 3px solid chartreuse;
+          display: flex;
+          align-items: center;
+        }
+
+        .dropdownmenu {
+          display: block;
+          // position: absolute;
+          // position: sticky;
+          // top: 100px;
+          // top: 50px;
+          // right: 20px;
+          // background-color: #fff;
+          // border-radius: var(--border-radius);
+          // padding: 10px 20px;
+          // width: 200px;
+          // height: 200px;
+          animation: dropopen 500ms ease 1 normal forwards;
+
+
+          .subdropmenu {
+            // outline: 3px solid orangered;
+            height: auto;
+            width: 80%;
+            margin: auto;
+            margin-bottom: 2rem !important;
+
+            .submenucover {
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 2rem;
+            }
+
+            .lendArt {
+              display: flex;
+              flex-direction: column;
+              // outline: 3px solid cadetblue;
+              width: fit-content;
+              align-items: center;
+              justify-content: center;
+              .lendArtImage {
+                width: 10rem;
+                height: 10rem;
+
+                img {
+                  width: 100%;
+                  object-fit: cover;
+                  height: 100%;
+                }
+              }
+
+
+              .lendArtButtons {
+                // outline: 3px solid orangered;
+                margin-top: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                // padding: 1rem;
+
+                button {
+                  outline: none;
+                  border: 1px solid #01C5BA;
+                  background: linear-gradient(180deg, rgba(158, 0, 255, 0.65) 0%, rgba(194, 89, 211, 0.65) 100%);
+                  font-size: .7rem;
+                  color: #ffffff;
+                  font-family: "Poppins";
+                  margin: 0 .5rem;
+                  border-radius: 5px;
+                  width: fit-content;
+                  padding: .2rem .5rem;
+                }
+              }
+            }
+
+
+            .uploadArt {
+              display: flex;
+              flex-direction: column;
+              // outline: 3px solid cadetblue;
+              // width: fit-content;
+              width: 100%;
+
+              .uploadArtImage {
+                width: 10rem;
+                height: 10rem;
+                background: #D9D9D933;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+              small {
+                color: #ffff;
+                font-size: 1rem;
+                margin-top: 1rem;
+                text-align: center;
+                // outline: 3px solid orange;
+              }
+            }
+            
+          }
+        }
+
+
+
+        @keyframes dropopen {
+          from {
+            opacity: 0;
+            // visibility: hidden;
+            // transform: translateY(-20px);
+            // transition: 500ms ease;
+          }
+          to {
+            opacity: 1;
+            // visibility: visible;
+            // transform: translateY(0);
+            // transition: 500ms ease;
+          }
+        }
+
+        // .dropdownmenu::before{
+        //   content: '';
+        //   position: absolute;
+        //   // top: -5px;
+        //   right: 20px;
+        //   height: 20px;
+        //   width: 20px;
+        //   background: red;
+        //   transform: rotate(45deg);
+        // }
+
+        // .dropdownmenuactive{
+        //   opacity: 1;
+        //   visibility: visible;
+        //   transform: translateY(0);
+        //   transition: 500ms ease;
+        // }
+
+        .dropdownmenuinactive {
+          display: block;
+          // transition: opacity 1s ease-out;
+          // opacity: 0;
+          // height: 0;
+          // overflow: hidden;
+          // display: none;
+          // transition: all 1000ms ease-out;
+          // opacity: 0;
+          // visibility: hidden;
+          // transform: translateY(-20px);
+          // transition: 500ms ease;
+          animation: dropclose 500ms ease 1 normal forwards;
+
+
+          .subdropmenu {
+            // outline: 3px solid orangered;
+            height: auto;
+            width: 80%;
+            margin: auto;
+            margin-bottom: 2rem !important;
+
+            .submenucover {
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 2rem;
+            }
+
+            .lendArt {
+              display: flex;
+              flex-direction: column;
+              // outline: 3px solid cadetblue;
+              width: fit-content;
+              align-items: center;
+              justify-content: center;
+              .lendArtImage {
+                width: 10rem;
+                height: 10rem;
+
+                img {
+                  width: 100%;
+                  object-fit: cover;
+                  height: 100%;
+                }
+              }
+
+
+              .lendArtButtons {
+                // outline: 3px solid orangered;
+                margin-top: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                // padding: 1rem;
+
+                button {
+                  outline: none;
+                  border: 1px solid #01C5BA;
+                  background: linear-gradient(180deg, rgba(158, 0, 255, 0.65) 0%, rgba(194, 89, 211, 0.65) 100%);
+                  font-size: .7rem;
+                  color: #ffffff;
+                  font-family: "Poppins";
+                  margin: 0 .5rem;
+                  border-radius: 5px;
+                  width: fit-content;
+                  padding: .2rem .5rem;
+                }
+              }
+            }
+
+
+            .uploadArt {
+              display: flex;
+              flex-direction: column;
+              // outline: 3px solid cadetblue;
+              // width: fit-content;
+              width: 100%;
+
+              .uploadArtImage {
+                width: 10rem;
+                height: 10rem;
+                background: #D9D9D933;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+              small {
+                color: #ffff;
+                font-size: 1rem;
+                margin-top: 1rem;
+                text-align: center;
+                // outline: 3px solid orange;
+              }
+            }
+            
+          }
+        }
+
+        @keyframes dropclose {
+          from {
+            opacity: 1;
+            height: auto;
+            // visibility: visible;
+            // transform: translateY(0);
+            // transition: 500ms ease;
+          }
+          to {
+            // display: none;
+            opacity: 0;
+            height: 0;
+            // visibility: visible;
+            // transform: translateY(0);
+            // transition: 500ms ease;
+          }
+        }
+      }
+    }
+  }
+}

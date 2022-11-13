@@ -1,0 +1,66 @@
+.mainContainer {
+  // outline: 3px solid #fff;
+  // width: 100% !important;
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  padding-left: 4rem;
+  // padding: 0 1rem 1rem 2rem;
+  // align-items: center;
+  // justify-content: center;
+
+  h1 {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 600;
+    // outline: 3px solid wheat;
+    margin-left: 2rem;
+    // width: 80%;
+    // margin: auto;
+    // margin-left: 5rem;
+    // margin-right: auto;
+    // padding-left: 4rem;
+  }
+
+  .collectionCover {
+    // outline: 3px solid wheat;
+    // width: 100%;
+    // padding: 4rem;
+    // padding: 0 4rem;
+
+    .collectionContainer {
+      display: flex;
+     
+      // outline: 3px solid orange;
+      width: 90%;
+      .cardMain {
+        // width: 20rem !important;
+        // outline: 3px solid orange;
+        background: #594698;
+        border-radius: 30px;
+        padding: 0 1rem 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        // margin-left: 10px;
+        h5 {
+          // text-align: center;
+          color: #fff;
+          font-size: 1rem;
+          // margin-top: 3rem;
+          margin-left: .5rem;
+
+        }
+
+        img {
+          object-fit: cover;
+          width: 100%;
+          // width: 18rem;
+          // height: 20rem;
+        }
+      }
+    }
+  }
+
+}

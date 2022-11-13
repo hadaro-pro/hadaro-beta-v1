@@ -1,0 +1,114 @@
+.container {
+  // outline: 3px solid white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5rem;
+
+  h2 {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  img {
+    // margin-top: -1.8rem;
+    height: 10rem;
+    width: 10rem;
+  }
+
+  .sectionCoverMain {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // outline: 3px solid #fff;
+    background: #523E93;
+    padding: 2rem;
+    // padding: 2rem;
+    width: 80%;
+    border-radius: 3rem;
+  }
+
+  .sectionCoverBanner {
+    // outline: 3px solid #fff;
+    width: 100%;
+    // box-shadow: 0px 4px 30px 10px #FFFFFF0D;
+    border-radius: 3rem;
+    background: darken($color: #523E93, $amount: 3.5);
+    // background: red;
+  }
+
+  .sectionCover {
+    border-radius: 30px;
+    // outline: 3px solid red;
+    display: flex;
+    // display: grid;
+    // grid-template-columns: repeat(4, 1fr);
+    // gap: 2rem;
+    padding: 3rem 2rem 2rem 2rem;
+    // box-shadow: 0px 4px 30px 10px #FFFFFF0D;
+    min-height: fit-content;
+    // align-items: center;
+    // justify-content: space-around;
+
+    .card {
+      // outline: 3px solid #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      // flex-wrap: wrap;
+      // width: fit-content !important;
+
+      .imgHolder {
+        // outline: 3px solid #fff;
+        width: 8rem;
+        height: 8rem;
+        display: flex;
+        border-radius: 50%;
+        // justify-content: center;
+        // align-items: center;
+        img {
+          width:100%;
+          // height: auto;
+          height: 85%;
+          object-fit: contain;
+          // object-fit: contain;
+          margin: auto !important;
+          filter: drop-shadow(0 0 0.75rem #FFFFFF4D);
+          // background: #FFFFFF4D;
+          // outline: 3px solid red;
+        }
+      }
+
+      h4 {
+        color: #fff;
+        font-size: 1.4rem;
+        font-weight: 600;
+        width: 80%;
+        text-align: center;
+        // line-height: 2rem;
+        min-height: 5rem;
+        // outline: 3px solid #fff;
+
+      }
+
+      p {
+        margin-top: 1rem;
+        font-size: 1rem;
+        opacity: 60%;
+        color: #fff;
+        width: 75%;
+        font-weight: lighter;
+        // outline: 3px solid #fff;
+        text-align: center;
+        min-height: 8rem;
+
+        // line-height: 1.5rem;
+      }
+
+    }
+  }
+}
+

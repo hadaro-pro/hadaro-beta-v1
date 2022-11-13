@@ -1,0 +1,123 @@
+.mainContainer {
+  // outline: 3px solid red;
+   margin-top: 3rem;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+
+
+   .topCaption {
+    // outline: 3px solid white;
+    width: 60%;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+   }
+
+   .mainContentCover {
+    margin-top: 10rem;
+    background: #523E93;
+    padding: 2rem 1rem;
+    width: 60%;
+    border-radius: 30px;
+    margin-bottom: 40rem;
+
+    .mainContent {
+      background: darken($color: #523E93, $amount: 3.5);
+      border-radius: 30px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 2rem 2rem;
+
+
+      .mainContentDesc {
+        width: 40%;
+         h3 {
+          color: #ffffff;
+          font-weight: 600;
+          font-size: 1.5rem;
+         }
+
+         p {
+          color: #ffffff;
+          font-weight: lighter;
+          font-size: 1rem;
+          line-height: 2rem;
+          width: 75%;
+         }
+
+         .chainInfo {
+          margin-top: 2rem;
+          display: flex;
+          flex-direction: column;
+          h4 {
+            color: #ffffff;
+            font-size: 1.3rem;
+          }
+
+          small {
+            margin-top: -1rem;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: lighter;
+          }
+         }
+
+         .lendPrice {
+          margin-top: .5rem;
+          display: flex;
+          flex-direction: column;
+          h4 {
+            color: #ffffff;
+            font-size: 1.3rem;
+          }
+
+          small {
+            margin-top: -1rem;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: lighter;
+            background: #D9D9D936;
+            border-radius: 6px;
+            width: fit-content;
+            padding: .5rem .4rem;
+          }
+         }
+
+      }
+
+      .mainContentImg {
+        width: 60%;
+        display: flex;
+        justify-content: center;
+        // outline: 3px solid red;
+
+        .ImgCover {
+          // outline: 3px solid orange;
+          width: 85%;
+          height: fit-content;
+
+          img {
+            // object-fit: contain;
+            object-fit: cover;
+            // object-fit: fill;
+            width: 100%;
+            aspect-ratio: 1/1;
+            // height: 10rem;
+            // width: 80%;
+            // height: 100%;
+            // // height: 65%;
+            // border-radius: 20px;
+          }
+        }
+
+      
+      }
+    }
+   }
+}

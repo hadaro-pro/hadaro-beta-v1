@@ -1,0 +1,61 @@
+.mainContainer {
+  // outline: 3px solid magenta;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40rem;
+
+  .caption {
+    // outline: 3px solid red;
+    width: 80%;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+  }
+
+  .mainPart {
+    margin-top: 15rem;
+    // outline: 3px solid mediumseagreen;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        background-image: linear-gradient(90deg, #56DF9E -2.19%, #707BFE 52.24%, #C86CFE 100%);
+        background-size: 100%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -moz-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -moz-text-fill-color: transparent;
+    }
+
+    .artPart {
+      // outline: 3px solid orangered;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+
+    button {
+      margin-top: 5rem;
+      outline: none;
+      border: 1px solid #01C5BA;
+      color: #FFFFFF;
+      font-size: .85rem;
+      font-weight: 500;
+      background: linear-gradient(180deg, rgba(158, 0, 255, 0.65) 0%, rgba(194, 89, 211, 0.65) 100%);
+      padding: .5rem 1.5rem;
+      font-family: "Poppins";
+    }
+  }
+}

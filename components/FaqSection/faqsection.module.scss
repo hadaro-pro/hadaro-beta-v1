@@ -1,0 +1,214 @@
+.mainContainer {
+  margin-top: 1rem;
+  // outline: 3px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .upperCover {
+    // outline: 3px solid #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+  }
+
+  .firstCover {
+    margin-top: 1rem;
+    margin-bottom: 10rem;
+    width: 80%;
+    // height: 30rem;
+    background: #523E93;
+    border-radius: 30px;
+    padding: 2rem;
+
+    .firstCoverInner {
+      display: flex;
+      border-radius: 30px;
+      background: darken($color: #523E93, $amount: 3.5);
+      height: 100%;
+      width: 100%;
+
+      img {
+        // width: 100%;
+        object-fit: cover;
+      }
+
+      .firstCoverInnerDesc {
+        margin-left: 7rem;
+
+        h4 {
+          color: #FFFFFF;
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+
+        small {
+          color: #FFFFFF;
+          font-size: 1rem;
+          opacity: 60%;
+          font-weight: lighter;
+        }
+      }
+    }
+  }
+
+  .firstCover2 {
+    margin-top: 1rem;
+    margin-bottom: 10rem;
+    width: 80%;
+    // height: 30rem;
+    background: #523E93;
+    border-radius: 30px;
+    padding: 2rem;
+
+    .firstCoverInner2 {
+      display: flex;
+      border-radius: 30px;
+      background: darken($color: #523E93, $amount: 3.5);
+      height: 100%;
+      width: 100%;
+
+      img {
+        // width: 100%;
+        object-fit: cover;
+        margin-bottom: 12rem;
+      }
+
+
+
+      .firstCoverInnerDesc2 {
+        // outline: 3px solid red;
+        margin-left: 7rem;
+        display: flex;
+        flex-direction: column;
+        // justify-content: flex-start;
+
+        h4 {
+          // margin-top: -.1rem;
+          color: #FFFFFF;
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+
+        small {
+          color: #FFFFFF;
+          font-size: 1rem;
+          opacity: 60%;
+          font-weight: lighter;
+        }
+      }
+    }
+  }
+
+  .firstCover3 {
+    margin-top: 1rem;
+    margin-bottom: 10rem;
+    width: 80%;
+    // height: 30rem;
+    background: #523E93;
+    border-radius: 30px;
+    padding: 2rem;
+
+    .firstCoverInner3 {
+      display: flex;
+      border-radius: 30px;
+      background: darken($color: #523E93, $amount: 3.5);
+      height: 100%;
+      width: 100%;
+      // outline: 3px solid red;
+      justify-content: space-between;
+
+      img {
+        // width: 100%;
+        margin-top: 1.5rem;
+        object-fit: cover;
+        margin-bottom: 3rem;
+      }
+
+
+
+      .firstCoverInnerDesc3 {
+        // outline: 3px solid red;
+        margin-left: 3rem;
+        display: flex;
+        flex-direction: column;
+        // justify-content: flex-start;
+
+        h4 {
+          // margin-top: -.1rem;
+          color: #FFFFFF;
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+
+        small {
+          color: #FFFFFF;
+          font-size: 1rem;
+          opacity: 60%;
+          font-weight: lighter;
+        }
+      }
+    }
+  }
+
+  .firstCover4 {
+    margin-top: 1rem;
+    margin-bottom: 40rem;
+    width: 80%;
+    // height: 30rem;
+    background: #523E93;
+    border-radius: 30px;
+    padding: 2rem;
+
+    .firstCoverInner4 {
+      display: flex;
+      border-radius: 30px;
+      background: darken($color: #523E93, $amount: 3.5);
+      height: 100%;
+      width: 100%;
+      // outline: 3px solid red;
+      justify-content: space-between;
+
+      img {
+        // width: 100%;
+        margin-top: 1.5rem;
+        object-fit: cover;
+        margin-bottom: 5rem;
+        margin-right: 4rem;
+      }
+
+
+
+      .firstCoverInnerDesc4 {
+        // outline: 3px solid red;
+        margin-left: 3rem;
+        display: flex;
+        flex-direction: column;
+        // justify-content: flex-start;
+
+        h4 {
+          // margin-top: -.1rem;
+          color: #FFFFFF;
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+
+        small {
+          color: #FFFFFF;
+          font-size: 1rem;
+          opacity: 60%;
+          font-weight: lighter;
+        }
+      }
+    }
+  }
+
+}

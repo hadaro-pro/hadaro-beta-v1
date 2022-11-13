@@ -1,0 +1,83 @@
+.mainContainer {
+  display: flex;
+  padding: 1.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // outline: 3px solid #FFFFFF;
+  background: linear-gradient(180deg, #523E93 0%, rgba(82, 62, 147, 0.22) 100%);
+  // width: fit-content;
+
+
+  .mainCover {
+    // outline: 3px solid #FFFFFF;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logoCaptionPart {
+    // outline: 3px solid #FFFFFF;
+    margin-left: 4rem;
+    // width: fit-content;
+    // flex: 1;
+    img {
+      width: 18rem;
+      height: 5rem;
+    }
+
+  }
+
+
+  .logoMenuPart {
+    // outline: 3px solid red;
+    // flex: 2;
+    // width: 60%;
+    
+      .logoMenuCover {
+        // outline: 3px solid red;
+        .logoMenuMain {
+          display: flex;
+          // outline: 3px solid red;
+          // padding: 1rem;
+          align-items: center;
+          width: 100%;
+          // justify-content: space-between;
+          margin-left: 1rem;
+          p {
+            // list-style-type: none;
+            font-size: .95rem;
+            color: #FFFFFF;
+            // margin: 0 .5rem;
+            margin-right: 1rem;
+            // font-weight: 500;
+            // word-spacing: -1.47rem;
+
+            img {
+              margin-top: .45rem;
+              width: 1.5rem;
+              height: 1.5rem;
+              // margin: auto !important;
+            }
+  
+            button {
+              outline: none;
+              border: 2px solid #FFFFFF;
+              border-radius: 2rem;
+              background: transparent;
+              font-size: 1rem;
+              color: #FFFFFF;
+              width: fit-content;
+              padding: .6rem 1.4rem;
+              font-family: "Poppins";
+              transition: opacity 300ms ease-in;
+              &:hover {
+                opacity: 60%;
+              } 
+            }
+          }
+        }
+      }
+  }
+}
