@@ -1,16 +1,16 @@
 import React from 'react'
-import AboutUsComp from '../components/AboutUs/AboutUsComp'
+import MissionComp from '../components/Mission/MissionComp'
 import Navbar from '../components/Navbar/Navbar'
 import Footer from '../components/Footer/footer'
 
-const AboutUs = () => {
+const Mission = () => {
   return (
     <div>
       <Navbar />
-      <AboutUsComp />
+      <MissionComp />
       <Footer />
     </div>
   )
 }
 
-export default AboutUs
+export default Mission

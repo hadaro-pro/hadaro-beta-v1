@@ -1,8 +1,50 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Link from 'next/link'
+import {Dropdown} from 'antd'
+import {DownOutlined}  from "@ant-design/icons"
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useEnsAvatar,
+  useEnsName,
+} from "wagmi";
+import WalletConnect from '../../walletConnectModal/WalletConnect'
 import styles from './topsection.module.scss'
 
+
 const TopSection = () => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const { address, connector, isConnected } = useAccount()
+  // const { data: ensAvatar } = useEnsAvatar({ address })
+  const { data: ensName } = useEnsName({ address })
+  const { connect, connectors, error, isLoading, pendingConnector } =
+    useConnect()
+  const { disconnect } = useDisconnect()
+
+  const items = [
+    { label: <div className={styles.dropdownWallet} >Connected to {connector?.name}</div>, key: 'item-1' },
+    { label: <button  onClick={() => {
+       disconnect()
+       setIsModalOpen(false)
+      }} className={styles.dropdowndisconnect} >Disconnect</button>, key: 'item-2' },
+  ];
+  
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.logoCaptionPart}>
@@ -24,12 +66,32 @@ const TopSection = () => {
         <div className={styles.logoMenuMain}>
           <div  className={styles.logoMenuMainItems}>
           <p> <Link  href="/" >Home</Link> </p>
-          <p>  <Link href="/about-us" >About Us</Link> </p>
+          <p>  <Link href="/mission" >Mission</Link> </p>
           <p> <Link  href="/marketplace-discover" >  Marketplace </Link></p>
           <p> <Link href="portfolio" >Portfolio</Link> </p>
           <p> <Link  href="lend-portfolio"> Lend </Link></p>
           <p>  <img  src="/images/Search.png"  alt='search'/> </p>
-          <p> <button>Wallet Connect</button> </p>
+          <p>
+          {
+                  isConnected ? (
+                      <Dropdown menu={{ items }} trigger={['click']}> 
+                      <div className={styles.walletCred}>
+                      {/* <img src={`${ensAvatar === null ? '/images/wallet-avatar.png' : ensAvatar}`} alt="avatar" /> */}
+                    <p  className={styles.addr}> {ensName ? `${ensName} (${address})` : address}</p> <p  className={styles.addrIcon}><DownOutlined /></p>
+                    </div>
+                      </Dropdown>
+                   
+                  ) : (
+                    <>
+               <button onClick={showModal}>Wallet Connect</button>
+                <WalletConnect
+                  modalOpen={isModalOpen}
+                  cancelModal={handleCancel}
+                />
+                    </>
+                  )
+                }
+           </p>
           </div>
         </div>
        </div>

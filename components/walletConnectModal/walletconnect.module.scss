@@ -1,0 +1,85 @@
+.mainContainer {
+  border-radius: 30px !important;
+  // background: #523E93;
+
+  .closeMenu {
+    // outline: 3px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .closeIcon {
+      background-color: darken($color: #523E93, $amount: 10%);
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: gray;
+      transition: background-color 100ms ease-in-out;
+      // opacity: 80%;
+      &:hover {
+        background-color: darken($color: #523E93, $amount: 15%);
+        width: 3rem;
+        height: 3rem;
+        // font-size: 1.3rem;
+      }
+    } 
+  }
+
+
+  .modalContent {
+    // outline: 3px solid red;
+    margin-bottom: 3rem;
+
+    h4 {
+      color: #FFFFFF;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .connectOptions {
+      // display: flex;
+      padding: 1rem 1rem 1.2rem 1rem;
+      border-bottom: 1px solid darken($color: #523E93, $amount: 10%);
+      img {
+        width: 4rem;
+        height: 4rem;
+      }
+
+      span {
+        font-size: 1.2rem;
+        color: #FFFFFF;
+        font-weight: 700;
+        margin-left: 1.5rem;
+        cursor: pointer;
+      }
+
+      .unsupported {
+        color: orangered;
+        font-size: .9rem;
+        font-weight: normal;
+        margin-left: 1.5rem;
+        // outline: 3px solid slateblue;
+      }
+
+      .loadingPart {
+        margin-left: 2.5rem;
+        // outline: 3px solid slateblue;
+      }
+    }
+
+  }
+
+  .errorPart {
+    margin-top: 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    // font-family: cursive;
+    color:  orange;
+  }
+
+}
+

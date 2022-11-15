@@ -11,8 +11,8 @@ body {
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+  color: inherit !important;
+  text-decoration: none !important;
 }
 
 * {
@@ -35,6 +35,24 @@ a {
   background:#343444
   !important;
   opacity: 70% !important;
+}
+
+.ant-modal-content {
+  background-color: #523E93 !important;
+  border-radius: 15px !important;
+  // padding: 1rem !important;
+}
+
+.ant-modal-close-x  {
+  display: none !important;
+}
+
+.ant-dropdown-menu-item {
+  // user-select: none !important;
+  &:hover {
+    background-color: transparent !important;
+    // user-select: none !important;
+  }
 }
 
 

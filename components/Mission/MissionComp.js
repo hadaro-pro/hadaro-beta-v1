@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./aboutus.module.scss";
+import styles from "./mission.module.scss";
 
 
 // Hadara.io is a lending and rental platform for Web 3.0, NFT, and gaming communities. 
@@ -51,11 +51,11 @@ const listData = [
   },
 ];
 
-const AboutUsComp = () => {
+const MissionComp = () => {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.caption}>
-        <h1>ABOUT US</h1>
+        <h1>MISSION</h1>
       </div>
 
       <div className={styles.mainPart}>
@@ -80,4 +80,4 @@ const AboutUsComp = () => {
   );
 };
 
-export default AboutUsComp;
+export default MissionComp;

@@ -80,4 +80,71 @@
         }
       }
   }
+
+ 
+}
+
+.walletCred {
+  display: flex;
+  // outline: 3px solid red;
+  align-items: center;
+  justify-content: flex-start;
+  // width: 10rem;
+  padding: .5rem;
+  border-radius: 10px;
+  background: #523E93;
+  box-shadow: 4px 4px 15px 0px #00000099;
+  overflow: hidden;
+  cursor: pointer;
+  // text-overflow: ellipsis;
+  
+
+  img {
+    margin: auto;
+    object-fit: cover;
+    width: 10rem;
+    height: 10rem;
+  }
+  .addr {
+  font-size: .9rem;
+  font-weight: 700;
+  margin: auto;
+  width: 8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+    // text-overflow: ellipsis;
+    // width: 50%;
+  }
+ 
+  .addrIcon {
+    font-size: .9rem;
+    font-weight: 700;
+    margin: auto;
+  }
+}
+
+.dropdownWallet {
+  color: crimson;
+  font-size: .75rem;
+  font-weight: 600;
+  user-select: none;
+}
+
+.dropdowndisconnect {
+  border: none;
+  outline: none;
+  background: #1809ff;
+  border-radius: 10px;
+  box-shadow: 4px 4px 5px 0px #00000099;
+  color: #FFFFFF;
+  font-size: .85rem;
+  font-weight: 500;
+  padding: .5rem 1rem;
+  transition: all 100ms ease-in-out;
+
+
+  &:hover {
+    background: darken($color: #1809ff, $amount: 5%);
+  }
 }

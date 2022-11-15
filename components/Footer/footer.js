@@ -15,7 +15,7 @@ const Footer = () => {
             <br /> We eliminate spam.{" "}
           </h1>
           <div className={styles.captionLower}>
-            <p> <Link href="/about-us">ABOUT US</Link> </p>
+            <p> <Link href="/mission">MISSION</Link> </p>
             <p> <Link href="/faqs">FAQS</Link> </p>
             <p> <Link href="#">OUR BLOG</Link> </p>
             <p> <Link href="marketplace-discover"> MARKETPLACE</Link></p>
