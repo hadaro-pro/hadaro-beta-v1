@@ -212,7 +212,7 @@ const LendPortfolioComp = () => {
                             if(isConnected) {
                               showModal()
                             } else {
-                              message.error('Please Connect your wallet to proceed')
+                              message.error('Please connect your wallet to proceed')
                             }
                           } }
                           src="/images/cross.png"
