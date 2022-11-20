@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "antd";
+import { message, Modal } from "antd";
 import axios from "axios";
 import { useAccount, useConnect } from "wagmi";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
@@ -208,7 +208,13 @@ const LendPortfolioComp = () => {
                       <div className={styles.uploadArtImage}>
                         <img
                           style={{ cursor: "pointer" }}
-                          onClick={showModal}
+                          onClick={() => {
+                            if(isConnected) {
+                              showModal()
+                            } else {
+                              message.error('Please Connect your wallet to proceed')
+                            }
+                          } }
                           src="/images/cross.png"
                           alt="add"
                         />
