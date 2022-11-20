@@ -123,8 +123,8 @@ const LendPortfolioComp = () => {
     try {
       const response = await axios.get("/api/nft-balance", {
         params: {
-          // walletaddr: address,
-          walletaddr: wallet,
+          walletaddr: address,
+          // walletaddr: wallet,
           chain: chain,
         },
       }); 
