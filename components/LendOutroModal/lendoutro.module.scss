@@ -1,0 +1,44 @@
+.modalContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  width: 500px;
+
+  h3 {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .modalButtons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    // display: flex;
+    justify-content: center;
+    align-items: center;
+    // outline: 3px solid orange;
+    width: 300px;
+
+    button {
+      background: linear-gradient(180deg, rgba(82, 62, 147, 0.65) 0%, rgba(158, 0, 255, 0.65) 100%);
+      border: none;
+      border-radius: 4px;
+      outline: none;
+      margin: 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      padding: .5rem 2rem;
+      cursor: pointer;
+      transition: all 200ms ease-in-out;
+
+      &:hover {
+        opacity: 80%;
+      }
+    }
+  }
+}

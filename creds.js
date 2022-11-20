@@ -1,0 +1,1 @@
+export const moralisApiKey = "Sx9tyHKK0J7Br5KtZm4s46RXgssUiZVfTFOyN0BASBwBsYHi5N4Uwe89XyablIgf"

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import {Dropdown} from 'antd'
-import {DownOutlined}  from "@ant-design/icons"
+import {DownOutlined, CaretDownOutlined}  from "@ant-design/icons"
 import {
   useAccount,
   useConnect,
@@ -14,6 +14,8 @@ import styles from "./navbar.module.scss";
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openLendMenu, setOpenLendMenu] = useState(false);
+  const [openContactMenu, setOpenContactMenu] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -56,52 +58,78 @@ const Navbar = () => {
         <div className={styles.logoMenuPart}>
           <div className={styles.logoMenuCover}>
             <div className={styles.logoMenuMain}>
-              <p>
-                {" "}
-                <Link href="/">Home</Link>{" "}
-              </p>
+            <div className={styles.logoMenuMainItems}>
               <p>
                 {" "}
                 <Link href="/mission">Mission</Link>{" "}
               </p>
+              <div
+                onMouseEnter={() => setOpenLendMenu(true)}
+                onMouseLeave={() => setOpenLendMenu(false)}
+                onClick={() => setOpenLendMenu((prev) => !prev)}
+                className={styles.compPart}
+              >
+                <p>
+                  {" "}
+                  Lend <CaretDownOutlined style={{ color: "#fff" }} />{" "}
+                </p>
+                <small
+                  className={
+                    openLendMenu ? styles.displayMenu : styles.displayNone
+                  }
+                >
+                  {" "}
+                  <Link href="/lend-portfolio"> Portfolio </Link>{" "}
+                </small>
+              </div>
               <p>
                 {" "}
-                <Link href="/marketplace-discover"> Marketplace </Link>
+                <Link href="/marketplace-discover"> Explore </Link>
               </p>
-              <p>
-                {" "}
-                <Link href="portfolio">Portfolio</Link>{" "}
-              </p>
-              <p>
-                {" "}
-                <Link href="lend-portfolio"> Lend </Link>
-              </p>
+              <div 
+               onMouseEnter={() => setOpenContactMenu(true)}
+               onMouseLeave={() => setOpenContactMenu(false)}
+               onClick={() => setOpenContactMenu((prev) => !prev)}
+               className={styles.compPart}>
+                <p>
+                  {" "}
+                  Contact Us <CaretDownOutlined style={{ color: "#fff" }} />
+                </p>
+                <small className={
+                    openContactMenu ? styles.displayMenu : styles.displayNone
+                  }>
+                  <Link href="/feedback"> Feedback </Link>
+                </small>
+              </div>
               <p>
                 {" "}
                 <img src="/images/Search.png" alt="search" />{" "}
               </p>
               <p>
-                {
-                  isConnected ? (
-                      <Dropdown menu={{ items }} trigger={['click']}> 
-                      <div className={styles.walletCred}>
+                {isConnected ? (
+                  <Dropdown menu={{ items }} trigger={["click"]}>
+                    <div className={styles.walletCred}>
                       {/* <img src={`${ensAvatar === null ? '/images/wallet-avatar.png' : ensAvatar}`} alt="avatar" /> */}
-                    <p  className={styles.addr}> {ensName ? `${ensName} (${address})` : address}</p> <p  className={styles.addrIcon}><DownOutlined /></p>
+                      <p className={styles.addr}>
+                        {" "}
+                        {ensName ? `${ensName} (${address})` : address}
+                      </p>{" "}
+                      <p className={styles.addrIcon}>
+                        <DownOutlined />
+                      </p>
                     </div>
-                      </Dropdown>
-                   
-                  ) : (
-                    <>
-               <button onClick={showModal}>Wallet Connect</button>
-                <WalletConnect
-                  modalOpen={isModalOpen}
-                  cancelModal={handleCancel}
-                />
-                    </>
-                  )
-                }
-                {" "}
+                  </Dropdown>
+                ) : (
+                  <>
+                    <button onClick={showModal}>Wallet Connect</button>
+                    <WalletConnect
+                      modalOpen={isModalOpen}
+                      cancelModal={handleCancel}
+                    />
+                  </>
+                )}
               </p>
+            </div>
             </div>
           </div>
         </div>

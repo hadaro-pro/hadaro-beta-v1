@@ -10,26 +10,24 @@ const Footer = () => {
           <img src="/Hadaro-BETA-logo.png" alt="hadaro" />
         </div>
         <div className={styles.captionPart}>
-          <h1>
-            Never miss your next NFT.
-            <br /> We eliminate spam.{" "}
-          </h1>
+         
           <div className={styles.captionLower}>
             <p> <Link href="/mission">MISSION</Link> </p>
+            <p> <Link href="/feedback"> CONTACT US</Link></p>
+            <p> <Link href="/feedback"> FEEDBACK</Link></p>
+            <p> <Link href="/marketplace-discover"> EXPLORE</Link></p>
+            <p className={styles.lastPart} > <Link href="/marketplace-featured"> MARKETPLACE</Link></p>
+            </div>
+            <div className={styles.captionLower}>
+            <p> <Link href="/lend-portfolio">LEND</Link> </p>
+            <p> <Link href="/portfolio">PORTFOLIO</Link> </p>
             <p> <Link href="/faqs">FAQS</Link> </p>
-            <p> <Link href="#">OUR BLOG</Link> </p>
-            <p> <Link href="marketplace-discover"> MARKETPLACE</Link></p>
+            <p  className={styles.lastPart}> <Link href="#">BLOG</Link> </p>
           </div>
         </div>
         <div className={styles.subscriptionPart}>
           <div className={styles.subscriptionPartUpper}>
-            <h2>Subscribe Us</h2>
-            <div className={styles.subscriptionInputCover}>
-              <input type="text" placeholder="info@yourgmail.com" />
-              <div className={styles.sendIconPart}>
-                <img src="/images/send-icon.png" alt="send" />
-              </div>
-            </div>
+            <h2>Join our thriving community.</h2>
           </div>
           <div className={styles.subscriptionPartLower}>
             <p>

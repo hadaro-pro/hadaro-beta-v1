@@ -37,6 +37,7 @@
     
       .logoMenuCover {
         // outline: 3px solid red;
+        position: relative;
         .logoMenuMain {
           display: flex;
           // outline: 3px solid red;
@@ -45,38 +46,95 @@
           width: 100%;
           // justify-content: space-between;
           margin-left: 1rem;
-          p {
-            // list-style-type: none;
-            font-size: .95rem;
-            color: #FFFFFF;
-            // margin: 0 .5rem;
-            margin-right: 1rem;
-            // font-weight: 500;
-            // word-spacing: -1.47rem;
 
-            img {
-              margin-top: .45rem;
-              width: 1.5rem;
-              height: 1.5rem;
-              // margin: auto !important;
+          .logoMenuMainItems {
+            // outline: 3px solid orange;
+            display: flex;
+            // width: fit-content;
+            width: 100%;
+            // padding: .5rem;
+            align-items: center;
+            justify-content: space-around;
+            // justify-content: center;
+  
+            .compPart { 
+              position: relative;
+              // outline: 3px solid coral;
+              justify-content: center;
+              align-items: center;
+              display: flex;
+              flex-direction: column;
+              .displayMenu {
+                display: block;
+              }
+  
+              .displayNone {
+                display: none;
+              }
+  
+  
+           
+  
+              small {
+                position: absolute;
+                font-size: .9rem;
+                top: 25px;
+                background: #C259D3;
+                color: #FFFFFF;
+                padding: .3rem 1rem;
+                font-weight: 700;
+                border-radius: 10px;
+                transition: all 500ms ease-in-out;
+                animation: showmenu 200ms ease-in-out 1 normal forwards;
+                &:hover {
+                  background: darken($color: #C259D3, $amount: 20%);
+                }
+              }
+  
+              @keyframes  showmenu {
+                from { transform: translateY(-30%); opacity: 0%; }
+                to { transform: none; opacity: 100%;}
+              }
             }
   
-            button {
-              outline: none;
-              border: 2px solid #FFFFFF;
-              border-radius: 2rem;
-              background: transparent;
-              font-size: 1rem;
+            p {
+              // list-style-type: none;
+              font-size: .95rem;
               color: #FFFFFF;
-              width: fit-content;
-              padding: .6rem 1.4rem;
-              font-family: "Poppins";
-              transition: opacity 300ms ease-in;
-              &:hover {
-                opacity: 60%;
-              } 
+              // opacity: 0%;
+              // margin-right: .8rem;
+              margin: 0 .5rem;
+              // font-weight: 500;
+              // margin: auto !important;
+              cursor: pointer;
+  
+              
+              img {
+                // margin-top: .45rem;
+                width: 2rem;
+                height: 2rem;
+                // margin: auto !important;
+              }
+    
+    
+              button {
+                outline: none;
+                border: 2px solid #FFFFFF;
+                border-radius: 2rem;
+                background: transparent;
+                font-size: .95rem;
+                color: #FFFFFF;
+                width: fit-content;
+                padding: .6rem 1.4rem;
+                font-family: "Poppins";
+                transition: opacity 300ms ease-in;
+                &:hover {
+                  opacity: 60%;
+                } 
+              }
             }
           }
+         
         }
       }
   }

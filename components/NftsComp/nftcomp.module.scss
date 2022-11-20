@@ -1,0 +1,100 @@
+.mainCover {
+  // outline: 3px solid chartreuse;
+  // margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  width: 100%;
+
+  .banner {
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  .nftcard {
+    // outline: 3px solid burlywood;
+    background: black;
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // align-items: center;
+    width: 15rem;
+    height: 25rem;
+
+    .imageCover {
+      // outline: 3px solid orange;
+
+    }
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      aspect-ratio: 1/1;
+      // height: 20rem;
+      border-radius: 5px;
+    }
+
+    .lowerPart {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    span {
+      // margin-top: 1rem;
+      color: #fff;
+      font-size: .8rem;
+      font-weight: 600;
+      background-image: linear-gradient(90deg, #56DF9E -2.19%, #707BFE 52.24%, #C86CFE 100%);
+      background-size: 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -moz-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -moz-text-fill-color: transparent;
+    }
+  }
+
+
+  button {
+    text-align: center;
+    margin: auto;
+    margin-top: 1rem;
+    outline: none;
+    border: none;
+    font-size: 1rem;
+    background-image: linear-gradient(90deg, #56DF9E -2.19%, #707BFE 52.24%, #C86CFE 100%);
+    color: black;
+    font-weight: 700;
+    padding: .3rem 1rem;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+
+    &:hover {
+      padding: .4rem 1.1rem;
+      opacity: 60%;
+    }
+  }
+
+ 
+}
+
+.noNFTPart {
+  // outline: 3px solid saddlebrown;
+  width: 30rem;
+  height: 20rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  h1 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: normal;
+    text-align: center;
+  }
+}

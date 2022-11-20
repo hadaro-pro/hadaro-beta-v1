@@ -1,0 +1,41 @@
+.mainCover {
+  // outline: 3px solid salmon;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  width: 30rem;
+  // display: flex;
+  // flex-direction: column;
+  // // justify-content: center;
+  // align-items: center;
+  h5 {
+    color: #fff;
+    font-size: .9rem;
+    font-weight: 500;
+  }
+
+  .selectNetworkCover {
+    display: flex;
+    // flex-direction: column;
+  
+  }
+
+
+  button {
+    margin-left: 2rem;
+    background: #01C5BA;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 1rem;
+    padding: .2rem 1rem;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+  
+
+    &:hover {
+      background: darken($color: #01C5BA, $amount: 15%);
+    }
+  }
+}

@@ -72,6 +72,7 @@
 
 
         height: fit-content;
+        padding-bottom: 2rem;
         border-bottom: 2px solid #00000073;
 
 
@@ -83,13 +84,15 @@
           color: #ffffff;
           font-size: 1.5rem;
           font-weight: 600;
-          margin-left: 2rem;
+          margin-left: 2rem !important;
+          margin: auto 0;
         }
 
         .menuItemTop {
           // outline: 3px solid chartreuse;
           display: flex;
           align-items: center;
+          cursor: pointer;
         }
 
         .dropdownmenu {
@@ -110,11 +113,12 @@
           .subdropmenu {
             // outline: 3px solid orangered;
             height: auto;
-            width: 80%;
+            width: 100%;
             margin: auto;
             margin-bottom: 2rem !important;
 
             .submenucover {
+              // outline: 3px solid orangered;
               display: grid;
               grid-template-columns: repeat(4, 1fr);
               gap: 2rem;
@@ -159,6 +163,13 @@
                   border-radius: 5px;
                   width: fit-content;
                   padding: .2rem .5rem;
+                  transition: all 200ms ease-in-out;
+                  cursor: pointer;
+
+                  &:hover {
+                    padding: .3rem .6rem;
+                    opacity: 40%;
+                  }
                 }
               }
             }
@@ -294,7 +305,14 @@
                   border-radius: 5px;
                   width: fit-content;
                   padding: .2rem .5rem;
-                }
+                  transition: all 200ms ease-in-out;
+                  cursor: pointer;
+
+                  &:hover {
+                    padding: .3rem .6rem;
+                    opacity: 40%;
+                  }
+                } 
               }
             }
 
@@ -346,5 +364,81 @@
         }
       }
     }
+  }
+
+
+  
+  
+}
+
+.modalContainer {
+  border-radius: 30px !important;
+  // background: #523E93;
+  // outline: 3px solid red;
+  display: flex;
+  flex-direction: column;
+  width: fit-content !important;
+
+  .closeMenu {
+    // outline: 3px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .closeIcon {
+      background-color: darken($color: #523E93, $amount: 10%);
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: gray;
+      transition: background-color 100ms ease-in-out;
+      // opacity: 80%;
+      &:hover {
+        background-color: darken($color: #523E93, $amount: 15%);
+        width: 3rem;
+        height: 3rem;
+        // font-size: 1.3rem;
+      }
+    } 
+  }
+
+
+  .modalContent {
+    // outline: 3px solid red;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    h4 {
+      color: #FFFFFF;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+  }
+
+
+}
+
+
+.loadingPart {
+  // outline: 3px solid saddlebrown;
+  width: 30rem;
+  height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  h1 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: normal;
+    text-align: center;
   }
 }

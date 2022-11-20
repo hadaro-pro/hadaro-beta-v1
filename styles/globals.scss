@@ -19,6 +19,8 @@ a {
   box-sizing: border-box;
 }
 
+
+
 .slick-prev, .slick-next {
   width: 50px !important;
   height: 50px !important;
@@ -37,6 +39,18 @@ a {
   opacity: 70% !important;
 }
 
+.ant-carousel .slick-dots {
+  margin: auto !important;
+}
+
+
+.ant-carousel .slick-dots li button {
+  height: 6px !important;
+}
+
+.slick-dots li button:before {
+  display: none !important;
+}
 .ant-modal-content {
   background-color: #523E93 !important;
   border-radius: 15px !important;

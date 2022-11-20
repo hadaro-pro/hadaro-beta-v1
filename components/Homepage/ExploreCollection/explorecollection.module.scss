@@ -1,10 +1,11 @@
 .mainContainer {
   // outline: 3px solid #fff;
-  // width: 100% !important;
-  margin-top: 4rem;
+  width: 80% !important;
+  margin-top: 4rem !important;
   display: flex;
   flex-direction: column;
-  padding-left: 4rem;
+  margin: auto;
+  // padding-left: 4rem;
   // padding: 0 1rem 1rem 2rem;
   // align-items: center;
   // justify-content: center;
@@ -15,6 +16,7 @@
     font-weight: 600;
     // outline: 3px solid wheat;
     margin-left: 2rem;
+    text-align: center;
     // width: 80%;
     // margin: auto;
     // margin-left: 5rem;

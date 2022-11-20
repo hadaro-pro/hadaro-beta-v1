@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useConnect, useAccount } from "wagmi";
+import { useConnect, useAccount , useNetwork} from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { Modal, message } from "antd";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
@@ -22,6 +22,8 @@ const connectorImages = [
 
 const WalletConnect = ({ modalOpen, cancelModal }) => {
   const { isConnected, address } = useAccount();
+
+  const { chain } = useNetwork()
 
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
@@ -57,7 +59,7 @@ const WalletConnect = ({ modalOpen, cancelModal }) => {
       className={styles.mainContainer}
     >
       <div className={styles.closeMenu}>
-        <CloseOutlined className={styles.closeIcon} onClick={cancelModal} />
+        <CloseOutlined  className={styles.closeIcon} onClick={cancelModal} />
       </div>
       <div className={styles.modalContent}>
         <h4>Connect Your Wallet</h4>
