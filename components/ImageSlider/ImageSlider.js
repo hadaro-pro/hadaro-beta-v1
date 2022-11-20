@@ -75,7 +75,7 @@ const ImageSlider = () => {
       }}
     >
       {carouselData.map((item, index) => (
-        <div className={styles.container}>
+        <div key={index} className={styles.container}>
           <div
             className={styles.itemContainer}
             key={index}
