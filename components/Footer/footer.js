@@ -22,7 +22,7 @@ const Footer = () => {
             <p> <Link href="/lend-portfolio">LEND</Link> </p>
             <p> <Link href="/portfolio">PORTFOLIO</Link> </p>
             <p> <Link href="/faqs">FAQS</Link> </p>
-            <p  className={styles.lastPart}> <Link href="#">BLOG</Link> </p>
+            <p  className={styles.lastPart}> <Link href="/blog">BLOG</Link> </p>
           </div>
         </div>
         <div className={styles.subscriptionPart}>

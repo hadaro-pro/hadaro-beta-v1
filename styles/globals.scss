@@ -19,6 +19,11 @@ a {
   box-sizing: border-box;
 }
 
+ html {
+  width: 100%;
+  height: auto !important;
+}
+
 
 
 .slick-prev, .slick-next {

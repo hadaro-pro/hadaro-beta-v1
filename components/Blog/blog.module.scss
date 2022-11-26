@@ -4,13 +4,13 @@
   // width: 80%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
+  // align-items: center;
+  // justify-content: center;
+  margin-left: 5rem;
   .caption {
     // outline: 3px solid #fff;
     width: 80%;
-    margin-bottom: 10rem;
+    margin-bottom: 4rem;
     h1 {
       color: #ffff;
       font-weight: 700;
@@ -33,19 +33,37 @@
       background: darken($color: #523E93, $amount: 3.5);
       height: 100%;
       width: 100%;
+      position: relative;
       // align-items: center;
       // justify-content: center;
       // outline: 3px solid orange;
 
       .innerDescPart {
+        // outline: 3px solid orange;
         margin-top: 5rem;
-        flex: 30%;
+        flex: 40%;
         display: flex;
         flex-direction: column;
         padding: 1rem 3rem 2rem 3rem;
 
+        h2 {
+          color: #fff;
+          font-size: 2rem;
+          font-weight: 600;
+        }
+
+
+        h3 {
+          margin-top: 1rem;
+          color: #fff;
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
+
+
+
         .innerDescItem {
-          margin-bottom: 3rem;
+          // margin-bottom: 3rem;
 
           h4 {
             font-size: 2rem;
@@ -59,39 +77,47 @@
             color: #fff;
             font-weight: normal;
             line-height: 2rem;
+            // outline: 3px solid pink;
+            width: 78%;
           }
         }
       }
 
       .innerImgPart {
-        flex: 40%;
+        flex: 1%;
         // outline: 3px solid red;
         display: flex;
         flex-direction: column;
         height: auto;
         align-items: center;
         justify-content: center;
-        margin-top: 5rem;
+        // margin-top: 1rem;
         // justify-content: space-between;
+        position: absolute;
+        right: -22%;
+        top: 15%;
+        
+        
 
 
 
         .imageUpper{
-          object-fit: cover;
+          // object-fit: cover;
           // margin-top: 6rem;
-          height: 12rem;
-          width: 12rem;
+          height: 20rem;
+          width: 28rem;
           // margin-bottom: 3rem;
           // transform: scale(.5);
         }
 
         .imageLower{
-          object-fit: cover;
-          margin-top: 8rem;
-          margin-bottom: 2rem;
-          // width: 100%;
-          // width: 15rem;
-          height: 35rem;
+          // object-fit: cover;
+          margin-top: -12rem;
+          z-index: 10000;
+          // margin-bottom: 2rem;
+          // // width: 100%;
+           width: 28rem;
+          height: 72rem;
           // transform: scaleY(1.2);
         }
       }

@@ -1,0 +1,127 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // width: 80%;
+  align-items: center;
+  padding: 1rem;
+
+
+.topPart {
+  // outline: 3px solid orange;
+  width: 80%;
+  margin-top: 3rem;
+  margin-bottom: 6rem;
+
+  h1 {
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 700;
+  }
+}
+
+
+.formPart {
+  width: 80%;
+  background: #523E93;
+  border-radius: 30px;
+  padding: 2rem 1.2rem;
+  margin-bottom: 40rem;
+
+
+  .formPartInner {
+    background: darken($color: #523E93, $amount: 3.5);
+    width: 100%;
+    display: flex;
+    border-radius: 30px;
+    flex-direction: column;
+    padding: 3rem 2rem;
+
+    .formInput {
+      // outline: 3px solid orange;
+      margin-bottom: 3rem;
+      display: flex;
+      flex-direction: column;
+      width: 60%;
+      margin-left: 3rem;
+      
+      small {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #fff;
+        margin-bottom: .3rem;
+
+        .asterisk {
+          color: red;
+          font-size: 1.2rem;
+          margin-left: .2rem;
+          // margin-bottom: 2rem !important;
+        }
+      }
+
+      input {
+        outline: none;
+        border: none;
+        border-radius: 10px;
+        font-size: .9rem;
+        padding: 1rem 2rem 1rem 1rem;
+      }
+    }
+
+    .textAreaInput {
+       // outline: 3px solid orange;
+       margin-bottom: 3rem;
+       display: flex;
+       flex-direction: column;
+       width: 80%;
+       margin-left: 3rem;
+       
+       small {
+         font-size: 1rem;
+         font-weight: 500;
+         color: #fff;
+         margin-bottom: .3rem;
+ 
+         .asterisk {
+           color: red;
+           font-size: 1.2rem;
+           margin-left: .2rem;
+           // margin-bottom: 2rem !important;
+         }
+       }
+ 
+       textarea {
+         outline: none;
+         border: none;
+         border-radius: 10px;
+         font-size: .9rem;
+         padding: 1rem 2rem 1rem 1rem;
+         height: 15rem;
+         resize: none;
+       }
+    }
+
+    .buttonPart {
+      margin: auto;
+      margin-top: 2rem !important;
+
+      button {
+        outline: none;
+        background: linear-gradient(180deg, rgba(158, 0, 255, 0.65) 0%, rgba(194, 89, 211, 0.65) 100%);
+        border: 1px solid #01C5BA;
+        text-transform: uppercase;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+        padding: .5rem 1.5rem;
+        cursor: pointer;
+      }
+    }
+
+  }
+}
+
+
+
+}
