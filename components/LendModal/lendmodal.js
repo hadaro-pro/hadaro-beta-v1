@@ -9,9 +9,9 @@ const LendModal = ({ modalOpen, cancelModal, lendItemObject, setLendItemObject, 
 
   const [size, setSize] = useState('middle');
   const [dailyRentPrice, setDailyRentPrice] = useState("0")
-  const [nftPrice, setNftPrice] = useState("0")
+  // const [nftPrice, setNftPrice] = useState("0")
   const [rentError, setRentError] = useState("")
-  const [collateralError, setCollateralError] = useState("")
+  // const [collateralError, setCollateralError] = useState("")
   const [rentDaysError,setRentDaysError] = useState("")
   const [maxRentDuration, setMaxRentDuration] = useState(0)
 //  console.log('maxRentDurationerr', rentDaysError)
@@ -55,15 +55,15 @@ const LendModal = ({ modalOpen, cancelModal, lendItemObject, setLendItemObject, 
 }
 
 
-const handleCollateral = (value) => {
-  console.log(value)
-  if (value == 0 || isNaN(value) == true || String(value).charAt(0) == "-" ) {
-    setCollateralError("value cannot be non-zero or out of range")
-  } else{
-    setLendItemObject({ ...lendItemObject, nftPrice: Number(value) })
-    setCollateralError(null)
-  }
-}
+// const handleCollateral = (value) => {
+//   console.log(value)
+//   if (value == 0 || isNaN(value) == true || String(value).charAt(0) == "-" ) {
+//     setCollateralError("value cannot be non-zero or out of range")
+//   } else{
+//     setLendItemObject({ ...lendItemObject, nftPrice: Number(value) })
+//     setCollateralError(null)
+//   }
+// }
 
 
 const handleDailyRentalPrice = (value) => {
@@ -80,7 +80,7 @@ const addCollateralAndLendPrice = () => {
   
   const {  nftPrice, dailyRentPrice, maxRentDuration, paymentToken   } = lendItemObject
 
-  if(nftPrice === 0 || dailyRentPrice === 0 || maxRentDuration === 0 || paymentToken === "") {
+  if(dailyRentPrice === 0 || maxRentDuration === 0 || paymentToken === "") {
     message.error('all form fields must be filled')
   } else {
     displayOutroPart(true)
@@ -146,11 +146,11 @@ const addCollateralAndLendPrice = () => {
           {rentError !== null && <span style={{ color: "orangered", fontWeight: "bolder" }}> {rentError} </span>}
           </div>
 
-          <div className={styles.mainFormOptions}>
+          {/* <div className={styles.mainFormOptions}>
           <small>Set Collateral Price</small>
           <input type="text"  onChange={(e) => handleCollateral(parseFloat(e.target.value))}  />
           {collateralError !== null && <span style={{ color: "orangered", fontWeight: "bolder" }}> {collateralError} </span>}
-          </div>
+          </div> */}
 
           <div className={styles.mainFormOptions}>
           <small>Set Max Rent Duration {`(Days)`}</small>

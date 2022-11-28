@@ -44,7 +44,7 @@ const BlogComp = () => {
                </div> 
             ))
           }
-          <h3>Mustafa Assaad ~ co-founder & CEO</h3>
+          <h3>Mustafa Assaad &#126; co-founder &#38; CEO</h3>
         </div>
         <div className={styles.innerImgPart}>
           <img src="images/lego-bricks.png" alt="info" className={styles.imageUpper} />

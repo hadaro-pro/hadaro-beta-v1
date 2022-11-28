@@ -19,7 +19,7 @@ const LendPortfolioComp = () => {
     nftAddress: "", 
     tokenID: "", 
     amount: 1,
-    nftPrice: 0,
+    // nftPrice: 0,
     dailyRentPrice: 0,
     maxRentDuration: 0,
     paymentToken: "weth"

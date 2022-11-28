@@ -16,12 +16,12 @@ const FeedbackComp = () => {
           </div>
           <div className={styles.formInput}>
             <small>What would you like us to add or remove? 
-            <span className={styles.asterisk}>*</span></small>
+            <span className={styles.asterisk}>&#42;</span></small>
             <input type="text" />
           </div>
           <div className={styles.textAreaInput}>
-            <small>Please explain how you'd like this feature to work 
-            <span className={styles.asterisk}>*</span></small>
+            <small>Please explain how you&#39;d like this feature to work 
+            <span className={styles.asterisk}>&#42;</span></small>
             <textarea ></textarea>
           </div>
           <div className={styles.textAreaInput}>
