@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import ArtCard from "../ArtCard/ArtCard";
 import styles from "./marketfeatured.module.scss";
+import CollectionCard from "../collectionCard/collectionCard";
 
 const featuredData = [
   {
@@ -62,28 +63,47 @@ const featuredData = [
   },
 ];
 
-const MarketFeatured = () => {
+const MarketFeatured = ({ storeCollections, imagesArray, loadingCollections }) => {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.caption}>
         <h1>MARKETPLACE</h1>
       </div>
       <div className={styles.mainPart}>
-        <h2>FEATURED ARTWORKS</h2>
+        <h2>FEATURED COLLECTIONS</h2>
+{ loadingCollections ? 
+  (<div className={styles.loadingPart}>
+    <h1>
+    {'Loading Collections....' }
+    </h1>
+  </div>)
+
+  :
+  
         <div className={styles.artPart}>
-          {featuredData.map((item, index) => (
-            <div key={index}>
-              <ArtCard
-                image={item.image}
-                title={item.title}
-                collectionName={item.collection}
-                creatorName={item.creator}
-                bidPrice={item.bidPrice}
+          { 
+            storeCollections?.map((element, index) => {
+
+              const singleImage = imagesArray[index]?.parsedImage;
+              // console.log('leggo', singleImage)
+
+            return ( <div key={index} >
+              <CollectionCard 
+              posterImage={`${singleImage}`} 
+              collectionTitle={element.collectionName}
               />
-            </div>
-          ))}
+              {/* <h1> {element.collectionName} </h1>
+              <img src={`${singleImage}`} alt={element.collectionName} />
+                 */}
+                
+              </div> )
+            })
+          }
         </div>
-        <button> <Link href="/marketplace-featured-all"> View More </Link> </button>
+}
+
+        { storeCollections?.length > 8 && (
+        <button> <Link href="/marketplace-featured-all"> View More </Link> </button>)}
       </div>
     </div>
   );

@@ -39,11 +39,11 @@ const Navbar = () => {
                     <button onClick={disconnect}>Disconnect</button> */}
 
   const items = [
-    { label: <div className={styles.dropdownWallet} >Connected to {connector?.name}</div>, key: 'item-1' },
-    { label: <button  onClick={() => {
+    { label: <p className={styles.dropdownWallet} >Connected to {connector?.name}</p>, key: 'item-1' },
+    { label: <p  onClick={() => {
        disconnect()
        setIsModalOpen(false)
-      }} className={styles.dropdowndisconnect} >Disconnect</button>, key: 'item-2' },
+      }} className={styles.dropdowndisconnect} >Disconnect</p>, key: 'item-2' },
   ];
   
 
@@ -110,13 +110,13 @@ const Navbar = () => {
                   <Dropdown menu={{ items }} trigger={["click"]}>
                     <div className={styles.walletCred}>
                       {/* <img src={`${ensAvatar === null ? '/images/wallet-avatar.png' : ensAvatar}`} alt="avatar" /> */}
-                      <p className={styles.addr}>
+                      <div className={styles.addr}>
                         {" "}
                         {ensName ? `${ensName} (${address})` : address}
-                      </p>{" "}
-                      <p className={styles.addrIcon}>
+                      </div>{" "}
+                      <div className={styles.addrIcon}>
                         <DownOutlined />
-                      </p>
+                      </div>
                     </div>
                   </Dropdown>
                 ) : (

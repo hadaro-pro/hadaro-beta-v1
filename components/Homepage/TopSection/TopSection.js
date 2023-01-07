@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Dropdown } from "antd";
 import { DownOutlined, CaretDownOutlined } from "@ant-design/icons";
@@ -9,6 +9,9 @@ import {
   useEnsAvatar,
   useEnsName,
 } from "wagmi";
+import axios from 'axios'
+import { createClient } from 'urql'
+import { SYLVESTER_SUBGRAPH_URL } from '../../../creds' 
 import WalletConnect from "../../walletConnectModal/WalletConnect";
 import styles from "./topsection.module.scss";
 
@@ -27,12 +30,95 @@ const TopSection = () => {
     setIsModalOpen(false);
   };
 
+
+
+
   const { address, connector, isConnected } = useAccount();
   // const { data: ensAvatar } = useEnsAvatar({ address })
   const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
   const { disconnect } = useDisconnect();
+
+  const getLendingsFromGraph = async()  => {
+      const lendingsQuery = `
+        query LendingsQuery {
+          lendings {
+            id
+            cursor
+            nftAddress
+            tokenID
+            lenderAddress
+            maxRentDuration
+            dailyRentPrice
+            paymentToken
+            lentAt
+            renting {
+              renterAddress
+              rentDuration
+              rentedAt
+            }
+          }
+        }
+      `;
+
+      const urqlClient = createClient({
+        url: SYLVESTER_SUBGRAPH_URL
+      })
+
+
+      const response = await urqlClient.query(lendingsQuery).toPromise()
+
+      const result = response.data
+
+      // console.log(result)
+  }
+
+
+
+  useEffect(() => {
+    getLendingsFromGraph()
+  }, [])
+
+
+  // const getDataFromSanity = async() => {
+  //     try {
+  //         const response = await axios.get(`/api/fetchNftData`)
+
+  //         console.log(response.data)
+  //     } catch(error) {
+  //       console.log(error)
+  //     }
+  // } 
+
+
+  // const postDataToSanity = async() => {
+
+  //   let nftAddress = '0x18df6c571f6fe9283b87f910e41dc5c8b77b7da5'
+  //  let  tokenID = '8835'
+  //  let transactionType = 'lending'
+
+  //   const document = {
+  //     _type: 'nftData',
+  //      nftAddress,
+  //      tokenID,
+  //      transactionType
+  //   }
+  //   try {
+
+  //     const response = await axios.post(`/api/postNftData`, document)
+      
+  //     console.log(response.data)
+
+  //     // console.log('success')
+  //   } catch(e) {
+  //     console.error(e)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   getDataFromSanity()
+  // }, [])
 
 
   const items = [
@@ -67,12 +153,12 @@ const TopSection = () => {
           <img src="/Hadaro-BETA-logo.png" alt="hadaro" />
         </Link>
         <div className={styles.logoCaptionLowerPart}>
+          {/* <button onClick={postDataToSanity} >handlePost</button> */}
           <h1>
-            Play, Earn & Compete <br /> in the biggest NFT tournaments
+            Rent In-Game NFTs <br /> to compete
           </h1>
           <p>
-            Discover, Lend or rent NFT&#39;s to compete <br /> in gaming
-            tournaments across the <br /> world all in one place.
+          Lend or rent NFT&#39;s to compete <br /> in NFT games across  <br /> the world.
           </p>
           <div className={styles.logoCaptionButtons}>
             <button>
@@ -142,13 +228,13 @@ const TopSection = () => {
                   <Dropdown menu={{ items }} trigger={["click"]}>
                     <div className={styles.walletCred}>
                       {/* <img src={`${ensAvatar === null ? '/images/wallet-avatar.png' : ensAvatar}`} alt="avatar" /> */}
-                      <p className={styles.addr}>
+                      <div className={styles.addr}>
                         {" "}
                         {ensName ? `${ensName} (${address})` : address}
-                      </p>{" "}
-                      <p className={styles.addrIcon}>
+                      </div>{" "}
+                      <div className={styles.addrIcon}>
                         <DownOutlined />
-                      </p>
+                      </div>
                     </div>
                   </Dropdown>
                 ) : (
@@ -156,7 +242,7 @@ const TopSection = () => {
                     <button onClick={showModal}>Wallet Connect</button>
                     <WalletConnect
                       modalOpen={isModalOpen}
-                      cancelModal={handleCancel}
+                      cancelModal={handleCancel} 
                     />
                   </>
                 )}

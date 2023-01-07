@@ -45,6 +45,22 @@
       gap: 2rem;
     }
 
+    .loadingPart {
+      // outline: 3px solid orangered;
+      width: 100%;
+      height: 30rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      h1 {
+        color: #01C5BA;
+        font-weight: 600;
+        font-size: 2rem;
+        text-transform: uppercase;
+      }
+    }
+
 
     button {
       margin-top: 5rem;

@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Modal, message, Select } from "antd";
 import { useConnect, useAccount , useNetwork} from "wagmi";
+import { Sylvester, PaymentToken } from '@renft/sdk'
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import styles from './lendmodal.module.scss'
 
-const LendModal = ({ modalOpen, cancelModal, lendItemObject, setLendItemObject, openCheckout, displayOutroPart }) => {
+const LendModal = ({ modalOpen, cancelModal, lendItemObject, setLendItemObject, openCheckout, displayOutroPart, loadingTxn }) => {
   const { isConnected, address } = useAccount();
 
   const [size, setSize] = useState('middle');
@@ -17,6 +18,7 @@ const LendModal = ({ modalOpen, cancelModal, lendItemObject, setLendItemObject, 
 //  console.log('maxRentDurationerr', rentDaysError)
 //  console.log(collateralError)
 //  console.log(rentDaysError)
+
 
 // console.log(maxRentDuration)
 
@@ -36,7 +38,7 @@ const LendModal = ({ modalOpen, cancelModal, lendItemObject, setLendItemObject, 
     
   }
 
-  const handleChange = (value) => {
+  const handlePaymentTokenChange = (value) => {
     console.log(value)
     setLendItemObject({ ...lendItemObject, paymentToken: value })
     
@@ -67,17 +69,29 @@ const LendModal = ({ modalOpen, cancelModal, lendItemObject, setLendItemObject, 
 
 
 const handleDailyRentalPrice = (value) => {
-  console.log(value)
-  if (value == 0 || isNaN(value) == true || String(value).charAt(0) == "-" ) {
-    setRentError("value cannot be non-zero or out of range")
-  } else{
-    setLendItemObject({ ...lendItemObject, dailyRentPrice: Number(value) })
-    setRentError(null)
-  }
+  // console.log('number:', value)
+     console.log('number:', Number(value))
+  setTimeout(() => {
+    
+  
+          setLendItemObject({ ...lendItemObject, dailyRentPrice: Number(value) / 10000 })
+    
+    // if (value == 0 || isNaN(value) == true || String(value).charAt(0) == "-" ) {
+    //   setRentError("value cannot be non-zero or out of range")
+    // } else if(value == 1 || value > 0.9999) {
+    //   setRentError("value cannot be greater than 0.9999")
+    // }
+    //  else{
+    //   setLendItemObject({ ...lendItemObject, dailyRentPrice: Number(value) })
+    //   setRentError(null)
+    //   console.log('number:', Number(value))
+    // }
+  }, 1000)
+  
 }
 
 const addCollateralAndLendPrice = () => {
-  
+  console.log(lendItemObject)
   const {  nftPrice, dailyRentPrice, maxRentDuration, paymentToken   } = lendItemObject
 
   if(dailyRentPrice === 0 || maxRentDuration === 0 || paymentToken === "") {
@@ -112,29 +126,29 @@ const addCollateralAndLendPrice = () => {
             <small>Select Payment Token</small>
             <Select
         size={size}
-        defaultValue="weth"
-        onChange={handleChange}
+        defaultValue={1}
+        onChange={handlePaymentTokenChange}
         style={{
           width: 200,
           borderRadius: "5px"
         }}
         options={[
           {
-            value: 'weth',
+            value: 1,
             label: <div style={{ display: "flex", alignItems: "center" }} > <img src="/images/ethereum-eth-logo.png"  alt='ethereum'  width={20} />  <span style={{marginLeft: ".5rem"}}> WETH </span> </div>,
           },
           {
-            value: 'dai',
+            value: 2,
             label: <div> <img src="/images/multi-collateral-dai-dai-logo.png"  alt='ethereum'  width={20} />  <span style={{marginLeft: ".5rem"}}> DAI </span> </div>,
           }
           ,
           {
-            value: 'usdc',
+            value: 3,
             label: <div> <img src="/images/usd-coin-usdc-logo.png"  alt='ethereum'  width={20} />  <span style={{marginLeft: ".5rem"}}> USDC </span> </div>,
           }
           ,
           {
-            value: 'usdt',
+            value: 4,
             label: <div> <img src="/images/tether-usdt-logo.png"  alt='ethereum'  width={20} />  <span style={{marginLeft: ".5rem"}}> USDT </span> </div>,
           }
         ]} 
@@ -142,10 +156,10 @@ const addCollateralAndLendPrice = () => {
           </div>
           <div  className={styles.mainFormOptions}>
           <small>Set Daily Rent Price</small>
-          <input type="text"  onChange={(e) => handleDailyRentalPrice(parseFloat(e.target.value))}   />
+          <input type="text"  onChange={(e) => handleDailyRentalPrice(e.target.value)}   />
           {rentError !== null && <span style={{ color: "orangered", fontWeight: "bolder" }}> {rentError} </span>}
           </div>
-
+ 
           {/* <div className={styles.mainFormOptions}>
           <small>Set Collateral Price</small>
           <input type="text"  onChange={(e) => handleCollateral(parseFloat(e.target.value))}  />
@@ -158,7 +172,8 @@ const addCollateralAndLendPrice = () => {
           {rentDaysError !== null && <span style={{ color: "orangered", fontWeight: "bolder" }}> {rentDaysError} </span>}
           </div> 
           
-         <button onClick={() => addCollateralAndLendPrice()}  >Complete Lend</button>
+         <button onClick={() => addCollateralAndLendPrice()}  >{ 
+         loadingTxn ? 'Processing Lending...' : 'Complete Lend'}</button>
 
         </div> 
       

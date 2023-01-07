@@ -2,12 +2,15 @@ import React, {useState} from 'react'
 import { Radio, Select } from 'antd';
 import styles from './togglenetwork.module.scss'
 
-const ToogleNetwork = ({ setChain, handleGetNFTs }) => {
+const ToogleNetwork = ({ setChain, handleGetNFTs, lendItemObject, setLendItemObject  }) => {
+
+  console.log(lendItemObject)
 
   const [size, setSize] = useState('middle');
 
   const handleChange = (value) => {
     setChain(value)
+    setLendItemObject({ ...lendItemObject, chain: value })
     // window.alert(`Selected: ${value}`);
   };
 

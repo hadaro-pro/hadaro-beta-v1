@@ -62,6 +62,9 @@ const NftDisplayComp = ({
                   <span>
                     {el.name}
                   </span>
+                  <span> 
+                    {console.log(el.image)}
+                  </span>
                 </div>
               </div>
               <button

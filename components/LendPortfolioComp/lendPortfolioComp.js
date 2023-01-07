@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { message, Modal } from "antd";
 import axios from "axios";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount, useConnect, useSigner, useProvider, erc721ABI } from "wagmi";
+import { Sylvester, PaymentToken, NFTStandard, packPrice } from '@renft/sdk'
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import NftDisplayComp from "../NftsComp/nftComp";
 import styles from "./lendportfoliocomp.module.scss";
@@ -10,6 +11,10 @@ import LendModal from "../LendModal/lendmodal";
 import LendOutroModal from "../LendOutroModal/lendOutroModal";
 
 const LendPortfolioComp = () => {
+
+
+  
+
   const [wallet, setWallet] = useState("0x6b28eAC8897999B438B23A9bb49361A0c07eA4B1"
     // "0x9233d7CE2740D5400e95C1F441E5B575BDd38d82"
   );
@@ -22,7 +27,11 @@ const LendPortfolioComp = () => {
     // nftPrice: 0,
     dailyRentPrice: 0,
     maxRentDuration: 0,
-    paymentToken: "weth"
+    paymentToken: 1,
+    nftStandard: null,
+    chain: "0x1",
+    collectionName: "",
+    collectionSymbol: ""
   })
   
 
@@ -35,6 +44,10 @@ const LendPortfolioComp = () => {
   const [loadingNfts, setLoadingNfts] = useState(false);
   const [showNftMenu, setShowNftMenu] = useState(false);
 
+  const [lastposition, setLastPosition] = useState(null) 
+
+  const [loadingLend, setLoadingLend] = useState(false)
+
   const [isLendModalOpen, setIsLendModalOpen] = useState(false);
   const [isOutroModalOpen, setIsOutroModalOpen] = useState(false);
   const [openOutroModalOpen, setOpenOutroModalOpen] = useState(false)
@@ -44,13 +57,19 @@ const LendPortfolioComp = () => {
 
   const { address, connector, isConnected } = useAccount();
 
+  const { data: signer } = useSigner();
+
+
+  const collateralFreeContract = new Sylvester(signer);
+
+
   const handleRemoveElement = (position) => {
     // window.alert(position)
       const newArr = selectedNFTs.splice(position, 1)
       setNfts(newArr)
   }
 
-  console.log(currentLendItem)
+  // console.log(currentLendItem)
 
   const showOutroModal = () => {
     setIsOutroModalOpen(true)
@@ -83,9 +102,13 @@ const LendPortfolioComp = () => {
   };
 
   const pushToNewArray = (position) => {
+    setLastPosition(position)
     setCurrentLendItem({ ...currentLendItem,
        nftAddress: selectedNFTs[position].token_address,
        tokenID: selectedNFTs[position].token_id,
+       nftStandard: selectedNFTs[position].contract_type,
+      collectionName: selectedNFTs[position].name,
+      collectionSymbol: selectedNFTs[position].symbol
     })
   }
 
@@ -105,7 +128,7 @@ const LendPortfolioComp = () => {
           item.image = "https://ipfs.moralis.io:2053/ipfs/" + meta.image;
         }
 
-        if(meta.image?.includes("https://")) {
+        if(meta.image?.includes("https://") || meta.image?.includes("data:image/")) {
           item.image = meta.image;
         } else {
           let splicer =  meta.image?.slice(7)
@@ -136,10 +159,159 @@ const LendPortfolioComp = () => {
       setLoadingNfts(false);
       setShowNftMenu(true);
       console.log(response.data);
+      message.success(response.data)
     } catch (error) {
       console.error(error);
     }
   };
+
+  // const nftStandard = 0;
+  // const nftAddress = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab";
+  // const tokenID = "30916";
+  // const lendingID = "778";
+
+
+
+  // const handleStopLend = async () => {
+  //   try{
+  //    const txn = await collateralFreeContract.stopLending(
+  //       [nftStandard],
+  //       [nftAddress],
+  //       [tokenID],
+  //       [lendingID],
+  //     );
+
+  //     const receipt = await txn.wait()
+
+  //  console.log(receipt);
+
+  //   } catch(e) {
+  //     console.warn(e)
+  //   }
+  // }
+
+  const createId = (value) => {
+    const result = value.replace(/([^\w ]|_)/g, '').split(" ").join("-").toLowerCase()
+    return result
+  }
+
+
+  const handleUploadNftData = async() => {
+    
+    const nftAddress = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
+    const lenderAddress = "0x0b8ad9582c257aC029e335788017dCB1dE5FBE21"
+    const tokenID = "30916"
+    const chain = "0x1"
+    const price = packPrice(10 / 10000)
+    const paymentToken = "WETH"
+    const maxDuration = 15
+    const transactionType = "lending"
+    const collectionName = "WIZARDS & DRAGONS GAME"
+    const collectionSymbol = "WnD"
+    const collectionAddress = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
+
+
+    try {
+  const document = {
+    _type: "nftData",
+    nftAddress,
+    tokenID,
+    chain,
+    lenderAddress,
+    price,
+    paymentToken,
+    maxDuration,
+    transactionType,
+  };
+
+
+  const collection = {
+    _type: "collectionsData",
+    _id: createId(collectionName),
+    collectionName,
+    collectionSymbol,
+    chain,
+    collectionAddress,
+    // collectionNfts: document
+  }; 
+
+  const response = await axios.post(`/api/postNftData`, document);
+
+  console.log('for nftDataCreation', response.data.msg);
+
+  if(response.data.msg === 'success') {
+   
+
+  const res = await axios.post(`/api/postCollectionsData`, collection);
+  console.log('for collectionCreation', res.data);
+
+
+  if(res.data.msg === 'success') {
+      // const identifier = createId(collectionName)
+
+  // const pushToCollection = await axios.put(`/api/updateCollection`, document,       {params: {
+  //     collectionId: identifier
+  //   }})
+
+  //  console.log(pushToCollection.data.msg)
+
+  }
+
+  if(res.data.response.body.error.items[0].error.description === `Document by ID "${createId(collectionName)}" already exists`) {
+    console.log('yes')
+  //     const getCollections = await axios.get(`/api/fetchCollectionData`);
+
+  //   const { data } = getCollections
+
+  //   console.log(data)
+
+  //     const getMatchingCollection = data.filter((el) => el.collectionAddress === nftAddress )
+
+   
+  //     console.log(`'${getMatchingCollection[0]._id}'`)
+
+  //   const identifier = getMatchingCollection[0]._id
+
+  // const pushToCollection = await axios.patch(`/api/updateCollection`, document,       {params: {
+  //     collectionId: identifier
+  //   }})
+
+
+  //   console.log('updateMessage: ', pushToCollection)
+
+  }
+
+  // Document by ID "wizards--dragons-game" already exists
+
+
+  // if(res.data.msg === undefined) {
+  //   const getCollections = await axios.get(`/api/fetchCollectionData`);
+
+  //   const { data } = getCollections
+
+  //   console.log(data)
+
+  //   const getMatchingCollection = data.filter((el) => el.collectionAddress === nftAddress )
+
+
+  //   const identifier = getMatchingCollection._id
+
+  // const pushToCollection = await axios.put(`/api/updateCollection`, document,       {params: {
+  //     collectionId: identifier
+  //   }})
+
+
+  //   console.log(pushToCollection.data.msg)
+
+  // }
+  }
+  
+} catch (e) {
+  console.warn(e)
+}
+
+  }
+
 
   return (
     <div className={styles.mainContainer}>
@@ -194,13 +366,16 @@ const LendPortfolioComp = () => {
                             }} >Lend</button>
                             <button onClick={() => handleRemoveElement(index)} >Remove</button>
                           </div>
-                          <LendModal  modalOpen={isLendModalOpen} cancelModal={handleLendModalCancel} lendItemObject={currentLendItem} 
+                          <LendModal
+                          loadingTxn={loadingLend}
+                          modalOpen={isLendModalOpen} cancelModal={handleLendModalCancel} lendItemObject={currentLendItem} 
                           setLendItemObject={setCurrentLendItem}
                            openCheckout={showOutroModal}
                            displayOutroPart={setOpenOutroModalOpen}
+
                           />
                           {
-                            openOutroModalOpen &&  <LendOutroModal outroOpen={isOutroModalOpen} cancleOutro={handleOutroModalClose} finalLendObject={currentLendItem}  />
+                            openOutroModalOpen &&  <LendOutroModal outroOpen={isOutroModalOpen} cancleOutro={handleOutroModalClose} finalLendObject={currentLendItem} cancelLendModal={handleLendModalCancel}  removeLent={handleRemoveElement} currentLendIndex={lastposition}  setLoadingTxn={setLoadingLend} loadingTxn={loadingLend} showLendModal={showLendModal} />
                           }
                         </div>
                       ))}
@@ -237,6 +412,8 @@ const LendPortfolioComp = () => {
                           <ToogleNetwork
                             setChain={setChain}
                             handleGetNFTs={getUserNFTs}
+                            lendItemObject={currentLendItem} 
+                          setLendItemObject={setCurrentLendItem}
                           />
                           {loadingNfts ? (
                             <div className={styles.loadingPart}>
@@ -263,6 +440,9 @@ const LendPortfolioComp = () => {
             </div>
           </div>
         </div>
+        {/* <button onClick={handleUploadNftData}>
+          send nft data
+        </button> */}
       </div>
     </div>
   );

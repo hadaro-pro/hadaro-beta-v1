@@ -1,21 +1,32 @@
-import { createClient, configureChains, defaultChains, WagmiConfig } from 'wagmi'
-import { publicProvider } from 'wagmi/providers/public'
+import {
+  createClient,
+  configureChains,
+  defaultChains,
+  WagmiConfig,
+  chain,
+} from "wagmi";
+import { publicProvider } from "wagmi/providers/public";
 
-import { MetaMaskConnector  } from 'wagmi/connectors/metaMask'
-import {  WalletConnectConnector  } from 'wagmi/connectors/walletConnect'
-import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
+import { infuraProvider } from "wagmi/providers/infura";
+
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 
 // import { SessionProvider } from 'next-auth/react'
-import '../styles/globals.scss'
+import "../styles/globals.scss";
 import "antd/dist/antd.min.css";
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 // import "swiper/css";
 // import "swiper/css/navigation";
 // import "swiper/css/pagination";
 
-const {provider, webSocketProvider, chains} = configureChains(defaultChains, [publicProvider()])
-
+const { provider, webSocketProvider, chains } = configureChains(
+  [chain.mainnet],
+  [infuraProvider({ apiKey: "6fe73d73563b4e56aef1516412dfe130" })],
+);
+ 
 const client = createClient({
   provider,
   webSocketProvider,
@@ -25,25 +36,24 @@ const client = createClient({
     new WalletConnectConnector({
       chains,
       options: {
-        qrcode: true
-      }
+        qrcode: true,
+      },
     }),
     new CoinbaseWalletConnector({
       chains,
       options: {
-        appName: 'wagmi'
-      }
-    })
-  ]
-})
+        appName: "wagmi",
+      },
+    }),
+  ],
+});
 
 function MyApp({ Component, pageProps }) {
   return (
     <WagmiConfig client={client}>
       <Component {...pageProps} />
     </WagmiConfig>
-  
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;
