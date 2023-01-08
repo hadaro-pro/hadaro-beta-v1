@@ -9,16 +9,29 @@
   .caption {
     // outline: 3px solid red;
     width: 80%;
+    text-align: center;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     h1 {
       font-size: 3rem;
       font-weight: 700;
-      color: #FFFFFF;
+      // color: #FFFFFF;
+      background-image: linear-gradient(90deg, #d7d7e0 -2.19%, #eff0fa 52.24%, #e5dceb 100%);
+      background-size: 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -moz-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -moz-text-fill-color: transparent;
+      margin: 0 auto !important;
     }
   }
 
   .mainPart {
-    margin-top: 15rem;
+    margin-top: 10rem;
     // outline: 3px solid mediumseagreen;
     width: 80%;
     display: flex;
@@ -43,23 +56,6 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .loadingPart {
-      // outline: 3px solid orangered;
-      width: 100%;
-      height: 30rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      h1 {
-        color: #01C5BA;
-        font-weight: 600;
-        font-size: 2rem;
-        text-transform: uppercase;
-      }
     }
 
 

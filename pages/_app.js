@@ -13,6 +13,11 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 
+import { store, persistor } from '../core/store' 
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+
+
 // import { SessionProvider } from 'next-auth/react'
 import "../styles/globals.scss";
 import "antd/dist/antd.min.css";
@@ -50,9 +55,13 @@ const client = createClient({
 
 function MyApp({ Component, pageProps }) {
   return (
+    <Provider  store={store}>
+      <PersistGate  persistor={persistor}>
     <WagmiConfig client={client}>
       <Component {...pageProps} />
     </WagmiConfig>
+    </PersistGate>
+    </Provider>
   );
 }
 

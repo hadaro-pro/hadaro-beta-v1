@@ -14,7 +14,10 @@ export const allCollectionsQuery = () => {
   const query = `*[_type == "collectionsData"] {
     _id,
     collectionAddress,
-    collectionName
+    collectionName,
+    collectionSymbol,
+    chain,
+    collectionAddress
   }`
   return query
 }

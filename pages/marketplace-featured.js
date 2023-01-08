@@ -45,7 +45,7 @@ const MarketplaceFeatured = () => {
 
    const { data } = getCollections
 
-   console.log(data.length)
+  //  console.log(data.length)
 
    setCollections(data)
 
@@ -55,11 +55,11 @@ const MarketplaceFeatured = () => {
     const contractAddr = el?.collectionAddress
          const getFirstNft = await axios.post(`/api/fetchSingleNft`, {contractAddr})
    
-      console.log('nftdets', getFirstNft?.data)
+      // console.log('nftdets', getFirstNft?.data)
    
       const nftImage = await extractMetaData(getFirstNft?.data)
 
-      console.log('nftimageMeta: ', nftImage?.data?.metadata?.image)
+      // console.log('nftimageMeta: ', nftImage?.data?.metadata?.image)
 
       let image = nftImage.data.metadata.image
  
@@ -98,7 +98,7 @@ const MarketplaceFeatured = () => {
   //     // singleCollectionDetails?.push(getFirstNft)
   //  }
  
-   console.log(collections)
+  //  console.log(collections)
 
 
   //  console.log(singleCollectionDetails?.length)
