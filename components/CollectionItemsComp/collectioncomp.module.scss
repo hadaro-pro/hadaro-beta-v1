@@ -155,11 +155,11 @@
       width: 50%;
       margin-left: 2%;
       // outline: 3px solid green;
-      height: 100%;
-      overflow-y: scroll;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
+      // height: 100%;
+      overflow-y: auto;
+      // display: flex;
+      // justify-content: center;
+      // flex-direction: column;
 
 
       .submitBtn {
@@ -191,6 +191,7 @@
       }
 
       .infoDescLender {
+        // margin-top: -3rem;
         display: flex;
         // outline: 3px solid black;
 
@@ -404,3 +405,18 @@
 
 
 }
+
+
+@media only screen and (max-width: 1024px) {
+  
+  .infoDesc {
+    width: 50%;
+    margin-left: 2%;
+    // outline: 3px solid green;
+    // height: 100%;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+} 
