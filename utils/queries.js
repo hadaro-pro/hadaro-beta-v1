@@ -30,16 +30,35 @@ export const allCollectionsQuery = () => {
       tokenID,
       chain
     }[0]`
-  
-    // `*[_type == "nftData" && nftAddress == "${colAddr}" ] | order(_createdAt desc) {
-    //   _id,
-    //   nftAddress,
-    //   tokenID,
-    //   chain
-    // }`
 
   return query
 }
+
+
+
+
+
+export const allNftsByCollectionQuery = (contractAddr) => {
+  const query = `*[_type == "nftData" 
+  && nftAddress == '${contractAddr}'] | order(_createdAt desc){
+    _id,
+    nftAddress,
+    tokenID,
+    chain,
+    transactionType,
+    lenderAddress,
+    price,
+    paymentToken,
+    maxDuration,
+    metadataImage,
+    metadataDesc,
+    metadataName,
+    nftStandard
+  }`
+
+return query
+}
+
 
 
 

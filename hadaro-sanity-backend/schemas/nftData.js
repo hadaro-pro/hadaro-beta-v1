@@ -42,6 +42,26 @@ export default {
       name: 'transactionType',
       title: 'Transaction Type',
       type: 'string',
+    },
+    {
+      name: 'metadataImage',
+      title: 'Metadata Image',
+      type: 'string',
+    },
+    {
+      name: 'metadataDesc',
+      title: 'Metadata Description',
+      type: 'string',
+    },
+    {
+      name: 'metadataName',
+      title: 'Metadata Name',
+      type: 'string',
+    },
+    {
+      name: 'nftStandard',
+      title: 'NFT Standard',
+      type: 'string',
     }
   ]
 }

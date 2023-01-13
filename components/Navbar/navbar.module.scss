@@ -208,3 +208,13 @@
     background: darken($color: #1809ff, $amount: 5%);
   }
 }
+
+
+
+@media only screen and (max-width: 1024px) {
+  .logoMenuPart {
+    // outline: 3px solid blue !important;
+    // flex: 2;
+    width: 60% !important;
+  }
+}

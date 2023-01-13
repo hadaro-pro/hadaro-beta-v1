@@ -79,6 +79,9 @@ const LendOutroModal = ({
   const chain = finalLendObject.chain;
   const collectionName = finalLendObject.collectionName;
   const collectionSymbol = finalLendObject.collectionSymbol;
+  const metadataImage = finalLendObject.nftName
+  const metadataDesc = finalLendObject.nftImage
+  const metadataName = finalLendObject.nftDesc
 
 
   // const ERC721Contract = useContract({
@@ -151,6 +154,10 @@ const LendOutroModal = ({
     paymentToken,
     maxDuration: maxRentDuration,
     transactionType,
+    metadataName,
+    metadataDesc,
+    metadataImage,
+    nftStandard
   };
 
   const collection = {

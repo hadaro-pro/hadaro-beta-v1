@@ -31,7 +31,10 @@ const LendPortfolioComp = () => {
     nftStandard: null,
     chain: "0x1",
     collectionName: "",
-    collectionSymbol: ""
+    collectionSymbol: "",
+    nftName: "",
+    nftImage: "",
+    nftDesc: "",
   })
   
 
@@ -102,18 +105,24 @@ const LendPortfolioComp = () => {
   };
 
   const pushToNewArray = (position) => {
+
+    const metadata = JSON.parse(selectedNFTs[position].metadata)
+
     setLastPosition(position)
     setCurrentLendItem({ ...currentLendItem,
        nftAddress: selectedNFTs[position].token_address,
        tokenID: selectedNFTs[position].token_id,
        nftStandard: selectedNFTs[position].contract_type,
       collectionName: selectedNFTs[position].name,
-      collectionSymbol: selectedNFTs[position].symbol
+      collectionSymbol: selectedNFTs[position].symbol,
+      nftName: metadata.name,
+      nftImage: metadata.image,
+      nftDesc: metadata.description,
     })
   }
 
   const handleLendModalCancel = () => {
-    setIsLendModalOpen(false);
+    setIsLendModalOpen(false); 
     
   };
 

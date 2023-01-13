@@ -1,30 +1,98 @@
-import React from "react";
-import styles from './artcard.module.scss';
-const ArtCard = ({ image, title, collectionName , creatorName, bidPrice  }) => {
+import React, { useState } from "react";
+import styles from "./artcard.module.scss";
+import { message, Modal } from "antd";
+import { CloseOutlined } from '@ant-design/icons'
+const ArtCard = ({
+  image,
+  title,
+  collectionName,
+  creatorName,
+  bidPrice,
+  paymentToken,
+  status,
+  identity,
+  description,
+  position,
+  openRentModal,
+  openFinalModal
+}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  // console.log(image)
+  // console.log(title)
+  // console.log(collectionName)
+  // console.log(bidPrice)
+
   return (
-    <div className={styles.mainCover} >
+    <div className={styles.mainCover}>
       <img src={image} alt="artwork" />
-      <div className={styles.artDesc} >
+      <div className={styles.artDesc}>
         <div className={styles.topCaption}>
-        <span> {title} </span>
-        <span> {collectionName} </span>
+          <span> {title} </span>
+          <span className={styles.collectionName}> {collectionName} </span>
         </div>
         <div className={styles.captionDetails}>
-          <div className={styles.captionDetails1} >
-            <div className={styles.graybg} >
-            </div>
-            <div className={styles.subcaption}>
-            <small className={styles.small1} >Creator</small>
-            <small> {creatorName} </small>
+          <div className={styles.captionDetails1}>
+            <div className={styles.graybg}></div>
+            <div className={styles.status}>
+              <small>{status === "lending" ? "Available" : "Rented"}</small>
             </div>
           </div>
           <div className={styles.captionDetails2}>
-            <small>Current Bid</small>
-            <small> {bidPrice} </small>
+            <small>Price</small>
+            <div className={styles.captionDetails2Item}>
+              <small> {bidPrice} </small>
+              <small className={styles.token}> {paymentToken} </small>
+            </div>
           </div>
         </div>
-        <button>RENT</button>
-      </div>
+        <>
+        {status === "lending" ? (
+          <button
+            onClick={() => {
+              openRentModal(position)
+              // openFinalModal()
+              // showModal();
+            }}
+          >
+            RENT
+          </button>
+        ) : (
+          <button className={styles.disabledRent} disabled={true}>
+            RENT
+          </button>
+        )}
+        {/* <Modal
+          open={isModalOpen}
+          footer={null}
+          onCancel={handleCancel}
+          className={styles.modalContainer}
+        >
+          <div className={styles.closeMenu}>
+            <CloseOutlined
+              className={styles.closeIcon}
+              onClick={handleCancel}
+            />
+          </div>
+          <div className={styles.modalContent}>
+         <div className={styles.modalContentImage}>
+          <img src={`${image}`}  alt="alart" />
+         </div>
+         <div>
+          details part
+         </div>
+          </div>
+        </Modal> */}
+        </>
+      </div> 
     </div>
   );
 };
