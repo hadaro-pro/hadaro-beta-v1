@@ -165,7 +165,7 @@
 
 
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 992px) {
   .mainContainer {
     // outline: 3px solid red;
 
@@ -205,10 +205,20 @@
 } 
 
 
-@media only screen and (min-width: 600px) {
+@media only screen and (max-width: 768px) {
 
   .footerUpperPart {
     flex-direction: column;
+
+    .subscriptionPart {
+
+      .subscriptionPartUpper {
+        h2 {
+          font-size: .9rem;
+        }
+
+      }
+    }
 
     .logoPart {
       // outline: 3px solid red;
@@ -232,6 +242,31 @@
 
   .footerUpperPart {
     flex-direction: column;
+    width: 100% !important;
+
+
+    .captionPart {
+      // outline: 3px solid red;
+
+      .captionLower {
+        flex-wrap: wrap !important;
+        p {
+          font-size: .6rem !important;
+          // margin-right:  .8rem !important;
+        }
+      }
+    }
+
+
+    .subscriptionPart {
+
+      .subscriptionPartUpper {
+        h2 {
+          font-size: .9rem;
+        }
+
+      }
+    }
 
     .logoPart {
       // outline: 3px solid red;
@@ -245,6 +280,14 @@
     .captionPart {
       margin-left: 0rem;
       margin-bottom: 2rem;
+
+      .captionLower {
+
+         p {
+          // outline: 3px solid green;
+          
+         }
+      }
     }
   }
 
