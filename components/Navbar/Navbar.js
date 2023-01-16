@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {Dropdown} from 'antd'
-import {DownOutlined, CaretDownOutlined}  from "@ant-design/icons"
+import {DownOutlined, CaretDownOutlined, MenuOutlined, CloseOutlined}  from "@ant-design/icons"
 import {
   useAccount,
   useConnect,
@@ -12,10 +12,11 @@ import {
 import WalletConnect from "../walletConnectModal/WalletConnect";
 import styles from "./navbar.module.scss";
 
-const Navbar = () => {
+const Navbar = ({ setMenubar }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openLendMenu, setOpenLendMenu] = useState(false);
   const [openContactMenu, setOpenContactMenu] = useState(false);
+  const [openMenuBar, setOpenMenuBar] = useState(null);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -55,6 +56,11 @@ const Navbar = () => {
             <img src="/Hadaro-BETA-logo.png" alt="hadaro" />
           </Link>
         </div>
+ 
+        {
+          openMenuBar ? <CloseOutlined className={styles.menuOutlined} onClick={() => setMenubar((prev) => !prev)} /> :  <MenuOutlined  className={styles.menuOutlined}  onClick={() => setMenubar((prev) => !prev)}  />
+        }
+
         <div className={styles.logoMenuPart}>
           <div className={styles.logoMenuCover}>
             <div className={styles.logoMenuMain}>

@@ -388,7 +388,8 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
         </h1>
       </div>
       {showRentMenu ? (
-        <div className={styles.showRentMenu}>
+        <div className={styles.overlay}>
+      <div className={styles.showRentMenu}>
           <div className={styles.closeMenu}>
             <CloseOutlined
               className={styles.closeIcon}
@@ -478,6 +479,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
               </div>
             </div>
           </div>
+        </div>
         </div>
       ) : (
         <div className={styles.mainPart}>

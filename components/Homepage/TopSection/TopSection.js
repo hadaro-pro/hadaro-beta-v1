@@ -80,7 +80,6 @@ const TopSection = () => {
 
   useEffect(() => {
     getLendingsFromGraph()
-    
   }, [])
 
 
@@ -229,6 +228,7 @@ const TopSection = () => {
               </p>
             </div>
       </div> }
+      
    { openMenuBar === false &&   <div className={styles.menuBarContentClose}>
       <div className={styles.logoMenuBarItems}>
               <p>
