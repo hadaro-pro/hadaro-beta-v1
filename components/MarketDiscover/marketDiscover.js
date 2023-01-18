@@ -12,8 +12,8 @@ const MarketDiscover = () => {
     <div className={styles.mainContent}>
       <div className={styles.mainCover}>
       <div className={styles.descPart} >
-     <h3  className={styles.gradText} >THE PREMIER <br/> MARKETPLACE FOR <br/> RARE</h3>
-     <p>Discover, Lend or rent NFT&apos;s to compete in gaming <br/> tournaments across the world all in one place</p>
+     <h3  className={styles.gradText} >THE PREMIER <br/> MARKETPLACE FOR RARE</h3>
+     <p>Discover, Lend or rent NFT&apos;s to compete in gaming tournaments across the world all in one place</p>
      <button> <Link href="/marketplace-featured" > Discover More Treasures  </Link> </button>
       </div>
       <div className={styles.imagePart}>

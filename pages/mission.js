@@ -43,7 +43,7 @@ const Mission = () => {
 
   return (
     <div>
-      <Navbar setMenubar={setOpenMenuBar}  />
+      <Navbar /* setMenubar={setOpenMenuBar} */  />
       <MissionComp />
       <Footer />
     </div>

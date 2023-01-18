@@ -155,8 +155,8 @@ const LendPortfolioComp = () => {
     try {
       const response = await axios.get("/api/nft-balance", {
         params: {
-          walletaddr: address,
-          // walletaddr: wallet,
+          // walletaddr: address,
+          walletaddr: wallet,
           chain: chain,
         },
       }); 
@@ -168,7 +168,7 @@ const LendPortfolioComp = () => {
       setLoadingNfts(false);
       setShowNftMenu(true);
       console.log(response.data);
-      message.success(response.data)
+      // message.success(response.data)
     } catch (error) {
       console.error(error);
     }
@@ -391,7 +391,8 @@ const LendPortfolioComp = () => {
                     <div className={styles.uploadArt}>
                       <div className={styles.uploadArtImage}>
                         <img
-                          style={{ cursor: "pointer" }}
+                          style={{ cursor: "pointer" }} 
+                          className={styles.crxImage}
                           onClick={() => {
                             if(isConnected) {
                               showModal()
@@ -430,6 +431,7 @@ const LendPortfolioComp = () => {
                             </div>
                           ) : (
                             showNftMenu && (
+                              <div className={styles.finalItems}  >
                               <NftDisplayComp
                                 nfts={nfts}
                                 selectedNFTsArray={selectedNFTs}
@@ -438,6 +440,7 @@ const LendPortfolioComp = () => {
                                 // chain={chain}
                                 //  setNfts={setNfts}
                               />
+                            </div>
                             )
                           )}
                         </div>

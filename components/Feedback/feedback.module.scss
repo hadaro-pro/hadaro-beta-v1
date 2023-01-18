@@ -126,3 +126,125 @@
 
 
 }
+
+
+
+@media only screen and (max-width: 992px) {
+.topPart {
+  h1 {
+    font-size: 2.5rem !important;
+  }
+}
+}
+
+
+@media only screen and (max-width: 768px) {
+  .topPart {
+    width:  90% !important;
+    h1 {
+      font-size: 2.2rem !important;
+    }
+  }
+
+  .formPart {
+    width: 90% !important;
+
+    // padding: 2rem 0 !important;
+  
+  
+    .formPartInner {
+      padding: 3rem 0 !important;
+    }
+  }
+
+  .formInput {
+    // outline: 3px solid orange;
+    margin-bottom: 3rem;
+    width: 70% !important;
+
+    input {
+      
+      font-size: .85rem !important;
+  
+    }
+    
+    small {
+      font-size: .95rem !important;
+    
+
+      .asterisk {
+        font-size: 1rem !important;
+      }
+    }
+  }
+
+
+  .textAreaInput {
+    // outline: 3px solid orange;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+
+    textarea {
+      font-size: .85rem !important;
+    }
+    
+    small {
+      font-size: .95rem !important;
+
+      .asterisk {
+       
+        font-size: 1rem !important;
+      }   
+    }
+
+  }
+  }
+
+
+  @media only screen and (max-width: 600px) {
+    .topPart {
+      width:  100% !important;
+      h1 {
+        font-size: 1.5rem !important;
+      }
+    }
+
+    .formPart {
+      width: 100% !important;
+  
+      // padding: 2rem 0 !important;
+    
+    
+      .formPartInner {
+        padding: 3rem 0 !important;
+      }
+    } 
+
+    .formInput {
+      // outline: 3px solid orange;
+      margin-bottom: 3rem;
+      width: 80% !important;
+      margin-left: 1rem !important;
+
+      input {
+        font-size: .8rem !important;
+      }
+    }
+
+    .textAreaInput {
+      margin-left: 1rem !important;
+
+      
+    textarea {
+      font-size: .8rem !important;
+    }
+    }
+
+
+
+  
+  }
+
+

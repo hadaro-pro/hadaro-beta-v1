@@ -426,6 +426,15 @@
 }
 
 
+.finalItems {
+  // outline: 3px solid crimson;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
 .loadingPart {
   // outline: 3px solid saddlebrown;
   width: 30rem;
@@ -440,5 +449,107 @@
     font-size: 1rem;
     font-weight: normal;
     text-align: center;
+  }
+}
+
+
+@media only screen and (max-width: 992px) {
+  .caption {
+    width: 70% !important;
+    h1 {
+      font-size: 2.5rem !important;
+    }
+  }
+
+  .mainComp {
+    width: 70% !important;
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .caption {
+    // outline: 3px solid red;
+    width: 80% !important;
+    h1 {
+      font-size: 2.2rem !important;
+    }
+  }
+
+  .mainComp {
+    width: 80% !important;
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+  .caption {
+    // outline: 3px solid red;
+    width: 90% !important;
+    h1 {
+      font-size: 2rem !important;
+    }
+  }
+
+  .mainComp {
+    width: 90% !important;
+  }
+
+
+  .menuItemTop {
+
+    p {
+      font-size: 1.25rem !important;
+    }
+  
+
+    img {
+      width: 2rem !important;
+      height: 2rem !important;
+    }
+  }
+
+  .uploadArtImage {
+
+    width: 7.5rem !important;
+    height: 7.5rem !important;
+
+    .crxImage {
+      height: 2rem !important;
+      width: 2rem !important;
+    }
+  }
+
+  .uploadArt {
+
+    small {
+      font-size: .85rem !important;
+    }
+  }
+  
+
+  .modalContent {
+    // outline: 3px solid red;
+    h4 {
+      font-size: 1rem !important;
+    }
+
+  }
+
+  .loadingPart {
+    // outline: 3px solid saddlebrown;
+    width: 100% !important;
+    height: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+  
+    h1 {
+      color: #fff;
+      font-size: .9rem !important;
+      font-weight: normal;
+      text-align: center;
+    }
   }
 }

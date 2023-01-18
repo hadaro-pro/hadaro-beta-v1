@@ -1,14 +1,16 @@
 .mainCover {
   // outline: 3px solid chartreuse;
-  // margin-top: 2rem;
+  // margin-top: 5rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  width: 100%;
+  gap: 1.5rem;
+  width: 80%;
 
   .banner {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    // margin: 0 auto !important;
   }
 
 
@@ -21,8 +23,10 @@
     flex-direction: column;
     justify-content: center;
     // align-items: center;
-    width: 15rem;
-    height: 25rem;
+    width: 90%;
+    height: 100%;
+    // width: 100%;
+    // height: 25rem;
 
     .imageCover {
       // outline: 3px solid orange;
@@ -96,5 +100,45 @@
     font-size: 1rem;
     font-weight: normal;
     text-align: center;
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+  .noNFTPart {
+    // outline: 3px solid saddlebrown;
+    width: 100% !important;
+    height: 20rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+  
+    h1 {
+      color: #fff;
+      font-size: .9rem !important;
+      font-weight: normal;
+      text-align: center;
+    }
+  }
+
+  .mainCover {
+    // outline: 3px solid chartreuse;
+    // margin-top: 5rem;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr) !important;
+    gap: 1.5rem;
+    width: 100% !important;
+
+    button {
+      font-size: .8rem !important;
+      background-image: linear-gradient(90deg, #56DF9E -2.19%, #707BFE 52.24%, #C86CFE 100%);
+      color: black;
+      font-weight: 700;
+      padding: .3rem .6rem !important;
+  
+    
+    }
+
   }
 }

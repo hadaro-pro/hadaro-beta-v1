@@ -12,7 +12,7 @@ import {
 import WalletConnect from "../walletConnectModal/WalletConnect";
 import styles from "./navbar.module.scss";
 
-const Navbar = ({ setMenubar }) => {
+const Navbar = ({  }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openLendMenu, setOpenLendMenu] = useState(false);
   const [openContactMenu, setOpenContactMenu] = useState(false);
@@ -58,7 +58,7 @@ const Navbar = ({ setMenubar }) => {
         </div>
  
         {
-          openMenuBar ? <CloseOutlined className={styles.menuOutlined} onClick={() => setMenubar((prev) => !prev)} /> :  <MenuOutlined  className={styles.menuOutlined}  onClick={() => setMenubar((prev) => !prev)}  />
+          openMenuBar ? <CloseOutlined className={styles.menuOutlined} /> :  <MenuOutlined  className={styles.menuOutlined}   />
         }
 
         <div className={styles.logoMenuPart}>

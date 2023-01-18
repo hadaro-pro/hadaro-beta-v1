@@ -469,14 +469,31 @@
 
 @media only screen and (max-width: 768px) {
 
+ .mainContainer {
+  // outline: 3px solid #c01345;
+ }
+
+ .logoCaptionPart {
+  // outline: 3px solid #FFFFFF;
+  margin-left: 4rem;
+  // width: fit-content;
+  // flex: 1;
+  img {
+    width: 12.5rem !important;
+    height: 5rem;
+  }
+
+}
+ 
+
   .logoMenuPart {
     display: none !important;
   }
 
   .mainCover {
-    // outline: 3px solid #FFFFFF;
+    // outline: 3px solid #C259D3;
     display: flex;
-    width: 100%;
+    width: 50% !important;
     align-items: center;
     justify-content: space-between;
 
@@ -491,9 +508,35 @@
 
 
 @media only screen and (max-width: 992px) {
+
+  .logoMenuMainItems {
+     p {
+        font-size: 0.85rem !important;
+     }
+  }
+
+
+  .mainCover {
+    //  outline: 3px solid #FFFFFF;
+     width: 100% !important;
+  }
+
+  .mainContainer {
+    // outline: 3px solid #FFFFFF;
+    display: flex;
+    width: 100%;
+    // padding: 1.5rem 0 !important;
+  }
+
   .logoCaptionPart {
     // outline: 3px solid #FFFFFF;
-    margin-left: 1rem !important;
+    margin-left: 0rem !important;
+  }
+
+  .logoMenuPart {
+    // outline: 3px solid blue !important;
+    // flex: 2;
+    width: 50% !important;
   }
 }
 
@@ -507,6 +550,11 @@
   }
 
   .mainCover {
-    width: 90% !important;
+    width: 100% !important;
+  }
+
+  .logoCaptionPart {
+    // outline: 3px solid #FFFFFF;
+    margin-left: 0rem !important;
   }
 }
