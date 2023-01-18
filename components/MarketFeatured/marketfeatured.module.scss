@@ -9,6 +9,7 @@
   .caption {
     // outline: 3px solid red;
     width: 80%;
+    margin-top: 2rem;
 
     h1 {
       font-size: 3rem;
@@ -42,7 +43,7 @@
       // outline: 3px solid orangered;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
+      gap: 1rem;
       margin-top: 2rem;
     }
 
@@ -75,4 +76,88 @@
       font-family: "Poppins";
     }
   }
+}
+
+
+@media only screen and (max-width: 992px)  {
+
+  .caption {
+    h1 {
+      font-size: 2.5rem !important;
+    }
+  }
+
+  .mainPart {
+    width: 90%  !important;
+  }
+}
+
+
+@media only screen and (max-width: 768px)  {
+
+  .loadingPart {
+    // outline: 3px solid orangered;
+    h1 {
+      font-size: 1.5rem !important;
+    }
+  }
+
+  .caption {
+    h1 {
+      font-size: 2rem !important;
+    }
+  }
+
+
+  .caption {
+    h1 {
+      font-size: 2.2rem !important;
+    }
+  }
+
+  .mainPart {
+    width: 90%  !important;
+  }
+
+
+  .artPart {
+    // outline: 3px solid orangered;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2.5rem !important;
+    margin-top: 2rem;
+  }
+
+}
+
+
+@media only screen and (max-width: 600px) {
+
+
+  .loadingPart {
+    // outline: 3px solid orangered;
+    h1 {
+      font-size: 1.2rem !important;
+    }
+  }
+
+  .caption {
+    h1 {
+      font-size: 1.8rem !important;
+    }
+  }
+
+  .artPart {
+    // outline: 3px solid orangered;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr) !important;
+    gap: 3rem !important;
+    margin-top: 2rem;
+  }
+
+  .mainPart {
+    h2 {
+      font-size: 1.4rem !important;
+    }
+  }
+
 }

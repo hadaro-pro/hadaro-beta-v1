@@ -1,4 +1,4 @@
-import { COLLECTION_DETAILS_REQUEST, SAVE_COLLECTION_DETAILS, COLLECTION_DETAILS_FAIL } from "../actions/actiontypes";
+import { COLLECTION_DETAILS_REQUEST, SAVE_COLLECTION_DETAILS, COLLECTION_DETAILS_FAIL, SAVE_ITEM_DETAILS } from "../actions/actiontypes";
 
 // const initialState = { 
 //   iden: null,
@@ -18,6 +18,15 @@ export const collectionDetailsReducer = (state = {}, action) => {
       return {...state, collectionInfo: action.payload, loading: false}
       case COLLECTION_DETAILS_FAIL:
         return { loading: false, error: action.payload}
+      default:
+        return state
+  }
+}
+
+export const collectionItemDetailsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SAVE_ITEM_DETAILS:
+      return {...state, itemsArr: action.payload, loading: false}
       default:
         return state
   }

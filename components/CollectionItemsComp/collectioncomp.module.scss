@@ -444,3 +444,72 @@
     flex-direction: column;
   }
 } 
+
+
+
+@media only screen and (max-width: 992px) {
+ .mainContainer {
+  .caption {
+    h1 {
+      font-size: 2.5rem !important;
+    }
+  }
+ }
+
+ .artPart {
+  gap: 1.5rem !important;
+ }
+
+
+}
+
+
+@media only screen and (max-width: 768px) {
+
+  .mainContainer {
+    .caption {
+      h1 {
+        font-size: 2rem !important;
+      }
+    }
+   }
+
+
+   .mainPart {
+    width: 90% !important;
+    h2 {
+      font-size: 1.4rem !important;
+    }
+   }
+
+  .artPart {
+    // gap: 1.5rem !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+   }
+}
+
+
+
+@media only screen and (max-width: 600px) {
+
+  .mainContainer {
+    .caption {
+      h1 {
+        font-size: 1.5rem !important;
+      }
+    }
+   }
+
+
+   .mainPart {
+    width: 90% !important;
+    h2 {
+      font-size: 1.3rem !important;
+    }
+   }
+
+  .artPart {
+    gap: 2.2rem !important;
+    grid-template-columns: repeat(1, 1fr) !important;
+   }
+}

@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
-import { collectionDetailsReducer } from "./collectionReducer";
+import { collectionDetailsReducer, collectionItemDetailsReducer } from "./collectionReducer";
 
 
 export default combineReducers({
-  collectionDetails: collectionDetailsReducer
+  collectionDetails: collectionDetailsReducer,
+  collectionItemDetails: collectionItemDetailsReducer
 })

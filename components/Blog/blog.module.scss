@@ -124,3 +124,143 @@
     }
   }
 }
+
+
+@media only screen and (max-width: 992px) {
+  .caption {
+    h1 {
+      font-size: 2.5rem !important;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .caption {
+    h1 {
+      font-size: 2.2rem !important;
+    }
+  }
+
+  .innerImgPart {
+    display: none !important;
+  }
+
+  .mainPart {
+    width: 90% !important;
+  
+    .mainPartInner {
+      text-align: center;
+    }
+  }
+
+
+  
+  .innerDescPart {
+    // outline: 3px solid orange;
+    margin-top: 5rem;
+    flex: 40%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 3rem 2rem 3rem;
+
+    h2 {
+      font-size: 1.5rem !important;
+    }
+
+
+    h3 {
+      font-size: 1.2rem !important;
+    }
+
+
+
+    .innerDescItem {
+      // margin-bottom: 3rem;
+
+      h4 {
+        font-size: 1.5rem !important;
+      }
+
+      p {
+        margin-top: -.3rem;
+        font-size: .9rem !important;
+        color: #fff;
+        font-weight: normal;
+        line-height: 2rem;
+        // outline: 3px solid pink;
+        width: 100% !important;
+      }
+    }
+  }
+
+}
+
+@media only screen and (max-width: 600px) {
+
+  .mainContainer {
+    margin-top: 3rem;
+    margin-left: 2rem !important;
+  }
+
+
+  .caption {
+    width: 95% !important;
+    h1 {
+      font-size: 1.8rem !important;
+    }
+  }
+
+  .innerImgPart {
+    display: none !important;
+  }
+
+  .mainPart {
+    width: 90% !important;
+  
+    .mainPartInner {
+      text-align: center;
+    }
+  }
+
+
+  
+  .innerDescPart {
+    // outline: 3px solid orange;
+    margin-top: 5rem;
+    flex: 40%;
+    display: flex;
+    flex-direction: column;
+    padding: .5rem !important;
+
+    h2 {
+      font-size: 1rem !important;
+    }
+
+
+    h3 {
+      font-size: .9rem !important;
+    }
+
+
+
+    .innerDescItem {
+      margin-bottom: 2rem;
+
+      h4 {
+        font-size: 1.2rem !important;
+      }
+
+      p {
+        margin-top: -.3rem;
+        font-size: .8rem !important;
+        color: #fff;
+        font-weight: normal;
+        line-height: 2rem;
+        // outline: 3px solid pink;
+        width: 100% !important;
+      }
+    }
+  }
+
+}

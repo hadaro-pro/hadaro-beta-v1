@@ -16,7 +16,19 @@ const MarketFeatured = ({
 }) => {
   const router = useRouter();
 
+
+  console.log('img arr', imagesArray)
+
   const dispatch = useDispatch();
+
+
+  const collectionItemDetails = useSelector((state) => state.collectionItemDetails)
+
+
+  // const { itemsArr } = collectionItemDetails
+
+  console.log('homew: ', collectionItemDetails)
+
 
   const previewCollectionToSave = (index) => {
     const objToSave = {
@@ -47,8 +59,8 @@ const MarketFeatured = ({
         ) : (
           <div className={styles.artPart}>
             {storeCollections?.map((element, index) => {
-              const singleImage = imagesArray[index]?.parsedImage;
-              // console.log('leggo', singleImage)
+              const singleImage = collectionItemDetails?.itemsArr[index]
+              console.log('leggo', singleImage)
               return (
                 <div
                   key={index}
@@ -57,12 +69,14 @@ const MarketFeatured = ({
                   }}
                 >
                   <CollectionCard
-                    posterImage={`${singleImage}`}
+                    posterImage={collectionItemDetails?.itemsArr
+                      [index]?.metaImg}
                     collectionTitle={element.collectionName}
                   />
                 </div>
               );
             })}
+           
           </div>
         )}
 

@@ -6,6 +6,7 @@
   justify-content: center;
 
   .caption {
+    margin-top: 2rem;
     display: flex;
     width: 60%;
     // outline: 3px solid  orange;
@@ -89,6 +90,14 @@
           // outline: 3px solid chartreuse;
           display: flex;
           align-items: center;
+          // justify-content: center;
+          margin-bottom: 2rem;
+          margin-top: 2rem;
+
+          p {
+            margin: auto 0;
+            margin-left: 2rem !important;
+          }
         }
 
         .dropdownmenu {
@@ -208,4 +217,104 @@
 }
 
 
+@media only screen and (max-width: 992px) {
 
+
+  .mainContainer {
+
+    .caption {
+      width: 80% !important;
+      h1 {
+        font-size: 2.5rem !important;
+      }
+    }
+
+    .mainComp {
+      width: 80% !important;
+    }
+  }
+
+  .subdropmenu {
+    // outline: 3px solid orangered;
+    height: auto;
+    width: 100% !important;
+    margin: auto;
+    margin-bottom: 2rem !important;
+
+    small {
+      color: #ffff;
+      // font-size: .85rem !important;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+
+
+  .mainContainer {
+
+    .caption {
+      width: 90% !important;
+      h1 {
+        font-size: 2.2rem !important;
+      }
+    }
+
+    .mainComp {
+      width: 90% !important;
+    }
+  }
+
+  .subdropmenu {
+
+    small {
+      color: #ffff;
+      // font-size: .85rem !important;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+
+
+  .mainContainer {
+
+    .caption {
+      width: 90% !important;
+      h1 {
+        font-size: 1.8rem !important;
+      }
+    }
+
+    .mainComp {
+      width: 90% !important;
+    }
+
+
+    .menuItem {
+      img {
+        width: 2rem !important;
+        height: 2rem !important;
+      }
+      p {
+        color: #ffffff;
+        font-size: 1.2rem !important;
+        font-weight: 600;
+        margin-left: 1.2rem !important;
+      }
+    }
+  }
+
+
+  .subdropmenu {
+
+    small {
+      color: #ffff;
+      font-size: .85rem !important;
+    }
+  }
+
+
+}

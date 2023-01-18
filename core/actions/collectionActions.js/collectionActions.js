@@ -1,4 +1,4 @@
-import { COLLECTION_DETAILS_REQUEST, SAVE_COLLECTION_DETAILS, COLLECTION_DETAILS_FAIL } from "../actiontypes";
+import { COLLECTION_DETAILS_REQUEST, SAVE_COLLECTION_DETAILS, COLLECTION_DETAILS_FAIL, SAVE_ITEM_DETAILS } from "../actiontypes";
 
 /**
  * saves the collection details
@@ -15,5 +15,14 @@ export const saveCollectionDetails = (collectionObj) => (dispatch) => {
   }
 
   dispatch({ type: SAVE_COLLECTION_DETAILS, payload: collectionObj})
+
+}
+
+
+export const saveCollectionItemDetails = (collectionArr) => (dispatch) => {
+
+ 
+
+  dispatch({ type: SAVE_ITEM_DETAILS, payload: collectionArr})
 
 }

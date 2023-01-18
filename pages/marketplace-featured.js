@@ -1,14 +1,20 @@
 import React, {useEffect, useState} from 'react'
+import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios';
 import Navbar from '../components/Navbar/Navbar'
 import MarketFeatured from '../components/MarketFeatured/marketFeatured'
 import Footer from '../components/Footer/footer'
+import { saveCollectionItemDetails } from '../core/actions/collectionActions.js/collectionActions';
 
 const MarketplaceFeatured = () => {
 
   const [collections, setCollections] = useState(null)
   const [singleCollectionDetails] = useState([])
   const [loading, setLoading] = useState(false)
+
+  console.log('frem', singleCollectionDetails)
+
+  const dispatch = useDispatch()
 
 
 
@@ -37,8 +43,11 @@ const MarketplaceFeatured = () => {
 
 
   const getAllCollections = async() => {
-    try {
+    let mainArrItems = []
  
+    try {
+
+    
   setLoading(true)
 
    const getCollections = await axios.get(`/api/fetchCollectionData`);
@@ -61,9 +70,11 @@ const MarketplaceFeatured = () => {
 
       // console.log('nftimageMeta: ', nftImage?.data?.metadata?.image)
 
-      console.log(nftImage)
+      console.log('xr', nftImage)
 
-      let image = nftImage.data.metadata.image
+      let image = nftImage?.data?.metadata?.image
+
+      console.log('xr', image)
  
 
       let metaImg = ''
@@ -81,11 +92,17 @@ const MarketplaceFeatured = () => {
         let splicer =  image.slice(7)
         metaImg =  "https://gateway.ipfscdn.io/ipfs/" + splicer;
        
-      }  
+      }
+      
+      console.log('metaIbh: ', metaImg)
 
-      singleCollectionDetails.push({parsedImage: metaImg})
-
+      // singleCollectionDetails.push({parsedImage: metaImg})
+      mainArrItems.push({metaImg})
    } )
+
+
+
+   console.log('gerty', mainArrItems)
 
 
   //  for (let index = 0; index < data.length; index++) {
@@ -100,10 +117,15 @@ const MarketplaceFeatured = () => {
   //     // singleCollectionDetails?.push(getFirstNft)
   //  }
  
+
   //  console.log(collections)
 
+  dispatch(saveCollectionItemDetails(mainArrItems))
 
-  //  console.log(singleCollectionDetails?.length)
+
+
+
+  //  console.log('lengthi', singleCollectionDetails)
   setLoading(false)
     } catch(e) {
      console.error(e)
