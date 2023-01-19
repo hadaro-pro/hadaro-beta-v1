@@ -73,9 +73,7 @@ const CollectionItems = () => {
     <div>
       <Navbar/>
      <CollectionItemsComp  openFooter={setSealFooter}  loadingItems={loading}  itemsToDisplay={finalCollectionItems} />
-   {  
-   sealFooter ? null :
-   <Footer/>}
+   <Footer/>
     </div>
   )
 }

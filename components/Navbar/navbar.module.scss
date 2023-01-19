@@ -9,12 +9,20 @@
   background: linear-gradient(180deg, #523E93 0%, rgba(82, 62, 147, 0.22) 100%);
   // width: fit-content;
 
+  .menubar {
+    position: absolute;
+    left: 0;
+    background-color: #C259D3;
+    // width: 50rem;
+  }
+
 
   .menuBarContentClose {
     background-color: #838bd3;
     position: absolute;
-    // width: 50%;
     top: 0;
+    left: 0;
+    // width: 50%;
     padding: 2rem;
     height: 35rem;
     z-index: 10000 !important;
@@ -147,6 +155,7 @@
     position: absolute;
     // position: fixed;
     top: 0;
+    left: 0;
     // width: 100;
     padding: 2rem;
     height: 35rem;
@@ -410,6 +419,7 @@
   box-shadow: 4px 4px 15px 0px #00000099;
   overflow: hidden;
   cursor: pointer;
+  z-index: 1000;
   // text-overflow: ellipsis;
   
 
@@ -466,6 +476,30 @@
 }
 
 
+@media only screen and (max-width: 600px) {
+
+  
+  .logoMenuBarItems {
+    p {
+      font-size: 1rem !important;
+    }
+  
+
+      button {
+        font-size: .9rem !important;
+        padding: .6rem .9rem !important;
+      }
+  }
+
+  .menuBarContent {
+    width: 65% !important;
+  }
+
+  .menuBarContentClose {
+    width: 65% !important;
+  }
+}
+
 
 @media only screen and (max-width: 768px) {
 
@@ -503,7 +537,6 @@
       display: block !important;
     }
   }
-
 }
 
 

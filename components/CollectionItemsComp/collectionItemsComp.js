@@ -204,7 +204,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
   const handleCancel = () => {
     // setIsModalOpen(false);
     setShowRentMenu(false);
-    openFooter(false);
+    // openFooter(false);
   };
 
   const addEllipsis = (value) => {
@@ -220,7 +220,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
     setToDisplayData(collection);
     //  console.log('collet: ', toDisplayData)
     setShowRentMenu(true);
-    openFooter(true);
+    // openFooter(true);
     window.scrollTo(0, 100);
   };
 
@@ -466,10 +466,10 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
                   </h1>
                 </div>
                 <div className={styles.finalAmountPart}>
-                  <p>Amount: </p>{" "}
+                  <p>Amount: </p>
                   <div className={styles.finalAmountContainer}>
                     <h1>{displayAmount === null ? 0 : displayAmount} </h1>{" "}
-                    <h2>{toDisplayData?.paymentToken} </h2>{" "}
+                    <h2>{toDisplayData?.paymentToken} </h2>
                   </div>
                 </div>
               </div>

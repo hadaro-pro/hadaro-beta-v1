@@ -66,6 +66,10 @@ a {
   display: none !important;
 }
 
+.ant-dropdown  {
+  z-index: 10000 !important;
+}
+
 .ant-dropdown-menu-item {
   // user-select: none !important;
   &:hover {
@@ -98,3 +102,10 @@ a {
 //     background: black;
 //   }
 // }
+
+
+@media only screen and (max-width: 768px) {
+
+}
+
+

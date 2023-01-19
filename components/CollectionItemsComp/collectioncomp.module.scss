@@ -252,7 +252,7 @@
           p {
             // line-height: 1.5rem;
             color: #ffff;
-            font-weight: 1.3rem;
+            font-weight: 600;
             font-size: 1.4rem;
           }
 
@@ -461,6 +461,12 @@
  }
 
 
+ .showRentMenu {
+  width: 80% !important;
+  margin: 0 auto;
+ }
+
+
 }
 
 
@@ -474,6 +480,21 @@
     }
    }
 
+   
+.infoDescMetaNames {
+  // background: red;
+  h2  {
+    font-size: 1.4rem !important;
+    color: #fff;
+   
+  }
+
+  h3 {
+    font-size: .9rem !important;
+    color: #fff;
+  }
+}
+
 
    .mainPart {
     width: 90% !important;
@@ -485,6 +506,247 @@
   .artPart {
     // gap: 1.5rem !important;
     grid-template-columns: repeat(3, 1fr) !important;
+   }
+
+   .showRentMenu {
+    width: 90% !important;
+    margin: 0 auto;
+    
+    .closeMenu {
+      // outline: 3px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+  
+      .closeIcon {
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+        font-size: 1.05rem !important;
+        &:hover {
+          background-color: darken($color: #523E93, $amount: 15%);
+          width: 3rem;
+          height: 3rem;
+          // font-size: 1.3rem;
+        }
+      } 
+    }
+  
+  
+    .infoContainer {
+      // outline: 3px solid orange;
+      height: 90%;
+      margin-top: 1rem;
+      display: flex;
+  
+      .infoImage {
+        width: 50%;
+        // outline: 3px solid yellow;
+        display: flex;
+        background-color: #ffff;
+        border-radius: 5px;
+        img {
+          width: 100%;
+          border-radius: 5px;
+        }
+      }
+  
+  
+      .infoDesc {
+        width: 50%;
+        margin-left: 2%;
+        // outline: 3px solid green;
+        // height: 100%;
+        overflow-y: auto;
+        // display: flex;
+        // justify-content: center;
+        // flex-direction: column;
+  
+  
+        .submitBtn {
+          // outline: 3px solid purple;
+          margin-top: 2rem;
+          display: flex;
+          width: 100%;
+          align-items: center;
+          justify-content: center;
+  
+  
+          button {
+            outline: none;
+            border: none;
+            border-radius: 10px;
+            background-color: #9e00ff;
+            color: #ffff;
+            font-size: 1rem !important;
+            font-weight: 500;
+            padding: 1rem 2rem;
+            width: 80%;
+            cursor: pointer;
+            transition: opacity 200ms ease-in;
+  
+            &:hover {
+              opacity: 90%;
+            }
+          }
+        }
+  
+        .infoDescLender {
+          // margin-top: -3rem;
+          display: flex;
+          // outline: 3px solid black;
+  
+          .gray {
+            opacity: 60% !important;
+          } 
+  
+          small {
+            font-size: 1rem;
+            color: #ffff;
+            margin-right: .4rem;
+            // font-weight: 600;
+          }
+          
+        }
+  
+        .formFillPart {
+          // outline: 3px solid red;
+          margin-top: 2rem;
+          h3 {
+            // outline: 3px solid red;
+            color: #ffff;
+            font-size: 1rem !important;
+          }
+  
+          span {
+            margin-left: .5rem;
+            border: 2px solid #ffff;
+            padding: .5rem;
+            border-radius: 5px;
+          }
+  
+          .finalAmountPart {
+            display: flex;
+            flex-direction: column;
+  
+            p {
+              // line-height: 1.5rem;
+              color: #ffff;
+              font-size: 1.15rem !important;
+              // outline: 3px solid red;
+            }
+  
+           
+  
+            .finalAmountContainer {
+              margin-top: -1.5rem;
+              border: 3px solid #ffff;
+              padding: .4rem;
+              width: fit-content;
+              border-radius: 6px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              
+              h1 {
+                margin: 0 auto !important;
+                font-size: 1.2rem !important;
+                color: #ffff;
+                // outline: 3px solid red;
+              }
+  
+              h2 {
+                // color: #000000;
+                margin: 0 auto;
+                margin-left: .5rem !important;
+                // border: none !important;
+                font-weight: 600;
+                font-size: 1.2rem !important;
+                opacity: 70%;
+              }
+            }
+          }
+  
+          .dailyPricePart {
+            // outline: 3px solid salmon;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            margin-top: 1rem;
+            padding-right: 1rem;
+  
+            h1{
+              font-weight: 600;
+              color: #000;
+              line-height: 1rem;
+              font-size: 1.4rem !important;
+            }
+  
+            h3 {
+              // outline: 3px solid red;
+              font-size: 1.1rem;
+              color: #ffff;
+              font-weight: 600;
+            }
+  
+          }
+  
+          .formFillPartInput {
+            margin-top: 2rem;
+            
+            input {
+              outline: none;
+              border: 2px solid #ffff;
+              border-radius: 10px;
+              padding: .4rem 1rem .4rem .4rem;
+              background: white;
+              color: #000000;
+              font-size: .9rem !important;
+          }
+  
+          .formErorPart {
+            font-weight: 500;
+            color: red;
+            margin-top: .5rem;
+          }
+        }
+  
+        .infoDescName {
+          margin-top: 3rem;
+          
+         
+  
+         
+  
+         
+           
+          h3 {
+            // outline: 3px solid red;
+            font-size: 1rem;
+            color: #ffff;
+            line-height: .5rem;
+          }
+  
+          h2{
+            // outline: 3px solid red;
+            font-size: 2.1rem;
+            color: #ffff;
+            // line-height: 2.5rem;
+          }
+        }
+  
+      
+      
+      }
+  
+    
+    }
+  
+    
+  }
+  
+  
+  
    }
 }
 
@@ -500,6 +762,31 @@
     }
    }
 
+   .miniInfo {
+    margin-top: .5rem !important;
+    
+    small {
+      font-weight: 600;
+      margin-right: .5rem;
+      color: #ffff;
+      font-size: .7rem !important;
+    }
+  }
+
+   .infoDescMetaNames {
+    // background: red;
+    h2  {
+      font-size: 1.2rem !important;
+      color: #fff;
+     
+    }
+  
+    h3 {
+      font-size: .85rem !important;
+      color: #fff;
+    }
+  }
+
 
    .mainPart {
     width: 90% !important;
@@ -511,5 +798,251 @@
   .artPart {
     gap: 2.2rem !important;
     grid-template-columns: repeat(1, 1fr) !important;
+   }
+
+
+   .showRentMenu {
+    width: 90% !important;
+    margin: 0 auto;
+    
+    .closeMenu {
+      // outline: 3px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+  
+      .closeIcon {
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+        font-size: 1.05rem !important;
+        &:hover {
+          background-color: darken($color: #523E93, $amount: 15%);
+          width: 3rem;
+          height: 3rem;
+          // font-size: 1.3rem;
+        }
+      } 
+    }
+  
+  
+    .infoContainer {
+      // outline: 3px solid orange;
+      height: 90%;
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  
+      .infoImage {
+        width: 100% !important;
+        // outline: 3px solid yellow;
+        display: flex;
+        background-color: #ffff;
+        border-radius: 5px;
+        img {
+          width: 100%;
+          border-radius: 5px;
+        }
+      }
+  
+  
+      .infoDesc {
+        width: 100% !important;
+        margin-left: 2%;
+        margin-top: 2rem;
+        // outline: 3px solid green;
+        // height: 100%;
+        overflow-y: auto;
+        // display: flex;
+        // justify-content: center;
+        // flex-direction: column;
+  
+  
+        .submitBtn {
+          // outline: 3px solid purple;
+          margin-top: 2rem;
+          display: flex;
+          width: 100%;
+          align-items: center;
+          justify-content: center;
+  
+  
+          button {
+            outline: none;
+            border: none;
+            border-radius: 10px;
+            background-color: #9e00ff;
+            color: #ffff;
+            font-size: .85rem !important;
+            font-weight: 500;
+            padding: 1rem 1.5rem !important;
+            width: 100% !important;
+            cursor: pointer;
+            transition: opacity 200ms ease-in;
+  
+            &:hover {
+              opacity: 90%;
+            }
+          }
+        }
+  
+        .infoDescLender {
+          // margin-top: -3rem;
+          display: flex;
+          // outline: 3px solid black;
+          margin-bottom: 1rem;
+  
+          .gray {
+            opacity: 60% !important;
+          } 
+  
+          small {
+            font-size: .85rem !important;
+            color: #ffff;
+            margin-right: .4rem;
+            // font-weight: 600;
+          }
+          
+        }
+  
+        .formFillPart {
+          // outline: 3px solid red;
+          margin-top: 2rem;
+          h3 {
+            // outline: 3px solid red;
+            color: #ffff;
+            font-size: .85rem !important;
+          }
+  
+          span {
+            margin-left: .5rem;
+            border: 2px solid #ffff;
+            padding: .5rem;
+            border-radius: 5px;
+          }
+  
+          .finalAmountPart {
+            display: flex;
+            flex-direction: column;
+  
+            p {
+              color: #ffff;
+              font-size: 1rem !important;
+              // outline: 3px solid red;
+            }
+  
+           
+  
+            .finalAmountContainer {
+              margin-top: -1rem !important;
+              border: 3px solid #ffff;
+              padding: .4rem;
+              width: fit-content;
+              border-radius: 6px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              
+              h1 {
+                margin: 0 auto !important;
+                font-size: 1rem !important;
+                color: #ffff;
+                // outline: 3px solid red;
+              }
+  
+              h2 {
+                // color: #000000;
+                margin: 0 auto;
+                margin-left: .5rem !important;
+                // border: none !important;
+                font-weight: 600;
+                font-size: 1rem !important;
+                opacity: 70%;
+              }
+            }
+          }
+  
+          .dailyPricePart {
+            // outline: 3px solid salmon;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            margin-top: 1rem;
+            padding-right: 1rem;
+  
+            h1{
+              font-weight: 600;
+              color: #000;
+              line-height: 1rem;
+              font-size: 1.25rem !important;
+            }
+  
+            h3 {
+              // outline: 3px solid red;
+              font-size: 1.1rem;
+              color: #ffff;
+              font-weight: 600;
+            }
+  
+          }
+  
+          .formFillPartInput {
+            margin-top: 2rem;
+            
+            input {
+              outline: none;
+              border: 2px solid #ffff;
+              border-radius: 10px;
+              padding: .4rem 1rem .4rem .4rem;
+              background: white;
+              color: #000000;
+              font-size: .85rem !important;
+          }
+  
+          .formErorPart {
+            font-weight: 500;
+            color: red;
+            margin-top: .5rem;
+          }
+        }
+  
+        .infoDescName {
+          margin-top: 3rem;
+          
+         
+  
+         
+  
+         
+           
+          h3 {
+            // outline: 3px solid red;
+            font-size: 1rem;
+            color: #ffff;
+            line-height: .5rem;
+          }
+  
+          h2{
+            // outline: 3px solid red;
+            font-size: 2.1rem;
+            color: #ffff;
+            // line-height: 2.5rem;
+          }
+        }
+  
+      
+      
+      }
+  
+    
+    }
+  
+    
+  }
+  
+  
+  
    }
 }
