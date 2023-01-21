@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import styles from "./newCollection.module.scss";
 import ReCAPTCHA from "react-google-recaptcha";
+import axios from 'axios'
+import { useAccount, useConnect, useSigner, useProvider, erc721ABI } from "wagmi";
 import { message } from "antd";
 
 const NewCollectionComp = () => {
   const [captchaSorted, setCaptchaSorted] = useState(true);
   const [imageFile, setImageFile] = useState(null);
+  const [chain, setChain] = useState("0x1")
   const [collectionName, setCollectionName] = useState("");
   const [contractAddr, setcontractAddr] = useState("");
   const [collectionDesc, setCollectionDesc] = useState("")
   
 
+
+  const { address,isConnected } = useAccount();
 
 
   if (imageFile !== null) {
@@ -21,7 +26,32 @@ const NewCollectionComp = () => {
 
 
   const handleSubmit = async() => {
-    message.success('submission success! pending verification')
+    let  collectionNfts = []
+    try {
+      const response = await axios.get("/api/get-nft-owner-collections", {
+        params: {
+          walletaddr: address,
+          // walletaddr: wallet,
+          chain: chain,
+        },
+      }); 
+
+      const res = response.data.result
+
+      for(let index = 0; index <= res.length; index++) {
+        collectionNfts.push(res[index]?.token_address)
+      }
+
+       console.log(response.data.result)
+
+      if(collectionNfts.includes(contractAddr)) {
+        message.success('submission success! pending verification')
+      } else {
+        message.error('You are not the NFT collection owner!')
+      }
+    } catch(e) {
+      console.error(e)
+    }
   }
 
   const onChange =  async(value) => {
@@ -52,9 +82,9 @@ const NewCollectionComp = () => {
             <div className={styles.formUpperImageUpload}>
               <div className={styles.formUpperImageContainer}>
                 <label className={styles.formUpperImageDiv}  htmlFor="imagefiles" >
-                { imageFile !== null ? <img src={imageFile[0]?.name} alt="image"  />  : <img src="/images/cross.png" alt="image"  />}
+                { imageFile !== null ? <img src={`${URL.createObjectURL(imageFile)}`} alt="image"   className={styles.imgUpload} />  : <img src="/images/cross.png" alt="image"  />}
                 </label>
-                <input id="imagefiles" type="file" accept="image/png, image/jpeg, image/svg"   onChange={(e) => setImageFile(e.target.files)} />
+                <input id="imagefiles" type="file" accept="image/png, image/jpeg, image/svg"   onChange={(e) => setImageFile(e.target.files[0])} />
                 <h2>Upload cover image</h2>
               </div>
             </div>
@@ -69,7 +99,7 @@ const NewCollectionComp = () => {
             </div>
           </div>
           <div className={styles.formButtonPart}>
-         { captchaSorted === true ?  <button onClick={() => {handleSubmit()}}  >Submit</button> : <button 
+         { captchaSorted === true ?  <button onClick={() => {handleSubmit()}}>Submit</button> : <button 
            disabled={true}>Submit</button>
 }          </div> 
         </div>

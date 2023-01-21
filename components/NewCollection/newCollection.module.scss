@@ -87,6 +87,13 @@
                 width: 5rem;
                 height: 5rem;
               }
+
+
+              .imgUpload {
+                width: 12rem;
+                height: 12rem;
+                object-fit: cover;
+              } 
             }
 
             h2 {
@@ -254,6 +261,13 @@
                   width: 3rem !important;
                   height: 3rem !important;
                 }
+
+                
+              .imgUpload {
+                width: 9rem !important; 
+                height: 9rem !important;
+                object-fit: cover;
+              }
               }
   
               h2 {
@@ -396,6 +410,13 @@
                   width: 2rem !important;
                   height: 2rem !important;
                 }
+
+                
+              .imgUpload {
+                width: 6rem !important;
+                height: 6rem !important;
+                object-fit: cover;
+              }
               }
   
               h2 {
