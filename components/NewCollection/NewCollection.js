@@ -4,7 +4,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { message } from "antd";
 
 const NewCollectionComp = () => {
-  const [captchaSorted, setCaptchaSorted] = useState(false);
+  const [captchaSorted, setCaptchaSorted] = useState(true);
   const [imageFile, setImageFile] = useState(null);
   const [collectionName, setCollectionName] = useState("");
   const [contractAddr, setcontractAddr] = useState("");
@@ -13,8 +13,10 @@ const NewCollectionComp = () => {
 
 
 
-  // console.log(imageFile)
-
+  if (imageFile !== null) {
+    console.log(imageFile[0]?.name)
+  }
+  
   const key = '6LcutQ8kAAAAAIhv8K59NJVYPKEKFiJ7UOzntM14'
 
 
@@ -50,7 +52,7 @@ const NewCollectionComp = () => {
             <div className={styles.formUpperImageUpload}>
               <div className={styles.formUpperImageContainer}>
                 <label className={styles.formUpperImageDiv}  htmlFor="imagefiles" >
-                  <img src="/images/cross.png" alt="image"  />
+                { imageFile !== null ? <img src={imageFile[0]?.name} alt="image"  />  : <img src="/images/cross.png" alt="image"  />}
                 </label>
                 <input id="imagefiles" type="file" accept="image/png, image/jpeg, image/svg"   onChange={(e) => setImageFile(e.target.files)} />
                 <h2>Upload cover image</h2>

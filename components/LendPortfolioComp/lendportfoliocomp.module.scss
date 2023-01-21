@@ -121,14 +121,15 @@
             .submenucover {
               // outline: 3px solid orangered;
               display: grid;
-              grid-template-columns: repeat(4, 1fr);
-              gap: 2rem;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 1.5rem;
             }
 
             .lendArt {
               display: flex;
               flex-direction: column;
               // outline: 3px solid cadetblue;
+              margin: auto;
               width: fit-content;
               align-items: center;
               justify-content: center;
@@ -182,6 +183,8 @@
               // outline: 3px solid cadetblue;
               // width: fit-content;
               width: 100%;
+              align-items: center;
+              justify-content: center;
 
               .uploadArtImage {
                 width: 10rem;
@@ -471,14 +474,14 @@
 @media only screen and (max-width: 768px) {
   .caption {
     // outline: 3px solid red;
-    width: 80% !important;
+    width: 90% !important;
     h1 {
       font-size: 2.2rem !important;
     }
   }
 
   .mainComp {
-    width: 80% !important;
+    width: 90% !important;
   }
 }
 
@@ -496,6 +499,14 @@
     width: 90% !important;
   }
 
+
+  .submenucover {
+    // outline: 3px solid orangered;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr) !important;
+   gap: 1.5rem;
+    margin: auto !important;
+  }
 
   .menuItemTop {
 

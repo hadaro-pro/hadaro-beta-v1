@@ -155,8 +155,8 @@ const LendPortfolioComp = () => {
     try {
       const response = await axios.get("/api/nft-balance", {
         params: {
-          // walletaddr: address,
-          walletaddr: wallet,
+          walletaddr: address,
+          // walletaddr: wallet,
           chain: chain,
         },
       }); 
@@ -177,7 +177,7 @@ const LendPortfolioComp = () => {
   // const nftStandard = 0;
   // const nftAddress = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab";
   // const tokenID = "30916";
-  // const lendingID = "778";
+  // const lendingID = "779";
 
 
 
@@ -452,8 +452,8 @@ const LendPortfolioComp = () => {
             </div>
           </div>
         </div>
-        {/* <button onClick={handleUploadNftData}>
-          send nft data
+        {/* <button onClick={handleStopLend}>
+          stop lend
         </button> */}
       </div>
     </div>
