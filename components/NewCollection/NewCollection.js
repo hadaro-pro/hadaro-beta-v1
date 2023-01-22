@@ -26,29 +26,37 @@ const NewCollectionComp = () => {
 
 
   const handleSubmit = async() => {
-    let  collectionNfts = []
+
+  
+    let  collectionNfts = []  
     try {
-      const response = await axios.get("/api/get-nft-owner-collections", {
-        params: {
-          walletaddr: address,
-          // walletaddr: wallet,
-          chain: chain,
-        },
-      }); 
 
-      const res = response.data.result
-
-      for(let index = 0; index <= res.length; index++) {
-        collectionNfts.push(res[index]?.token_address)
-      }
-
-       console.log(response.data.result)
-
-      if(collectionNfts.includes(contractAddr)) {
-        message.success('submission success! pending verification')
+      if(imageFile === null || collectionName === "" || collectionDesc === "" || contractAddr === "" ) {
+        message.error('All form fields must be filled and image uploaded')
       } else {
-        message.error('You are not the NFT collection owner!')
+        const response = await axios.get("/api/get-nft-owner-collections", {
+          params: {
+            walletaddr: address,
+            // walletaddr: wallet,
+            chain: chain,
+          },
+        }); 
+  
+        const res = response.data.result
+  
+        for(let index = 0; index <= res.length; index++) {
+          collectionNfts.push(res[index]?.token_address)
+        }
+  
+         console.log(response.data.result)
+  
+        if(collectionNfts.includes(contractAddr)) {
+          message.success('submission success! pending verification')
+        } else {
+          message.error('You are not the NFT collection owner!')
+        }
       }
+
     } catch(e) {
       console.error(e)
     }

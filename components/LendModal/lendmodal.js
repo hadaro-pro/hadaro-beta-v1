@@ -74,7 +74,7 @@ const handleDailyRentalPrice = (value) => {
   setTimeout(() => {
     
   
-          setLendItemObject({ ...lendItemObject, dailyRentPrice: Number(value) / 10000 })
+          setLendItemObject({ ...lendItemObject, dailyRentPrice: Number(value) })
     
     // if (value == 0 || isNaN(value) == true || String(value).charAt(0) == "-" ) {
     //   setRentError("value cannot be non-zero or out of range")

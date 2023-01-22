@@ -50,11 +50,13 @@ const CollectionItems = () => {
       const response = await axios.post(`/api/fetchAllNftsInCollection`, {contractAddr})
 
   
+      const filterByContractAddr = response.data?.filter((item) => item.nftAddress.toLowerCase() === contractAddr.toLowerCase())
 
+      // console.log('filtration', filterByContractAddr)
 
-        console.log('resti: ', response.data)
+      //   console.log('resti: ', response.data)
 
-       setFinalCollectionItems(response.data)
+       setFinalCollectionItems(filterByContractAddr)
 
       setLoading(false)
     } catch(err) {

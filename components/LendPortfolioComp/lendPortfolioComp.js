@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { message, Modal } from "antd";
 import axios from "axios";
 import { useAccount, useConnect, useSigner, useProvider, erc721ABI } from "wagmi";
-import { Sylvester, PaymentToken, NFTStandard, packPrice } from '@renft/sdk'
+import { Sylvester, PaymentToken, NFTStandard, packPrice, unpackPrice } from '@renft/sdk'
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import NftDisplayComp from "../NftsComp/nftComp";
 import styles from "./lendportfoliocomp.module.scss";
@@ -182,6 +182,8 @@ const LendPortfolioComp = () => {
 
 
   // const handleStopLend = async () => {
+  //   const res = unpackPrice(0x00000003)
+  //   console.log('unp: ', res)
   //   try{
   //    const txn = await collateralFreeContract.stopLending(
   //       [nftStandard],

@@ -39,8 +39,7 @@ export const allCollectionsQuery = () => {
 
 
 export const allNftsByCollectionQuery = (contractAddr) => {
-  const query = `*[_type == "nftData" 
-  && nftAddress == '${contractAddr}'] | order(_createdAt desc){
+  const query = `*[_type == "nftData"] {
     _id,
     nftAddress,
     tokenID,

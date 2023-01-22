@@ -236,10 +236,10 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
   // console.log("rental pd ", rentalPeriod);
 
   const showTotalAmount = (value) => {
-    console.log("cyle ", value);
+    // console.log("cyle ", value);
     const numFormat = Number(value);
-    const unpackedPrice = unpackPrice(toDisplayData?.price) * 10000;
-    console.log(numFormat);
+    const unpackedPrice = unpackPrice(toDisplayData?.price);
+    // console.log(numFormat);
     if (isNaN(numFormat) == true) {
       // message.error('you entered a non-number value')
       setError("you entered a non-number value");
@@ -254,6 +254,19 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
     }
     setRentalPeriod(numFormat);
   };
+
+  const convertToken = (value) => {
+    if(value === "1") {
+      return "WETH"
+    }else if (value === "2") {
+      return "DAI"
+    } else if (value === "3") {
+      return "USDC"
+    } else if (value === "4") {
+      return "USDT"
+    }
+  }
+
 
   const handleCompleteRent = async() => {
     // if(isConnected) {
@@ -283,7 +296,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
 
     const lendingID = resp.lendings[0].id
 
-    console.log('head', lendingID)
+    // console.log('head', lendingID)
 
     const finalObj = {
       nftStandard,
@@ -312,7 +325,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
 
 
     message.success("rent success!");
-    console.log(finalObj)
+    // console.log(finalObj)
 
   }
 
@@ -461,15 +474,15 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
                 <div className={styles.dailyPricePart}>
                   <h3>Daily Price </h3>{" "}
                   <h1>
-                    {unpackPrice(toDisplayData?.price) * 10000}{" "}
-                    {toDisplayData?.paymentToken}{" "}
+                    {unpackPrice(toDisplayData?.price)}{" "}
+                    {convertToken(toDisplayData?.paymentToken)}{" "}
                   </h1>
                 </div>
                 <div className={styles.finalAmountPart}>
                   <p>Amount: </p>
                   <div className={styles.finalAmountContainer}>
                     <h1>{displayAmount === null ? 0 : displayAmount} </h1>{" "}
-                    <h2>{toDisplayData?.paymentToken} </h2>
+                    <h2>{convertToken(toDisplayData?.paymentToken)} </h2>
                   </div>
                 </div>
               </div>
@@ -496,8 +509,8 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
                     image={item.metadataImage}
                     title={item.metadataName}
                     collectionName={colName}
-                    bidPrice={`${unpackPrice(item.price) * 10000}`}
-                    paymentToken={item.paymentToken}
+                    bidPrice={`${unpackPrice(item.price)}`}
+                    paymentToken={convertToken(item.paymentToken)}
                     status={item.transactionType}
                     identity={item._id}
                     description={item.metadataDesc}

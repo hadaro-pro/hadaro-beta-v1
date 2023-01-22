@@ -45,6 +45,8 @@ const LendOutroModal = ({
     }
   };
 
+  console.log('xoxo', finalLendObject)
+
   const { data: signer } = useSigner();
 
   const { address  } = useAccount()
@@ -79,9 +81,14 @@ const LendOutroModal = ({
   const chain = finalLendObject.chain;
   const collectionName = finalLendObject.collectionName;
   const collectionSymbol = finalLendObject.collectionSymbol;
-  const metadataImage = finalLendObject.nftName
-  const metadataDesc = finalLendObject.nftImage
-  const metadataName = finalLendObject.nftDesc
+  const metadataImage = finalLendObject.nftImage
+  const metadataDesc = finalLendObject.nftDesc
+  const metadataName = finalLendObject.nftName
+
+
+
+
+  console.log('parsed price', dailyRentPrice)
 
 
   // const ERC721Contract = useContract({
@@ -151,13 +158,13 @@ const LendOutroModal = ({
     chain,
     lenderAddress: address,
     price: dailyRentPrice,
-    paymentToken,
+    paymentToken: String(paymentToken),
     maxDuration: maxRentDuration,
     transactionType,
     metadataName,
     metadataDesc,
     metadataImage,
-    nftStandard
+    nftStandard: String(nftStandard)
   };
 
   const collection = {
@@ -173,23 +180,22 @@ const LendOutroModal = ({
 
   console.log(response.data);
 
-  if(response.data.msg === 'success') {
+//   if(response.data.msg === 'success') {
    
 
-    const res = await axios.post(`/api/postCollectionsData`, collection);
-    console.log('for collectionCreation', res.data);
+//     const res = await axios.post(`/api/postCollectionsData`, collection);
+//     console.log('for collectionCreation', res.data);
 
 
-    if(res.data.msg === 'success') {
-       console.log('collection created successfully')
-  }
+//     if(res.data.msg === 'success') {
+//        console.log('collection created successfully')
+//   }
 
-  if(res.data.response.body.error.items[0].error.description === `Document by ID "${createId(collectionName)}" already exists`) {
-    console.log('collection successful')
-  }
+//   if(res.data.response.body.error.items[0].error.description === `Document by ID "${createId(collectionName)}" already exists`){
+//     console.log('collection successful')
+//   }
+//  }
 }
-
-  }
 
   const processLend = async () => {
     try {
