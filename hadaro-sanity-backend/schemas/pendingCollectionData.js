@@ -29,9 +29,9 @@ export default {
       type: 'string',
     },
     {
-      name: 'collectionDescription',
-      title: 'Collection Description',
-      type: 'string',
-    }, 
+      name: 'collectionImage',
+      title: 'Collection Image',
+      type: 'image',
+    } 
   ]
 }

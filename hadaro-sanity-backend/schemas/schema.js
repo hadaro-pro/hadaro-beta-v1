@@ -6,6 +6,7 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 
 import nftData from './nftData'
 import collectionsData from './collectionsData'
+import pendingCollectionData  from './pendingCollectionData'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -17,5 +18,6 @@ export default createSchema({
     /* Your types here! */
     nftData,
     collectionsData,
+    pendingCollectionData
   ]),
 })
