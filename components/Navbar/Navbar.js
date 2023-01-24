@@ -19,6 +19,7 @@ const Navbar = ({  }) => {
   const [openMenuBar, setOpenMenuBar] = useState(null);
 
   const showModal = () => {
+    setOpenMenuBar(false)
     setIsModalOpen(true);
   };
   const handleOk = () => {

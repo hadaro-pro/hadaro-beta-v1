@@ -17,7 +17,7 @@ const MarketFeatured = ({
   const router = useRouter();
 
 
-  console.log('img arr', imagesArray)
+  // console.log('img arr', imagesArray)
 
   const dispatch = useDispatch();
 
@@ -60,7 +60,7 @@ const MarketFeatured = ({
           <div className={styles.artPart}>
             {storeCollections?.map((element, index) => {
               const singleImage = collectionItemDetails?.itemsArr[index]
-              console.log('leggo', singleImage)
+              // console.log('leggo', singleImage)
               return (
                 <div
                   key={index}

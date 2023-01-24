@@ -4,7 +4,7 @@ import styles from './togglenetwork.module.scss'
 
 const ToogleNetwork = ({ setChain, handleGetNFTs, lendItemObject, setLendItemObject  }) => {
 
-  console.log(lendItemObject)
+  // console.log(lendItemObject)
 
   const [size, setSize] = useState('middle');
 

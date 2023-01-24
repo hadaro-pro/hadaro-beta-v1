@@ -10,7 +10,9 @@ import {
   useContractWrite,
   useWaitForTransaction,
   useContract,
-  erc721ABI
+  useConnect,
+  erc721ABI,
+  useNetwork
 } from "wagmi";
 import { Contract } from 'ethers'
 import { JsonRpcProvider } from "@ethersproject/providers";
@@ -45,13 +47,19 @@ const LendOutroModal = ({
     }
   };
 
-  console.log('xoxo', finalLendObject)
+  // console.log('xoxo', finalLendObject)
 
   const { data: signer } = useSigner();
 
   const { address  } = useAccount()
 
+  const { chain: mainChain, chains } = useNetwork()
+
+ 
+
   const collateralFreeContract = new Sylvester(signer);
+
+  
 
   // const provider = new JsonRpcProvider('https://mainnet.infura.io/v3/6fe73d73563b4e56aef1516412dfe130');
   // const privKey = '6d62eb36590393197c6bc45f7471fbc7f66ae9363f33c1c03144957df95a75d4';
@@ -88,7 +96,7 @@ const LendOutroModal = ({
 
 
 
-  console.log('parsed price', dailyRentPrice)
+  // console.log('parsed price', dailyRentPrice)
 
 
   // const ERC721Contract = useContract({
@@ -119,7 +127,7 @@ const LendOutroModal = ({
 
     // If not approved
     if (!isApproved) {
-      console.log("Requesting approval over NFTs...");
+      // console.log("Requesting approval over NFTs...");
 
       // Send approval transaction to NFT contract
       const approvalTxn = await ERC721Contract.setApprovalForAll(
@@ -149,7 +157,7 @@ const LendOutroModal = ({
 
    const receipt = await txn.wait()
 
-   console.log(receipt);
+  //  console.log(receipt);
 
   const document = {
     _type: "nftData",
@@ -178,7 +186,7 @@ const LendOutroModal = ({
 
   const response = await axios.post(`/api/postNftData`, document);
 
-  console.log(response.data);
+  // console.log(response.data);
 
 //   if(response.data.msg === 'success') {
    
@@ -224,7 +232,7 @@ const LendOutroModal = ({
         chain
       };
 
-      console.log(finalObject);
+      // console.log(finalObject);
 
       // message.success(`lending successful!`, [5])
       // console.log(finalLendObject)

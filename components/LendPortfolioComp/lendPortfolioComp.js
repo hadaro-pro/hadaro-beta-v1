@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { message, Modal } from "antd";
 import axios from "axios";
-import { useAccount, useConnect, useSigner, useProvider, erc721ABI } from "wagmi";
+import { useAccount, useConnect, useSigner, useProvider, erc721ABI, useNetwork } from "wagmi";
 import { Sylvester, PaymentToken, NFTStandard, packPrice, unpackPrice } from '@renft/sdk'
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import NftDisplayComp from "../NftsComp/nftComp";
@@ -62,8 +62,13 @@ const LendPortfolioComp = () => {
 
   const { data: signer } = useSigner();
 
+  const { chain: mainChain, chains } = useNetwork()
 
   const collateralFreeContract = new Sylvester(signer);
+
+  const handleCheckChain = () => {
+    // console.log(mainChain?.name)
+  }
 
 
   const handleRemoveElement = (position) => {
@@ -167,7 +172,7 @@ const LendPortfolioComp = () => {
 
       setLoadingNfts(false);
       setShowNftMenu(true);
-      console.log(response.data);
+      // console.log(response.data);
       // message.success(response.data)
     } catch (error) {
       console.error(error);
@@ -248,13 +253,13 @@ const LendPortfolioComp = () => {
 
   const response = await axios.post(`/api/postNftData`, document);
 
-  console.log('for nftDataCreation', response.data.msg);
+  // console.log('for nftDataCreation', response.data.msg);
 
   if(response.data.msg === 'success') {
    
 
   const res = await axios.post(`/api/postCollectionsData`, collection);
-  console.log('for collectionCreation', res.data);
+  // console.log('for collectionCreation', res.data);
 
 
   if(res.data.msg === 'success') {
@@ -269,7 +274,7 @@ const LendPortfolioComp = () => {
   }
 
   if(res.data.response.body.error.items[0].error.description === `Document by ID "${createId(collectionName)}" already exists`) {
-    console.log('yes')
+    // console.log('yes')
   //     const getCollections = await axios.get(`/api/fetchCollectionData`);
 
   //   const { data } = getCollections
@@ -454,7 +459,7 @@ const LendPortfolioComp = () => {
             </div>
           </div>
         </div>
-        {/* <button onClick={handleStopLend}>
+        {/* <button onClick={handleCheckChain}>
           stop lend
         </button> */}
       </div>

@@ -12,7 +12,7 @@ const MarketplaceFeatured = () => {
   const [singleCollectionDetails] = useState([])
   const [loading, setLoading] = useState(false)
 
-  console.log('frem', singleCollectionDetails)
+  // console.log('frem', singleCollectionDetails)
 
   const dispatch = useDispatch()
 
@@ -64,17 +64,17 @@ const MarketplaceFeatured = () => {
     const contractAddr = el?.collectionAddress
          const getFirstNft = await axios.post(`/api/fetchSingleNft`, {contractAddr})
    
-      console.log('nftdets', getFirstNft?.data)
+      // console.log('nftdets', getFirstNft?.data)
    
       const nftImage = await extractMetaData(getFirstNft?.data)
 
       // console.log('nftimageMeta: ', nftImage?.data?.metadata?.image)
 
-      console.log('xr', nftImage)
+      // console.log('xr', nftImage)
 
       let image = nftImage?.data?.metadata?.image
 
-      console.log('xr', image)
+      // console.log('xr', image)
  
 
       let metaImg = ''
@@ -94,7 +94,7 @@ const MarketplaceFeatured = () => {
        
       }
       
-      console.log('metaIbh: ', metaImg)
+      // console.log('metaIbh: ', metaImg)
 
       // singleCollectionDetails.push({parsedImage: metaImg})
       mainArrItems.push({metaImg})
@@ -102,7 +102,7 @@ const MarketplaceFeatured = () => {
 
 
 
-   console.log('gerty', mainArrItems)
+  //  console.log('gerty', mainArrItems)
 
 
   //  for (let index = 0; index < data.length; index++) {

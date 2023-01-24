@@ -19,7 +19,7 @@ const NewCollectionComp = () => {
 
 
   if (imageFile !== null) {
-    console.log(imageFile[0]?.name)
+    // console.log(imageFile[0]?.name)
   }
   
   const key = '6LcutQ8kAAAAAIhv8K59NJVYPKEKFiJ7UOzntM14'
@@ -28,6 +28,12 @@ const NewCollectionComp = () => {
   const handleSubmit = async() => {
 
   
+    const document = {
+      _type: "pendingCollectionData",
+      
+    }
+
+
     let  collectionNfts = []  
     try {
 
@@ -48,13 +54,18 @@ const NewCollectionComp = () => {
           collectionNfts.push(res[index]?.token_address)
         }
   
-         console.log(response.data.result)
+        //  console.log(response.data.result)
   
         if(collectionNfts.includes(contractAddr)) {
           message.success('submission success! pending verification')
         } else {
           message.error('You are not the NFT collection owner!')
         }
+
+        const sendData = await axios.post(`/api/postPendingCollectionData`, document);
+
+        // console.log(sendData.data);
+
       }
 
     } catch(e) {
@@ -64,8 +75,8 @@ const NewCollectionComp = () => {
 
   const onChange =  async(value) => {
     setCaptchaSorted(true)
-    console.log("Captcha value:", value);
-    console.log(captchaSorted)
+    // console.log("Captcha value:", value);
+    // console.log(captchaSorted)
   }
 
   return (

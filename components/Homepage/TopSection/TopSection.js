@@ -20,10 +20,12 @@ const TopSection = () => {
   const [openLendMenu, setOpenLendMenu] = useState(false);
   const [openContactMenu, setOpenContactMenu] = useState(false);
   const [openMenuBar, setOpenMenuBar] = useState(null);
-  const [displayNone, setDisplayNone] = useState(true);
+  const [displayNone, setDisplayNone] = useState(false);
 
   const showModal = () => {
+    setOpenMenuBar(false)
     setIsModalOpen(true);
+    // setDisplayNone(true)
   };
   const handleOk = () => {
     setIsModalOpen(false);
@@ -33,6 +35,7 @@ const TopSection = () => {
   };
 
 
+  console.log('openbar: ', openMenuBar)
  
 
   const { address, connector, isConnected } = useAccount();
@@ -221,7 +224,7 @@ const TopSection = () => {
                     <button onClick={showModal}>Wallet Connect</button>
                     <WalletConnect
                       modalOpen={isModalOpen}
-                      cancelModal={handleCancel} 
+                      cancelModal={handleCancel}
                     />
                   </>
                 )}

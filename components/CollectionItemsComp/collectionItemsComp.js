@@ -172,7 +172,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
 
      
     } catch(e) {
-      console.log(e)
+      // console.log(e)
     } 
 
   

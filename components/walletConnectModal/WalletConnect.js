@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useConnect, useAccount , useNetwork} from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { Modal, message } from "antd";
@@ -20,14 +20,19 @@ const connectorImages = [
   },
 ];
 
-const WalletConnect = ({ modalOpen, cancelModal }) => {
+const WalletConnect = ({ modalOpen, cancelModal}) => {
+
+ 
+
+
+
+
   const { isConnected, address } = useAccount();
 
   const { chain } = useNetwork()
 
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
-
 
     const showError = ()=> {
       return message.error(error.message)
