@@ -16,6 +16,7 @@
 
 
   .menuBarContentClose {
+    display: none;
     background-color: #838bd3;
     position: absolute;
     width: 50%;
@@ -144,6 +145,7 @@
   }
 
   .menuBarContent {
+    display: none;
     background-color: #838bd3;
     position: absolute;
     width: 50%;
@@ -559,10 +561,12 @@
   }
 
   .menuBarContent {
+    display: block !important;
     width: 65% !important;
   }
 
   .menuBarContentClose {
+    display: block !important;
     width: 65% !important;
   }
 
@@ -628,6 +632,16 @@
       display: block !important;
       // margin: 0 auto !important;
     }
+  }
+
+  .menuBarContent {
+    display: block !important;
+    // width: 65% !important;
+  }
+
+  .menuBarContentClose {
+    display: block !important;
+    // width: 65% !important;
   }
 
 }
