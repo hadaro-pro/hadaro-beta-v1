@@ -217,9 +217,9 @@ const PortfolioComp = ({ walletConnectStatus, ownedNfts, loadingWallet, lendingN
       }
       }
       setLoadingLendRemove(false)
-         handleRemoveElement(position)
-          await handlePatch(iden, "previousListed for lending", "non-available")
-         getNewListFunc()
+        //  handleRemoveElement(position)
+        //   await handlePatch(iden, "previousListed for lending", "non-available")
+        //  getNewListFunc()
        
     } catch (error) {
       setLoadingLendRemove(false)
