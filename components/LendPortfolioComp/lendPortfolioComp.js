@@ -54,7 +54,7 @@ const LendPortfolioComp = () => {
   const [isLendModalOpen, setIsLendModalOpen] = useState(false);
   const [isOutroModalOpen, setIsOutroModalOpen] = useState(false);
   const [openOutroModalOpen, setOpenOutroModalOpen] = useState(false)
-
+ 
 
 
 

@@ -75,11 +75,11 @@
         border-bottom: 2px solid #00000073;
 
 
-        img {
+        .menuItemImage {
           width: 3rem;
           height: 3rem;
         }
-        p {
+        .menuItemText {
           color: #ffffff;
           font-size: 1.5rem;
           font-weight: 600;
@@ -118,7 +118,7 @@
           .subdropmenu {
             // outline: 3px solid orangered;
             height: auto;
-            width: 80%;
+            width: 100%;
             margin: auto;
             margin-bottom: 2rem !important;
 
@@ -217,6 +217,58 @@
 }
 
 
+
+
+
+
+.mainCover {
+  // outline: 3px solid lightcoral;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  // padding: 1rem;
+  gap: 2.5rem;
+  height: auto;
+}
+
+.nftCardCover {
+  background-color: white;
+  height: 20rem;
+  border-radius: 10px;
+  display: flex;
+  // width: 45rem;
+
+
+
+  .nftCard {
+     outline: 3px solid orange;
+     height: 100%;
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+    // background: #0000;
+    display: flex;
+    // flex-direction: column;
+    // height: 20rem;
+  
+    .imgCover {
+      outline: 3px solid purple;
+      // height: 15rem;
+      width: 80%;
+      img {
+        object-fit: cover;
+        width: 10rem;
+        height: 10rem;
+        // width: 100%;
+        // height: 20rem;
+      }
+    }
+  }
+  
+
+}
+
+
+
 @media only screen and (max-width: 992px) {
 
 
@@ -277,6 +329,17 @@
 
 
 @media only screen and (max-width: 600px) {
+  .mainCover {
+    // outline: 3px solid lightcoral;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    // padding: 1rem;
+    gap: 2.5rem;
+    height: auto;
+  }
+  
+  }
+
 
 
   .mainContainer {
@@ -294,11 +357,11 @@
 
 
     .menuItem {
-      img {
-        width: 2rem !important;
+      .menuItemImage {
+      width: 2rem !important;
         height: 2rem !important;
       }
-      p {
+      .menuItemText {
         color: #ffffff;
         font-size: 1.2rem !important;
         font-weight: 600;
@@ -317,4 +380,4 @@
   }
 
 
-}
+

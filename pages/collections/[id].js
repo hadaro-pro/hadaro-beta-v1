@@ -50,13 +50,17 @@ const CollectionItems = () => {
       const response = await axios.post(`/api/fetchAllNftsInCollection`, {contractAddr})
 
   
-      const filterByContractAddr = response.data?.filter((item) => item.nftAddress.toLowerCase() === contractAddr.toLowerCase())
+      // const filterByContractAddr = response.data?.filter((item) => item.nftAddress.toLowerCase() === contractAddr.toLowerCase())
 
+
+         const filterByActivity = response.data?.filter((item) => item.transactionType !== "previousListed for lending" )
+
+      // previousListed for lending
       // console.log('filtration', filterByContractAddr)
 
       //   console.log('resti: ', response.data)
 
-       setFinalCollectionItems(filterByContractAddr)
+       setFinalCollectionItems(filterByActivity)
 
       setLoading(false)
     } catch(err) {

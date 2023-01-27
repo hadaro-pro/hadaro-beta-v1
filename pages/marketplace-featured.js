@@ -28,7 +28,11 @@ const MarketplaceFeatured = () => {
   // }
 
   const extractMetaData = async(nftObj) => {
-      const {nftAddress, tokenID , chain} = nftObj
+
+    const nftAddress = nftObj?.nftAddress
+    const tokenID = nftObj?.tokenID
+    const chain = nftObj?.chain
+  
 
       const metaData = await axios.get(`/api/fetchSingleNftMeta`, {
         params: {
@@ -79,17 +83,17 @@ const MarketplaceFeatured = () => {
 
       let metaImg = ''
 
-      if(image.includes(".")) {
+      if(image?.includes(".")) {
         metaImg = image
       } else {
         metaImg =  "https://ipfs.moralis.io:2053/ipfs/" + image;
       }
 
 
-      if(image.includes("https://") || image.includes("data:image/")) {
+      if(image?.includes("https://") || image?.includes("data:image/")) {
         metaImg = image;
       } else {
-        let splicer =  image.slice(7)
+        let splicer =  image?.slice(7)
         metaImg =  "https://gateway.ipfscdn.io/ipfs/" + splicer;
        
       }

@@ -44,6 +44,11 @@ export default {
       type: 'string',
     },
     {
+      name: 'status',
+      title: 'Status of NFT',
+      type: 'string',
+    },
+    {
       name: 'metadataImage',
       title: 'Metadata Image',
       type: 'string',

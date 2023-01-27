@@ -27,7 +27,7 @@ const MarketFeatured = ({
 
   // const { itemsArr } = collectionItemDetails
 
-  console.log('homew: ', collectionItemDetails)
+  // console.log('homew: ', collectionItemDetails)
 
 
   const previewCollectionToSave = (index) => {

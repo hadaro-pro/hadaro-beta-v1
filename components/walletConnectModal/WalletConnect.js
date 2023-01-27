@@ -49,10 +49,10 @@ const WalletConnect = ({ modalOpen, cancelModal}) => {
 
         const userData = { address: account, chain: chain.id, network: "evm" };
 
-        console.log(userData);
+        // console.log(userData);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }
 

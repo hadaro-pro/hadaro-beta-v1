@@ -47,6 +47,7 @@ export const allNftsByCollectionQuery = (contractAddr) => {
     transactionType,
     lenderAddress,
     price,
+    status,
     paymentToken,
     maxDuration,
     metadataImage,
@@ -59,6 +60,45 @@ return query
 }
 
 
+export const allLendedNftsByAddressQuery = (lenderAddr) => {
+  const query = `*[_type == "nftData"   && lenderAddress == '${lenderAddr}' && transactionType == "lending"] {
+    _id,
+    nftAddress,
+    tokenID,
+    chain,
+    transactionType,
+    lenderAddress,
+    price,
+    status,
+    paymentToken,
+    maxDuration,
+    metadataImage,
+    metadataDesc,
+    metadataName,
+    nftStandard,
+  }`
+return query
+}
+
+export const allRentedNftsByAddressQuery = (lenderAddr) => {
+  const query = `*[_type == "nftData" && transactionType == "renting"] {
+    _id,
+    nftAddress,
+    tokenID,
+    chain,
+    transactionType,
+    status,
+    lenderAddress,
+    price,
+    paymentToken,
+    maxDuration,
+    metadataImage,
+    metadataDesc,
+    metadataName,
+    nftStandard,
+  }`
+return query
+}
 
 
 

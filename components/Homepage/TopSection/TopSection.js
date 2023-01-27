@@ -21,6 +21,8 @@ const TopSection = () => {
   const [openContactMenu, setOpenContactMenu] = useState(false);
   const [openMenuBar, setOpenMenuBar] = useState(null);
   const [displayNone, setDisplayNone] = useState(false);
+  // const [nftData, setNftData] = useState(null);
+
 
   const showModal = () => {
     setOpenMenuBar(false)
@@ -35,7 +37,25 @@ const TopSection = () => {
   };
 
 
-  console.log('openbar: ', openMenuBar)
+//   chain
+// : 
+// "0x1"
+// nftAddress
+// : 
+// "0x999e88075692bcee3dbc07e7e64cd32f39a1d3ab"
+// tokenID
+// : 
+// "30916"
+// transactionType
+// : 
+// "lending"
+// _id
+// : 
+// "Gmpr06aytYZWpyHoD2X9gX"
+
+
+
+  // console.log('openbar: ', openMenuBar)
  
 
   const { address, connector, isConnected } = useAccount();
@@ -80,9 +100,61 @@ const TopSection = () => {
   }
 
 
+  // const handleLentNfts = async() => {
+  //   try {
+
+  //     let firtz = []
+      
+  //     const allNfts = await axios.get(`/api/fetchNftData`)
+
+  //       console.log('nfts result: ', allNfts.data)
+
+
+
+  //       allNfts.data.forEach((item) => {
+  //         firtz.push({identify: item._id})
+  //       })
+
+  //       console.log('geata: ', firtz)
+
+  //     setNftData(firtz)
+
+
+  //   //  handleUpdateNftStatus()
+  // // console.log('parsed data: ', nftData)
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
+
+  // const handleUpdateNftStatus = async() => {
+
+  //   try {
+    
+
+  //   const iden =  '1G8IcQVVD0srBVdlxrgUYr'
+
+
+  //     // const iden = nftData[0]?.identify
+
+  //     // console.log('hirt', idens)
+
+  //     const allNfts = await axios.put(`/api/updateNftData`, {iden})
+
+  //     console.log('nfts patch result: ', allNfts.data)
+
+  //   } catch (error) {
+  //     console.error(error) 
+  //   }
+  // }
+
+
+
+
 
   useEffect(() => {
-    getLendingsFromGraph()
+    // getLendingsFromGraph()
+    // handleLentNfts()
   }, [])
 
 
@@ -326,6 +398,9 @@ const TopSection = () => {
           Lend or rent NFT&#39;s to compete <br /> in NFT games across  <br /> the world.
           </p>
           <div className={styles.logoCaptionButtons}>
+          {/* <button onClick={handleUpdateNftStatus}>
+              heifa
+            </button> */}
             <button>
               {" "}
               <Link href="/marketplace-discover"> Rent</Link>{" "}

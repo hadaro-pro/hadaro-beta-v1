@@ -84,3 +84,52 @@
 
 }
 
+
+
+@media only screen and (max-width: 600px) {
+
+  .errorPart {
+    font-size: .85rem !important;
+  }
+
+  .modalContent {
+    // outline: 3px solid red;
+    margin-bottom: 3rem;
+
+    h4 {
+      color: #FFFFFF;
+      font-size: 1rem !important;
+      text-align: center;
+    }
+
+  }
+
+  .connectOptions {
+    // display: flex;
+    // padding: 1rem 1rem 1.2rem 1rem;
+    // border-bottom: 1px solid darken($color: #523E93, $amount: 10%);
+    img {
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+    }
+
+    span {
+      font-size: .9rem !important;
+      color: #FFFFFF;
+      font-weight: 700;
+      margin-left: 1.2rem !important;
+      cursor: pointer;
+    }
+
+    .unsupported {
+      font-size: .8rem !important;
+      margin-left: 1.1rem !important;
+      // outline: 3px solid slateblue;
+    }
+
+    .loadingPart {
+      margin-left: 1.2rem !important;
+      // outline: 3px solid slateblue;
+    }
+  }
+}

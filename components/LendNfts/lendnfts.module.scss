@@ -1,0 +1,163 @@
+.mainCover {
+  // outline: 3px solid red;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  padding: 1rem;
+  background: black;
+  transition: all 200ms ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 75%;
+  }
+
+  .imagePart {
+    width: 100%;
+    aspect-ratio: 1/1;
+    // outline: 3px solid black;
+    border-radius: 10px;
+  }
+
+  .mainPartLower {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center !important;
+
+    p {
+      color: white;
+      font-size: 1.15rem;
+      margin: 0 auto !important;
+    }
+
+    .bottomText {
+      color: white;
+      font-size: 1rem !important;
+      font-weight: 600;
+      margin: 0 auto !important;
+    }
+  }
+
+  .stopLendButton {
+    // outline: 3px solid red;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button {
+      outline: none;
+      border: none;
+      padding: .5rem 1rem;
+      width: fit-content;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #ffff;
+      background: #1809ff;
+      opacity: 90%;
+      border-radius: 10px;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 992px) {
+  .mainCover {
+    // outline: 3px solid red;
+    // width: 100%;
+    // border-radius: 10px;
+    // padding: 1rem;
+    // background: black;
+  
+    .imagePart {
+      width: 100%;
+      aspect-ratio: 1/1;
+    }
+  
+    .mainPartLower {
+  
+      p {
+        font-size: .9rem !important;
+      }
+  
+      .bottomText {
+        font-size: .8rem !important;
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .mainCover {
+    // outline: 3px solid red;
+    // width: 100%;
+    // border-radius: 10px;
+    // padding: 1rem;
+    // background: black;
+  
+    .imagePart {
+      width: 100%;
+      aspect-ratio: 1/1;
+    }
+  
+    .mainPartLower {
+  
+      p {
+        font-size: .8rem !important;
+      }
+  
+      .bottomText {
+        font-size: .7rem !important;
+      }
+    }
+  }
+
+  .stopLendButton {
+    // outline: 3px solid red;
+
+    button {
+      font-size: 9rem !important;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+  .mainCover {
+    // outline: 3px solid red;
+    // width: 100%;
+    // border-radius: 10px;
+    // padding: 1rem;
+    // background: black;
+  
+    .imagePart {
+      width: 100%;
+      aspect-ratio: 1/1;
+    }
+  
+    .mainPartLower {
+  
+      p {
+        // outline: 3px solid red;
+        font-size: .7rem !important;
+      }
+  
+      .bottomText {
+        //  outline: 3px solid red;
+        font-size: .6rem !important;
+      }
+    }
+    .stopLendButton {
+      // outline: 3px solid red;
+  
+      button {
+        font-size: .75rem !important;
+      }
+    }
+  }
+
+}

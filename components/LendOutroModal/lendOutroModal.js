@@ -144,7 +144,7 @@ const LendOutroModal = ({
   }
 
 
-  const sylvesterLend = async(transactionType, chain) => {
+  const sylvesterLend = async(transactionType, chain, status) => {
     const txn = await collateralFreeContract.lend(
       [nftStandard],
       [nftAddress],
@@ -169,6 +169,7 @@ const LendOutroModal = ({
     paymentToken: String(paymentToken),
     maxDuration: maxRentDuration,
     transactionType,
+    status,
     metadataName,
     metadataDesc,
     metadataImage,
@@ -221,6 +222,8 @@ const LendOutroModal = ({
 
       const transactionType = "lending";
 
+      const status = "available"
+
       const finalObject = {
         nftAddress,
         tokenID,
@@ -250,11 +253,11 @@ const LendOutroModal = ({
 
       if(nftStandard === 0) {
          await  requestApproval()
-         await sylvesterLend(transactionType, chain)
+         await sylvesterLend(transactionType, chain, status)
       } 
 
       if(nftStandard === 1) {
-       await sylvesterLend(transactionType, chain)
+       await sylvesterLend(transactionType, chain, status)
       }
 
 

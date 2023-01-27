@@ -224,6 +224,21 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
     window.scrollTo(0, 100);
   };
 
+  const handlePatch = async(identity, status, type) => {
+    try {
+           const allNfts = await axios.put(`/api/updateNftStatus`, {identity, status})
+
+      console.log('nfts patch result: ', allNfts.data)
+
+      const typeChange = await axios.put(`/api/updateNftData`, {iden, type})
+
+      console.log('nfts patch result: ', typeChange.data)
+
+    } catch (err) {
+      console.error(err) 
+    }
+  }
+
   const setNftStandard = (value) => {
     if (value === "ERC721") {
       return 0;
@@ -234,6 +249,27 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
   };
 
   // console.log("rental pd ", rentalPeriod);
+
+  const nftImageAggregating = (image) => {
+
+          let imageToDisplay
+        if (image.includes(".")) {
+          imageToDisplay = image;
+        } 
+        else {
+         imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + meta.image;
+        }
+
+       if(image?.includes("https://") || image?.includes("data:image/")) {
+          imageToDisplay = image;
+        } else {
+          let splicer =  image?.slice(7)
+          imageToDisplay =  "https://gateway.ipfscdn.io/ipfs/" + splicer;
+         
+        }
+
+        return imageToDisplay  
+  };
 
   const showTotalAmount = (value) => {
     // console.log("cyle ", value);
@@ -269,6 +305,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
 
 
   const handleCompleteRent = async() => {
+    try{
     // if(isConnected) {
     //   message.success('ride on')
     // } else {
@@ -286,6 +323,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
     const nftStandard = setNftStandard(toDisplayData?.nftStandard);
     const nftAddress = toDisplayData?.nftAddress;
     const tokenID = toDisplayData?.tokenID;
+    const identity = toDisplayData?._id;
     // const lendingID = "1"; // this information is pulled from the subgraph
     const rentDuration = rentalPeriod; // in days
     const rentAmount = 1;
@@ -323,11 +361,16 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
 
     // console.log(receipt);
 
-
-    message.success("rent success!");
+    if(receipt) {
+        await handlePatch(identity, "in rent", "renting")
+        message.success("rent success!");
+    }
     // console.log(finalObj)
 
   }
+} catch(e) {
+  console.error(error)
+}
 
 
   };
@@ -506,7 +549,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
               {itemsToDisplay?.map((item, index) => (
                 <div key={index}>
                   <ArtCard
-                    image={item.metadataImage}
+                    image={nftImageAggregating(item.metadataImage)}
                     title={item.metadataName}
                     collectionName={colName}
                     bidPrice={`${unpackPrice(item.price)}`}
