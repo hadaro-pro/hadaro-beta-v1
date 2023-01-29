@@ -448,6 +448,22 @@
 
 
 @media only screen and (max-width: 992px) {
+  
+.loadingPart {
+  // outline: 3px solid orangered;
+  width: 100%;
+  height: 30rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    color: #01C5BA;
+    font-weight: 600;
+    font-size: 1.5rem !important;
+    text-transform: uppercase;
+  }
+}
  .mainContainer {
   .caption {
     h1 {
@@ -471,6 +487,22 @@
 
 
 @media only screen and (max-width: 768px) {
+  
+.loadingPart {
+  // outline: 3px solid orangered;
+  width: 100%;
+  height: 30rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    color: #01C5BA;
+    font-weight: 600;
+    font-size: 1.15rem !important;
+    text-transform: uppercase;
+  }
+}
 
   .mainContainer {
     .caption {
@@ -753,6 +785,23 @@
 
 
 @media only screen and (max-width: 600px) {
+
+  
+.loadingPart {
+  // outline: 3px solid orangered;
+  width: 100%;
+  height: 30rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    color: #01C5BA;
+    font-weight: 600;
+    font-size: 1rem !important;
+    text-transform: uppercase;
+  }
+}
 
   .mainContainer {
     .caption {

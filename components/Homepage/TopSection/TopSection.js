@@ -13,6 +13,7 @@ import axios from 'axios'
 import { createClient } from 'urql'
 import { SYLVESTER_SUBGRAPH_URL } from '../../../creds' 
 import WalletConnect from "../../walletConnectModal/WalletConnect";
+import SearchModal from "../../SearchPart/SearchModal";
 import styles from "./topsection.module.scss";
 
 const TopSection = () => {
@@ -21,6 +22,9 @@ const TopSection = () => {
   const [openContactMenu, setOpenContactMenu] = useState(false);
   const [openMenuBar, setOpenMenuBar] = useState(null);
   const [displayNone, setDisplayNone] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [allNfts, setAllNfts] = useState([])
+  const [allCollections, setAllCollections] = useState([])
   // const [nftData, setNftData] = useState(null);
 
 
@@ -36,22 +40,15 @@ const TopSection = () => {
     setIsModalOpen(false);
   };
 
+  const showSearchModal = () => {
+    setIsSearchModalOpen(true);
+  };
 
-//   chain
-// : 
-// "0x1"
-// nftAddress
-// : 
-// "0x999e88075692bcee3dbc07e7e64cd32f39a1d3ab"
-// tokenID
-// : 
-// "30916"
-// transactionType
-// : 
-// "lending"
-// _id
-// : 
-// "Gmpr06aytYZWpyHoD2X9gX"
+  const handleSearchModalCancel = () => {
+    setIsSearchModalOpen(false);
+  };
+
+
 
 
 
@@ -98,6 +95,38 @@ const TopSection = () => {
 
       // console.log(result)
   }
+
+
+
+  const getAllCollections = async () => {
+    try {
+      const getAllCollections = await axios.get(`/api/fetchCollectionData`);
+      // console.log("cols", getAllCollections.data);
+      // getAllCollections.data.forEach((item) => {
+      //   allCollections.push(item)
+      // })
+
+      setAllCollections(getAllCollections.data)
+
+      
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const getAllNfts = async () => {
+    try {
+          const response = await axios.get(`/api/fetchAllNftsInCollection`)
+          const neededNfts = response.data.filter((item) => item.status !== "non-available")
+          // console.log("nfts", neededNfts);
+      setAllNfts(neededNfts)
+          // neededNfts.forEach((item) => {
+          //   allNfts.push(item)
+          // })
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
 
   // const handleLentNfts = async() => {
@@ -153,6 +182,8 @@ const TopSection = () => {
 
 
   useEffect(() => {
+    getAllCollections()
+    getAllNfts()
     // getLendingsFromGraph()
     // handleLentNfts()
   }, [])
@@ -199,6 +230,9 @@ const TopSection = () => {
   // useEffect(() => {
   //   getDataFromSanity()
   // }, [])
+
+
+
 
 
   const items = [
@@ -275,7 +309,16 @@ const TopSection = () => {
               </div>
               <p>
                 {" "}
-                <img src="/images/Search.png" alt="search" />{" "}
+                <img src="/images/Search.png" alt="search"  onClick={() => {
+                  showSearchModal()
+                  setOpenMenuBar(false)
+                }} />{" "}
+                 <SearchModal
+                    modalOpen={isSearchModalOpen}
+                    cancelModal={handleSearchModalCancel}
+                    collectionItems={allCollections}
+                    nftItems={allNfts}
+                  />
               </p>
               <p>
                 {isConnected ? (
@@ -461,7 +504,17 @@ const TopSection = () => {
               </div>
               <p>
                 {" "}
-                <img src="/images/Search.png" alt="search" />{" "}
+                <img src="/images/Search.png" alt="search" 
+                 onClick={() => {
+                  showSearchModal();
+                }}
+                />{" "}
+              <SearchModal
+                    modalOpen={isSearchModalOpen}
+                    cancelModal={handleSearchModalCancel}
+                    collectionItems={allCollections}
+                    nftItems={allNfts}
+                  />
               </p>
               <p>
                 {isConnected ? (

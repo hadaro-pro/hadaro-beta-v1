@@ -44,10 +44,10 @@ const CollectionItems = () => {
   const fetchCollectionNfts = async() => {
     try {
       setLoading(true)
-      const contractAddr = colAddress
+      const contractAddr = colAddress.toLowerCase()
 
       // console.log('contadrt: ', contractAddr)
-      const response = await axios.post(`/api/fetchAllNftsInCollection`, {contractAddr})
+      const response = await axios.post(`/api/fetchMainNftsInCollection`, {contractAddr})
 
   
       // const filterByContractAddr = response.data?.filter((item) => item.nftAddress.toLowerCase() === contractAddr.toLowerCase())

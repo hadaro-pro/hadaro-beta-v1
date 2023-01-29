@@ -67,6 +67,11 @@ export default {
       name: 'nftStandard',
       title: 'NFT Standard',
       type: 'string',
+    },
+    {
+      name: 'nftCollectionName',
+      title: 'NFT Collection Name',
+      type: 'string',
     }
   ]
 }

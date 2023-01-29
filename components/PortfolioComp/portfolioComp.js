@@ -241,7 +241,7 @@ const PortfolioComp = ({ walletConnectStatus, ownedNfts, loadingWallet, lendingN
       <div className={styles.caption} >
         <h1>PORTFOLIO</h1>
       </div>
-
+ 
       <div className={styles.mainComp} >
         <div  className={styles.mainCompInner} >
           <div className={styles.imgPart}>

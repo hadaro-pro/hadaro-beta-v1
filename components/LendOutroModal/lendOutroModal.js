@@ -6,10 +6,6 @@ import {
   useSigner,
   useSignMessage,
   useProvider,
-  usePrepareContractWrite,
-  useContractWrite,
-  useWaitForTransaction,
-  useContract,
   useConnect,
   erc721ABI,
   useNetwork
@@ -272,7 +268,10 @@ const LendOutroModal = ({
 
       removeLent(currentLendIndex);
     } catch (e) {
-      console.warn(e)
+      console.warn(e.message)
+      if (e.message[0] === 'u') {
+        message.error(e.message.slice(0, 25), [3])
+      }
       if (e === 'You do not own this NFT') {
         message.error('already lent')
       }

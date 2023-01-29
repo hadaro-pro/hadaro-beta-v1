@@ -17,7 +17,12 @@ export const allCollectionsQuery = () => {
     collectionName,
     collectionSymbol,
     chain,
-    collectionAddress
+    collectionImage{
+      asset->{
+        _id,
+        url
+      }
+    }
   }`
   return query
 }
@@ -53,7 +58,33 @@ export const allNftsByCollectionQuery = (contractAddr) => {
     metadataImage,
     metadataDesc,
     metadataName,
-    nftStandard
+    nftStandard,
+    nftCollectionName,
+  }`
+
+return query
+}
+
+
+
+
+export const allMainNftsByCollectionQuery = (contractAddr) => {
+  const query = `*[_type == "nftData" && nftAddress == "${contractAddr}"] {
+    _id,
+    nftAddress,
+    tokenID,
+    chain,
+    transactionType,
+    lenderAddress,
+    price,
+    status,
+    paymentToken,
+    maxDuration,
+    metadataImage,
+    metadataDesc,
+    metadataName,
+    nftStandard,
+    nftCollectionName,
   }`
 
 return query
@@ -76,6 +107,7 @@ export const allLendedNftsByAddressQuery = (lenderAddr) => {
     metadataDesc,
     metadataName,
     nftStandard,
+    nftCollectionName,
   }`
 return query
 }
@@ -96,6 +128,7 @@ export const allRentedNftsByAddressQuery = (lenderAddr) => {
     metadataDesc,
     metadataName,
     nftStandard,
+    nftCollectionName,
   }`
 return query
 }

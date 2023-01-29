@@ -181,6 +181,15 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
   
   };
 
+
+  const parseStandards = (value) => {
+    if(value === "0") {
+      return "E721"
+    }else if (value === "1") {
+      return "E1155"
+    }
+  }
+
   // console.log('kk', itemsToDisplay)
 
   const collectionDetails = useSelector((state) => state.collectionDetails);
@@ -228,11 +237,11 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
     try {
            const allNfts = await axios.put(`/api/updateNftStatus`, {identity, status})
 
-      console.log('nfts patch result: ', allNfts.data)
+      // console.log('nfts patch result: ', allNfts.data)
 
       const typeChange = await axios.put(`/api/updateNftData`, {iden, type})
 
-      console.log('nfts patch result: ', typeChange.data)
+      // console.log('nfts patch result: ', typeChange.data)
 
     } catch (err) {
       console.error(err) 
@@ -455,7 +464,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
           <div className={styles.infoContainer}>
             <div className={styles.infoImage}>
               <img
-                src={toDisplayData?.metadataImage}
+                src={nftImageAggregating(toDisplayData?.metadataImage)}
                 alt={toDisplayData?.metadataName}
               />
             </div>
@@ -470,7 +479,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
                   <h2> {toDisplayData?.metadataName} </h2>
                 </div>
                 <div className={styles.miniInfo}>
-                  <small> {toDisplayData?.nftStandard} </small>
+                  <small> {parseStandards(toDisplayData?.nftStandard)} </small>
                   <small> {addEllipsis(toDisplayData?.nftAddress)} </small>
                 </div>
                 <div className={styles.miniDesc}>
@@ -543,6 +552,10 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
           {loadingItems ? (
             <div className={styles.loadingPart}>
               <h1>{"Loading Items...."}</h1>
+            </div>
+          ) : itemsToDisplay?.length === 0 ?   (
+            <div className={styles.loadingPart}>
+              <h1> No items available for this collection😶... </h1>
             </div>
           ) : (
             <div className={styles.artPart}>

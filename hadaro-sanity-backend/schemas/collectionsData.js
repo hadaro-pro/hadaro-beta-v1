@@ -23,6 +23,19 @@ export default {
       title: 'Collection Address',
       type: 'string',
     },
+    {
+      name: 'collectionImage',
+      title: 'Collection Image',
+      type: 'image',
+      options: {
+        hotspot: true // <-- Defaults to false
+      },
+    },
+    {
+      name: 'collectionDesc',
+      title: 'Collection Description',
+      type: 'string',
+    }  
     // {
     //   name: 'collectionNfts',
     //   title: 'Collection NFTS',

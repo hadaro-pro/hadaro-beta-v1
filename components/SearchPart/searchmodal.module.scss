@@ -1,0 +1,769 @@
+.mainContainer {
+// width:  fit-content;
+// display: flex;
+// margin: 0 auto;
+width: 90vw !important;
+
+.notFound {
+  // outline: 3px solid orangered;
+  text-align: center;
+  color: #fff;
+  font-size: 2rem;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+  .searchPartForm {
+    margin-top: 2rem;
+    // outline: 3px solid red;
+    padding: 1rem;
+    // width: 100%;
+
+    input {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      font-size: 1.15rem;
+      color: #000;
+    }
+  }
+
+
+  .collectionsPart {
+    // outline: 3px solid green;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // font-size: 1em;
+
+    h1 {
+      color: #fff;
+      font-size: 1.5rem;
+    }
+
+    .collectionsPartItems {
+      // outline: 3px solid orange;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 2rem;
+
+      .collectionsPartItem {
+        // outline: 3px solid red;
+        // margin-left: 2rem;
+        border-radius: 5px;
+        padding: .5rem 1rem;
+        background: #000;
+        // width: 33%;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 200ms ease-in-out;
+        cursor: pointer;
+
+
+        &:hover {
+          opacity: 60%;
+        }
+
+        img {
+          // outline: 3px solid orange;
+          height: 5rem;
+          width: 5rem;
+          object-fit: cover;
+        }
+        small {
+          color: #fff;
+          font-size: 1rem;
+        }
+      }
+
+    }
+  }
+
+  .nftsPart {
+    // outline: 3px solid green;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+      color: #fff;
+      font-size: 1.5rem;
+    }
+
+    .nftPartItems {
+      // outline: 3px solid orange;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+
+      .nftPartItem {
+        // outline: 3px solid red;
+        border-radius: 5px;
+        padding: .7rem .8rem;
+        // width: 100%;
+        // aspect-ratio: 1/1.5;
+        // height: 30rem;
+        background: #000;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        transition: all 200ms ease-in-out;
+        cursor: pointer;
+
+
+        &:hover {
+          opacity: 60%;
+        }
+
+
+        img {
+          // outline: 3px solid orange;
+          width: 100%;
+          height: 90%;
+          // height: 5rem;
+          // width: 5rem;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+        small {
+          color: #fff;
+          font-size: .9rem; 
+        }
+
+        h5 {
+          color: #fff;
+          font-size: .85rem;
+          opacity: 60%;
+          margin-top: 1rem;
+        }
+        .nftPartBottom {
+          // outline: 3px solid red;
+          margin: .5rem;
+          border-top: 2px solid darken($color: #fff, $amount: 50%);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: .5rem .5rem 0 .5rem;
+
+          h4 {
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 500;
+            span {
+              opacity: 60%;
+            }
+          }
+
+
+          .nftStatus {
+            background: #1809ff;
+            font-size: .8rem;
+            color: #fff;
+            font-weight: 500;
+            padding: .2rem;
+            border-radius: 5px;
+          }
+
+        }
+      }
+
+    }
+  }
+
+
+  // .mainForm {
+  //   display: flex;
+  //   flex-direction: column;
+
+  //   h3 {
+  //     color: #fff;
+  //     font-size: 1rem;
+  //     text-align: center;
+  //   }
+
+  //   .mainFormOptions {
+  //     display: flex;
+  //     flex-direction: column;
+  //     margin-top: 1rem;
+
+  //     small {
+  //       color: #fff;
+  //       font-size: .75rem;
+  //       margin-bottom: .3rem;
+  //     }
+
+  //     input {
+  //       outline: none;
+  //       // outline: 2px solid lighten($color: #1809ff, $amount: 30%);
+  //       border: 2px solid  #fff;
+  //       border-radius: 5px;
+  //       color: #fff;
+  //       font-size: .85rem;
+  //       background: transparent;
+  //       width: 300px;
+  //       padding: .2rem .5rem .2rem .5rem;
+
+  //     }
+  //   }
+
+  //   button {
+  //     margin-top: 2rem;
+  //     background-image: linear-gradient(90deg, #56DF9E -2.19%, #707BFE 52.24%, #C86CFE 100%);
+  //     outline: none;
+  //     border: none;
+  //     padding: .5rem 1rem;
+  //     color: #fff;
+  //     font-size: 1rem;
+  //     font-weight: 600;
+  //     cursor: pointer;
+  //     transition: all 200ms ease-in-out;
+
+      
+  //     &:hover {
+  //       // padding: .6rem 1rem;
+  //       opacity: 80%;
+  //     }
+  //   }
+
+
+  // }
+
+  .closeMenu {
+    // outline: 3px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .closeIcon {
+      background-color: darken($color: #523E93, $amount: 10%);
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: gray;
+      transition: background-color 100ms ease-in-out;
+      // opacity: 80%;
+      &:hover {
+        background-color: darken($color: #523E93, $amount: 15%);
+        width: 3rem;
+        height: 3rem;
+        // font-size: 1.3rem;
+      }
+    } 
+  }
+}
+
+
+
+@media only screen and (max-width: 768px) {
+
+  .mainContainer {
+    // width:  fit-content;
+    // display: flex;
+    // margin: 0 auto;
+    width: 90vw !important;
+
+    .notFound {
+      // outline: 3px solid orangered;
+      text-align: center;
+      color: #fff;
+      font-size: 1.2rem !important;
+      height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .searchPartForm {
+    // outline: 3px solid red;
+    padding: .9rem !important;
+
+    input {
+      padding: .85rem !important;
+      font-size: .9rem !important;
+      color: #000;
+    }
+  }
+  .collectionsPart {
+    // outline: 3px solid green;
+
+    h1 {
+      color: #fff;
+      font-size: 1.1rem !important;
+    }
+
+    .collectionsPartItems {
+
+      // width: 90%;
+      // outline: 3px solid orange;
+      grid-template-columns: repeat(4, 1fr) !important;
+
+      .collectionsPartItem {
+        // outline: 3px solid red;
+
+        img {
+          // outline: 3px solid orange;
+          height: 3.5rem !important;
+          width: 3.5rem !important;
+        }
+        small {
+          font-size: .8rem !important;
+        }
+      }
+
+    }
+  }
+
+  .nftsPart {
+    // outline: 3px solid green;
+
+    h1 {
+      color: #fff;
+      font-size: 1.1rem !important;
+    }
+
+    .nftPartItems {
+      // outline: 3px solid orange;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 1rem !important;
+
+      .nftPartItem {
+        // outline: 3px solid red;
+
+        // img {
+        //   // outline: 3px solid orange;
+        //   height: 3.5rem;
+        //   width: 3.5rem;
+        // }
+        small {
+          font-size: .8rem !important;
+        }
+
+        h5 {
+          color: #fff;
+          font-size: .75rem !important;
+          opacity: 60%;
+          margin-top: 1rem;
+        }
+        .nftPartBottom {
+          // outline: 3px solid red;
+          margin: .5rem;
+          border-top: 2px solid darken($color: #fff, $amount: 50%);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: .5rem .25rem 0 .25rem;
+
+          h4 {
+            color: #fff;
+            font-size: .9rem !important;
+            font-weight: 500;
+            span {
+              opacity: 60%;
+            }
+          }
+
+
+          .nftStatus {
+            background: #1809ff;
+            font-size: .75rem !important;
+            color: #fff;
+            font-weight: 500;
+            padding: .2rem;
+            border-radius: 5px;
+          }
+
+        }
+      }
+
+    }
+  }
+}
+
+
+
+@media only screen and (max-width: 600px) {
+  .mainContainer {
+    // width:  fit-content;
+    // display: flex;
+    // margin: 0 auto;
+    width: 90vw !important;
+    .notFound {
+      // outline: 3px solid orangered;
+      text-align: center;
+      color: #fff;
+      font-size: 1rem !important;
+      height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .searchPartForm {
+    // outline: 3px solid red;
+    padding: .85rem !important;
+
+    input {
+      padding: .8rem !important;
+      font-size: .8rem !important;
+    }
+  }
+  .collectionsPart {
+    // outline: 3px solid green;
+
+    h1 {
+      font-size: 1rem !important;
+    }
+
+    .collectionsPartItems {
+      // outline: 3px solid orange;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 1rem;
+
+      .collectionsPartItem {
+        // outline: 3px solid red;
+
+        img {
+          // outline: 3px solid orange;
+          height: 2.5rem !important;
+          width: 2.5rem !important;
+        }
+        small {
+          font-size: .7rem !important;
+        }
+      }
+
+    }
+  }
+
+
+  .nftsPart {
+    // outline: 3px solid green;
+
+    h1 {
+      font-size: 1rem !important;
+    }
+
+    .nftPartItems {
+      // outline: 3px solid orange;
+      grid-template-columns: repeat(1, 1fr) !important;
+      gap: 1.5rem !important;
+
+      .nftPartItem {
+        // outline: 3px solid red;
+
+        // img {
+        //   // outline: 3px solid orange;
+        //   height: 2.5rem;
+        //   width: 2.5rem;
+        // }
+        small {
+          font-size: .7rem !important;
+        }
+
+        
+        img {
+          // outline: 3px solid orange;
+          width: 100%;
+          height: 90%;
+          // height: 5rem;
+          // width: 5rem;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+
+        h5 {
+          color: #fff;
+          font-size: .7rem !important;
+          opacity: 60%;
+          margin-top: 1rem;
+        }
+        .nftPartBottom {
+          // outline: 3px solid red;
+          margin: .5rem;
+          border-top: 2px solid darken($color: #fff, $amount: 50%);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: .5rem .5rem 0 .5rem;
+
+          h4 {
+            color: #fff;
+            font-size: .9rem !important;
+          }
+
+
+          .nftStatus {
+            background: #1809ff;
+            font-size: .65rem !important;
+          }
+
+        }
+      }
+
+    }
+  }
+
+  
+
+}
+
+
+
+@media only screen and (max-width: 1200px) {
+
+  .searchPartForm {
+    // outline: 3px solid red;
+    padding: .9rem;
+
+    input {
+      padding: .85rem;
+      font-size: .9rem;
+      color: #000;
+    }
+  }
+  .collectionsPart {
+    // outline: 3px solid green;
+
+    h1 {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .collectionsPartItems {
+      // outline: 3px solid orange;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1rem; 
+
+      .collectionsPartItem {
+        // outline: 3px solid red;
+
+        img {
+          // outline: 3px solid orange;
+          height: 5rem;
+          width: 5rem;
+        }
+        small {
+          font-size: .9rem;
+        }
+      }
+
+    }
+  }
+
+  .nftsPart {
+    // outline: 3px solid green;
+
+    h1 {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .nftPartItems {
+      // outline: 3px solid orange;
+
+      .nftPartItem {
+        // outline: 3px solid red;
+
+        // img {
+        //   // outline: 3px solid orange;
+        //   height: 3.5rem;
+        //   width: 3.5rem;
+        // }
+        small {
+          font-size: .85rem;
+        }
+
+        h5 {
+          color: #fff;
+          font-size: .85rem;
+          opacity: 60%;
+          margin-top: 1rem;
+        }
+        .nftPartBottom {
+          // outline: 3px solid red;
+          margin: .5rem;
+          border-top: 2px solid darken($color: #fff, $amount: 50%);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: .5rem .5rem 0 .5rem;
+
+          h4 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            span {
+              opacity: 60%;
+            }
+          }
+
+
+          .nftStatus {
+            background: #1809ff;
+            font-size: .75rem;
+            color: #fff;
+            font-weight: 500;
+            padding: .2rem;
+            border-radius: 5px;
+          }
+
+        }
+      }
+
+    }
+  }
+}
+
+@media only screen and (max-width: 992px) {
+
+  .mainContainer {
+    // width:  fit-content;
+    // display: flex;
+    // margin: 0 auto;
+    width: 90vw !important;
+
+
+    .notFound {
+      // outline: 3px solid orangered;
+      text-align: center;
+      color: #fff;
+      font-size: 1.5rem;
+      height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .searchPartForm {
+    // outline: 3px solid red;
+    padding: .9rem !important;
+
+    input {
+      padding: .85rem !important;
+      font-size: .9rem !important;
+      color: #000;
+    }
+  }
+  .collectionsPart {
+    // outline: 3px solid green;
+
+    h1 {
+      color: #fff;
+      font-size: 1.2rem !important;
+    }
+
+    .collectionsPartItems {
+      // outline: 3px solid orange;
+      display: grid;
+      // grid-template-columns: repeat(5, 1fr) !important;
+      gap: 1rem; 
+
+      .collectionsPartItem {
+        // outline: 3px solid red;
+
+        img {
+          // outline: 3px solid orange;
+          height: 4.5rem !important;
+          width: 4.5rem !important;
+        }
+        small {
+          font-size: .85rem !important;
+        }
+      }
+
+    }
+  }
+
+  .nftsPart {
+    // outline: 3px solid green;
+
+    h1 {
+      color: #fff;
+      font-size: 1.2rem !important;
+    }
+
+    .nftPartItems {
+      // outline: 3px solid orange;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem !important;
+
+      .nftPartItem {
+        // outline: 3px solid red;
+
+        // img {
+        //   // outline: 3px solid orange;
+        //   height: 3.5rem;
+        //   width: 3.5rem;
+        // }
+        small {
+          font-size: .8rem !important; 
+        }
+
+        h5 {
+          color: #fff;
+          font-size: .8rem !important;
+          opacity: 60%;
+          margin-top: 1rem;
+        }
+        .nftPartBottom {
+          // outline: 3px solid red;
+          margin: .5rem;
+          border-top: 2px solid darken($color: #fff, $amount: 50%);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: .5rem .25rem 0 .25rem;
+
+          h4 {
+            color: #fff;
+            font-size: .9rem !important;
+            font-weight: 500;
+            span {
+              opacity: 60%;
+            }
+          }
+
+
+          .nftStatus {
+            background: #1809ff;
+            font-size: .75rem !important;
+            color: #fff;
+            font-weight: 500;
+            padding: .2rem;
+            border-radius: 5px;
+          }
+
+        }
+      }
+
+    }
+  }
+}
