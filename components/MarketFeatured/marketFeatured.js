@@ -56,10 +56,12 @@ const MarketFeatured = ({
           <div className={styles.loadingPart}>
             <h1>{"Loading Collections...."}</h1>
           </div>
-        ) : (
+        ) : storeCollections?.length === 0 ?  <div className={styles.loadingPart}>
+        <h1>No Collections available yet😫...</h1>
+      </div> : (
           <div className={styles.artPart}>
             {storeCollections?.map((element, index) => {
-              const singleImage = collectionItemDetails?.itemsArr[index]
+              // const singleImage = collectionItemDetails?.itemsArr[index]
               // console.log('leggo', singleImage)
               return (
                 <div
@@ -69,8 +71,7 @@ const MarketFeatured = ({
                   }}
                 >
                   <CollectionCard
-                    posterImage={collectionItemDetails?.itemsArr
-                      [index]?.metaImg}
+                    posterImage={element.collectionImage}
                     collectionTitle={element.collectionName}
                   />
                 </div>

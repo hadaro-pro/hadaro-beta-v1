@@ -63,46 +63,46 @@ const MarketplaceFeatured = () => {
    setCollections(data)
 
  
-   data?.forEach(async(el) => {
-    // console.log('el: ',el.collectionAddress)
-    const contractAddr = el?.collectionAddress
-         const getFirstNft = await axios.post(`/api/fetchSingleNft`, {contractAddr})
+  //  data?.forEach(async(el) => {
+  //   // console.log('el: ',el.collectionAddress)
+  //   const contractAddr = el?.collectionAddress
+  //        const getFirstNft = await axios.post(`/api/fetchSingleNft`, {contractAddr})
    
-      // console.log('nftdets', getFirstNft?.data)
+  //     // console.log('nftdets', getFirstNft?.data)
    
-      const nftImage = await extractMetaData(getFirstNft?.data)
+  //     const nftImage = await extractMetaData(getFirstNft?.data)
 
-      // console.log('nftimageMeta: ', nftImage?.data?.metadata?.image)
+  //     // console.log('nftimageMeta: ', nftImage?.data?.metadata?.image)
 
-      // console.log('xr', nftImage)
+  //     // console.log('xr', nftImage)
 
-      let image = nftImage?.data?.metadata?.image
+  //     let image = nftImage?.data?.metadata?.image
 
-      // console.log('xr', image)
+  //     // console.log('xr', image)
  
 
-      let metaImg = ''
+  //     let metaImg = ''
 
-      if(image?.includes(".")) {
-        metaImg = image
-      } else {
-        metaImg =  "https://ipfs.moralis.io:2053/ipfs/" + image;
-      }
+  //     if(image?.includes(".")) {
+  //       metaImg = image
+  //     } else {
+  //       metaImg =  "https://ipfs.moralis.io:2053/ipfs/" + image;
+  //     }
 
 
-      if(image?.includes("https://") || image?.includes("data:image/")) {
-        metaImg = image;
-      } else {
-        let splicer =  image?.slice(7)
-        metaImg =  "https://gateway.ipfscdn.io/ipfs/" + splicer;
+  //     if(image?.includes("https://") || image?.includes("data:image/")) {
+  //       metaImg = image;
+  //     } else {
+  //       let splicer =  image?.slice(7)
+  //       metaImg =  "https://gateway.ipfscdn.io/ipfs/" + splicer;
        
-      }
+  //     }
       
-      // console.log('metaIbh: ', metaImg)
+  //     // console.log('metaIbh: ', metaImg)
 
-      // singleCollectionDetails.push({parsedImage: metaImg})
-      mainArrItems.push({metaImg})
-   } )
+  //     // singleCollectionDetails.push({parsedImage: metaImg})
+  //     mainArrItems.push({metaImg})
+  //  } )
 
 
 

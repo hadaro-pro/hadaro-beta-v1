@@ -10,22 +10,37 @@ export const allNftDataQuery = () => {
   return query
 }
 
+// export const allCollectionsQuery = () => {
+//   const query = `*[_type == "collectionsData"] {
+//     _id,
+//     collectionAddress,
+//     collectionName,
+//     collectionSymbol,
+//     chain,
+//     collectionImage{
+//       asset->{
+//         _id,
+//         url
+//       }
+//     }
+//   }`
+//   return query
+// }
+
+
 export const allCollectionsQuery = () => {
-  const query = `*[_type == "collectionsData"] {
+  const query = `*[_type == "freshcollectionsData"] {
     _id,
     collectionAddress,
     collectionName,
     collectionSymbol,
     chain,
-    collectionImage{
-      asset->{
-        _id,
-        url
-      }
-    }
+    collectionImage,
+    collectionDesc
   }`
   return query
 }
+
 
   export const firstNftByCollectionQuery = (contractAddr) => {
     const query = `*[_type == "nftData" 

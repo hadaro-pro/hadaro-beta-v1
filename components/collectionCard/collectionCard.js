@@ -13,12 +13,8 @@ const CollectionCard = ({ posterImage, collectionTitle  }) => {
     <div className={styles.mainContainer}>
       <div className={styles.imageContainer}>
       <img 
-              onError={(e) =>
-                e.target.src = "/images/no-image-placeholder.png" 
-              }
-              src={   posterImage === null  || undefined ? "/images/no-image-placeholder.png" :  posterImage ? posterImage : posterImage === null || undefined ? "/images/no-image-placeholder.png" : ""}
-              //  src={posterImage}
-                 />
+       src={posterImage}  
+       />
       </div>
       <div className={styles.titleContainer} >
       <h3> {collectionTitle} </h3>

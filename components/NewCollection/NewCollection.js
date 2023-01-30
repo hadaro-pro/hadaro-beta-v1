@@ -3,13 +3,18 @@ import styles from "./newCollection.module.scss";
 import ReCAPTCHA from "react-google-recaptcha";
 import axios from 'axios'
 import { useAccount, useConnect, useSigner, useProvider, erc721ABI } from "wagmi";
+import { client } from "../../utils/client";
 import { message } from "antd";
 
 const NewCollectionComp = () => {
+  const [loading, setLoading] = useState(false)
   const [captchaSorted, setCaptchaSorted] = useState(true);
   const [imageFile, setImageFile] = useState(null);
+  const [imageAsset, setImageAsset] = useState(null)
+  const [wrongImageType, setWrongImageType] = useState(false)
   const [chain, setChain] = useState("0x1")
   const [collectionName, setCollectionName] = useState("");
+  const [collectionSymbol, setCollectionSymbol] = useState("");
   const [contractAddr, setcontractAddr] = useState("");
   const [collectionDesc, setCollectionDesc] = useState("")
   
@@ -19,18 +24,48 @@ const NewCollectionComp = () => {
 
 
   if (imageFile !== null) {
-    // console.log(imageFile[0]?.name)
+    // console.log('sfx', imageFile)
   }
   
+
+  if (imageAsset !== null) {
+    // console.log('sfxazx', imageAsset)
+  }
+
   const key = '6LcutQ8kAAAAAIhv8K59NJVYPKEKFiJ7UOzntM14'
+
+  const uploadImage = async(e) => {
+    const selectedFile = e.target.files[0]
+    // console.log('seas', selectedFile)
+    const fileTypes = ['image/jpeg', 'image/png', 'image/svg']
+
+    if(fileTypes.includes(selectedFile.type)) {
+        client.assets.upload('image', selectedFile, {
+          contentType: selectedFile.type,
+          filename: selectedFile.name,
+        })
+        .then((data) => {
+          setImageAsset(data)
+          message.info('image upload success')
+        })
+    } else {
+      message.error('unsupported image type!')
+    }
+}
 
 
   const handleSubmit = async() => {
 
+
+    setLoading(true)
   
     const document = {
-      _type: "pendingCollectionData",
-      
+      _type: "freshcollectionsData",
+      collectionName: collectionName,
+      collectionSymbol: collectionSymbol,
+      collectionAddress: contractAddr,
+      collectionImage: imageAsset?.url,
+      collectionDesc: collectionDesc
     }
 
 
@@ -54,22 +89,31 @@ const NewCollectionComp = () => {
           collectionNfts.push(res[index]?.token_address)
         }
   
-        //  console.log(response.data.result)
+        //  console.log('ehad',collectionNfts)
   
-        if(collectionNfts.includes(contractAddr)) {
-          message.success('submission success! pending verification')
-        } else {
+        if(!collectionNfts.includes(contractAddr.toLowerCase())) {
           message.error('You are not the NFT collection owner!')
+          setLoading(false)
+        } else {
+          const sendData = await axios.post(`/api/postFreshCollectionData`, document);
+
+          // console.log(sendData.data);
+          if (sendData.data) {
+            message.info('Your submission is pending verification')
+          }
+  
+          setImageAsset(null)
+          setCollectionName("")
+          setCollectionDesc("")
+          setCollectionSymbol("")
+          setcontractAddr("")
+          message.success('Your submission has been verified')
         }
-
-        const sendData = await axios.post(`/api/postPendingCollectionData`, document);
-
-        // console.log(sendData.data);
-
       }
-
+      setLoading(false)     
     } catch(e) {
       console.error(e)
+      setLoading(false)
     }
   }
 
@@ -97,13 +141,19 @@ const NewCollectionComp = () => {
                 <h3>Contract Address</h3>
                 <input type="text"  value={contractAddr} onChange={(e) => setcontractAddr(e.target.value)} />
               </div>
+              <div className={styles.formUpperNameFill}>
+                <h3>Token Symbol</h3>
+                <input type="text"  value={collectionSymbol} onChange={(e) => setCollectionSymbol(e.target.value)} />
+              </div>
             </div>
             <div className={styles.formUpperImageUpload}>
               <div className={styles.formUpperImageContainer}>
                 <label className={styles.formUpperImageDiv}  htmlFor="imagefiles" >
-                { imageFile !== null ? <img src={`${URL.createObjectURL(imageFile)}`} alt="image"   className={styles.imgUpload} />  : <img src="/images/cross.png" alt="image"  />}
+                { imageAsset !== null ? <img src={imageAsset?.url} alt="image"   className={styles.imgUpload} />  : <img src="/images/cross.png" alt="image"  />}
                 </label>
-                <input id="imagefiles" type="file" accept="image/png, image/jpeg, image/svg"   onChange={(e) => setImageFile(e.target.files[0])} />
+                <input id="imagefiles" type="file"   onChange={(e) => {setImageFile(e.target.files[0])
+                uploadImage(e)
+                }} />
                 <h2>Upload cover image</h2>
               </div>
             </div>
@@ -118,7 +168,13 @@ const NewCollectionComp = () => {
             </div>
           </div>
           <div className={styles.formButtonPart}>
-         { captchaSorted === true ?  <button onClick={() => {handleSubmit()}}>Submit</button> : <button 
+         { captchaSorted === true ?  <button onClick={() => { 
+            if(isConnected) {
+              handleSubmit()
+            } else{
+              message.error('Connect your wallet to continue!')
+            }
+          }}> {loading ? 'Processing' : 'Submit'}</button> : <button 
            disabled={true}>Submit</button>
 }          </div> 
         </div>
