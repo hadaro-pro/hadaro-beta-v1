@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import { message } from "antd";
 import axios from "axios";
 import styles from "./nftcomp.module.scss";
@@ -10,8 +11,12 @@ const NftDisplayComp = ({
   chain,
   selectedNFTsArray,
   closeModal,
+  verifiedCollectionsArr
 }) => {
 
+  const router = useRouter()
+
+  // console.log('bracka', verifiedCollectionsArr)
 
   const convertMetadata = (index) => {
     let meta = JSON.parse(nfts[index].metadata)
@@ -19,24 +24,31 @@ const NftDisplayComp = ({
   }
 
   const performPush = (item) => {
-    let consensus = []
-    selectedNFTsArray.forEach((el) => {
-       if(el.block_number === item.block_number) {
-         consensus.push(true)
-       } else {
-        consensus.push(false)
-       }
-    })
 
-    if (consensus.includes(true)) {
-      message.error('NFT already uploaded')
-     }  else {
-        selectedNFTsArray.push(item)
-        message.success("NFT uploaded successfully!");
-         closeModal();
-      }
 
-     
+    if(verifiedCollectionsArr.includes(item.token_address.toLowerCase())) {
+      let consensus = []
+      selectedNFTsArray.forEach((el) => {
+         if(el.block_number === item.block_number) {
+           consensus.push(true)
+         } else {
+          consensus.push(false)
+         }
+      })
+  
+      if (consensus.includes(true)) {
+        message.error('NFT already uploaded')
+       }  else {
+          selectedNFTsArray.push(item)
+          message.success("NFT uploaded successfully!");
+           closeModal();
+        }
+    } else {
+      message.info('Your NFT belongs to a collection not yet verified, redirecting you to the verification page',[5])
+    
+      setTimeout(() =>  router.push('/new-collection'), 5500)
+ 
+    }
   }
 
   return (

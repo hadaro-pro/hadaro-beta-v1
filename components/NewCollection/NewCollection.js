@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import styles from "./newCollection.module.scss";
 import ReCAPTCHA from "react-google-recaptcha";
 import axios from 'axios'
@@ -19,6 +20,7 @@ const NewCollectionComp = () => {
   const [collectionDesc, setCollectionDesc] = useState("")
   
 
+  const router = useRouter()
 
   const { address,isConnected } = useAccount();
 
@@ -110,7 +112,8 @@ const NewCollectionComp = () => {
           message.success('Your submission has been verified')
         }
       }
-      setLoading(false)     
+      setLoading(false)   
+      router.push('/lend-portfolio')  
     } catch(e) {
       console.error(e)
       setLoading(false)
@@ -154,7 +157,7 @@ const NewCollectionComp = () => {
                 <input id="imagefiles" type="file"   onChange={(e) => {setImageFile(e.target.files[0])
                 uploadImage(e)
                 }} />
-                <h2>Upload cover image</h2>
+                <h2>official image upload</h2>
               </div>
             </div>
           </div>

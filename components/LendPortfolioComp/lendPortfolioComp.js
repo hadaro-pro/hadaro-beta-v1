@@ -10,8 +10,11 @@ import ToogleNetwork from "../ToggleNetwork/toogleNetwork";
 import LendModal from "../LendModal/lendmodal";
 import LendOutroModal from "../LendOutroModal/lendOutroModal";
 
-const LendPortfolioComp = () => {
+const LendPortfolioComp = ({ verifiedCollections }) => {
 
+
+
+  // console.log('bracka', verifiedCollections)
 
   
 
@@ -54,6 +57,7 @@ const LendPortfolioComp = () => {
   const [isLendModalOpen, setIsLendModalOpen] = useState(false);
   const [isOutroModalOpen, setIsOutroModalOpen] = useState(false);
   const [openOutroModalOpen, setOpenOutroModalOpen] = useState(false)
+
  
 
 
@@ -179,32 +183,7 @@ const LendPortfolioComp = () => {
     }
   };
 
-  // const nftStandard = 0;
-  // const nftAddress = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab";
-  // const tokenID = "30916";
-  // const lendingID = "779";
 
-
-
-  // const handleStopLend = async () => {
-  //   const res = unpackPrice(0x00000003)
-  //   console.log('unp: ', res)
-  //   try{
-  //    const txn = await collateralFreeContract.stopLending(
-  //       [nftStandard],
-  //       [nftAddress],
-  //       [tokenID],
-  //       [lendingID],
-  //     );
-
-  //     const receipt = await txn.wait()
-
-  //  console.log(receipt);
-
-  //   } catch(e) {
-  //     console.warn(e)
-  //   }
-  // }
 
   const createId = (value) => {
     const result = value.replace(/([^\w ]|_)/g, '').split(" ").join("-").toLowerCase()
@@ -328,6 +307,12 @@ const LendPortfolioComp = () => {
 
   }
 
+// console.log('xama', verifiedCollectionsArray)
+
+//   useEffect(() => {
+//  getAllCollections()
+//   }, [])
+
 
   return (
     <div className={styles.mainContainer}>
@@ -443,6 +428,7 @@ const LendPortfolioComp = () => {
                                 nfts={nfts}
                                 selectedNFTsArray={selectedNFTs}
                                 closeModal={handleCancel}
+                                verifiedCollectionsArr={verifiedCollections}
                                 // wallet={wallet}
                                 // chain={chain}
                                 //  setNfts={setNfts}

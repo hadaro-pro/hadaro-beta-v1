@@ -32,6 +32,11 @@ export default {
       name: 'collectionDesc',
       title: 'Collection Description',
       type: 'string',
+    }, 
+    {
+      name: 'status',
+      title: 'Verification Status',
+      type: 'string',
     }  
     // {
     //   name: 'collectionNfts',
