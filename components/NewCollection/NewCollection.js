@@ -7,7 +7,7 @@ import { useAccount, useConnect, useSigner, useProvider, erc721ABI } from "wagmi
 import { client } from "../../utils/client";
 import { message } from "antd";
 
-const NewCollectionComp = () => {
+const NewCollectionComp = ({ inHouseCollections }) => {
   const [loading, setLoading] = useState(false)
   const [captchaSorted, setCaptchaSorted] = useState(true);
   const [imageFile, setImageFile] = useState(null);
@@ -23,6 +23,8 @@ const NewCollectionComp = () => {
   const router = useRouter()
 
   const { address,isConnected } = useAccount();
+
+  //  console.log('bracka', inHouseCollections)
 
 
   if (imageFile !== null) {
@@ -67,53 +69,60 @@ const NewCollectionComp = () => {
       collectionSymbol: collectionSymbol,
       collectionAddress: contractAddr,
       collectionImage: imageAsset?.url,
-      collectionDesc: collectionDesc
+      collectionDesc: collectionDesc,
+      status: 'pending',
     }
 
 
     let  collectionNfts = []  
     try {
 
-      if(imageFile === null || collectionName === "" || collectionDesc === "" || contractAddr === "" ) {
-        message.error('All form fields must be filled and image uploaded')
+      if(inHouseCollections.includes(contractAddr.toLowerCase())) {
+        message.warn('This collection already exists in our database!')
       } else {
-        const response = await axios.get("/api/get-nft-owner-collections", {
-          params: {
-            walletaddr: address,
-            // walletaddr: wallet,
-            chain: chain,
-          },
-        }); 
-  
-        const res = response.data.result
-  
-        for(let index = 0; index <= res.length; index++) {
-          collectionNfts.push(res[index]?.token_address)
-        }
-  
-        //  console.log('ehad',collectionNfts)
-  
-        if(!collectionNfts.includes(contractAddr.toLowerCase())) {
-          message.error('You are not the NFT collection owner!')
-          setLoading(false)
+        if(imageFile === null || collectionName === "" || collectionDesc === "" || contractAddr === "" ) {
+          message.error('All form fields must be filled and image uploaded')
         } else {
-          const sendData = await axios.post(`/api/postFreshCollectionData`, document);
-
-          // console.log(sendData.data);
-          if (sendData.data) {
-            message.info('Your submission is pending verification')
+          const response = await axios.get("/api/get-nft-owner-collections", {
+            params: {
+              walletaddr: address,
+              // walletaddr: wallet,
+              chain: chain,
+            },
+          }); 
+    
+          const res = response.data.result
+    
+          for(let index = 0; index <= res.length; index++) {
+            collectionNfts.push(res[index]?.token_address)
           }
+    
+          //  console.log('ehad',collectionNfts)
+    
+          if(!collectionNfts.includes(contractAddr.toLowerCase())) {
+            message.error('You are not the NFT collection owner!')
+            setLoading(false)
+          } else {
+            const sendData = await axios.post(`/api/postFreshCollectionData`, document);
   
-          setImageAsset(null)
-          setCollectionName("")
-          setCollectionDesc("")
-          setCollectionSymbol("")
-          setcontractAddr("")
-          message.success('Your submission has been verified')
+            // console.log(sendData.data);
+            if (sendData.data) {
+              message.info('Your submission is pending verification')
+            }
+    
+            setImageAsset(null)
+            setCollectionName("")
+            setCollectionDesc("")
+            setCollectionSymbol("")
+            setcontractAddr("")
+            // message.success('Your submission has been verified')
+            setLoading(false)   
+            router.push('/')  
+          }
         }
+        
       }
-      setLoading(false)   
-      router.push('/lend-portfolio')  
+
     } catch(e) {
       console.error(e)
       setLoading(false)

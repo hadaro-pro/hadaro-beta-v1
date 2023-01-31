@@ -5,39 +5,26 @@ import { client } from "../../utils/client"
 
 
 export default async function handler(req, res) {
-   
-    
-  try {
-     
-     const { collectionId } = req.params
-     const document = req.body
 
 
-  const rest = await  client
-  .patch(`'${collectionId}'`)
-  // Ensure that the `reviews` arrays exists before attempting to add items to it
-  .setIfMissing({collectit: []})
-  // Add the items after the last item in the array (append)
-  .insert('after', 'collectit[-1]', [{title: 'Great bike!', stars: 5}])
-  .commit({
-    // Adds a `_key` attribute to array items, unique within the array, to
-    // ensure it can be addressed uniquely in a real-time collaboration context
-    autoGenerateArrayKeys: true,
+
+  
+  const { iden, status } = req.body
+
+
+  client
+.patch(iden) // Document ID to patch
+.set({"status": status}) // Shallow merge
+.commit() // Perform the patch and return a promise
+.then((updatedDoc) => {
+  return  res.status(200).json({
+    status: 'success',
+    msg: updatedDoc
   })
-
-
-  // const resu = await client
-  //   .patch(collectionId)
-  //   .setIfMissing({collectionNfts: []})
-  //   .append('collectionNfts', [document])
-  //   .commit({autoGenerateArrayKeys: true})
-    
-     
-      
-      return res.json(rest)
-  } catch(err) {
-      res.send(err)
-  }
+})
+.catch((err) => {
+ res.send(err)
+})
 } 
 
  

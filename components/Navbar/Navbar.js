@@ -128,7 +128,11 @@ const Navbar = ({}) => {
                 {" "}
                 <Link href="/mission">Mission</Link>{" "}
               </p>
-              <div
+              <p>
+                {" "}
+                <Link href="/portfolio">Portfolio</Link>{" "}
+              </p>
+              {/* <div
                 onMouseEnter={() => setOpenLendMenu(true)}
                 onMouseLeave={() => setOpenLendMenu(false)}
                 onClick={() => setOpenLendMenu((prev) => !prev)}
@@ -146,7 +150,7 @@ const Navbar = ({}) => {
                   {" "}
                   <Link href="/lend-portfolio"> Portfolio </Link>{" "}
                 </small>
-              </div>
+              </div> */}
               <p>
                 {" "}
                 <Link href="/marketplace-discover"> Explore </Link>
@@ -218,7 +222,11 @@ const Navbar = ({}) => {
                 {" "}
                 <Link href="/mission">Mission</Link>{" "}
               </p>
-              <div
+              <p>
+                {" "}
+                <Link href="/portfolio">Portfolio</Link>{" "}
+              </p>
+              {/* <div
                 onMouseEnter={() => setOpenLendMenu(true)}
                 onMouseLeave={() => setOpenLendMenu(false)}
                 onClick={() => setOpenLendMenu((prev) => !prev)}
@@ -236,7 +244,7 @@ const Navbar = ({}) => {
                   {" "}
                   <Link href="/lend-portfolio"> Portfolio </Link>{" "}
                 </small>
-              </div>
+              </div> */}
               <p>
                 {" "}
                 <Link href="/marketplace-discover"> Explore </Link>
@@ -316,7 +324,11 @@ const Navbar = ({}) => {
                   {" "}
                   <Link href="/mission">Mission</Link>{" "}
                 </p>
-                <div
+                <p>
+                {" "}
+                <Link href="/portfolio">Portfolio</Link>{" "}
+              </p>
+                {/* <div
                   onMouseEnter={() => setOpenLendMenu(true)}
                   onMouseLeave={() => setOpenLendMenu(false)}
                   onClick={() => setOpenLendMenu((prev) => !prev)}
@@ -334,7 +346,7 @@ const Navbar = ({}) => {
                     {" "}
                     <Link href="/lend-portfolio"> Portfolio </Link>{" "}
                   </small>
-                </div>
+                </div> */}
                 <p>
                   {" "}
                   <Link href="/marketplace-discover"> Explore </Link>

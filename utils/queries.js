@@ -36,7 +36,23 @@ export const allCollectionsQuery = () => {
     collectionSymbol,
     chain,
     collectionImage,
-    collectionDesc
+    collectionDesc,
+    status
+  }`
+  return query
+}
+
+
+export const statusOfCollectionsQuery = (status) => {
+  const query = `*[_type == "freshcollectionsData" && status == '${status}'] {
+    _id,
+    collectionAddress,
+    collectionName,
+    collectionSymbol,
+    chain,
+    collectionImage,
+    collectionDesc,
+    status
   }`
   return query
 }

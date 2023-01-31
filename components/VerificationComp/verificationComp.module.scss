@@ -1,0 +1,736 @@
+
+.mainContainer {
+  // height: 100vh;
+}
+
+
+
+.upperPart {
+  // outline: 3px solid red;
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+
+
+.homeBtn {
+  // outline: 3px solid red;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    border: none;
+    outline: none;
+    padding: .5rem 1rem;
+    width: fit-content;
+    border-radius: 10px;
+    background-color: #1809ff;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 200ms ease-in;
+
+    &:hover {
+      opacity: 60%;
+    }
+  }
+}
+
+
+.lowerPart {
+  // outline: 3px solid orangered;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  h2 {
+    color: #FFFFFF;
+    font-size: 1.5rem;
+
+  }
+
+  .listCover {
+    // outline: 3px solid lime;
+    overflow: auto;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    .listHead {
+      width: 100%;
+      // outline: 3px solid purple;
+      display: flex;
+      // grid-template-columns: repeat(4, 1fr);
+      // margin: 0 auto;
+      // gap: 1rem;
+      padding: .5rem;
+
+      p {
+        overflow: auto;
+        width: 25%;
+        color: #FFFFFF;
+        font-size: 1.1rem;
+        margin: auto 0;
+        // border-right: 3px solid salmon;
+        margin-right: 1rem;
+      }
+      
+    }
+
+    .listBottom {
+      margin-top: 2rem;
+      width: 100%;
+      // outline: 3px solid purple;
+      display: flex;
+      // grid-template-columns: repeat(4, 1fr);
+      // gap: 1rem;
+      // margin: 0 auto;
+
+      p {
+        overflow: auto;
+        width: 25%;
+        color: #FFFFFF;
+        font-size: 1rem;
+        font-weight: 600;
+        margin: auto 0;
+        // border-right: 3px solid green;
+        padding: .5rem 0;
+        margin-right: 1rem;
+      }
+
+
+      .actionBtns {
+        overflow: auto;
+        width: 25%;
+        color: #FFFFFF;
+        font-size: 1rem;
+        margin: auto 0;
+        // border-right: 3px solid green;
+        padding: .5rem 0;
+        margin-right: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button {
+          margin-right: 1rem;
+          border: none;
+          outline: none;
+          color: #FFFFFF;
+          font-weight: 500;
+          padding: .25rem .8rem;
+          border-radius: 5px;
+          font-size: 1rem;
+          width: fit-content;
+          cursor: pointer;
+          transition: all 200ms ease-in-out;
+
+          &:hover {
+            opacity: 60%;
+          }
+        }
+
+        .verifyBtn {
+          background: #288c22;
+        }
+
+        .declineBtn {
+          background: #d10000;
+        }
+
+      }
+
+
+    }
+    
+  }
+
+
+}
+
+.connectToView {
+  // outline: 3px solid red;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  h1 {
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    font-weight: 600;
+    // text-transform: uppercase;
+  }
+}
+
+
+
+
+
+
+
+.dropdownWallet {
+  color: crimson;
+  font-size: .75rem;
+  font-weight: 600;
+  user-select: none;
+}
+
+.dropdowndisconnect {
+  border: none;
+  outline: none;
+  background: #1809ff;
+  border-radius: 10px;
+  box-shadow: 4px 4px 5px 0px #00000099;
+  color: #FFFFFF;
+  font-size: .85rem;
+  text-align: center;
+  font-weight: 500;
+  padding: .5rem 1rem;
+  transition: all 100ms ease-in-out;
+
+
+
+  &:hover {
+    background: darken($color: #1809ff, $amount: 5%);
+  }
+}
+
+
+.walletCred {
+  display: flex;
+  // outline: 3px solid red;
+  align-items: center;
+  justify-content: flex-start;
+  // width: 10rem;
+  padding: .5rem;
+  border-radius: 10px;
+  background: #004225;
+  box-shadow: 4px 4px 15px 0px #00000099;
+  overflow: hidden;
+  cursor: pointer;
+
+  z-index: 1000;
+  // text-overflow: ellipsis;
+  
+
+  img {
+    margin: auto;
+    object-fit: cover;
+    width: 10rem;
+    height: 10rem;
+  }
+  .addr {
+  font-size: .9rem;
+  font-weight: 700;
+  margin: auto;
+  width: 8rem;
+  color: #FFFFFF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+    // text-overflow: ellipsis;
+    // width: 50%;
+  }
+ 
+  .addrIcon {
+    font-size: .9rem;
+    font-weight: 700;
+    margin: auto;
+    color: #FFFFFF;
+  }
+}
+
+.walletConnectBtn {
+  outline: none;
+  border: none;
+  background: #005C29;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 1.15rem;
+  padding: .5rem 1rem;
+  width: fit-content;
+}
+
+
+@media only screen and (max-width: 992px) {
+  .connectToView {
+    // outline: 3px solid red;
+    height: 100vh;
+  
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+
+  .homeBtn {
+    // outline: 3px solid red;
+    margin-top: 5rem;
+  
+    button {
+      font-size: 1.05rem;
+    }
+  }
+
+  .dropdownWallet {
+    font-size: .7rem;
+  }
+
+  .dropdowndisconnect {
+    font-size: .8rem;
+  }
+
+  .walletConnectBtn {
+    font-size: 1rem;
+    padding: .5rem 1rem;
+    width: fit-content;
+  }
+
+
+  .walletCred {
+  
+    .addr {
+    font-size: .85rem;
+    }
+   
+    .addrIcon {
+      font-size: .85rem;
+    }
+  }
+
+  
+
+  .lowerPart {
+    // outline: 3px solid orangered;
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    justify-content: center;
+    text-align: center;
+  
+    h2 {
+      color: #FFFFFF;
+      font-size: 1.2rem;
+  
+    }
+  
+    .listCover {
+      // outline: 3px solid lime;
+      overflow: auto;
+      width: 85%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+  
+      .listHead {
+        width: 100%;
+        // outline: 3px solid purple;
+        display: flex;
+        // grid-template-columns: repeat(4, 1fr);
+        // margin: 0 auto;
+        // gap: 1rem;
+        padding: .5rem;
+  
+        p {
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: 1rem;
+          margin: auto 0;
+          // border-right: 3px solid salmon;
+          margin-right: 1rem;
+        }
+        
+      }
+  
+      .listBottom {
+        margin-top: 2rem;
+        width: 100%;
+        // outline: 3px solid purple;
+        display: flex;
+        // grid-template-columns: repeat(4, 1fr);
+        // gap: 1rem;
+        // margin: 0 auto;
+  
+        p {
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: .9rem;
+          font-weight: 600;
+          margin: auto 0;
+          // border-right: 3px solid green;
+          padding: .5rem 0;
+          margin-right: 1rem;
+        }
+  
+  
+        .actionBtns {
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: .9rem;
+          margin: auto 0;
+          // border-right: 3px solid green;
+          padding: .5rem 0;
+          margin-right: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+  
+          button {
+            margin-right: 1rem;
+            border: none;
+            outline: none;
+            color: #FFFFFF;
+            font-weight: 500;
+            padding: .25rem .8rem;
+            border-radius: 5px;
+            font-size: .9rem;
+            width: fit-content;
+            cursor: pointer;
+            transition: all 200ms ease-in-out;
+          }
+
+  
+        }
+  
+  
+      }
+      
+    }
+  
+  
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .connectToView {
+    // outline: 3px solid red;
+   
+  
+  
+    h1 {
+      font-size: 1.05rem;
+    }
+  }
+
+
+  .homeBtn {
+    // outline: 3px solid red;
+    margin-top: 5rem;
+  
+    button {
+      font-size: .95rem;
+    }
+  }
+
+
+  .dropdowndisconnect {
+    font-size: .75rem;
+  }
+
+  .dropdownWallet {
+    font-size: .65rem;
+  }
+
+  .walletCred {
+  
+    .addr {
+    font-size: .75rem;
+    }
+   
+    .addrIcon {
+      font-size: .75rem;
+    }
+  }
+
+
+  .walletConnectBtn {
+    font-size: .85rem;
+    padding: .5rem 1rem;
+    width: fit-content;
+  }
+
+  .lowerPart {
+    // outline: 3px solid orangered;
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    justify-content: center;
+    text-align: center;
+  
+    h2 {
+      color: #FFFFFF;
+      font-size: 1.05rem;
+  
+    }
+  
+    .listCover {
+      // outline: 3px solid lime;
+      overflow: auto;
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+  
+      .listHead {
+        width: 100%;
+        // outline: 3px solid purple;
+        display: flex;
+        // grid-template-columns: repeat(4, 1fr);
+        // margin: 0 auto;
+        // gap: 1rem;
+        padding: .5rem;
+  
+        p {
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: .9rem;
+          margin: auto 0;
+          // border-right: 3px solid salmon;
+          margin-right: 1rem;
+        }
+        
+      }
+  
+      .listBottom {
+        margin-top: 2rem;
+        width: 100%;
+        // outline: 3px solid purple;
+        display: flex;
+        // grid-template-columns: repeat(4, 1fr);
+        // gap: 1rem;
+        // margin: 0 auto;
+  
+        p {
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: .85rem;
+          font-weight: 600;
+          margin: auto 0;
+          // border-right: 3px solid green;
+          padding: .5rem 0;
+          margin-right: 1rem;
+        }
+  
+  
+        .actionBtns {
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: .85rem;
+          margin: auto 0;
+          // border-right: 3px solid green;
+          padding: .5rem 1rem;
+          margin-right: 1rem;
+          display: flex !important;
+          // display: flex;
+          // align-items: center;
+          justify-content: flex-start;
+  
+          button {
+            margin-right: 1rem;
+            border: none;
+            outline: none;
+            color: #FFFFFF;
+            font-weight: 500;
+            padding: .25rem .8rem;
+            border-radius: 5px;
+            font-size: .85rem;
+            margin-bottom: .25rem;
+            width: fit-content;
+            cursor: pointer;
+            transition: all 200ms ease-in-out;
+          }
+
+  
+        }
+  
+  
+      }
+      
+    }
+  
+  
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+  .connectToView {
+    // outline: 3px solid red;
+   
+  
+  
+    h1 {
+      font-size: .95rem;
+    }
+  }
+
+  .homeBtn {
+    // outline: 3px solid red;
+    margin-top: 5rem;
+  
+    button {
+      font-size: .85rem;
+    }
+  }
+
+
+  .dropdowndisconnect {
+    font-size: .7rem;
+  }
+
+  .dropdownWallet {
+    font-size: .6rem;
+  }
+
+  .walletCred {
+  
+    .addr {
+    font-size: .65rem;
+    }
+   
+    .addrIcon {
+      font-size: .65rem;
+    }
+  }
+
+
+  .walletConnectBtn {
+    font-size: .75rem;
+    padding: .5rem 1rem;
+    width: fit-content;
+  }
+
+
+  
+  .lowerPart {
+    // outline: 3px solid orangered;
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    justify-content: center;
+    text-align: center;
+  
+    h2 {
+      color: #FFFFFF;
+      font-size: .95rem;
+  
+    }
+  
+    .listCover {
+      // outline: 3px solid lime;
+      overflow: auto;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      padding: .85rem;
+  
+      .listHead {
+        width: 100%;
+        // outline: 3px solid purple;
+        display: flex;
+        // grid-template-columns: repeat(4, 1fr);
+        // margin: 0 auto;
+        // gap: 1rem;
+        padding: .5rem;
+  
+        p {
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: .75rem;
+          margin: auto 0;
+          // border-right: 3px solid salmon;
+          margin-right: 1rem;
+        }
+        
+      }
+  
+      .listBottom {
+        margin-top: 2rem;
+        width: 100%;
+        // outline: 3px solid purple;
+        display: flex;
+        // grid-template-columns: repeat(4, 1fr);
+        // gap: 1rem;
+        // margin: 0 auto;
+  
+        p {
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: .75rem;
+          font-weight: 600;
+          margin: auto 0;
+          // border-right: 3px solid green;
+          padding: .5rem 0;
+          margin-right: 1rem;
+        }
+  
+  
+        .actionBtns {
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: .75rem;
+          margin: auto 0;
+          // border-right: 3px solid green;
+          padding: .5rem 1rem;
+          margin-right: 1rem;
+          display: flex !important;
+          // display: flex;
+          // align-items: center;
+          justify-content: flex-start;
+  
+          button {
+            margin-right: 1rem;
+            border: none;
+            outline: none;
+            color: #FFFFFF;
+            font-weight: 500;
+            padding: .25rem .8rem;
+            border-radius: 5px;
+            font-size: .8rem;
+            margin-bottom: .25rem;
+            width: fit-content;
+            cursor: pointer;
+            transition: all 200ms ease-in-out;
+          }
+
+  
+        }
+  
+  
+      }
+      
+    }
+  
+  
+  }
+}
+ 

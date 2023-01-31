@@ -8,7 +8,7 @@ import { saveCollectionItemDetails } from '../core/actions/collectionActions.js/
 
 const MarketplaceFeatured = () => {
 
-  const [collections, setCollections] = useState(null)
+  const [collections, setCollections] = useState([])
   const [singleCollectionDetails] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -54,13 +54,15 @@ const MarketplaceFeatured = () => {
     
   setLoading(true)
 
-   const getCollections = await axios.get(`/api/fetchCollectionData`);
+  // const status = 'verified'
 
-   const { data } = getCollections
+   const getCollections = await axios.post(`/api/fetchCollectionDataByStatus`, {status: 'verified'});
 
-  //  console.log(data.length) 
+  //  const { data } = getCollections
 
-   setCollections(data)
+  //  console.log("xr", getCollections.data) 
+
+   setCollections(getCollections.data)
 
  
   //  data?.forEach(async(el) => {

@@ -17,7 +17,7 @@ const MarketFeatured = ({
   const router = useRouter();
 
 
-  // console.log('img arr', imagesArray)
+  // console.log('img arr', storeCollections)
 
   const dispatch = useDispatch();
 
@@ -73,6 +73,7 @@ const MarketFeatured = ({
                   <CollectionCard
                     posterImage={element.collectionImage}
                     collectionTitle={element.collectionName}
+                    status={element.status}
                   />
                 </div>
               );
