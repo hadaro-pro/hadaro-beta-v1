@@ -61,7 +61,7 @@ const NewCollectionComp = ({ inHouseCollections }) => {
   const handleSubmit = async() => {
 
 
-    setLoading(true)
+   
   
     const document = {
       _type: "freshcollectionsData",
@@ -76,12 +76,13 @@ const NewCollectionComp = ({ inHouseCollections }) => {
 
     let  collectionNfts = []  
     try {
-
+      setLoading(true)
       if(inHouseCollections.includes(contractAddr.toLowerCase())) {
         message.warn('This collection already exists in our database!')
       } else {
-        if(imageFile === null || collectionName === "" || collectionDesc === "" || contractAddr === "" ) {
+        if(imageAsset === null || collectionName === "" || collectionDesc === "" || contractAddr === "" ) {
           message.error('All form fields must be filled and image uploaded')
+          setLoading(false)
         } else {
           const response = await axios.get("/api/get-nft-owner-collections", {
             params: {

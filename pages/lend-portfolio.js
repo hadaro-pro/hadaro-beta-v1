@@ -1,62 +1,79 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Footer from '../components/Footer/footer'
-import LendPortfolioComp from '../components/LendPortfolioComp/lendPortfolioComp'
-import Navbar from '../components/Navbar/Navbar'
-import PortfolioComp from '../components/PortfolioComp/portfolioComp'
+import {
+  useAccount,
+  useConnect,
+  useSigner,
+  useProvider,
+  erc721ABI,
+  useNetwork,
+} from "wagmi";
+import Footer from "../components/Footer/footer";
+import LendPortfolioComp from "../components/LendPortfolioComp/lendPortfolioComp";
+import Navbar from "../components/Navbar/Navbar";
+import PortfolioComp from "../components/PortfolioComp/portfolioComp";
 
 const LendPortfolio = () => {
 
-  const [verifiedCollectionsArray, setVerifiedCollectionsArray] = useState([])
+  const [loadingAvatar, setLoadingAvatar] = useState(false)
+  const [verifiedCollectionsArray, setVerifiedCollectionsArray] = useState([]);
+  const [userAvatarArray, setUserAvatarArray] = useState([]);
 
-
+  const { address, connector, isConnected } = useAccount();
   // console.log('bracka', verifiedCollectionsArray)
 
-   const getAllCollections = async() => {
-    let mainArrItems = []
- 
+  const getWalletAvatar = async () => {
     try {
+      setLoadingAvatar(true)
+      const walletAddr = address;
+      const getAvatar = await axios.post(`/api/fetchWalletAvatar`, {
+        walletAddr,
+      });
 
-  
+      // console.log('cvvr',getAvatar.data)
 
-   const getCollections = await axios.get(`/api/fetchCollectionData`);
+      setUserAvatarArray(getAvatar.data);
+      setLoadingAvatar(false)
+    } catch (e) {
+      setLoadingAvatar(false)
+      console.error(e);
+    }
+  };
 
- 
-  //  console.log('xacv', getCollections.data)
+  const getAllCollections = async () => {
+    let mainArrItems = [];
 
+    try {
+      const getCollections = await axios.get(`/api/fetchCollectionData`);
 
-   getCollections?.data.forEach((item) => {
-    mainArrItems.push(item.collectionAddress.toLowerCase())
-   })
+      //  console.log('xacv', getCollections.data)
 
+      getCollections?.data?.forEach((item) => {
+        mainArrItems.push(item.collectionAddress.toLowerCase());
+      });
 
-   setVerifiedCollectionsArray(mainArrItems)
-
-    } catch(e) {
-      console.error(e)
-    } 
-
-  } 
-
-
-
-
+      setVerifiedCollectionsArray(mainArrItems);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
-    getAllCollections()
-  }, [])
-
-
-
-
+    getAllCollections();
+    getWalletAvatar();
+  }, []);
 
   return (
     <div>
       <Navbar />
-      <LendPortfolioComp verifiedCollections={verifiedCollectionsArray} />
+      <LendPortfolioComp
+        verifiedCollections={verifiedCollectionsArray}
+        userAvatar={userAvatarArray}
+        avatarLoading={loadingAvatar}
+      />
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default LendPortfolio
+export default LendPortfolio;

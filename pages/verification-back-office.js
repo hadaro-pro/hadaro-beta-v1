@@ -4,15 +4,17 @@ import VerificationComp from '../components/VerificationComp/verificationComp'
 
 const VerificationBackOffice = () => {
 
-  const [collections, setCollections] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [pendingCollections, setPendingCollections] = useState([])
+  const [verifiedCollections, setVerifiedCollections] = useState([])
+  const [pendLoading, setPendLoading] = useState(false)
+  const [verifiedLoading, setVerifiedLoading] = useState(false)
 
 
 
- const getAllCollections = async() => {
+ const getAllPendingCollections = async() => {
  
     try {    
-  setLoading(true)
+  setPendLoading(true)
 
   // const status = 'verified'
 
@@ -20,29 +22,58 @@ const VerificationBackOffice = () => {
 
   //  const { data } = getCollections
 
-  //  console.log("xr", getCollections.data) 
+   console.log("xr", getCollections.data) 
 
-   setCollections(getCollections.data)
+   setPendingCollections(getCollections.data)
 
 
 
 
 
   //  console.log('lengthi', singleCollectionDetails)
-  setLoading(false)
+  setPendLoading(false)
     } catch(e) {
      console.error(e)
     }
  }
+
+ const getAllVerifiedCollections = async() => {
+ 
+  try {    
+setVerifiedLoading(true)
+
+// const status = 'verified'
+
+ const getCollections = await axios.post(`/api/fetchCollectionDataByStatus`, {status: 'verified'});
+
+//  const { data } = getCollections
+
+//  console.log("xr", getCollections.data) 
+
+ setVerifiedCollections(getCollections.data)
+
+
+
+
+
+//  console.log('lengthi', singleCollectionDetails)
+setVerifiedLoading(false)
+  } catch(e) {
+   console.error(e)
+  }
+}
+
   
   useEffect(() => {
-    getAllCollections()
+    getAllPendingCollections()
+    getAllVerifiedCollections()
   }, [])
 
   return (
     <div>
-      <VerificationComp  pendingCollections={collections} getCollectionData={getAllCollections}  loadingData={loading} />
-    </div>
+      <VerificationComp  pendingCollections={pendingCollections} getPendingCollectionData={getAllPendingCollections}  loadingPendingData={pendLoading} verifiedCollection={verifiedCollections}  getVerifiedCollection={getAllVerifiedCollections} loadingVerifiedData={verifiedLoading}
+         />
+    </div> 
   )
 }
 

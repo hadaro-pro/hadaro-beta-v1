@@ -42,10 +42,16 @@
   }
 }
 
+.lowerPartItems {
+  // outline: 3px solid orangered;
+  margin-bottom: 5rem;
+}
+
 
 .lowerPart {
   // outline: 3px solid orangered;
-  margin-top: 5rem;
+  // height: 100vh;
+  // margin-top: 5rem;
   display: flex;
   flex-direction: column;
   // align-items: center;
@@ -110,6 +116,43 @@
       }
 
 
+      .actionBtnsLower {
+        // outline: 3px solid saddlebrown;
+        overflow: auto;
+        width: 25%;
+        color: #FFFFFF;
+        font-size: 1rem;
+        margin: auto 0;
+        // border-right: 3px solid green;
+        padding: .5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button {
+          margin-right: .5rem;
+          border: none;
+          outline: none;
+          color: #FFFFFF;
+          font-weight: 500;
+          padding: .25rem .8rem;
+          border-radius: 5px;
+          font-size: 1rem;
+          width: fit-content;
+          cursor: pointer;
+          transition: all 200ms ease-in-out;
+
+          &:hover {
+            opacity: 60%;
+          }
+        }
+
+        .declineBtn {
+          background: #d10000;
+        }
+
+      }
+
       .actionBtns {
         overflow: auto;
         width: 25%;
@@ -161,7 +204,7 @@
 
 .connectToView {
   // outline: 3px solid red;
-  height: 100vh;
+  // height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -269,12 +312,16 @@
 @media only screen and (max-width: 992px) {
   .connectToView {
     // outline: 3px solid red;
-    height: 100vh;
+    // height: 100vh;
   
     h1 {
       font-size: 1.2rem;
     }
   }
+
+
+ 
+
 
   .homeBtn {
     // outline: 3px solid red;
@@ -379,7 +426,44 @@
           margin-right: 1rem;
         }
   
+        .actionBtnsLower {
+          // outline: 3px solid saddlebrown;
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: 1rem;
+          margin: auto 0;
+          // border-right: 3px solid green;
+          padding: .5rem 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      
+          button {
+            margin-right: 1rem;
+            border: none;
+            outline: none;
+            color: #FFFFFF;
+            font-weight: 500;
+            padding: .25rem .8rem;
+            border-radius: 5px;
+            font-size: .9rem;
+            width: fit-content;
+            cursor: pointer;
+            transition: all 200ms ease-in-out;
+      
+            &:hover {
+              opacity: 60%;
+            }
+          }
+      
+          .declineBtn {
+            background: #d10000;
+          }
+      
+        }
   
+
         .actionBtns {
           overflow: auto;
           width: 25%;
@@ -471,10 +555,11 @@
   .lowerPart {
     // outline: 3px solid orangered;
     margin-top: 5rem;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     // align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     text-align: center;
   
     h2 {
@@ -535,6 +620,37 @@
         }
   
   
+        .actionBtnsLower {
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: .85rem;
+          margin: auto 0;
+          // border-right: 3px solid green;
+          padding: .5rem 1rem;
+          // margin-right: 1rem;
+          display: flex !important;
+          // display: flex;
+          // align-items: center;
+          justify-content: center !important;
+  
+          button {
+            border: none;
+            outline: none;
+            color: #FFFFFF;
+            font-weight: 500;
+            padding: .25rem .8rem;
+            border-radius: 5px;
+            font-size: .85rem;
+            margin-bottom: .25rem;
+            width: fit-content;
+            cursor: pointer;
+            transition: all 200ms ease-in-out;
+          }
+
+  
+        }
+
         .actionBtns {
           overflow: auto;
           width: 25%;
@@ -628,11 +744,12 @@
   
   .lowerPart {
     // outline: 3px solid orangered;
-    margin-top: 5rem;
+    // margin-top: 5rem;
     display: flex;
+    // height: 100vh;
     flex-direction: column;
     // align-items: center;
-    justify-content: center;
+    // justify-content: flex-start;
     text-align: center;
   
     h2 {
@@ -691,7 +808,37 @@
           padding: .5rem 0;
           margin-right: 1rem;
         }
+        .actionBtnsLower {
+          overflow: auto;
+          width: 25%;
+          color: #FFFFFF;
+          font-size: .75rem;
+          margin: auto 0;
+          // border-right: 3px solid green;
+          padding: .5rem 1rem;
+          margin-right: 1rem;
+          display: flex !important;
+          // display: flex;
+          // align-items: center;
+          justify-content: flex-start;
   
+          button {
+            margin-right: 1rem;
+            border: none;
+            outline: none;
+            color: #FFFFFF;
+            font-weight: 500;
+            padding: .25rem .8rem;
+            border-radius: 5px;
+            font-size: .8rem;
+            margin-bottom: .25rem;
+            width: fit-content;
+            cursor: pointer;
+            transition: all 200ms ease-in-out;
+          }
+
+  
+        }
   
         .actionBtns {
           overflow: auto;

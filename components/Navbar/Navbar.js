@@ -66,7 +66,7 @@ const Navbar = ({}) => {
   const getAllNfts = async () => {
     try {
           const response = await axios.get(`/api/fetchAllNftsInCollection`)
-          const neededNfts = response.data.filter((item) => item.status !== "non-available")
+          const neededNfts = response.data?.filter((item) => item.status !== "non-available")
           // console.log("nfts", neededNfts);
       setAllNfts(neededNfts)
           // neededNfts.forEach((item) => {

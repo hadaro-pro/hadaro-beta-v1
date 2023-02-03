@@ -19,7 +19,7 @@ import axios from "axios";
 import WalletConnect from "../walletConnectModal/WalletConnect";
 import styles from "./verificationComp.module.scss";
 
-const VerificationComp = ({ pendingCollections, getCollectionData, loadingData }) => {
+const VerificationComp = ({ pendingCollections, getPendingCollectionData, loadingPendingData, verifiedCollection, getVerifiedCollection, loadingVerifiedData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPage, setShowPage] = useState(false);
   const [isApproved, setIsApproved] = useState(null);
@@ -75,7 +75,7 @@ const VerificationComp = ({ pendingCollections, getCollectionData, loadingData }
 
       if(verifyOp.data.status === 'success') {
          message.success("operation success!");
-          getCollectionData()
+         getPendingCollectionData()
       }
 
       
@@ -102,7 +102,7 @@ const VerificationComp = ({ pendingCollections, getCollectionData, loadingData }
 
       if(verifyOp.data.status === 'success') {
          message.success("operation success!");
-          getCollectionData()
+          getPendingCollectionData()
       }
       
     } catch (error) {
@@ -113,6 +113,32 @@ const VerificationComp = ({ pendingCollections, getCollectionData, loadingData }
     // message.info(value)
   };
 
+  const handleUnverify = async(value) => {
+
+
+    try {
+
+      const status = "unverified"
+      const iden = value
+
+      const verifyOp = await axios.post(`/api/updateCollectionStatus`, { iden, status})
+
+
+      // console.log('xava', verifyOp.data)
+
+      if(verifyOp.data.status === 'success') {
+         message.success("operation success!");
+         getVerifiedCollection()
+      }
+
+      
+    } catch (error) {
+      console.error(error)
+    }
+
+    // message.success("operation success!");
+    // message.info(value)
+  };
 
 
   useEffect(() => {
@@ -177,7 +203,7 @@ const VerificationComp = ({ pendingCollections, getCollectionData, loadingData }
             <WalletConnect modalOpen={isModalOpen} cancelModal={handleCancel} />
           </>
         )}
-      </div>
+      </div> 
       {!showPage && (
         <div className={styles.connectToView}>
           <h1> Connect your wallet to view page 👀...</h1>
@@ -185,6 +211,7 @@ const VerificationComp = ({ pendingCollections, getCollectionData, loadingData }
       )}
       {isApproved === true && (
         <div className={styles.lowerPart}>
+       <div className={styles.lowerPartItems}>   
         { pendingCollections?.length > 0 && <h2>Unverified Collections List</h2> }
           <div className={styles.listCover}>
           { pendingCollections?.length > 0 && <div className={styles.listHead}>
@@ -193,7 +220,7 @@ const VerificationComp = ({ pendingCollections, getCollectionData, loadingData }
               <p>Symbol</p>
               <p>Actions</p>
             </div>}
-            { loadingData ? (<div className={styles.connectToView}>
+            { loadingPendingData ? (<div className={styles.connectToView}>
           <h1> </h1>
         </div>) : pendingCollections?.length === 0 ? (<div className={styles.connectToView}>
           <h1> No unverified collections at the moment😴...</h1>
@@ -210,11 +237,43 @@ const VerificationComp = ({ pendingCollections, getCollectionData, loadingData }
               decline
             </button>
           </div>
-        </div>) )}
-            <div className={styles.homeBtn}>
-              <button onClick={() => router.push('/') } >Go to Home</button>
-            </div>
+        </div>) )
+        }
+  
+  </div>   
           </div>
+          <div className={styles.lowerPartItems}>   
+        { verifiedCollection?.length > 0 && <h2>Verified Collections List</h2> }
+          <div className={styles.listCover}>
+          { verifiedCollection?.length > 0 && <div className={styles.listHead}>
+              <p>Name</p>
+              <p>Contract Address</p>
+              <p>Symbol</p>
+              <p>Actions</p>
+            </div>}
+            { loadingVerifiedData ? (<div className={styles.connectToView}>
+          <h1> </h1>
+        </div>) : verifiedCollection?.length === 0 ? (<div className={styles.connectToView}>
+          <h1> No verified collections at the moment😴...</h1>
+        </div>) :  verifiedCollection?.map((item, index) =>  (<div 
+        key={index}  className={styles.listBottom}>
+          <p> {item.collectionName} </p>
+          <p> {item.collectionAddress} </p>
+          <p> {item.collectionSymbol} </p>
+          <div className={styles.actionBtnsLower}>
+          <button onClick={() => handleUnverify(item._id)} className={styles.declineBtn}>
+              unverify
+            </button>
+          </div>
+        </div>) )
+        }
+  
+  </div>   
+          </div>
+          <div className={styles.homeBtn} onClick={() => router.push('/')} >
+          <button>Go to Home Page</button>
+          </div>
+
         </div>
       )}
       {isApproved === false && (
@@ -228,3 +287,22 @@ const VerificationComp = ({ pendingCollections, getCollectionData, loadingData }
 };
 
 export default VerificationComp;
+
+
+
+                    {/* { loadingVerifiedData ? (<div className={styles.connectToView}>
+          <h1> </h1>
+        </div>) : verifiedCollection?.length === 0 ? (<div className={styles.connectToView}>
+          <h1> No verified collections at the moment😴...</h1>
+        </div>) :  verifiedCollection?.map((item, index) =>  (<div 
+        key={index}  className={styles.listBottom}>
+          <p> {item.collectionName} </p>
+          <p> {item.collectionAddress} </p>
+          <p> {item.collectionSymbol} </p>
+          <div className={styles.actionBtns}>
+            <button onClick={() => handleUnverify(item._id)} className={styles.declineBtn}>
+              unverify
+            </button>
+          </div>
+        </div>) )
+        } */}

@@ -96,7 +96,15 @@ export const allNftsByCollectionQuery = (contractAddr) => {
 return query
 }
 
+export const walletAvatarQuery = (walletaddr) => {
+  const query = `*[_type == "walletAvatarData" && walletAddress == "${walletaddr}"] | order(_createdAt desc) {
+    _id,
+    walletAddress,
+    walletAvatar,
+  }`
 
+return query
+}
 
 
 export const allMainNftsByCollectionQuery = (contractAddr) => {

@@ -5,18 +5,21 @@ import axios from 'axios'
 import { createClient } from 'urql'
 import { SYLVESTER_SUBGRAPH_URL } from '../../creds'
 import { useAccount, useConnect, useSigner, useProvider, erc721ABI, useNetwork } from "wagmi";
+import { client } from "../../utils/client";
 import { Sylvester, PaymentToken, NFTStandard, packPrice, unpackPrice } from '@renft/sdk'
 import styles from './portfoliocomp.module.scss'
 import { message } from 'antd'
 import RentNfts from '../RentNfts/RentNfts'
 
-const PortfolioComp = ({ walletConnectStatus, ownedNfts, loadingWallet, lendingNfts, loadingLendNfts, setLendingNfts, getNewListFunc, rentingNfts, getNewListRentFunc, loadingRentNfts}) => {
+const PortfolioComp = ({ walletConnectStatus, ownedNfts, loadingWallet, lendingNfts, loadingLendNfts, setLendingNfts, getNewListFunc, rentingNfts, getNewListRentFunc, loadingRentNfts ,verifiedCollections, userAvatar, avatarLoading }) => {
 
   const [openLend, setOpenLend] = useState(false)
   const [openRent, setOpenRent] = useState(false)
   const [openWallet, setOpenWallet] = useState(false)
   const [loadingLendRemove, setLoadingLendRemove] = useState(false)
   const [loadingRentRemove, setLoadingRentRemove] = useState(false) 
+  const [avatarAsset, setAvatarAsset] = useState(null)
+  const [avatarFile, setAvatarFile] = useState(null);
 
   const { address, connector, isConnected } = useAccount();
 
@@ -54,6 +57,45 @@ const PortfolioComp = ({ walletConnectStatus, ownedNfts, loadingWallet, lendingN
 };
 
 
+
+const uploadImage = async(e) => {
+  const selectedFile = e.target.files[0]
+
+
+  // console.log('seas', selectedFile)
+  const fileTypes = ['image/jpeg', 'image/png', 'image/svg']
+  if(!isConnected) {
+    message.error('Connect wallet to proceed!')
+  } else {
+    if(fileTypes.includes(selectedFile.type)) {
+      client.assets.upload('image', selectedFile, {
+        contentType: selectedFile.type,
+        filename: selectedFile.name,
+      })
+      .then(async (data) => {
+       
+        // console.log(data.url)
+        const document = {
+          _type: "walletAvatarData",
+          walletAddress: address,
+          walletAvatar: data.url
+        }
+
+        const response = await axios.post(`/api/postUserAvatarData`, document);
+
+        // console.log('rest', response)
+        if(response.data.msg === "success") {
+          message.info('image upload success')
+          setAvatarAsset(data)
+        }
+      })
+  } else {
+    message.error('unsupported image type!')
+  }
+  }
+}
+
+
   const handleRemoveElement = (position) => {
     // window.alert(position)
     // console.log(lendingNfts)
@@ -71,11 +113,11 @@ const PortfolioComp = ({ walletConnectStatus, ownedNfts, loadingWallet, lendingN
     try {
            const allNfts = await axios.put(`/api/updateNftData`, {iden, type})
 
-      console.log('nfts patch result: ', allNfts.data)
+      // console.log('nfts patch result: ', allNfts.data)
 
       const statusChange = await axios.put(`/api/updateNftStatus`, {identity, status})
 
-      console.log('nfts patch result: ', allNfts.data)
+      // console.log('nfts patch result: ', allNfts.data)
 
     } catch (err) {
       console.error(err)
@@ -245,7 +287,15 @@ const PortfolioComp = ({ walletConnectStatus, ownedNfts, loadingWallet, lendingN
       <div className={styles.mainComp} >
         <div  className={styles.mainCompInner} >
           <div className={styles.imgPart}>
-            <img  src="/images/port-img.png"  alt='img'  />
+          { avatarLoading ?  <div className={styles.waitingPart}></div> : userAvatar?.length 
+          === 0 ? (<div className={styles.formUpperImageContainer}>
+                <label className={styles.formUpperImageDiv}  htmlFor="imagefiles" >
+                { avatarAsset !== null ? <img src= {avatarAsset?.url} alt="image"   className={styles.imgUpload} />  : <p>upload avatar</p>}
+                </label>
+                <input id="imagefiles" type="file"   onChange={(e) => {setAvatarFile(e.target.files[0])
+                uploadImage(e)
+                }} />
+              </div>)  : <img src={userAvatar[0]?.walletAvatar} alt="avatar"   className={styles.avatarPart} /> }
           </div>
           <div className={styles.lowerPart}>
           <div  className={styles.menuItem }>

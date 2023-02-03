@@ -4,13 +4,14 @@ import axios from "axios";
 import { useAccount, useConnect, useSigner, useProvider, erc721ABI, useNetwork } from "wagmi";
 import { Sylvester, PaymentToken, NFTStandard, packPrice, unpackPrice } from '@renft/sdk'
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
+import { client } from "../../utils/client";
 import NftDisplayComp from "../NftsComp/nftComp";
 import styles from "./lendportfoliocomp.module.scss";
 import ToogleNetwork from "../ToggleNetwork/toogleNetwork";
 import LendModal from "../LendModal/lendmodal";
 import LendOutroModal from "../LendOutroModal/lendOutroModal";
 
-const LendPortfolioComp = ({ verifiedCollections }) => {
+const LendPortfolioComp = ({ verifiedCollections, userAvatar, avatarLoading }) => {
 
 
 
@@ -21,6 +22,9 @@ const LendPortfolioComp = ({ verifiedCollections }) => {
   const [wallet, setWallet] = useState("0x6b28eAC8897999B438B23A9bb49361A0c07eA4B1"
     // "0x9233d7CE2740D5400e95C1F441E5B575BDd38d82"
   );
+
+  const [avatarAsset, setAvatarAsset] = useState(null)
+  const [avatarFile, setAvatarFile] = useState(null);
 
   const [selectedNFTs] = useState([]);
   const [currentLendItem, setCurrentLendItem] = useState({
@@ -73,6 +77,44 @@ const LendPortfolioComp = ({ verifiedCollections }) => {
   const handleCheckChain = () => {
     // console.log(mainChain?.name)
   }
+
+
+  const uploadImage = async(e) => {
+    const selectedFile = e.target.files[0]
+
+
+    // console.log('seas', selectedFile)
+    const fileTypes = ['image/jpeg', 'image/png', 'image/svg']
+    if(!isConnected) {
+      message.error('Connect wallet to proceed!')
+    } else {
+      if(fileTypes.includes(selectedFile.type)) {
+        client.assets.upload('image', selectedFile, {
+          contentType: selectedFile.type,
+          filename: selectedFile.name,
+        })
+        .then(async (data) => {
+         
+          // console.log(data.url)
+          const document = {
+            _type: "walletAvatarData",
+            walletAddress: address,
+            walletAvatar: data.url
+          }
+
+          const response = await axios.post(`/api/postUserAvatarData`, document);
+
+          // console.log('rest', response)
+          if(response.data.msg === "success") {
+            message.info('image upload success')
+            setAvatarAsset(data)
+          }
+        })
+    } else {
+      message.error('unsupported image type!')
+    }
+    }
+}
 
 
   const handleRemoveElement = (position) => {
@@ -313,6 +355,7 @@ const LendPortfolioComp = ({ verifiedCollections }) => {
 //  getAllCollections()
 //   }, [])
 
+{/* <img src="/images/port-img.png" alt="img" /> */}
 
   return (
     <div className={styles.mainContainer}>
@@ -323,7 +366,14 @@ const LendPortfolioComp = ({ verifiedCollections }) => {
       <div className={styles.mainComp}>
         <div className={styles.mainCompInner}>
           <div className={styles.imgPart}>
-            <img src="/images/port-img.png" alt="img" />
+         {avatarLoading ?  <div className={styles.waitingPart}></div> :  userAvatar?.length === 0 ? (<div className={styles.formUpperImageContainer}>
+                <label className={styles.formUpperImageDiv}  htmlFor="imagefiles" >
+                { avatarAsset !== null ? <img src= {avatarAsset?.url} alt="image"   className={styles.imgUpload} />  : <p>upload avatar</p>}
+                </label>
+                <input id="imagefiles" type="file"   onChange={(e) => {setAvatarFile(e.target.files[0])
+                uploadImage(e)
+                }} />
+              </div>)  : <img src={userAvatar[0]?.walletAvatar} alt="avatar"   className={styles.avatarPart} /> }
           </div>
           <div className={styles.lowerPart}>
             <div className={styles.menuItem}>
