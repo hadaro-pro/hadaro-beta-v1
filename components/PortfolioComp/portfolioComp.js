@@ -76,14 +76,14 @@ const PortfolioComp = ({
     return imageToDisplay;
   };
 
-  // const sortCorsImage = (img) => {
-  //   const corsImageModified = new Image();
-  //   corsImageModified.crossOrigin = "Anonymous";
-  //   corsImageModified.src = img + "?not-from-cache-please";
-  //   return corsImageModified.src;
-  // };
+  const sortCorsImage = (img) => {
+    const corsImageModified = new Image();
+    corsImageModified.crossOrigin = "Anonymous";
+    corsImageModified.src = img + "?not-from-cache-please";
+    return corsImageModified.src;
+  };
 
-  // console.log(sortCorsImage(userAvatar[0]?.walletAvatar))
+  console.log(sortCorsImage(userAvatar[0]?.walletAvatar))
 
   const uploadImage = async (e) => {
     const selectedFile = e.target.files[0];
@@ -101,10 +101,12 @@ const PortfolioComp = ({
           })
           .then(async (data) => {
             // console.log(data.url)
+
+            const parsedImg = sortCorsImage(data.url)
             const document = {
               _type: "walletAvatarData",
               walletAddress: address,
-              walletAvatar: data.url,
+              walletAvatar: parsedImg,
             };
 
             const response = await axios.post(
@@ -112,12 +114,16 @@ const PortfolioComp = ({
               document
             );
 
-            console.log('rest', data)
+            console.log('rest', parsedImg)
             if (response.data.msg === "success") {
               message.info("image upload success");
 
+              const imgObj = {
+                url: parsedImg
+              }
+              
               //  const imgUrl = sortCorsImage(data.url)
-              setAvatarAsset(data);
+              setAvatarAsset(imgObj);
             }
           });
       } else {
