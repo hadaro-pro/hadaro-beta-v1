@@ -88,7 +88,7 @@ const PortfolioComp = ({
   const uploadImage = async (e) => {
     const selectedFile = e.target.files[0];
 
-    // console.log('seas', selectedFile)
+    console.log('seas', selectedFile)
     const fileTypes = ["image/jpeg", "image/png", "image/svg"];
     if (!isConnected) {
       message.error("Connect wallet to proceed!");
@@ -106,7 +106,7 @@ const PortfolioComp = ({
             const document = {
               _type: "walletAvatarData",
               walletAddress: address,
-              walletAvatar: parsedImg,
+              walletAvatar: data.url,
             };
 
             const response = await axios.post(
@@ -119,7 +119,7 @@ const PortfolioComp = ({
               message.info("image upload success");
 
               const imgObj = {
-                url: parsedImg
+                url: selectedFile.name
               }
               
               //  const imgUrl = sortCorsImage(data.url)
