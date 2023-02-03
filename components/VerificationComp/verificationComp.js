@@ -98,7 +98,7 @@ const VerificationComp = ({ pendingCollections, getPendingCollectionData, loadin
       const verifyOp = await axios.post(`/api/updateCollectionStatus`, { iden, status})
 
 
-      console.log('xava', verifyOp.data)
+      // console.log('xava', verifyOp.data)
 
       if(verifyOp.data.status === 'success') {
          message.success("operation success!");

@@ -76,19 +76,19 @@ const PortfolioComp = ({
     return imageToDisplay;
   };
 
-  const sortCorsImage = (img) => {
-    const corsImageModified = new Image();
-    corsImageModified.crossOrigin = "Anonymous";
-    corsImageModified.src = img + "?not-from-cache-please";
-    return corsImageModified.src;
-  };
+  // const sortCorsImage = (img) => {
+  //   const corsImageModified = new Image();
+  //   corsImageModified.crossOrigin = "Anonymous";
+  //   corsImageModified.src = img + "?not-from-cache-please";
+  //   return corsImageModified.src;
+  // };
 
-  console.log(sortCorsImage(userAvatar[0]?.walletAvatar))
+  // console.log(sortCorsImage(userAvatar[0]?.walletAvatar))
 
   const uploadImage = async (e) => {
     const selectedFile = e.target.files[0];
 
-    console.log('seas', selectedFile)
+    // console.log('seas', selectedFile)
     const fileTypes = ["image/jpeg", "image/png", "image/svg"];
     if (!isConnected) {
       message.error("Connect wallet to proceed!");
@@ -101,8 +101,6 @@ const PortfolioComp = ({
           })
           .then(async (data) => {
             // console.log(data.url)
-
-            const parsedImg = sortCorsImage(data.url)
             const document = {
               _type: "walletAvatarData",
               walletAddress: address,
@@ -114,16 +112,12 @@ const PortfolioComp = ({
               document
             );
 
-            console.log('rest', parsedImg)
+            // console.log('rest', response)
             if (response.data.msg === "success") {
               message.info("image upload success");
 
-              const imgObj = {
-                url: selectedFile.name
-              }
-              
               //  const imgUrl = sortCorsImage(data.url)
-              setAvatarAsset(imgObj);
+              setAvatarAsset(data);
             }
           });
       } else {
@@ -257,7 +251,7 @@ const PortfolioComp = ({
 
       const res = await getLendingIdForNft(tokenAddr, tokenID);
 
-      console.log("id", res.lendings[0].id);
+      // console.log("id", res.lendings[0].id);
 
       const lendingID = res.lendings[0].id;
 
