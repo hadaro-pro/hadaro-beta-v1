@@ -1,150 +1,161 @@
-import React, {useState} from 'react'
-import LendNfts from '../LendNfts/LendNfts'
-import WalletNfts from '../WalletNftsComp/walletNfts'
-import axios from 'axios'
-import { createClient } from 'urql'
-import { SYLVESTER_SUBGRAPH_URL } from '../../creds'
-import { useAccount, useConnect, useSigner, useProvider, erc721ABI, useNetwork } from "wagmi";
+import React, { useState } from "react";
+import LendNfts from "../LendNfts/LendNfts";
+import WalletNfts from "../WalletNftsComp/walletNfts";
+import axios from "axios";
+import { createClient } from "urql";
+import { SYLVESTER_SUBGRAPH_URL } from "../../creds";
+import {
+  useAccount,
+  useConnect,
+  useSigner,
+  useProvider,
+  erc721ABI,
+  useNetwork,
+} from "wagmi";
 import { client } from "../../utils/client";
-import { Sylvester, PaymentToken, NFTStandard, packPrice, unpackPrice } from '@renft/sdk'
-import styles from './portfoliocomp.module.scss'
-import { message } from 'antd'
-import RentNfts from '../RentNfts/RentNfts'
+import {
+  Sylvester,
+  PaymentToken,
+  NFTStandard,
+  packPrice,
+  unpackPrice,
+} from "@renft/sdk";
+import styles from "./portfoliocomp.module.scss";
+import { message } from "antd";
+import RentNfts from "../RentNfts/RentNfts";
 
-const PortfolioComp = ({ walletConnectStatus, ownedNfts, loadingWallet, lendingNfts, loadingLendNfts, setLendingNfts, getNewListFunc, rentingNfts, getNewListRentFunc, loadingRentNfts ,verifiedCollections, userAvatar, avatarLoading }) => {
-
-  const [openLend, setOpenLend] = useState(false)
-  const [openRent, setOpenRent] = useState(false)
-  const [openWallet, setOpenWallet] = useState(false)
-  const [loadingLendRemove, setLoadingLendRemove] = useState(false)
-  const [loadingRentRemove, setLoadingRentRemove] = useState(false) 
-  const [avatarAsset, setAvatarAsset] = useState(null)
+const PortfolioComp = ({
+  walletConnectStatus,
+  ownedNfts,
+  loadingWallet,
+  lendingNfts,
+  loadingLendNfts,
+  setLendingNfts,
+  getNewListFunc,
+  rentingNfts,
+  getNewListRentFunc,
+  loadingRentNfts,
+  verifiedCollections,
+  userAvatar,
+  avatarLoading,
+}) => {
+  const [openLend, setOpenLend] = useState(false);
+  const [openRent, setOpenRent] = useState(false);
+  const [openWallet, setOpenWallet] = useState(false);
+  const [loadingLendRemove, setLoadingLendRemove] = useState(false);
+  const [loadingRentRemove, setLoadingRentRemove] = useState(false);
+  const [avatarAsset, setAvatarAsset] = useState(null);
   const [avatarFile, setAvatarFile] = useState(null);
 
   const { address, connector, isConnected } = useAccount();
 
   const { data: signer } = useSigner();
 
-  const { chain: mainChain, chains } = useNetwork()
-
+  const { chain: mainChain, chains } = useNetwork();
 
   const collateralFreeContract = new Sylvester(signer);
 
-
   // console.log('sax: ',lendingNfts)
-  // console.log('saxon: ',rentingNfts)  
-
+  // console.log('saxon: ',rentingNfts)
 
   const nftImageAggregating = (image) => {
+    let imageToDisplay;
+    if (image.includes(".")) {
+      imageToDisplay = image;
+    } else {
+      imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + meta.image;
+    }
 
-    let imageToDisplay
-  if (image.includes(".")) {
-    imageToDisplay = image;
-  } 
-  else {
-   imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + meta.image;
-  }
+    if (image?.includes("https://") || image?.includes("data:image/")) {
+      imageToDisplay = image;
+    } else {
+      let splicer = image?.slice(7);
+      imageToDisplay = "https://gateway.ipfscdn.io/ipfs/" + splicer;
+    }
 
- if(image?.includes("https://") || image?.includes("data:image/")) {
-    imageToDisplay = image;
-  } else {
-    let splicer =  image?.slice(7)
-    imageToDisplay =  "https://gateway.ipfscdn.io/ipfs/" + splicer;
-   
-  }
+    return imageToDisplay;
+  };
 
-  return imageToDisplay  
-};
+  // const sortCorsImage = (img) => {
+  //   const corsImageModified = new Image();
+  //   corsImageModified.crossOrigin = "Anonymous";
+  //   corsImageModified.src = img + "?not-from-cache-please";
+  //   return corsImageModified.src;
+  // };
 
+  // console.log(sortCorsImage(userAvatar[0]?.walletAvatar))
 
+  const uploadImage = async (e) => {
+    const selectedFile = e.target.files[0];
 
+    // console.log('seas', selectedFile)
+    const fileTypes = ["image/jpeg", "image/png", "image/svg"];
+    if (!isConnected) {
+      message.error("Connect wallet to proceed!");
+    } else {
+      if (fileTypes.includes(selectedFile.type)) {
+        client.assets
+          .upload("image", selectedFile, {
+            contentType: selectedFile.type,
+            filename: selectedFile.name,
+          })
+          .then(async (data) => {
+            // console.log(data.url)
+            const document = {
+              _type: "walletAvatarData",
+              walletAddress: address,
+              walletAvatar: data.url,
+            };
 
+            const response = await axios.post(
+              `/api/postUserAvatarData`,
+              document
+            );
 
-const sortCorsImage = (img) => {
-  const corsImageModified = new Image();
-  corsImageModified.crossOrigin = "Anonymous";
-  corsImageModified.src = img + "?not-from-cache-please";
-  return corsImageModified.src
-}
+            // console.log('rest', response)
+            if (response.data.msg === "success") {
+              message.info("image upload success");
 
-
-
-const uploadImage = async(e) => {
-  const selectedFile = e.target.files[0]
-
-
-  // console.log('seas', selectedFile)
-  const fileTypes = ['image/jpeg', 'image/png', 'image/svg']
-  if(!isConnected) {
-    message.error('Connect wallet to proceed!')
-  } else {
-    if(fileTypes.includes(selectedFile.type)) {
-      client.assets.upload('image', selectedFile, {
-        contentType: selectedFile.type,
-        filename: selectedFile.name,
-      })
-      .then(async (data) => {
-       
-        // console.log(data.url)
-        const document = {
-          _type: "walletAvatarData",
-          walletAddress: address,
-          walletAvatar: data.url
-        }
-
-        const response = await axios.post(`/api/postUserAvatarData`, document);
-
-        // console.log('rest', response)
-        if(response.data.msg === "success") {
-          message.info('image upload success')
-
-         
-         const imgUrl = sortCorsImage(data.url)
-        setAvatarAsset(imgUrl)
-          
-
-        }
-      })
-  } else {
-    message.error('unsupported image type!')
-  }
-  }
-}
-
+              //  const imgUrl = sortCorsImage(data.url)
+              setAvatarAsset(data);
+            }
+          });
+      } else {
+        message.error("unsupported image type!");
+      }
+    }
+  };
 
   const handleRemoveElement = (position) => {
     // window.alert(position)
     // console.log(lendingNfts)
-      return lendingNfts.splice(position, 1)
-      // setLendingNfts(newArr)
-  }
+    return lendingNfts.splice(position, 1);
+    // setLendingNfts(newArr)
+  };
 
   const convertMetadata = (index) => {
-    let meta = JSON.parse(ownedNfts[index]?.metadata)
-    return meta?.name
-  }
+    let meta = JSON.parse(ownedNfts[index]?.metadata);
+    return meta?.name;
+  };
 
-
-  const handlePatch = async(iden, type, status) => {
+  const handlePatch = async (iden, type, status) => {
     try {
-           const allNfts = await axios.put(`/api/updateNftData`, {iden, type})
+      const allNfts = await axios.put(`/api/updateNftData`, { iden, type });
 
       // console.log('nfts patch result: ', allNfts.data)
 
-      const statusChange = await axios.put(`/api/updateNftStatus`, {identity, status})
+      const statusChange = await axios.put(`/api/updateNftStatus`, {
+        identity,
+        status,
+      });
 
       // console.log('nfts patch result: ', allNfts.data)
-
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }
-
+  };
 
   const getLendingIdForNft = async (tokenAddr, tokenID) => {
-
-    
-
     try {
       const queryNft = `
       query LendingsQuery {
@@ -155,23 +166,19 @@ const uploadImage = async(e) => {
         }`;
 
       const urqlClient = createClient({
-        url: SYLVESTER_SUBGRAPH_URL
-      })
-        
-    const response = await urqlClient.query(queryNft).toPromise()
+        url: SYLVESTER_SUBGRAPH_URL,
+      });
 
-    const result = response.data
+      const response = await urqlClient.query(queryNft).toPromise();
 
-    // console.log(result)
+      const result = response.data;
 
-    return result
+      // console.log(result)
 
-
-
-     
-    } catch(e) {
+      return result;
+    } catch (e) {
       // console.log(e)
-    } 
+    }
   };
 
   // const prepareStopRent = async(position) => {
@@ -202,7 +209,6 @@ const uploadImage = async(e) => {
 
   //       }
 
-
   //          const txn = await collateralFreeContract.stopLending(
   //       [nftStandard],
   //       [nftAddress],
@@ -223,203 +229,304 @@ const uploadImage = async(e) => {
   //       //  handleRemoveElement(position)
   //       //   await handlePatch(iden)
   //       //  getNewListFunc()
-       
+
   //   } catch (error) {
   //     setLoadingLendRemove(false)
   //     console.error(error)
   //   }
-    
-    
-
-
 
   // }
 
-
-  const prepareStopLend = async(position) => {
+  const prepareStopLend = async (position) => {
     try {
-      setLoadingLendRemove(true)
-    const objToLook = lendingNfts[position]
-    // console.log('prep up', objToLook)
+      setLoadingLendRemove(true);
+      const objToLook = lendingNfts[position];
+      // console.log('prep up', objToLook)
 
-    const tokenAddr = objToLook?.nftAddress
-    const tokenID = objToLook?.tokenID
-    const nftStandard = objToLook?.nftStandard
-    const nftAddress = objToLook?.nftAddress
-    const iden = objToLook?._id
+      const tokenAddr = objToLook?.nftAddress;
+      const tokenID = objToLook?.tokenID;
+      const nftStandard = objToLook?.nftStandard;
+      const nftAddress = objToLook?.nftAddress;
+      const iden = objToLook?._id;
 
-    const res = await getLendingIdForNft(tokenAddr, tokenID)
+      const res = await getLendingIdForNft(tokenAddr, tokenID);
 
-    console.log('id', res.lendings[0].id)
+      console.log("id", res.lendings[0].id);
 
-    const lendingID = res.lendings[0].id
+      const lendingID = res.lendings[0].id;
 
       if (mainChain?.name !== "Ethereum") {
         message.error("Please Connect to the Ethereum Network to proceed", [3]);
-        setLoadingLendRemove(false)
+        setLoadingLendRemove(false);
       } else {
-           const txn = await collateralFreeContract.stopLending(
-        [nftStandard],
-        [nftAddress],
-        [tokenID],
-        [lendingID],
-      );
+        const txn = await collateralFreeContract.stopLending(
+          [nftStandard],
+          [nftAddress],
+          [tokenID],
+          [lendingID]
+        );
 
-      const receipt = await txn.wait()
+        const receipt = await txn.wait();
 
-      if(receipt) {
-        message.success('successfully stopped lend of NFT!')
-        handleRemoveElement(position)
-        await handlePatch(iden, "previousListed for lending", "non-available")
-        getNewListFunc()
+        if (receipt) {
+          message.success("successfully stopped lend of NFT!");
+          handleRemoveElement(position);
+          await handlePatch(
+            iden,
+            "previousListed for lending",
+            "non-available"
+          );
+          getNewListFunc();
+        }
       }
-      }
-      setLoadingLendRemove(false)
-        //  handleRemoveElement(position)
-        //   await handlePatch(iden, "previousListed for lending", "non-available")
-        //  getNewListFunc()
-       
+      setLoadingLendRemove(false);
+      //  handleRemoveElement(position)
+      //   await handlePatch(iden, "previousListed for lending", "non-available")
+      //  getNewListFunc()
     } catch (error) {
-      setLoadingLendRemove(false)
-      console.error(error)
+      setLoadingLendRemove(false);
+      console.error(error);
     }
-    
-    
-
-
-
-  }
-
+  };
 
   // console.log('owned', ownedNfts)
 
-
   return (
     <div className={styles.mainContainer}>
-      <div className={styles.caption} >
+      <div className={styles.caption}>
         <h1>PORTFOLIO</h1>
       </div>
- 
-      <div className={styles.mainComp} >
-        <div  className={styles.mainCompInner} >
+
+      <div className={styles.mainComp}>
+        <div className={styles.mainCompInner}>
           <div className={styles.imgPart}>
-          { !isConnected ?  <div className={styles.waitingPart}> <p>connect wallet to view</p></div> :  avatarLoading ?  <div className={styles.waitingPart}></div> : userAvatar?.length 
-          === 0 ? (<div className={styles.formUpperImageContainer}>
-                <label className={styles.formUpperImageDiv}  htmlFor="imagefiles" >
-                { avatarAsset !== null ? <img src= {sortCorsImage(avatarAsset?.url)} alt="image"   className={styles.imgUpload} />  : <p>upload avatar</p>}
-                </label> 
-                <input id="imagefiles" type="file"   onChange={(e) => {setAvatarFile(e.target.files[0])
-                uploadImage(e)
-                }} />
-              </div>)  : <img src={sortCorsImage(userAvatar[0]?.walletAvatar)} alt="avatar"   className={styles.avatarPart} /> }
+            {!isConnected ? (
+              <div className={styles.waitingPart}>
+                {" "}
+                <p>connect wallet to view</p>
+              </div>
+            ) : avatarLoading ? (
+              <div className={styles.waitingPart}></div>
+            ) : userAvatar?.length === 0 ? (
+              <div className={styles.formUpperImageContainer}>
+                <label
+                  className={styles.formUpperImageDiv}
+                  htmlFor="imagefiles"
+                >
+                  {avatarAsset !== null ? (
+                    <img
+                      src={avatarAsset?.url}
+                      alt="image"
+                      cross-origin="use-credentials"
+                      className={styles.imgUpload}
+                    />
+                  ) : (
+                    <p>upload avatar</p>
+                  )}
+                </label>
+                <input
+                  id="imagefiles"
+                  type="file"
+                  onChange={(e) => {
+                    setAvatarFile(e.target.files[0]);
+                    uploadImage(e);
+                  }}
+                />
+              </div>
+            ) : (
+              <img
+                src={userAvatar[0]?.walletAvatar}
+                alt="avatar"
+                cross-origin="use-credentials"
+                className={styles.avatarPart}
+              />
+            )}
           </div>
           <div className={styles.lowerPart}>
-          <div  className={styles.menuItem }>
-            <div className={styles.menuItemTop}>
-          <img className={styles.menuItemImage}  src={`${openLend ? '/images/minus.png' : '/images/cross.png' }`} alt=""  onClick={() => { setOpenLend((prev) => !prev) }} />
-          <p className={styles.menuItemText}>Lending</p>
-          </div>
-          <div  className={openLend ? styles.dropdownmenu : styles.dropdownmenuinactive}>
-            <div  className={styles.subdropmenu}>
-            { walletConnectStatus ? loadingLendNfts ? (<div> <small>Loading...</small> </div>) : lendingNfts?.length ==  0 ?  <small>No Lending NFTs at the moment</small>:<div className={styles.mainCover}>
-          {  lendingNfts?.map((el, index) => 
-           
-           ( 
-            <div key={index}>
-         <LendNfts nftname={el.metadataName}  nftImage={nftImageAggregating(el.metadataImage)} setLendItem={prepareStopLend} position={index} loadingLend={loadingLendRemove} />
+            <div className={styles.menuItem}>
+              <div className={styles.menuItemTop}>
+                <img
+                  className={styles.menuItemImage}
+                  src={`${
+                    openLend ? "/images/minus.png" : "/images/cross.png"
+                  }`}
+                  alt=""
+                  onClick={() => {
+                    setOpenLend((prev) => !prev);
+                  }}
+                />
+                <p className={styles.menuItemText}>Lending</p>
+              </div>
+              <div
+                className={
+                  openLend ? styles.dropdownmenu : styles.dropdownmenuinactive
+                }
+              >
+                <div className={styles.subdropmenu}>
+                  {walletConnectStatus ? (
+                    loadingLendNfts ? (
+                      <div>
+                        {" "}
+                        <small>Loading...</small>{" "}
+                      </div>
+                    ) : lendingNfts?.length == 0 ? (
+                      <small>No Lending NFTs at the moment</small>
+                    ) : (
+                      <div className={styles.mainCover}>
+                        {lendingNfts?.map((el, index) => (
+                          <div key={index}>
+                            <LendNfts
+                              nftname={el.metadataName}
+                              nftImage={nftImageAggregating(el.metadataImage)}
+                              setLendItem={prepareStopLend}
+                              position={index}
+                              loadingLend={loadingLendRemove}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  ) : (
+                    // (ownedNfts?.map((item, index) => {
+                    // <h1 key={index}>{item.token_address}</h1>}))
+                    <small>Connect your wallet to view</small>
+                  )}
+                  {/* { walletConnectStatus ?   <small>This shows the NFTS that are being lent</small>   : <small>Connect your wallet to view</small>}   */}
+                </div>
+              </div>
             </div>
-     )
-   
-   )}
-          </div>
-          // (ownedNfts?.map((item, index) => {
-          // <h1 key={index}>{item.token_address}</h1>})) 
-          : <small>Connect your wallet to view</small>}
-            {/* { walletConnectStatus ?   <small>This shows the NFTS that are being lent</small>   : <small>Connect your wallet to view</small>}   */}
-            </div>
-          </div>
-          </div>
 
-          <div  className={styles.menuItem }>
-            <div className={styles.menuItemTop}>
-          <img className={styles.menuItemImage}  src={`${openRent ? '/images/minus.png' : '/images/cross.png' }`}  alt=""  onClick={() => { setOpenRent((prev) => !prev) }} />
-          <p className={styles.menuItemText}>Renting</p>
-          </div>
-          <div  className={openRent ? styles.dropdownmenu : styles.dropdownmenuinactive}>
-            <div  className={styles.subdropmenu}>
-            { walletConnectStatus ? loadingRentNfts ? (<div> <small>Loading...</small> </div>) : rentingNfts?.length ==  0 ?  <small>No Renting NFTs at the moment</small>:<div className={styles.mainCover}>
-          {  rentingNfts?.map((el, index) => 
-           
-           ( 
-            <div key={index}>
-         <RentNfts nftname={el.metadataName}  nftImage={nftImageAggregating(el.metadataImage)}  nftStatus={el.status}  position={index} loadingRent={loadingRentRemove} />
+            <div className={styles.menuItem}>
+              <div className={styles.menuItemTop}>
+                <img
+                  className={styles.menuItemImage}
+                  src={`${
+                    openRent ? "/images/minus.png" : "/images/cross.png"
+                  }`}
+                  alt=""
+                  onClick={() => {
+                    setOpenRent((prev) => !prev);
+                  }}
+                />
+                <p className={styles.menuItemText}>Renting</p>
+              </div>
+              <div
+                className={
+                  openRent ? styles.dropdownmenu : styles.dropdownmenuinactive
+                }
+              >
+                <div className={styles.subdropmenu}>
+                  {walletConnectStatus ? (
+                    loadingRentNfts ? (
+                      <div>
+                        {" "}
+                        <small>Loading...</small>{" "}
+                      </div>
+                    ) : rentingNfts?.length == 0 ? (
+                      <small>No Renting NFTs at the moment</small>
+                    ) : (
+                      <div className={styles.mainCover}>
+                        {rentingNfts?.map((el, index) => (
+                          <div key={index}>
+                            <RentNfts
+                              nftname={el.metadataName}
+                              nftImage={nftImageAggregating(el.metadataImage)}
+                              nftStatus={el.status}
+                              position={index}
+                              loadingRent={loadingRentRemove}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  ) : (
+                    // (ownedNfts?.map((item, index) => {
+                    // <h1 key={index}>{item.token_address}</h1>}))
+                    <small>Connect your wallet to view</small>
+                  )}
+                  {/* { walletConnectStatus ?   <small>This shows the NFTS that are being rented</small>  : <small>Connect your wallet to view</small>} */}
+                </div>
+              </div>
             </div>
-     )
-   
-   )}
-          </div>
-          // (ownedNfts?.map((item, index) => {
-          // <h1 key={index}>{item.token_address}</h1>})) 
-          : <small>Connect your wallet to view</small>}
-            {/* { walletConnectStatus ?   <small>This shows the NFTS that are being rented</small>  : <small>Connect your wallet to view</small>} */}
-           
-            </div>
-          </div>
-          </div>
 
-          <div  className={styles.menuItem }>
-            <div className={styles.menuItemTop}>
-          <img className={styles.menuItemImage}  src={`${openWallet ? '/images/minus.png' : '/images/cross.png' }`}  alt=""  onClick={() => { setOpenWallet((prev) => !prev) }} />
-          <p className={styles.menuItemText}>My Wallet</p>
-          </div>
-          <div  className={openWallet ? styles.dropdownmenu : styles.dropdownmenuinactive}>
-            <div  className={styles.subdropmenu}>
-              {/* {loadingWallet ? (<div> <p>Loading...</p> </div>) : " " } */}
-          { walletConnectStatus ? loadingWallet ? (<div> <small>Loading...</small> </div>) : ownedNfts?.length < 0 ?  <small>No NFTs in wallet</small>:<div className={styles.mainCover}>
-          {  ownedNfts?.map((el, index) => 
-           
-           ( 
-            <div key={index}>
-            <WalletNfts collectionName={el.name} nftname={convertMetadata(index)}  nftImg={el.image} metadata={el.metadata} />
+            <div className={styles.menuItem}>
+              <div className={styles.menuItemTop}>
+                <img
+                  className={styles.menuItemImage}
+                  src={`${
+                    openWallet ? "/images/minus.png" : "/images/cross.png"
+                  }`}
+                  alt=""
+                  onClick={() => {
+                    setOpenWallet((prev) => !prev);
+                  }}
+                />
+                <p className={styles.menuItemText}>My Wallet</p>
+              </div>
+              <div
+                className={
+                  openWallet ? styles.dropdownmenu : styles.dropdownmenuinactive
+                }
+              >
+                <div className={styles.subdropmenu}>
+                  {/* {loadingWallet ? (<div> <p>Loading...</p> </div>) : " " } */}
+                  {walletConnectStatus ? (
+                    loadingWallet ? (
+                      <div>
+                        {" "}
+                        <small>Loading...</small>{" "}
+                      </div>
+                    ) : ownedNfts?.length < 0 ? (
+                      <small>No NFTs in wallet</small>
+                    ) : (
+                      <div className={styles.mainCover}>
+                        {ownedNfts?.map((el, index) => (
+                          <div key={index}>
+                            <WalletNfts
+                              collectionName={el.name}
+                              nftname={convertMetadata(index)}
+                              nftImg={el.image}
+                              metadata={el.metadata}
+                            />
+                          </div>
+                          //          <>
+                          //          <div className={styles.nftCardCover}>
+                          //          <div key={index} className={styles.nftCard}>
+                          //      <div className={styles.imageCover}>
+                          //      <img
+                          //      onError={(e) =>
+                          //        e.target.src = "/images/no-image-placeholder.png"
+                          //      }
+                          //      src={  el.metadata === null ? "/images/no-image-placeholder.png" :  el.image ? el.image : el.image === null ? "/images/no-image-placeholder.png" : ""} />
+                          //      </div>
+                          //      <div className={styles.downPart}>
+                          //        <span> {convertMetadata(index)} </span>
+                          //        <span>
+                          //          {el.name} xx
+                          //        </span>
+                          //        <span>
+                          //        {console.log(el.image)}
+                          //        </span>
+                          //      </div>
+                          //  </div>
+                          //  </div>
+                          //  </>
+                        ))}
+                      </div>
+                    )
+                  ) : (
+                    // (ownedNfts?.map((item, index) => {
+                    // <h1 key={index}>{item.token_address}</h1>}))
+                    <small>Connect your wallet to view</small>
+                  )}
+                </div>
+              </div>
             </div>
-    //          <>
-    //          <div className={styles.nftCardCover}>
-    //          <div key={index} className={styles.nftCard}>
-    //      <div className={styles.imageCover}>
-    //      <img 
-    //      onError={(e) =>
-    //        e.target.src = "/images/no-image-placeholder.png" 
-    //      }
-    //      src={  el.metadata === null ? "/images/no-image-placeholder.png" :  el.image ? el.image : el.image === null ? "/images/no-image-placeholder.png" : ""} />
-    //      </div>
-    //      <div className={styles.downPart}>
-    //        <span> {convertMetadata(index)} </span>
-    //        <span>
-    //          {el.name} xx
-    //        </span>
-    //        <span> 
-    //        {console.log(el.image)}
-    //        </span>
-    //      </div>
-    //  </div> 
-    //  </div>
-    //  </>
-     )
-   
-   )}
-          </div>
-          // (ownedNfts?.map((item, index) => {
-          // <h1 key={index}>{item.token_address}</h1>})) 
-          : <small>Connect your wallet to view</small>}
-            </div>
-          </div>
-          </div>
-         
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PortfolioComp
+export default PortfolioComp;

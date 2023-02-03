@@ -79,14 +79,14 @@ const LendPortfolioComp = ({ verifiedCollections, userAvatar, avatarLoading }) =
   }
 
 
-  const sortCorsImage = (img) => {
-    const corsImageModified = new Image();
-    corsImageModified.crossOrigin = "Anonymous";
-    corsImageModified.src = img + "?not-from-cache-please";
+  // const sortCorsImage = (img) => {
+  //   const corsImageModified = new Image();
+  //   corsImageModified.crossOrigin = "Anonymous";
+  //   corsImageModified.src = img + "?not-from-cache-please";
   
-    return corsImageModified.src
+  //   return corsImageModified.src
   
-  }
+  // }
 
 
   const uploadImage = async(e) => {
@@ -117,8 +117,8 @@ const LendPortfolioComp = ({ verifiedCollections, userAvatar, avatarLoading }) =
           // console.log('rest', response)
           if(response.data.msg === "success") {
             message.info('image upload success')
-            const imgUrl = sortCorsImage(data.url)
-            setAvatarAsset(imgUrl)
+            // const imgUrl = sortCorsImage(data.url)
+            setAvatarAsset(data)
           }
         })
     } else {
@@ -379,12 +379,12 @@ const LendPortfolioComp = ({ verifiedCollections, userAvatar, avatarLoading }) =
           <div className={styles.imgPart}>
          { !isConnected ?  <div className={styles.waitingPart}> <p>connect wallet to view</p></div> :  avatarLoading ?  <div className={styles.waitingPart}></div> :  userAvatar?.length === 0 ? (<div className={styles.formUpperImageContainer}>
                 <label className={styles.formUpperImageDiv}  htmlFor="imagefiles" >
-                { avatarAsset !== null ? <img src= {sortCorsImage(avatarAsset?.url)} alt="image"   className={styles.imgUpload} />  :  <p>upload avatar</p> }
+                { avatarAsset !== null ? <img src= {avatarAsset?.url} alt="image"   className={styles.imgUpload} />  :  <p>upload avatar</p> }
                 </label>
                 <input id="imagefiles" type="file"   onChange={(e) => {setAvatarFile(e.target.files[0])
                 uploadImage(e)
                 }} />
-              </div>)  : <img src={sortCorsImage(userAvatar[0]?.walletAvatar)} alt="avatar"   className={styles.avatarPart} /> }
+              </div>)  : <img src={userAvatar[0]?.walletAvatar} alt="avatar"   className={styles.avatarPart} /> }
           </div>
           <div className={styles.lowerPart}>
             <div className={styles.menuItem}>
