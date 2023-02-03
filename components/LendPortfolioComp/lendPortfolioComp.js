@@ -366,9 +366,9 @@ const LendPortfolioComp = ({ verifiedCollections, userAvatar, avatarLoading }) =
       <div className={styles.mainComp}>
         <div className={styles.mainCompInner}>
           <div className={styles.imgPart}>
-         {avatarLoading ?  <div className={styles.waitingPart}></div> :  userAvatar?.length === 0 ? (<div className={styles.formUpperImageContainer}>
+         { !isConnected ?  <div className={styles.waitingPart}> <p>connect wallet to view</p></div> :  avatarLoading ?  <div className={styles.waitingPart}></div> :  userAvatar?.length === 0 ? (<div className={styles.formUpperImageContainer}>
                 <label className={styles.formUpperImageDiv}  htmlFor="imagefiles" >
-                { avatarAsset !== null ? <img src= {avatarAsset?.url} alt="image"   className={styles.imgUpload} /> : isConnected ? <p>upload avatar</p> : <p>connect wallet to view</p>  }
+                { avatarAsset !== null ? <img src= {avatarAsset?.url} alt="image"   className={styles.imgUpload} />  :  <p>upload avatar</p> }
                 </label>
                 <input id="imagefiles" type="file"   onChange={(e) => {setAvatarFile(e.target.files[0])
                 uploadImage(e)

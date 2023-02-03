@@ -54,6 +54,17 @@
       .waitingPart {
         height: 8rem;
         width: 8rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        p {
+          color: #fff;
+          font-size: .9rem;
+          // outline: 3px solid red;
+          margin: auto;
+        }
       }
 
       .avatarPart {
@@ -339,6 +350,10 @@
   .waitingPart {
     height: 6.5rem !important;
     width: 6.5rem !important;
+    p {
+      color: #fff;
+      font-size: .85rem !important;
+    }
   }
   
   .avatarPart {
@@ -417,6 +432,11 @@
   .waitingPart {
     height: 5.5rem !important;
     width: 5.5rem !important;
+
+    p {
+      color: #fff;
+      font-size: .75rem !important;
+    }
   }
 
 
@@ -485,6 +505,11 @@
   .waitingPart {
     height: 4.5rem !important;
     width: 4.5rem !important;
+
+    p {
+      color: #fff;
+      font-size: .7rem !important;
+    }
   }
 
   .avatarPart {
