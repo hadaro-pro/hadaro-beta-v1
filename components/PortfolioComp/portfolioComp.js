@@ -112,7 +112,7 @@ const PortfolioComp = ({
               document
             );
 
-            // console.log('rest', response)
+            console.log('rest', data)
             if (response.data.msg === "success") {
               message.info("image upload success");
 

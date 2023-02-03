@@ -191,7 +191,7 @@ const Portfolio = () => {
       handleGetRentingNfts();
       getWalletAvatar();
     }
-  }, [isConnected]);
+  }, [isConnected, address]);
 
   // useEffect(() => {
   //     if(isConnected) {
