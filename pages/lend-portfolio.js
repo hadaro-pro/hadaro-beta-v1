@@ -61,7 +61,7 @@ const LendPortfolio = () => {
   useEffect(() => {
     getAllCollections();
     getWalletAvatar();
-  }, []);
+  }, [isConnected]);
 
   return (
     <div>
