@@ -25,8 +25,20 @@ const NftDisplayComp = ({
 
   const performPush = (item) => {
 
+    const ifCollectionExists = verifiedCollectionsArr.filter((i) =>  i.collectionAddr === item.token_address)
 
-    if(verifiedCollectionsArr.includes(item.token_address.toLowerCase())) {
+    console.log('lki', ifCollectionExists)
+
+    // const collectionVerificationStatus = ifCollectionExists[0].status
+
+ 
+if (ifCollectionExists.length === 0) {
+    message.info('Your NFT belongs to a collection not yet registered on the platform, redirecting you to the collection form page',[5])
+  
+    setTimeout(() =>  router.push('/new-collection'), 5500)
+} else {
+  if(ifCollectionExists[0].status === "verified") {
+    if(ifCollectionExists[0].collectionAddr.includes(item.token_address.toLowerCase())) {
       let consensus = []
       selectedNFTsArray.forEach((el) => {
          if(el.block_number === item.block_number) {
@@ -43,12 +55,13 @@ const NftDisplayComp = ({
           message.success("NFT uploaded successfully!");
            closeModal();
         }
-    } else {
-      message.info('Your NFT belongs to a collection not yet verified, redirecting you to the verification page',[5])
-    
-      setTimeout(() =>  router.push('/new-collection'), 5500)
- 
     }
+  } else  if(ifCollectionExists[0].status === "unverified") {
+    message.info('item belongs to an unverified collection')
+  } else  if(ifCollectionExists[0].status === "pending") {
+    message.info('item belongs to a collection still undergoing the verification process')
+  } 
+}
   }
 
   return (

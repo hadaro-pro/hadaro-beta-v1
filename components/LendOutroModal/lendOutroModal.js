@@ -90,6 +90,19 @@ const LendOutroModal = ({
   const metadataName = finalLendObject.nftName
 
 
+  const finlObject = {
+    nftAddress,
+    tokenID,
+    lendAmount,
+    dailyRentPrice,
+    maxRentDuration,
+    paymentToken,
+    nftStandard,
+    chain
+  };
+
+  console.log('hjkol', finlObject);
+
 
 
   // console.log('parsed price', dailyRentPrice)

@@ -49,7 +49,7 @@ const LendPortfolio = () => {
       //  console.log('xacv', getCollections.data)
 
       getCollections?.data?.forEach((item) => {
-        mainArrItems.push(item.collectionAddress.toLowerCase());
+        mainArrItems.push({collectionAddr: item.collectionAddress.toLowerCase(), status: item.status});
       });
 
       setVerifiedCollectionsArray(mainArrItems);

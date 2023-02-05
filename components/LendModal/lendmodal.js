@@ -73,21 +73,10 @@ const LendModal = ({
   // }
 
   const handleDailyRentalPrice = (value) => {
-    // console.log('number:', value)
-    // console.log("number:", Number(value));
+    
     setTimeout(() => {
       setLendItemObject({ ...lendItemObject, dailyRentPrice: Number(value) });
 
-      // if (value == 0 || isNaN(value) == true || String(value).charAt(0) == "-" ) {
-      //   setRentError("value cannot be non-zero or out of range")
-      // } else if(value == 1 || value > 0.9999) {
-      //   setRentError("value cannot be greater than 0.9999")
-      // }
-      //  else{
-      //   setLendItemObject({ ...lendItemObject, dailyRentPrice: Number(value) })
-      //   setRentError(null)
-      //   console.log('number:', Number(value))
-      // }
     }, 1000);
   };
 

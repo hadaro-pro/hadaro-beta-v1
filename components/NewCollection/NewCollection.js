@@ -27,35 +27,35 @@ const NewCollectionComp = ({ inHouseCollections }) => {
   //  console.log('bracka', inHouseCollections)
 
 
-  if (imageFile !== null) {
-    // console.log('sfx', imageFile)
-  }
+  // if (imageFile !== null) {
+  //   // console.log('sfx', imageFile)
+  // }
   
 
-  if (imageAsset !== null) {
-    // console.log('sfxazx', imageAsset)
-  }
+  // if (imageAsset !== null) {
+  //   // console.log('sfxazx', imageAsset)
+  // }
 
   const key = '6LcutQ8kAAAAAIhv8K59NJVYPKEKFiJ7UOzntM14'
 
-  const uploadImage = async(e) => {
-    const selectedFile = e.target.files[0]
-    // console.log('seas', selectedFile)
-    const fileTypes = ['image/jpeg', 'image/png', 'image/svg']
+//   const uploadImage = async(e) => {
+//     const selectedFile = e.target.files[0]
+//     // console.log('seas', selectedFile)
+//     const fileTypes = ['image/jpeg', 'image/png', 'image/svg']
 
-    if(fileTypes.includes(selectedFile.type)) {
-        client.assets.upload('image', selectedFile, {
-          contentType: selectedFile.type,
-          filename: selectedFile.name,
-        })
-        .then((data) => {
-          setImageAsset(data)
-          message.info('image upload success')
-        })
-    } else {
-      message.error('unsupported image type!')
-    }
-}
+//     if(fileTypes.includes(selectedFile.type)) {
+//         client.assets.upload('image', selectedFile, {
+//           contentType: selectedFile.type,
+//           filename: selectedFile.name,
+//         })
+//         .then((data) => {
+//           setImageAsset(data)
+//           message.info('image upload success')
+//         })
+//     } else {
+//       message.error('unsupported image type!')
+//     }
+// }
 
 
   const handleSubmit = async() => {
@@ -68,7 +68,7 @@ const NewCollectionComp = ({ inHouseCollections }) => {
       collectionName: collectionName,
       collectionSymbol: collectionSymbol,
       collectionAddress: contractAddr,
-      collectionImage: imageAsset?.url,
+      // collectionImage: imageAsset?.url,
       collectionDesc: collectionDesc,
       status: 'pending',
     }
@@ -80,8 +80,8 @@ const NewCollectionComp = ({ inHouseCollections }) => {
       if(inHouseCollections.includes(contractAddr.toLowerCase())) {
         message.warn('This collection already exists in our database!')
       } else {
-        if(imageAsset === null || collectionName === "" || collectionDesc === "" || contractAddr === "" ) {
-          message.error('All form fields must be filled and image uploaded')
+        if(collectionName === "" || collectionDesc === "" || contractAddr === "" ) {
+          message.error('All form fields must be filled')
           setLoading(false)
         } else {
           const response = await axios.get("/api/get-nft-owner-collections", {
@@ -111,7 +111,7 @@ const NewCollectionComp = ({ inHouseCollections }) => {
               message.info('Your submission is pending verification')
             }
     
-            setImageAsset(null)
+            // setImageAsset(null)
             setCollectionName("")
             setCollectionDesc("")
             setCollectionSymbol("")
@@ -159,7 +159,7 @@ const NewCollectionComp = ({ inHouseCollections }) => {
                 <input type="text"  value={collectionSymbol} onChange={(e) => setCollectionSymbol(e.target.value)} />
               </div>
             </div>
-            <div className={styles.formUpperImageUpload}>
+            {/* <div className={styles.formUpperImageUpload}>
               <div className={styles.formUpperImageContainer}>
                 <label className={styles.formUpperImageDiv}  htmlFor="imagefiles" >
                 { imageAsset !== null ? <img src={imageAsset?.url} alt="image"   className={styles.imgUpload} />  : <img src="/images/cross.png" alt="image"  />}
@@ -169,7 +169,7 @@ const NewCollectionComp = ({ inHouseCollections }) => {
                 }} />
                 <h2>official image upload</h2>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className={styles.formLowerPart}>
             <div className={styles.formLowerDescFill}>
