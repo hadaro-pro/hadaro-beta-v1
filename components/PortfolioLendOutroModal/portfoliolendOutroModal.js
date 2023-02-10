@@ -21,15 +21,15 @@ import {
 } from "@renft/sdk";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import { SylvieABI } from "../../utils/abis";
-import styles from "./lendoutro.module.scss";
+import styles from "./portfolliolendoutro.module.scss";
 
-const LendOutroModal = ({
+const PortfolioLendOutroModal = ({
   outroOpen,
   cancleOutro,
   cancelLendModal,
   finalLendObject,
-  removeLent,
-  currentLendIndex,
+  // removeLent,
+  // currentLendIndex,
   setLoadingTxn,
   loadingTxn,
   showLendModal,
@@ -66,7 +66,7 @@ const LendOutroModal = ({
     setTimeout(() => {
       setLoadingTxn(false);
       cancelLendModal();
-      removeLent(currentLendIndex);
+      // removeLent(currentLendIndex);
     }, 5000);
 
  
@@ -279,15 +279,17 @@ const LendOutroModal = ({
 
       message.success('Lending successful!')
 
-      removeLent(currentLendIndex);
+      // removeLent(currentLendIndex);
     } catch (e) {
       console.warn(e.message)
       if (e.message[0] === 'u') {
         message.error(e.message.slice(0, 25), [3])
-      }
-      if (e === 'You do not own this NFT') {
+      } else if (e === 'You do not own this NFT') {
         message.error('already lent')
+      } else {
+        message.error('Something went wrong, i.e. gas fees related issues, try again at a later time', [5])
       }
+      console.warn(e)
       // console.warn((prepareError || error)?.message);
       setLoadingTxn(false);
     }
@@ -312,4 +314,4 @@ const LendOutroModal = ({
   );
 };
 
-export default LendOutroModal;
+export default PortfolioLendOutroModal;

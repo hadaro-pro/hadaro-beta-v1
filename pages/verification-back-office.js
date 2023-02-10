@@ -22,7 +22,7 @@ const VerificationBackOffice = () => {
 
   //  const { data } = getCollections
 
-   console.log("xr", getCollections.data) 
+  //  console.log("xr", getCollections.data) 
 
    setPendingCollections(getCollections.data)
 

@@ -5,12 +5,12 @@
   border-radius: 10px;
   padding: 1rem;
   background: black;
-  transition: all 200ms ease-in-out;
+  // transition: all 200ms ease-in-out;
   cursor: pointer;
 
-  &:hover {
-    opacity: 75%;
-  }
+  // &:hover {
+  //   opacity: 95%;
+  // }
 
   .imagePart {
     width: 100%;
@@ -39,6 +39,33 @@
       font-weight: 600;
       margin: 0 auto !important;
     }
+
+  }
+
+  .mainLendCover {
+    // outline: 3px solid rebeccapurple;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
+  .lendButton {
+    margin: 0 auto !important;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding: .5rem 1rem;
+    font-size: 1rem;
+    color: #fff;
+    background: #1809ff;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+
+&:hover {
+  opacity: 65%;
+  padding: .6rem 1.2rem;
+}
   }
 }
 
@@ -66,6 +93,10 @@
         font-size: .8rem !important;
       }
     }
+    .lendButton {
+      margin: 1rem 0;
+      font-size: .9rem !important;
+    }
   }
 }
 
@@ -92,6 +123,10 @@
       .bottomText {
         font-size: .7rem !important;
       }
+    }
+    .lendButton {
+      margin: 1rem 0;
+      font-size: .8rem !important;
     }
   }
 }
@@ -121,6 +156,10 @@
         //  outline: 3px solid red;
         font-size: .6rem !important;
       }
+    }
+    .lendButton {
+      margin: 1rem 0;
+      font-size: .7rem !important;
     }
   }
 }

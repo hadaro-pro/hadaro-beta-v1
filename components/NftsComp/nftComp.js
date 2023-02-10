@@ -27,7 +27,7 @@ const NftDisplayComp = ({
 
     const ifCollectionExists = verifiedCollectionsArr.filter((i) =>  i.collectionAddr === item.token_address)
 
-    console.log('lki', ifCollectionExists)
+    // console.log('lki', ifCollectionExists)
 
     // const collectionVerificationStatus = ifCollectionExists[0].status
 

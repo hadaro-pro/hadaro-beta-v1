@@ -46,6 +46,23 @@ const PortfolioComp = ({
   const [loadingRentRemove, setLoadingRentRemove] = useState(false);
   const [avatarAsset, setAvatarAsset] = useState(null);
   const [avatarFile, setAvatarFile] = useState(null);
+  const [selectedNFTs] = useState([]);
+  const [currentLendItem, setCurrentLendItem] = useState({
+    nftAddress: "", 
+    tokenID: "", 
+    amount: 1,
+    // nftPrice: 0,
+    dailyRentPrice: 0,
+    maxRentDuration: 0,
+    paymentToken: 1,
+    nftStandard: null,
+    chain: "0x1",
+    collectionName: "",
+    collectionSymbol: "",
+    nftName: "",
+    nftImage: "",
+    nftDesc: "",
+  })
 
   const { address, connector, isConnected } = useAccount();
 
@@ -483,10 +500,13 @@ const PortfolioComp = ({
                         {ownedNfts?.map((el, index) => (
                           <div key={index}>
                             <WalletNfts
+                              allInfo={el}
                               collectionName={el.name}
                               nftname={convertMetadata(index)}
                               nftImg={el.image}
                               metadata={el.metadata}
+                              lendItemObject={currentLendItem} 
+                          setLendItemObject={setCurrentLendItem}
                             />
                           </div>
                           //          <>

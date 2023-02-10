@@ -90,7 +90,7 @@ const previewCollectionToSave = (index) => {
         <CloseOutlined className={styles.closeIcon} onClick={cancelModal} />
       </div>
       <div className={styles.searchPartForm}>
-        <input type="text" placeholder='Search Collections and NFTs' value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+        <input type="text" placeholder="Search Collections and NFTs" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
       </div>
       <div className={styles.collectionsPart}>
       {filterCollection.length > 0 && <h1> Collections </h1>} 
@@ -122,7 +122,8 @@ const previewCollectionToSave = (index) => {
         ))}
         </div>
       </div>
-      { filterCollection.length === 0 && filterNfts.length === 0 && <h1 className={styles.notFound} >No items match your search😑...</h1> }
+      { searchText !== "" && filterCollection.length === 0 && filterNfts.length === 0 && <h1 className={styles.notFound} >No items match your search😑...</h1> }
+      { collectionItems?.length === 0 && nftItems.length === 0 && <h1 className={styles.notFound} >No collections or items available at the moment😑...</h1> }
     </Modal>
   )
 }

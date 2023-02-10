@@ -37,12 +37,11 @@ export default {
       name: 'status',
       title: 'Verification Status',
       type: 'string',
-    }  
-    // {
-    //   name: 'collectionNfts',
-    //   title: 'Collection NFTS',
-    //   type: 'array',
-    //   of: [{ type: 'nftData' }],
-    // }
+    }, 
+    {
+      name: 'notes',
+      title: 'Collection Notes',
+      type: 'string',
+    }, 
   ]
 }

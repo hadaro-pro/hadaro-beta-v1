@@ -49,7 +49,7 @@ const Navbar = ({}) => {
 
   const getAllCollections = async () => {
     try {
-      const getAllCollections = await axios.get(`/api/fetchCollectionData`);
+      const getAllCollections =  await axios.post(`/api/fetchCollectionDataByStatus`, {status: 'verified'});
       // console.log("cols", getAllCollections.data);
       // getAllCollections.data.forEach((item) => {
       //   allCollections.push(item)
@@ -66,7 +66,28 @@ const Navbar = ({}) => {
   const getAllNfts = async () => {
     try {
           const response = await axios.get(`/api/fetchAllNftsInCollection`)
-          const neededNfts = response.data?.filter((item) => item.status !== "non-available")
+
+          let verifiedCollections = []
+
+          allCollections.forEach((i) => {
+            verifiedCollections.push(i.collectionAddress)
+          })
+
+          let toSend = [] 
+
+         
+
+
+          response.data?.forEach((k, index) => {
+            if(verifiedCollections.includes(k.nftAddress)) {
+              toSend.push(k)
+            }
+          })
+
+
+          const neededNfts = toSend?.filter((item) => item.status !== "non-available" )
+
+
           // console.log("nfts", neededNfts);
       setAllNfts(neededNfts)
           // neededNfts.forEach((item) => {
