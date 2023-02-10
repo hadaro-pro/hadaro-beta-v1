@@ -48,8 +48,8 @@ const PortfolioComp = ({
   const [avatarFile, setAvatarFile] = useState(null);
   const [selectedNFTs] = useState([]);
   const [currentLendItem, setCurrentLendItem] = useState({
-    nftAddress: "", 
-    tokenID: "", 
+    nftAddress: "",
+    tokenID: "",
     amount: 1,
     // nftPrice: 0,
     dailyRentPrice: 0,
@@ -62,7 +62,7 @@ const PortfolioComp = ({
     nftName: "",
     nftImage: "",
     nftDesc: "",
-  })
+  });
 
   const { address, connector, isConnected } = useAccount();
 
@@ -505,8 +505,9 @@ const PortfolioComp = ({
                               nftname={convertMetadata(index)}
                               nftImg={el.image}
                               metadata={el.metadata}
-                              lendItemObject={currentLendItem} 
-                          setLendItemObject={setCurrentLendItem}
+                              lendItemObject={currentLendItem}
+                              setLendItemObject={setCurrentLendItem}
+                              verifiedCollectionsArr={verifiedCollections}
                             />
                           </div>
                           //          <>

@@ -19,12 +19,12 @@ import axios from "axios";
 import WalletConnect from "../walletConnectModal/WalletConnect";
 import styles from "./verificationComp.module.scss";
 
-const VerificationComp = ({ pendingCollections, getPendingCollectionData, loadingPendingData, verifiedCollection, getVerifiedCollection, loadingVerifiedData }) => {
+const VerificationComp = ({ pendingCollections, getPendingCollectionData, loadingPendingData, verifiedCollection, getVerifiedCollection, loadingVerifiedData, unVerifiedCollection, getUnverifiedCollection,  loadingUnverifiedData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPage, setShowPage] = useState(false);
   const [isApproved, setIsApproved] = useState(null);
 
-  const clearedAddrs = ["0x0b8ad9582c257aC029e335788017dCB1dE5FBE21"];
+  const clearedAddrs = ["0x0b8ad9582c257aC029e335788017dCB1dE5FBE21", "0xceF5F8490DEE630eC27f5f8A83f387C6d4B8FA10"];
 
   const showModal = () => {
     // setOpenMenuBar(false);
@@ -103,6 +103,8 @@ const VerificationComp = ({ pendingCollections, getPendingCollectionData, loadin
       if(verifyOp.data.status === 'success') {
          message.success("operation success!");
           getPendingCollectionData()
+          getUnverifiedCollection()
+          getVerifiedCollection()
       }
       
     } catch (error) {
@@ -128,6 +130,37 @@ const VerificationComp = ({ pendingCollections, getPendingCollectionData, loadin
 
       if(verifyOp.data.status === 'success') {
          message.success("operation success!");
+         getVerifiedCollection()
+         getPendingCollectionData()
+         getUnverifiedCollection()
+      }
+
+      
+    } catch (error) {
+      console.error(error)
+    }
+
+    // message.success("operation success!");
+    // message.info(value)
+  };
+
+  const handleVerifyOfUnverified = async(value) => {
+
+
+    try {
+
+      const status = "verified"
+      const iden = value
+
+      const verifyOp = await axios.post(`/api/updateCollectionStatus`, { iden, status})
+
+
+      // console.log('xava', verifyOp.data)
+
+      if(verifyOp.data.status === 'success') {
+         message.success("operation success!");
+         getUnverifiedCollection()
+         getPendingCollectionData()
          getVerifiedCollection()
       }
 
@@ -212,7 +245,7 @@ const VerificationComp = ({ pendingCollections, getPendingCollectionData, loadin
       {isApproved === true && (
         <div className={styles.lowerPart}>
        <div className={styles.lowerPartItems}>   
-        { pendingCollections?.length > 0 && <h2>Unverified Collections List</h2> }
+        { pendingCollections?.length > 0 && <h2>Pending Collections List</h2> }
           <div className={styles.listCover}>
           { pendingCollections?.length > 0 && <div className={styles.listHead}>
               <p>Name</p>
@@ -223,7 +256,7 @@ const VerificationComp = ({ pendingCollections, getPendingCollectionData, loadin
             { loadingPendingData ? (<div className={styles.connectToView}>
           <h1> </h1>
         </div>) : pendingCollections?.length === 0 ? (<div className={styles.connectToView}>
-          <h1> No unverified collections at the moment😴...</h1>
+          <h1> No pending verification collections at the moment😴...</h1>
         </div>) :  pendingCollections?.map((item, index) =>  (<div 
         key={index}  className={styles.listBottom}>
           <p> {item.collectionName} </p>
@@ -263,6 +296,34 @@ const VerificationComp = ({ pendingCollections, getPendingCollectionData, loadin
           <div className={styles.actionBtnsLower}>
           <button onClick={() => handleUnverify(item._id)} className={styles.declineBtn}>
               unverify
+            </button>
+          </div>
+        </div>) )
+        }
+  
+  </div>   
+          </div>
+          <div className={styles.lowerPartItems}>   
+        { unVerifiedCollection?.length > 0 && <h2>Unverified Collections List</h2> }
+          <div className={styles.listCover}>
+          { unVerifiedCollection?.length > 0 && <div className={styles.listHead}>
+              <p>Name</p>
+              <p>Contract Address</p>
+              <p>Symbol</p>
+              <p>Actions</p>
+            </div>}
+            { loadingUnverifiedData ? (<div className={styles.connectToView}>
+          <h1> </h1>
+        </div>) : unVerifiedCollection?.length === 0 ? (<div className={styles.connectToView}>
+          <h1> No unverified collections at the moment😴...</h1>
+        </div>) :  unVerifiedCollection?.map((item, index) =>  (<div 
+        key={index}  className={styles.listBottom}>
+          <p> {item.collectionName} </p>
+          <p> {item.collectionAddress} </p>
+          <p> {item.collectionSymbol} </p>
+          <div className={styles.actionBtnsLower}>
+          <button onClick={() => handleVerifyOfUnverified(item._id)} className={styles.verifyUnverifiedBtn}>
+              verify 
             </button>
           </div>
         </div>) )

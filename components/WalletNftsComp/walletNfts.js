@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import styles from "./walletnfts.module.scss";
-
+import { message } from "antd";
 import LendModal from "../LendModal/lendmodal";
 import PortfolioLendOutroModal from "../PortfolioLendOutroModal/portfoliolendOutroModal";
 
-const WalletNfts = ({ collectionName, nftname, nftImg, metadata, allInfo }) => {
+const WalletNfts = ({ collectionName, nftname, nftImg, metadata, allInfo, verifiedCollectionsArr }) => {
   const [loadingLend, setLoadingLend] = useState(false);
   const [isLendModalOpen, setIsLendModalOpen] = useState(false);
   const showOutroModal = () => {
@@ -28,6 +29,8 @@ const WalletNfts = ({ collectionName, nftname, nftImg, metadata, allInfo }) => {
     nftImage: "",
     nftDesc: "",
   });
+
+  const router = useRouter()
 
 
   // console.log(currentLendItem)
@@ -64,6 +67,33 @@ const WalletNfts = ({ collectionName, nftname, nftImg, metadata, allInfo }) => {
     setOpenOutroModalOpen(false);
   };
 
+  const performPrepareLend = (item) => {
+
+    const ifCollectionExists = verifiedCollectionsArr.filter((i) =>  i.collectionAddr === allInfo.token_address)
+
+    // console.log('lki', ifCollectionExists)
+
+    // const collectionVerificationStatus = ifCollectionExists[0].status
+
+ 
+if (ifCollectionExists.length === 0) {
+    message.info('Your NFT belongs to a collection not yet registered on the platform, redirecting you to the collection form page',[5])
+  
+    setTimeout(() =>  router.push('/new-collection'), 5500)
+} else {
+  if(ifCollectionExists[0].status === "verified") {
+    if(ifCollectionExists[0].collectionAddr.includes(allInfo.token_address.toLowerCase())) {
+      showLendModal();
+      pushToNewArray();
+    }
+  } else  if(ifCollectionExists[0].status === "unverified") {
+    message.info('item belongs to an unverified collection')
+  } else  if(ifCollectionExists[0].status === "pending") {
+    message.info('item belongs to a collection still undergoing the verification process')
+  } 
+}
+  }
+
 
   return (
     <div className={styles.mainCover}>
@@ -95,8 +125,9 @@ const WalletNfts = ({ collectionName, nftname, nftImg, metadata, allInfo }) => {
       <button
           className={styles.lendButton}
           onClick={() => {
-            showLendModal();
-            pushToNewArray();
+            performPrepareLend()
+            // showLendModal();
+            // pushToNewArray();
           }}
         >
           Lend

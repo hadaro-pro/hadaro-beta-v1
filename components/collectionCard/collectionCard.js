@@ -13,7 +13,7 @@ const CollectionCard = ({ posterImage, collectionTitle, status  }) => {
     <div className={styles.mainContainer}>
       <div className={styles.imageContainer}>
       <img 
-       src={posterImage}  
+       src={posterImage === null ? "/images/no-image-placeholder.png" : posterImage}  
        />
       </div>
       <div className={styles.titleContainer} >

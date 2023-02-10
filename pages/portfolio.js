@@ -38,6 +38,25 @@ const Portfolio = () => {
 
   // console.log('finalComp: ', nfts)
 
+  const getAllCollections = async () => {
+    let mainArrItems = [];
+
+    try {
+      const getCollections = await axios.get(`/api/fetchCollectionData`);
+
+      //  console.log('xacv', getCollections.data)
+
+      getCollections?.data?.forEach((item) => {
+        mainArrItems.push({collectionAddr: item.collectionAddress.toLowerCase(), status: item.status});
+      });
+
+      setVerifiedCollectionsArray(mainArrItems);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+
   const getWalletAvatar = async () => {
     try {
       setLoadingAvatar(true)
@@ -190,6 +209,7 @@ const Portfolio = () => {
       handleGetLendingNfts();
       handleGetRentingNfts();
       getWalletAvatar();
+      getAllCollections();
     }
   }, [isConnected, address]);
 

@@ -6,8 +6,10 @@ const VerificationBackOffice = () => {
 
   const [pendingCollections, setPendingCollections] = useState([])
   const [verifiedCollections, setVerifiedCollections] = useState([])
+  const [unVerifiedCollections, setUnVerifiedCollections] = useState([])
   const [pendLoading, setPendLoading] = useState(false)
   const [verifiedLoading, setVerifiedLoading] = useState(false)
+  const [unverifiedLoading, setUnverifiedLoading] = useState(false)
 
 
 
@@ -63,15 +65,46 @@ setVerifiedLoading(false)
   }
 }
 
+
+const getAllUnVerifiedCollections = async() => {
+ 
+  try {    
+setUnverifiedLoading(true)
+
+// const status = 'verified'
+
+ const getCollections = await axios.post(`/api/fetchCollectionDataByStatus`, {status: 'unverified'});
+
+//  const { data } = getCollections
+
+//  console.log("xr", getCollections.data) 
+
+setUnVerifiedCollections(getCollections.data)
+
+
+
+
+
+//  console.log('lengthi', singleCollectionDetails)
+setUnverifiedLoading(false)
+  } catch(e) {
+   console.error(e)
+  }
+}
+
   
   useEffect(() => {
     getAllPendingCollections()
     getAllVerifiedCollections()
+    getAllUnVerifiedCollections()
   }, [])
 
   return (
     <div>
       <VerificationComp  pendingCollections={pendingCollections} getPendingCollectionData={getAllPendingCollections}  loadingPendingData={pendLoading} verifiedCollection={verifiedCollections}  getVerifiedCollection={getAllVerifiedCollections} loadingVerifiedData={verifiedLoading}
+      unVerifiedCollection={unVerifiedCollections}
+       getUnverifiedCollection={getAllUnVerifiedCollections}
+      loadingUnverifiedData={unverifiedLoading}
          />
     </div> 
   )
