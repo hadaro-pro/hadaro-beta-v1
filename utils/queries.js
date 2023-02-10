@@ -4,7 +4,8 @@ export const allNftDataQuery = () => {
     nftAddress,
     tokenID,
     chain,
-    transactionType
+    transactionType,
+    metadataImage
   }`
 
   return query
@@ -26,6 +27,15 @@ export const allNftDataQuery = () => {
 //   }`
 //   return query
 // }
+
+
+export const firstNftImageQuery = () => {
+  const query = `*[_type == "nftData" && status == "available"] | order(_createdAt desc){
+    _id,
+    metadataImage,
+  }`
+  return query
+}
 
 
 export const allCollectionsQuery = () => {

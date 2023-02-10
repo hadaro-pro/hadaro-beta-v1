@@ -25,6 +25,8 @@ const MarketFeatured = ({
   const collectionItemDetails = useSelector((state) => state.collectionItemDetails)
 
 
+
+ 
   // const { itemsArr } = collectionItemDetails
 
   // console.log('homew: ', collectionItemDetails)
@@ -74,6 +76,7 @@ const MarketFeatured = ({
                     posterImage={element.collectionImage}
                     collectionTitle={element.collectionName}
                     status={element.status}
+                    colAddr={element.collectionAddress}
                   />
                 </div>
               );

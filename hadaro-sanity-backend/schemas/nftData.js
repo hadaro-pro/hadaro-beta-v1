@@ -39,7 +39,7 @@ export default {
       type: 'number',
     },
     {
-      name: 'transactionType',
+      name: 'available',
       title: 'Transaction Type',
       type: 'string',
     },
