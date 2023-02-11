@@ -1,17 +1,18 @@
 import { client } from "../../utils/client"
-import { firstNftByCollectionQuery } from "../../utils/queries"
+import { firstNftByCollectionQuery, firstNftImageQuery } from "../../utils/queries"
 
 
 
 
 export default async function handler(req, res) {
    
-     const {address} = req.body  
-
+     const {addr} = req.body 
+     
+     
   try {
       
     // console.log(address)  
-      const query =  allRentedNftsByAddressQuery(address)
+      const query =  firstNftImageQuery(addr)
       
       const data = await client.fetch(query)
       

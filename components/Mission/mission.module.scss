@@ -102,12 +102,23 @@
 
 
 @media only screen and (max-width: 992px) {
+  .mainPart {
+    margin-bottom: 10rem !important;
+  }
+
+  .caption {
+    // outline: 3px solid #fff;
+    width: 80%;
+    margin-bottom: 5rem !important;
+  }
 } 
 
 @media only screen and (max-width: 768px) {
   
   .mainPart {
     width: 90% !important;
+    margin-bottom: 5rem !important;
+    // margin-bottom: 10rem !important;
   }
 
   .caption {
@@ -178,6 +189,11 @@
 
 @media only screen and (max-width: 600px) {
 
+  .mainPart {
+  
+    margin-bottom: 5rem !important;
+  }
+
   .innerImgPart {
     display:  none !important;
   }
@@ -190,6 +206,9 @@
 
 
   .caption {
+      width: 80%;
+      margin-bottom: 2rem !important;
+  
     h1 {
       font-size: 1.8rem !important;
     }

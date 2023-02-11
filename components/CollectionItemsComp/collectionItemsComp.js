@@ -21,6 +21,7 @@ import { message, Modal } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import ArtCard from "../ArtCard/ArtCard";
 import styles from "./collectioncomp.module.scss";
+import { BigNumber } from "ethers";
 
 const featuredData = [
   {
@@ -137,7 +138,7 @@ const featuredData = [
   },
 ];
 
-const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
+const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter, getRefreshItems }) => {
   const { address, connector, isConnected } = useAccount();
   const { data: signer } = useSigner();
 
@@ -197,7 +198,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
   const { collectionInfo } = collectionDetails;
 
   const { colName, colSymbol, iden } = collectionInfo;
-
+  const [rentingLoading, setRentingLoading] = useState(false);
   const [toDisplayData, setToDisplayData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showRentMenu, setShowRentMenu] = useState(false);
@@ -233,13 +234,13 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
     window.scrollTo(0, 100);
   };
 
-  const handlePatch = async(identity, status, type) => {
+  const handlePatch = async(identity, status, type, noOfRentDays, timeOfRent) => {
     try {
-           const allNfts = await axios.put(`/api/updateNftStatus`, {identity, status})
+            await axios.put(`/api/updateNftStatus`, {identity, status})
 
       // console.log('nfts patch result: ', allNfts.data)
 
-      const typeChange = await axios.put(`/api/updateNftData`, {iden, type})
+       await axios.put(`/api/updateNftData`, {identity, type, noOfRentDays, timeOfRent})
 
       // console.log('nfts patch result: ', typeChange.data)
 
@@ -266,7 +267,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
           imageToDisplay = image;
         } 
         else {
-         imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + meta.image;
+         imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + image;
         }
 
        if(image?.includes("https://") || image?.includes("data:image/")) {
@@ -295,9 +296,9 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
       setDisplayAmount(null);
     } else {
       setError(null);
-      setDisplayAmount(unpackedPrice * numFormat);
+      setDisplayAmount((unpackedPrice * numFormat).toFixed(4));
+      setRentalPeriod(value);
     }
-    setRentalPeriod(numFormat);
   };
 
   const convertToken = (value) => {
@@ -315,70 +316,76 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
 
   const handleCompleteRent = async() => {
     try{
-    // if(isConnected) {
-    //   message.success('ride on')
-    // } else {
-    //   message.error('Oops!, connect your wallet to continue')
-    // }
+      setRentingLoading(true)
+    if(isConnected) {
+      if (rentalPeriod === "") {
+        message.info('set a rental period then proceed to renting')
+      } else {
+  
+  
+  
+      const nftStandard = setNftStandard(toDisplayData?.nftStandard);
+      const nftAddress = toDisplayData?.nftAddress;
+      const tokenID = toDisplayData?.tokenID;
+      const identity = toDisplayData?._id;
+      // const lendingID = "1"; // this information is pulled from the subgraph
+      const rentDuration =  rentalPeriod; // in days
+      const decimals = 18;
 
-   
-
-    if (rentalPeriod === "") {
-      message.info('set a rental period then proceed to renting')
+// const amount= BigNumber.from(1).mul(BigNumber.from(10).pow(decimals));
+      const rentAmount = BigNumber.from(BigNumber.from(1).mul(BigNumber.from(10).pow(decimals)));
+  
+      const resp = await getLendingIdForNft(nftAddress, tokenID)
+  
+     
+  
+      const lendingID = resp.lendings[0].id
+  
+      // console.log('head', lendingID)
+  
+      const finalObj = {
+        nftStandard,
+        nftAddress,
+        tokenID,
+        rentDuration,
+        rentAmount,
+        lendingID
+      }
+  
+      const txn =   await collateralFreeContract.rent(
+        [nftStandard],
+        [nftAddress],
+        [tokenID],
+        [lendingID],
+        [rentDuration],
+        [rentAmount]
+      );
+  
+  
+  
+      const receipt = await txn.wait()
+  
+  
+      // console.log(receipt);
+  
+      if(receipt) {
+          await handlePatch(identity, "in rent", "renting", rentDuration, Date.now())
+          // console.log(finalObj)
+          setRentingLoading(false)
+          setRentalPeriod("")
+          getRefreshItems()
+          handleCancel()
+          message.success("rent success!");
+      }
+     
+    }
     } else {
-
-
-
-    const nftStandard = setNftStandard(toDisplayData?.nftStandard);
-    const nftAddress = toDisplayData?.nftAddress;
-    const tokenID = toDisplayData?.tokenID;
-    const identity = toDisplayData?._id;
-    // const lendingID = "1"; // this information is pulled from the subgraph
-    const rentDuration = rentalPeriod; // in days
-    const rentAmount = 1;
-
-    const resp = await getLendingIdForNft(nftAddress, tokenID)
-
-   
-
-    const lendingID = resp.lendings[0].id
-
-    // console.log('head', lendingID)
-
-    const finalObj = {
-      nftStandard,
-      nftAddress,
-      tokenID,
-      rentDuration,
-      rentAmount,
-      lendingID
+      message.error('Oops!, connect your wallet to continue')
+      setRentingLoading(false)
     }
-
-    // const txn =   await collateralFreeContract.rent(
-    //   [nftStandard],
-    //   [nftAddress],
-    //   [tokenID],
-    //   [lendingID],
-    //   [rentDuration],
-    //   [rentAmount]
-    // );
-
-
-
-    // const receipt = await txn.wait()
-
-
-    // console.log(receipt);
-
-    if(receipt) {
-        await handlePatch(identity, "in rent", "renting")
-        message.success("rent success!");
-    }
-    // console.log(finalObj)
-
-  }
 } catch(e) {
-  console.error(error)
+  console.error(e)
+  setRentingLoading(false)
 }
 
 
@@ -540,7 +547,7 @@ const CollectionItemsComp = ({ itemsToDisplay, loadingItems, openFooter }) => {
               </div>
 
               <div className={styles.submitBtn}>
-                <button onClick={handleCompleteRent}>Complete Rent</button>
+                <button onClick={handleCompleteRent}>{ rentingLoading ? 'Processing' : 'Complete Rent'}</button>
               </div>
             </div>
           </div>

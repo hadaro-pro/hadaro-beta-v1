@@ -131,9 +131,14 @@
 
 @media only screen and (max-width: 992px) {
 .topPart {
+  margin-bottom: 4rem !important;
   h1 {
     font-size: 2.5rem !important;
   }
+}
+
+.formPart {
+  margin-bottom: 10rem !important;
 }
 }
 
@@ -206,12 +211,16 @@
   @media only screen and (max-width: 600px) {
     .topPart {
       width:  100% !important;
+      margin-bottom: 2rem !important;
       h1 {
         font-size: 1.5rem !important;
       }
     }
 
     .formPart {
+      
+      margin-bottom: 5rem !important;
+      
       width: 100% !important;
   
       // padding: 2rem 0 !important;

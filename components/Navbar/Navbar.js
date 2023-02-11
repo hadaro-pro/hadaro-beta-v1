@@ -55,7 +55,11 @@ const Navbar = ({}) => {
       //   allCollections.push(item)
       // })
 
-      setAllCollections(getAllCollections.data)
+      const filterCollections = getAllCollections.data.filter((item) => item.status === "verified" && !item._id.includes('drafts'))
+
+      // console.log('ccc', filterCollections)
+
+      setAllCollections(filterCollections)
 
       
     } catch (e) {
@@ -65,30 +69,15 @@ const Navbar = ({}) => {
 
   const getAllNfts = async () => {
     try {
-          const response = await axios.get(`/api/fetchAllNftsInCollection`)
-
-          let verifiedCollections = []
-
-          allCollections.forEach((i) => {
-            verifiedCollections.push(i.collectionAddress)
-          })
-
-          let toSend = [] 
-
-         
+      const response = await axios.get(`/api/fetchAllNftsInCollection`)
+      const neededNfts = response.data.filter((item) => item?.status === "available"  && !item._id?.includes('drafts') )
+      console.log("nfts", neededNfts);
+  setAllNfts(neededNfts)
 
 
-          response.data?.forEach((k, index) => {
-            if(verifiedCollections.includes(k.nftAddress)) {
-              toSend.push(k)
-            }
-          })
+          
 
-
-          const neededNfts = toSend?.filter((item) => item.status !== "non-available" )
-
-
-          // console.log("nfts", neededNfts);
+          console.log("nfts", neededNfts);
       setAllNfts(neededNfts)
           // neededNfts.forEach((item) => {
           //   allNfts.push(item)

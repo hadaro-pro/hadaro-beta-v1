@@ -54,6 +54,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      text-align: center;
 
       h1 {
         color: #01C5BA;
@@ -81,6 +82,10 @@
 
 @media only screen and (max-width: 992px)  {
 
+  .mainContainer {
+    margin-bottom: 15rem !important;
+  }
+
   .caption {
     h1 {
       font-size: 2.5rem !important;
@@ -88,6 +93,7 @@
   }
 
   .mainPart {
+    margin-top: 10rem !important;
     width: 90%  !important;
   }
 }

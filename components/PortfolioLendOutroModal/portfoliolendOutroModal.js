@@ -33,6 +33,7 @@ const PortfolioLendOutroModal = ({
   setLoadingTxn,
   loadingTxn,
   showLendModal,
+  getWalletNft,
 }) => {
   const parseStandards = (value) => {
     if (value === "ERC721") {
@@ -279,6 +280,7 @@ const PortfolioLendOutroModal = ({
 
       message.success('Lending successful!')
 
+      getWalletNft()
       // removeLent(currentLendIndex);
     } catch (e) {
       console.warn(e.message)
@@ -306,7 +308,8 @@ const PortfolioLendOutroModal = ({
       <div className={styles.modalButtons}>
         <button 
         //  disabled={!write || isLoading} onClick={() => write()}
-        onClick={() => processLend()}
+        onClick={() =>
+           processLend()}
         >Yes</button>
         <button onClick={() => cancleOutro()}>No</button>
       </div>

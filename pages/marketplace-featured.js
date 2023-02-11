@@ -9,8 +9,10 @@ import { saveCollectionItemDetails } from '../core/actions/collectionActions.js/
 const MarketplaceFeatured = () => {
 
   const [collections, setCollections] = useState([])
+  const [imageArr, setImageArr] = useState([])
   const [singleCollectionDetails] = useState([])
   const [loading, setLoading] = useState(false)
+
 
   // console.log('frem', singleCollectionDetails)
 
@@ -45,9 +47,25 @@ const MarketplaceFeatured = () => {
       return metaData
   }
 
+  // const getFirstNftImage = async(address) => {
+//   try{
+    
+//     const response = await axios.post(`/api/fetchSingleImage`, {address} )
+
+ 
+//     console.log(response.data)
+//   } catch (e) {
+//     console.error(e)
+//   }
+// }
+
+// useEffect(() => {
+//  getFirstNftImage(colAddr)
+// }, [])
 
   const getAllCollections = async() => {
     let mainArrItems = []
+    let imagesArr = []
  
     try {
 
@@ -61,6 +79,24 @@ const MarketplaceFeatured = () => {
   //  const { data } = getCollections
 
   //  console.log("xr", getCollections.data) 
+ 
+
+   getCollections.data?.forEach(async(item)=> {
+    const addr = item.collectionAddress.toLowerCase()
+    const getfirstNft = await axios.post(`/api/fetchSingleImage`, {addr});
+
+    const filterPart = getfirstNft.data.filter((item) => item.transactionType === "lending" || item.transactionType === "renting" )
+    // console.log(filterPart?.length)
+    // singleCollectionDetails.push({imageNft: filterPart[0]?.metadataImage})
+     imagesArr.push({imageNft: filterPart[0]?.metadataImage})
+   })
+  
+
+  
+   setImageArr(imagesArr)
+
+  //  console.log('dff', imagesArr) 
+
 
    setCollections(getCollections.data)
 
@@ -145,7 +181,7 @@ const MarketplaceFeatured = () => {
   return (
     <div>
       <Navbar />
-      <MarketFeatured storeCollections={collections} imagesArray={singleCollectionDetails} loadingCollections={loading} />
+      <MarketFeatured storeCollections={collections} imagesArray={imageArr} loadingCollections={loading} />
       {/* <button onClick={sharpSTuff}>
         delete
       </button> */}

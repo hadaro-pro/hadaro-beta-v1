@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,6 +6,7 @@ import { saveCollectionDetails } from "../../core/actions/collectionActions.js/c
 import ArtCard from "../ArtCard/ArtCard";
 import styles from "./marketfeatured.module.scss";
 import CollectionCard from "../collectionCard/collectionCard";
+import axios from "axios";
 
 
 
@@ -14,16 +15,65 @@ const MarketFeatured = ({
   imagesArray,
   loadingCollections,
 }) => {
+
+
+  const [finalImg, setFinalImg] = useState([])
+
+
   const router = useRouter();
 
+  if (imagesArray.length > 0 ) {
+    setFinalImg(imagesArray)
+  }
 
-  // console.log('img arr', storeCollections)
+
+  // console.log('img arr', imagesArray)
 
   const dispatch = useDispatch();
 
 
   const collectionItemDetails = useSelector((state) => state.collectionItemDetails)
 
+
+
+
+
+  const nftImageAggregating = (image) => {
+    let imageToDisplay;
+    if (image?.includes(".")) {
+      imageToDisplay = image;
+    } else {
+      imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + image;
+    }
+
+    if (image?.includes("https://") || image?.includes("data:image/")) {
+      imageToDisplay = image;
+    } else {
+      let splicer = image?.slice(7);
+      imageToDisplay = "https://gateway.ipfscdn.io/ipfs/" + splicer;
+    }
+
+    return imageToDisplay;
+  };
+
+  const getImgForCollection = async(address) => {
+    try{
+      
+          const response = await axios.post(`/api/fetchSingleImage`, {address} )
+      
+       
+          // console.log(response.data)
+    
+
+      // const imageToPlace = response.data[0]?.metadataImage
+
+      // const finalRes = nftImageAggregating(imageToPlace)
+
+      // return finalRes
+    } catch(e) {
+      console.error(e)
+    }
+  }
 
 
  
@@ -47,6 +97,12 @@ const MarketFeatured = ({
     router.push(`/collections/${objToSave.iden}`); 
   };
 
+
+
+  useEffect(() => {
+
+  }, [])
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.caption}>
@@ -63,8 +119,9 @@ const MarketFeatured = ({
       </div> : (
           <div className={styles.artPart}>
             {storeCollections?.map((element, index) => {
+              const imageToPlace = imagesArray[index]?.imageNft
               // const singleImage = collectionItemDetails?.itemsArr[index]
-              // console.log('leggo', singleImage)
+              // console.log('leggo', imageToPlace) 
               return (
                 <div
                   key={index}
@@ -73,7 +130,7 @@ const MarketFeatured = ({
                   }}
                 >
                   <CollectionCard
-                    posterImage={element.collectionImage}
+                    posterImage={imageToPlace}
                     collectionTitle={element.collectionName}
                     status={element.status}
                     colAddr={element.collectionAddress}

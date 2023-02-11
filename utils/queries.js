@@ -29,10 +29,11 @@ export const allNftDataQuery = () => {
 // }
 
 
-export const firstNftImageQuery = () => {
-  const query = `*[_type == "nftData" && status == "available"] | order(_createdAt desc){
+export const firstNftImageQuery = (contractAddr) => {
+  const query = `*[_type == "nftData"  && nftAddress == "${contractAddr}"] | order(_createdAt desc){
     _id,
     metadataImage,
+    transactionType
   }`
   return query
 }
@@ -69,13 +70,12 @@ export const statusOfCollectionsQuery = (status) => {
 
 
   export const firstNftByCollectionQuery = (contractAddr) => {
-    const query = `*[_type == "nftData" 
-    && nftAddress == '${contractAddr}'] | order(_createdAt desc){
+    const query = `*[_type == "nftData" ] | order(_createdAt desc){
       _id,
       nftAddress,
       tokenID,
       chain
-    }[0]`
+    }`
 
   return query
 }

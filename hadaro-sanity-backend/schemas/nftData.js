@@ -39,7 +39,7 @@ export default {
       type: 'number',
     },
     {
-      name: 'available',
+      name: 'transactionType',
       title: 'Transaction Type',
       type: 'string',
     },
@@ -72,6 +72,16 @@ export default {
       name: 'nftCollectionName',
       title: 'NFT Collection Name',
       type: 'string',
-    }
+    },
+    {
+      name: 'noOfRentDays',
+      title: 'Number of rent days',
+      type: 'number',
+    },
+    {
+      name: 'timeOfRent',
+      title: 'Time Of Rent',
+      type: 'number',
+    },
   ]
 }

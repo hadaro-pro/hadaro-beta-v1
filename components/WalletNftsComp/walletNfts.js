@@ -5,7 +5,7 @@ import { message } from "antd";
 import LendModal from "../LendModal/lendmodal";
 import PortfolioLendOutroModal from "../PortfolioLendOutroModal/portfoliolendOutroModal";
 
-const WalletNfts = ({ collectionName, nftname, nftImg, metadata, allInfo, verifiedCollectionsArr }) => {
+const WalletNfts = ({ collectionName, nftname, nftImg, metadata, allInfo, verifiedCollectionsArr, getWalletNft }) => {
   const [loadingLend, setLoadingLend] = useState(false);
   const [isLendModalOpen, setIsLendModalOpen] = useState(false);
   const showOutroModal = () => {
@@ -152,6 +152,7 @@ if (ifCollectionExists.length === 0) {
             setLoadingTxn={setLoadingLend}
             loadingTxn={loadingLend}
             showLendModal={showLendModal}
+            getWalletNft={getWalletNft}
           />
         )}
         </div>

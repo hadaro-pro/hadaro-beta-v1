@@ -76,7 +76,7 @@ const Portfolio = () => {
   };
 
   const nftAggregating = (nftList) => {
-    nftList.forEach((item) => {
+    nftList?.forEach((item) => {
       let meta = JSON.parse(item.metadata);
       if (meta && meta.image) {
         if (meta.image.includes(".")) {
@@ -236,6 +236,7 @@ const Portfolio = () => {
         verifiedCollections={verifiedCollectionsArray}
         userAvatar={userAvatarArray}
         avatarLoading={loadingAvatar}
+        getWalletNfts={handleGetAllNfts}
       />
       <Footer />
     </div>

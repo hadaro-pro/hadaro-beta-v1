@@ -38,6 +38,7 @@ const PortfolioComp = ({
   verifiedCollections,
   userAvatar,
   avatarLoading,
+  getWalletNfts,
 }) => {
   const [openLend, setOpenLend] = useState(false);
   const [openRent, setOpenRent] = useState(false);
@@ -80,7 +81,7 @@ const PortfolioComp = ({
     if (image.includes(".")) {
       imageToDisplay = image;
     } else {
-      imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + meta.image;
+      imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + image;
     }
 
     if (image?.includes("https://") || image?.includes("data:image/")) {
@@ -508,6 +509,7 @@ const PortfolioComp = ({
                               lendItemObject={currentLendItem}
                               setLendItemObject={setCurrentLendItem}
                               verifiedCollectionsArr={verifiedCollections}
+                              getWalletNft={getWalletNfts}
                             />
                           </div>
                           //          <>

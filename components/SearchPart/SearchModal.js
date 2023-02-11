@@ -22,11 +22,11 @@ const SearchModal = ({modalOpen, cancelModal, collectionItems, nftItems}) => {
    const collectionItemDetails = useSelector((state) => state.collectionItemDetails)
 
   const filterCollection = collectionItems?.filter((item) => {
-    return searchText.toLowerCase() === '' ? item : item.collectionName.toLowerCase().includes(searchText.toLowerCase())
+    return searchText.toLowerCase() === '' ? item : item?.collectionName?.toLowerCase().includes(searchText.toLowerCase())
   })
 
   const filterNfts = nftItems?.filter((item) => {
-    return searchText.toLowerCase() === '' ? item : item.metadataName.toLowerCase().includes(searchText.toLowerCase())
+    return searchText.toLowerCase() === '' ? item : item?.metadataName.toLowerCase().includes(searchText.toLowerCase())
   })
 
   const nftImageAggregating = (image) => {
@@ -36,7 +36,7 @@ const SearchModal = ({modalOpen, cancelModal, collectionItems, nftItems}) => {
     imageToDisplay = image;
   } 
   else {
-   imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + meta.image;
+   imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + image;
   }
 
  if(image?.includes("https://") || image?.includes("data:image/")) {
@@ -93,13 +93,13 @@ const previewCollectionToSave = (index) => {
         <input type="text" placeholder="Search Collections and NFTs" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
       </div>
       <div className={styles.collectionsPart}>
-      {filterCollection.length > 0 && <h1> Collections </h1>} 
+      {filterCollection?.length > 0 && <h1> Collections </h1>} 
       <div className={styles.collectionsPartItems}>
         {filterCollection.map((item, index) => (
-          <div key={item._id}   className={styles.collectionsPartItem}  onClick={() => {
+          <div key={item?._id}   className={styles.collectionsPartItem}  onClick={() => {
             previewCollectionToSave(index)
           }}  >
-            <img src={item.collectionImage}  alt={item.collectionName} />
+            <img src={item?.collectionImage}  alt={item?.collectionName} />
             <small>{ 
      item.collectionName.length > 15 ?    item.collectionName.slice(0, 15) + "..." : item.collectionName}</small>
           </div> 
@@ -107,23 +107,23 @@ const previewCollectionToSave = (index) => {
         </div>   
       </div> 
       <div className={styles.nftsPart}>
-        {filterNfts.length > 0 && <h1> NFTS </h1>} 
+        {filterNfts?.length > 0 && <h1> NFTS </h1>} 
         <div className={styles.nftPartItems}>
         {filterNfts.map((item) => (
-          <div key={item._id} className={styles.nftPartItem}>
-            <img src={nftImageAggregating(item.metadataImage)}  alt={item.metadataName} />
-            <h5> {item.nftCollectionName.toLowerCase()} </h5>
-            <small>{item.metadataName}</small>
+          <div key={item?._id} className={styles.nftPartItem}>
+            <img src={nftImageAggregating(item.metadataImage)}  alt={item?.metadataName} />
+            <h5> {item?.nftCollectionName?.toLowerCase()} </h5>
+            <small>{item?.metadataName}</small>
             <div className={styles.nftPartBottom}>
-              <p className={styles.nftStatus}> {item.status} </p>
-              <h4> {unpackPrice(item.price)} <span> {convertToken(item.paymentToken)} </span>  </h4>
+              <p className={styles.nftStatus}> {item?.status} </p>
+              <h4> {unpackPrice(item?.price)} <span> {convertToken(item?.paymentToken)} </span>  </h4>
             </div>  
           </div> 
         ))}
         </div>
       </div>
-      { searchText !== "" && filterCollection.length === 0 && filterNfts.length === 0 && <h1 className={styles.notFound} >No items match your search😑...</h1> }
-      { collectionItems?.length === 0 && nftItems.length === 0 && <h1 className={styles.notFound} >No collections or items available at the moment😑...</h1> }
+      { searchText !== "" && filterCollection?.length === 0 && filterNfts?.length === 0 && <h1 className={styles.notFound} >No items match your search😑...</h1> }
+      { collectionItems?.length === 0 && nftItems?.length === 0 && <h1 className={styles.notFound} >No collections or items available at the moment😑...</h1> }
     </Modal>
   )
 }

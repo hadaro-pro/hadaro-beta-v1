@@ -52,11 +52,12 @@ const CollectionItems = () => {
   
       // const filterByContractAddr = response.data?.filter((item) => item.nftAddress.toLowerCase() === contractAddr.toLowerCase())
 
+      // console.log(response.data)
 
-         const filterByActivity = response.data?.filter((item) => item.transactionType !== "previousListed for lending" )
+         const filterByActivity = response.data?.filter((item) => item.transactionType === "lending" || item.transactionType === "renting" )
 
       // previousListed for lending
-      // console.log('filtration', filterByContractAddr)
+      // console.log('filtration', filterByActivity)
 
       //   console.log('resti: ', response.data)
 
@@ -78,7 +79,7 @@ const CollectionItems = () => {
   return (
     <div>
       <Navbar/>
-     <CollectionItemsComp  openFooter={setSealFooter}  loadingItems={loading}  itemsToDisplay={finalCollectionItems} />
+     <CollectionItemsComp  openFooter={setSealFooter}  loadingItems={loading}  itemsToDisplay={finalCollectionItems} getRefreshItems={fetchCollectionNfts} />
    <Footer/>
     </div>
   )
