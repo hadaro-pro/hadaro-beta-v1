@@ -202,6 +202,7 @@ const CollectionItemsComp = ({
   const [rentalPeriod, setRentalPeriod] = useState("");
   const [error, setError] = useState(null);
   const [displayAmount, setDisplayAmount] = useState(null);
+  const [isRentModalOpen, setIsRentModalOpen] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -211,6 +212,15 @@ const CollectionItemsComp = ({
     // setIsModalOpen(false);
     setShowRentMenu(false);
     // openFooter(false);
+  };
+
+
+  const showRentModal = () => {
+    setIsRentModalOpen(true);
+  };
+
+  const handleRentModalCancel = () => {
+    setIsRentModalOpen(false);
   };
 
   const transferPlatformFunds = async () => {
@@ -248,8 +258,8 @@ const CollectionItemsComp = ({
   };
 
   const addEllipsis = (value) => {
-    const firstPart = value.slice(0, 4);
-    const lastPart = value.slice(-3);
+    const firstPart = value?.slice(0, 4);
+    const lastPart = value?.slice(-3);
 
     return firstPart + "..." + lastPart;
   };
@@ -259,9 +269,9 @@ const CollectionItemsComp = ({
 
     setToDisplayData(collection);
     //  console.log('collet: ', toDisplayData)
-    setShowRentMenu(true);
+    setIsRentModalOpen(true);
     // openFooter(true);
-    window.scrollTo(0, 100);
+    // window.scrollTo(0, 100);
   };
 
   const handlePatch = async (
@@ -302,7 +312,7 @@ const CollectionItemsComp = ({
 
   const nftImageAggregating = (image) => {
     let imageToDisplay;
-    if (image.includes(".")) {
+    if (image?.includes(".")) {
       imageToDisplay = image;
     } else {
       imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + image;
@@ -445,15 +455,13 @@ const CollectionItemsComp = ({
           "You do not have enough funds to pay rental fees for this item!",
           [8]
         );
-      } else if ( e.error.message ===
-        "execution reverted: ReNFT::cant rent own nft") {
-          message.error(
-            "You can't rent an item you own!",
-            [8]
-          );
-        }
+      } else if (
+        e.error.message === "execution reverted: ReNFT::cant rent own nft"
+      ) {
+        message.error("You can't rent an item you own!", [8]);
+      }
       setRentingLoading(false);
-      handleCancel()
+      handleCancel();
     }
   };
 
@@ -522,7 +530,8 @@ const CollectionItemsComp = ({
           {colName} {`(${colSymbol})`}{" "}
         </h1>
       </div>
-      {showRentMenu ? (
+      {/* {showRentMenu ? 
+      (
         <div className={styles.overlay}>
           <div className={styles.showRentMenu}>
             <div className={styles.closeMenu}>
@@ -621,7 +630,11 @@ const CollectionItemsComp = ({
             </div>
           </div>
         </div>
-      ) : (
+      ) 
+      
+      :  */}
+      
+      (
         <div className={styles.mainPart}>
           <h2>COLLECTION ITEMS</h2>
           {loadingItems ? (
@@ -647,14 +660,121 @@ const CollectionItemsComp = ({
                     description={item.metadataDesc}
                     position={index}
                     openRentModal={displayNftDetails}
-                    openFinalModal={showModal}
+                    openFinalModal={showRentModal}
                   />
+                  <>
+                  <Modal
+                  open={isRentModalOpen}
+                  footer={null}
+                  onCancel={handleRentModalCancel}
+                  >
+          <div className={styles.showRentMenu}>
+            <div className={styles.closeMenu}>
+              <CloseOutlined
+                className={styles.closeIcon}
+                onClick={handleRentModalCancel}
+              />
+            </div>
+            <div className={styles.infoContainer}>
+              <div className={styles.infoImage}>
+                <img
+                  src={nftImageAggregating(toDisplayData?.metadataImage)}
+                  alt={toDisplayData?.metadataName}
+                />
+              </div>
+              <div className={styles.infoDesc}>
+                <div className={styles.infoDescLender}>
+                  <small className={styles.gray}>Lender</small>
+                  <small> {addEllipsis(toDisplayData?.lenderAddress)} </small>
+                </div>
+                <div className={styles.infoDescName}>
+                  <div className={styles.infoDescMetaNames}>
+                    <h3> {colName} </h3>
+                    <h2> {toDisplayData?.metadataName} </h2>
+                  </div>
+                  <div className={styles.miniInfo}>
+                    <small>
+                      {" "}
+                      {parseStandards(toDisplayData?.nftStandard)}{" "}
+                    </small>
+                    <small> {addEllipsis(toDisplayData?.nftAddress)} </small>
+                  </div>
+                  <div className={styles.miniDesc}>
+                    {miniText ? (
+                      <p className={styles.miniText}>
+                        {toDisplayData?.metadataDesc
+                          .split(" ")
+                          .splice(0, 15)
+                          .join(" ")}
+                        <span
+                          className={styles.ctaForMore}
+                          onClick={() => setMiniText(false)}
+                        >
+                          more
+                        </span>{" "}
+                      </p>
+                    ) : (
+                      <p>
+                        {toDisplayData?.metadataDesc}
+                        <span onClick={() => setMiniText(true)}>less</span>{" "}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.formFillPart}>
+                  <h3>
+                    {" "}
+                    Max Duration in Days{" "}
+                    <span> {toDisplayData?.maxDuration} </span>{" "}
+                  </h3>
+
+                  <div className={styles.formFillPartInput}>
+                    <input
+                      type="text"
+                      placeholder="Set Rental Period"
+                      onChange={(e) => {
+                        showTotalAmount(e.target.value);
+                      }}
+                    />
+                    {error !== null && (
+                      <p className={styles.formErorPart}> {error} </p>
+                    )}
+                  </div>
+                  <div className={styles.dailyPricePart}>
+                    <h3>Daily Price </h3>{" "}
+                    <h1>
+                      {unpackPrice(toDisplayData?.price)}{" "}
+                      {convertToken(toDisplayData?.paymentToken)}{" "}
+                    </h1>
+                  </div>
+                  <div className={styles.finalAmountPart}>
+                    <p>Amount: </p>
+                    <div className={styles.finalAmountContainer}>
+                      <h1>{displayAmount === null ? 0 : displayAmount} </h1>{" "}
+                      <h2>{convertToken(toDisplayData?.paymentToken)} </h2>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.submitBtn}>
+                  <button onClick={handleCompleteRent}>
+                    {rentingLoading ? "Processing" : "Complete Rent"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          
+        </div>
+                  </Modal>
+                  </>
                 </div>
               ))}
             </div>
           )}
         </div>
-      )}
+      )
+      
+       {/* } */}
     </div>
   );
 };
