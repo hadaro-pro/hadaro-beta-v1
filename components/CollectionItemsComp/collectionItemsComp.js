@@ -445,7 +445,13 @@ const CollectionItemsComp = ({
           "You do not have enough funds to pay rental fees for this item!",
           [8]
         );
-      }
+      } else if ( e.error.message ===
+        "execution reverted: ReNFT::cant rent own nft") {
+          message.error(
+            "You can't rent an item you own!",
+            [8]
+          );
+        }
       setRentingLoading(false);
       handleCancel()
     }
