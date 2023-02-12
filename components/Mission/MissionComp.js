@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./mission.module.scss";
 
- 
+  
 // Hadara.io is a lending and rental platform for Web 3.0, NFT, and gaming communities. 
 
 // INTRO

@@ -7,7 +7,7 @@
 
   .caption {
     margin-top: 2rem;
-    display: flex;
+    // display: flex;
     width: 60%;
     // outline: 3px solid  orange;
 
@@ -420,6 +420,7 @@
   .mainContainer {
 
     .caption {
+      text-align: center ;
       width: 90% !important;
       h1 {
         font-size: 2.2rem !important;

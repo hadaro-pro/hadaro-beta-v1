@@ -76,29 +76,33 @@ const MarketplaceFeatured = () => {
 
    const getCollections = await axios.post(`/api/fetchCollectionDataByStatus`, {status: 'verified'});
 
+
+   const filteredCollections = getCollections.data?.filter((item) => item.status === "verified" && !item._id.includes("drafts"))
+
   //  const { data } = getCollections
 
   //  console.log("xr", getCollections.data) 
  
 
-   getCollections.data?.forEach(async(item)=> {
+   filteredCollections.forEach(async(item)=> {
     const addr = item.collectionAddress.toLowerCase()
     const getfirstNft = await axios.post(`/api/fetchSingleImage`, {addr});
 
-    const filterPart = getfirstNft.data.filter((item) => item.transactionType === "lending" || item.transactionType === "renting" )
+    const filterPart = getfirstNft.data.filter((item) => item.transactionType === "lending" || item.transactionType === "renting" && !item._id.includes("drafts"))
+    console.log("xr", filterPart)
     // console.log(filterPart?.length)
     // singleCollectionDetails.push({imageNft: filterPart[0]?.metadataImage})
      imagesArr.push({imageNft: filterPart[0]?.metadataImage})
    })
   
 
-  
+   
    setImageArr(imagesArr)
 
-  //  console.log('dff', imagesArr) 
+   console.log('dff', imagesArr) 
 
 
-   setCollections(getCollections.data)
+   setCollections(filteredCollections)
 
  
   //  data?.forEach(async(el) => {

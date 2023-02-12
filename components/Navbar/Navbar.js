@@ -71,13 +71,13 @@ const Navbar = ({}) => {
     try {
       const response = await axios.get(`/api/fetchAllNftsInCollection`)
       const neededNfts = response.data.filter((item) => item?.status === "available"  && !item._id?.includes('drafts') )
-      console.log("nfts", neededNfts);
+      // console.log("nfts", neededNfts);
   setAllNfts(neededNfts)
 
 
           
 
-          console.log("nfts", neededNfts);
+          // console.log("nfts", neededNfts);
       setAllNfts(neededNfts)
           // neededNfts.forEach((item) => {
           //   allNfts.push(item)

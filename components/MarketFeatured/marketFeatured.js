@@ -17,17 +17,23 @@ const MarketFeatured = ({
 }) => {
 
 
-  const [finalImg, setFinalImg] = useState([])
+  const [finalImg] = useState([])
 
 
   const router = useRouter();
 
-  if (imagesArray.length > 0 ) {
-    setFinalImg(imagesArray)
+  if (imagesArray?.length > 0 ) {
+   imagesArray.forEach((item) => {
+    finalImg.push(item)
+   })
   }
 
 
-  // console.log('img arr', imagesArray)
+// console.log('img arr', finalImg)
+
+const parseImage = (position) => {
+//  console.log(finalImg[position]?.nftImage)
+}
 
   const dispatch = useDispatch();
 
@@ -119,8 +125,8 @@ const MarketFeatured = ({
       </div> : (
           <div className={styles.artPart}>
             {storeCollections?.map((element, index) => {
-              const imageToPlace = imagesArray[index]?.imageNft
-              // const singleImage = collectionItemDetails?.itemsArr[index]
+              // const imageToPlace = imagesArray[index]?.imageNft
+              // // const singleImage = collectionItemDetails?.itemsArr[index]
               // console.log('leggo', imageToPlace) 
               return (
                 <div
@@ -130,7 +136,7 @@ const MarketFeatured = ({
                   }}
                 >
                   <CollectionCard
-                    posterImage={imageToPlace}
+                    posterImage={parseImage(index)}
                     collectionTitle={element.collectionName}
                     status={element.status}
                     colAddr={element.collectionAddress}

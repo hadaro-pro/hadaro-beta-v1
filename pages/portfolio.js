@@ -132,10 +132,13 @@ const Portfolio = () => {
   const handleGetRentingNfts = async () => {
     try {
       setLoadingRentingNfts(true);
+  
+      const addr = address
 
-      // const lenderAddr = address
 
-      const response = await axios.post(`/api/fetchRentingNfts`, { address });
+      // console.log('dff', address)
+
+      const response = await axios.post(`/api/fetchRentingNfts`, { addr });
 
       // console.log('responjek', response.data)
 
@@ -147,8 +150,8 @@ const Portfolio = () => {
 
       setLoadingRentingNfts(false);
     } catch (e) {
-      // console.log(e)
-    }
+      console.error(e)
+    } 
   };
 
   const handleGetAllNfts = async () => {

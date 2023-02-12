@@ -8,7 +8,7 @@ const MarketDiscover = () => {
       <div className={styles.caption}>
         <h1>MARKETPLACE</h1>
       </div>
-    
+     
     <div className={styles.mainContent}>
       <div className={styles.mainCover}>
       <div className={styles.descPart} >

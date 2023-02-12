@@ -19,7 +19,7 @@
   }
 
   .mainPart {
-    margin-top: 15rem;
+    // margin-top: 15rem;
     // outline: 3px solid mediumseagreen;
     width: 80%;
     display: flex;
@@ -109,6 +109,7 @@
   }
 
   .caption {
+    text-align: center;
     h1 {
       font-size: 2rem !important;
     }

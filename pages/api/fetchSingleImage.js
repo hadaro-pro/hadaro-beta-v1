@@ -1,5 +1,5 @@
 import { client } from "../../utils/client"
-import { firstNftByCollectionQuery, firstNftImageQuery } from "../../utils/queries"
+import { firstNftImageQuery } from "../../utils/queries"
 
 
 

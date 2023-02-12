@@ -55,7 +55,7 @@ const CollectionItems = () => {
       // console.log(response.data)
 
          const filterByActivity = response.data?.filter((item) => item.transactionType === "lending" || item.transactionType === "renting" )
-
+      
       // previousListed for lending
       // console.log('filtration', filterByActivity)
 
