@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, message, Select } from "antd";
-import axios from 'axios';
+import axios from "axios";
 import {
   useAccount,
   useSigner,
@@ -8,9 +8,9 @@ import {
   useProvider,
   useConnect,
   erc721ABI,
-  useNetwork
+  useNetwork,
 } from "wagmi";
-import { Contract } from 'ethers'
+import { Contract } from "ethers";
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { Wallet } from "@ethersproject/wallet";
 import {
@@ -18,6 +18,8 @@ import {
   NFTStandard,
   packPrice,
   SYLVESTER_ADDRESS,
+  getRenftContract,
+  DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0
 } from "@renft/sdk";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import { SylvieABI } from "../../utils/abis";
@@ -47,15 +49,16 @@ const LendOutroModal = ({
 
   const { data: signer } = useSigner();
 
-  const { address  } = useAccount()
+  const { address } = useAccount();
 
-  const { chain: mainChain, chains } = useNetwork()
+  const { chain: mainChain, chains } = useNetwork();
 
- 
+  // const collateralFreeContract = new Sylvester(signer);
 
-  const collateralFreeContract = new Sylvester(signer);
-
-  
+  const collateralFreeContract =  getRenftContract({
+    deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
+    signer,
+  });
 
   // const provider = new JsonRpcProvider('https://mainnet.infura.io/v3/6fe73d73563b4e56aef1516412dfe130');
   // const privKey = '6d62eb36590393197c6bc45f7471fbc7f66ae9363f33c1c03144957df95a75d4';
@@ -69,26 +72,21 @@ const LendOutroModal = ({
       removeLent(currentLendIndex);
     }, 5000);
 
- 
-
   const provider = useProvider();
 
- 
-
-  const nftAddress = finalLendObject.nftAddress;
+  const nftAddress = finalLendObject.nftAddress; 
   const tokenID = finalLendObject.tokenID;
   const lendAmount = finalLendObject.amount;
-  const dailyRentPrice = packPrice(finalLendObject.dailyRentPrice);
+  const dailyRentPrice = packPrice(String(finalLendObject.dailyRentPrice));
   const maxRentDuration = finalLendObject.maxRentDuration;
   const paymentToken = finalLendObject.paymentToken;
   const nftStandard = parseStandards(finalLendObject.nftStandard);
   const chain = finalLendObject.chain;
   const collectionName = finalLendObject.collectionName;
   const collectionSymbol = finalLendObject.collectionSymbol;
-  const metadataImage = finalLendObject.nftImage
-  const metadataDesc = finalLendObject.nftDesc
-  const metadataName = finalLendObject.nftName
-
+  const metadataImage = finalLendObject.nftImage;
+  const metadataDesc = finalLendObject.nftDesc;
+  const metadataName = finalLendObject.nftName;
 
   const finlObject = {
     nftAddress,
@@ -98,22 +96,18 @@ const LendOutroModal = ({
     maxRentDuration,
     paymentToken,
     nftStandard,
-    chain
+    chain,
   };
 
   // console.log('hjkol', finlObject);
 
-
-
   // console.log('parsed price', dailyRentPrice)
-
 
   // const ERC721Contract = useContract({
   //   addressOrName: nftAddress,
   //   contractInterface: erc721ABI,
   //   signerOrProvider: provider,
   // });
-
 
   async function requestApproval() {
     // Get signer's address
@@ -148,12 +142,15 @@ const LendOutroModal = ({
   }
 
   const createId = (value) => {
-    const result = value.replace(/([^\w ]|_)/g, '').split(" ").join("-").toLowerCase()
-    return result
-  }
+    const result = value
+      .replace(/([^\w ]|_)/g, "")
+      .split(" ")
+      .join("-")
+      .toLowerCase();
+    return result;
+  };
 
-
-  const sylvesterLend = async(transactionType, chain, status) => {
+  const sylvesterLend = async (transactionType, chain, status) => {
     const txn = await collateralFreeContract.lend(
       [nftStandard],
       [nftAddress],
@@ -164,61 +161,95 @@ const LendOutroModal = ({
       [paymentToken]
     );
 
-   const receipt = await txn.wait()
+    const receipt = await txn.wait();
 
-  //  console.log(receipt);
+    //  console.log(receipt);
 
-  const document = {
-    _type: "nftData",
-    nftAddress,
-    tokenID,
-    chain,
-    lenderAddress: address,
-    price: dailyRentPrice,
-    paymentToken: String(paymentToken),
-    maxDuration: maxRentDuration,
-    transactionType,
-    status,
-    metadataName,
-    metadataDesc,
-    metadataImage,
-    nftStandard: String(nftStandard)
+    if (receipt) {
+      const document = {
+        _type: "nftData",
+        nftAddress,
+        tokenID,
+        chain,
+        lenderAddress: address,
+        price: dailyRentPrice,
+        paymentToken: String(paymentToken),
+        maxDuration: maxRentDuration,
+        transactionType,
+        status,
+        metadataName,
+        metadataDesc,
+        metadataImage,
+        nftCollectionName: collectionName,
+        nftStandard: String(nftStandard),
+      };
+
+      await axios.post(`/api/postNftData`, document);
+
+      // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
+      const collectionAddr = nftAddress
+      const getCollection = await axios.post(`/api/fetchItemCollection`, {
+        collectionAddr,
+      });
+  
+      const filterDrafts = getCollection.data.filter((item) => !item._id?.includes("drafts"))
+      // console.log('results: ', filterDrafts)
+  
+      const itemId = filterDrafts[0]?._id
+  
+      const itemCount = filterDrafts[0]?.itemCount
+      // console.log('results: ', itemCount)
+  
+      let finalValue
+  
+      if(itemCount === null) {
+        finalValue = 0
+      } else {
+        finalValue = Number(itemCount)
+      }
+  
+     const valueToSend = String(finalValue + 1)
+      // console.log('final: ', valueToSend)
+    
+      const count = valueToSend
+  
+      const patchItem  = await axios.post(`/api/updateCollectionItemCount`, {
+        itemId,
+        count
+      });
+  
+      // console.log('res: ', patchItem.data)
+
+    }
+
+    // const collection = {
+    //   _type: "collectionsData",
+    //   _id: createId(collectionName),
+    //   collectionName: collectionName,
+    //   collectionSymbol: collectionSymbol,
+    //   chain,
+    //   collectionAddress: nftAddress,
+    // };
+
+    // console.log(response.data);
+
+    //   if(response.data.msg === 'success') {
+
+    //     const res = await axios.post(`/api/postCollectionsData`, collection);
+    //     console.log('for collectionCreation', res.data);
+
+    //     if(res.data.msg === 'success') {
+    //        console.log('collection created successfully')
+    //   }
+
+    //   if(res.data.response.body.error.items[0].error.description === `Document by ID "${createId(collectionName)}" already exists`){
+    //     console.log('collection successful')
+    //   }
+    //  }
   };
-
-  const collection = {
-    _type: "collectionsData",
-    _id: createId(collectionName),
-    collectionName: collectionName,
-    collectionSymbol: collectionSymbol,
-    chain,
-    collectionAddress: nftAddress,
-  }; 
-
-  const response = await axios.post(`/api/postNftData`, document);
-
-  // console.log(response.data);
-
-//   if(response.data.msg === 'success') {
-   
-
-//     const res = await axios.post(`/api/postCollectionsData`, collection);
-//     console.log('for collectionCreation', res.data);
-
-
-//     if(res.data.msg === 'success') {
-//        console.log('collection created successfully')
-//   }
-
-//   if(res.data.response.body.error.items[0].error.description === `Document by ID "${createId(collectionName)}" already exists`){
-//     console.log('collection successful')
-//   }
-//  }
-}
 
   const processLend = async () => {
     try {
-
-
       // const nftAddress = finalLendObject.nftAddress;
       // const tokenID = finalLendObject.tokenID;
       // const lendAmount = finalLendObject.amount;
@@ -227,11 +258,9 @@ const LendOutroModal = ({
       // const paymentToken = finalLendObject.paymentToken;
       // const nftStandard = parseStandards(finalLendObject.nftStandard);
 
-
-
       const transactionType = "lending";
 
-      const status = "available"
+      const status = "available";
 
       const finalObject = {
         nftAddress,
@@ -241,7 +270,7 @@ const LendOutroModal = ({
         maxRentDuration,
         paymentToken,
         nftStandard,
-        chain
+        chain,
       };
 
       // console.log(finalObject);
@@ -258,35 +287,31 @@ const LendOutroModal = ({
 
       // console.log(data?.hash);
 
-
-
-      if(nftStandard === 0) {
-         await  requestApproval()
-         await sylvesterLend(transactionType, chain, status)
-      } 
-
-      if(nftStandard === 1) {
-       await sylvesterLend(transactionType, chain, status)
+      if (nftStandard === 0) {
+        await requestApproval();
+        await sylvesterLend(transactionType, chain, status);
       }
 
+      if (nftStandard === 1) {
+        await sylvesterLend(transactionType, chain, status);
+      }
 
-       
       // unfakeTxn()
 
       setLoadingTxn(false);
 
       cancelLendModal();
 
-      message.success('Lending successful!')
+      message.success("Lending successful!");
 
       removeLent(currentLendIndex);
     } catch (e) {
-      console.warn(e.message)
-      if (e.message[0] === 'u') {
-        message.error(e.message.slice(0, 25), [3])
+      console.warn(e.message);
+      if (e.message[0] === "u") {
+        message.error(e.message.slice(0, 25), [3]);
       }
-      if (e === 'You do not own this NFT') {
-        message.error('already lent')
+      if (e === "You do not own this NFT") {
+        message.error("already lent");
       }
       // console.warn((prepareError || error)?.message);
       setLoadingTxn(false);
@@ -302,10 +327,12 @@ const LendOutroModal = ({
     >
       <h3>Are you sure?</h3>
       <div className={styles.modalButtons}>
-        <button 
-        //  disabled={!write || isLoading} onClick={() => write()}
-        onClick={() => processLend()}
-        >Yes</button>
+        <button
+          //  disabled={!write || isLoading} onClick={() => write()}
+          onClick={() => processLend()}
+        >
+          Yes
+        </button>
         <button onClick={() => cancleOutro()}>No</button>
       </div>
     </Modal>

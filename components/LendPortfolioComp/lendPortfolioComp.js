@@ -15,6 +15,9 @@ import {
   NFTStandard,
   packPrice,
   unpackPrice,
+  DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
+  SylvesterV0FunctionInterface,
+  getRenftContract
 } from "@renft/sdk";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import { client } from "../../utils/client";
@@ -80,7 +83,11 @@ const LendPortfolioComp = ({
 
   const { chain: mainChain, chains } = useNetwork();
 
-  const collateralFreeContract = new Sylvester(signer);
+  // const collateralFreeContract = new Sylvester(signer);
+  const collateralFreeContract =  getRenftContract({
+    deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
+    signer,
+  });
 
   const handleCheckChain = () => {
     // console.log(mainChain?.name)
@@ -253,7 +260,7 @@ const LendPortfolioComp = ({
     const lenderAddress = "0x0b8ad9582c257aC029e335788017dCB1dE5FBE21";
     const tokenID = "30916";
     const chain = "0x1";
-    const price = packPrice(10 / 10000);
+    const price = packPrice(`${10 / 10000}`);
     const paymentToken = "WETH";
     const maxDuration = 15;
     const transactionType = "lending";
@@ -288,56 +295,57 @@ const LendPortfolioComp = ({
 
       // console.log('for nftDataCreation', response.data.msg);
 
-      if (response.data.msg === "success") {
-        const res = await axios.post(`/api/postCollectionsData`, collection);
-        // console.log('for collectionCreation', res.data);
+      // if (response.data.msg === "success") {
+      //   const res = await axios.post(`/api/postCollectionsData`, collection);
+      //   // console.log('for collectionCreation', res.data);
 
-        if (res.data.msg === "success") {
-          // const identifier = createId(collectionName)
-          // const pushToCollection = await axios.put(`/api/updateCollection`, document,       {params: {
-          //     collectionId: identifier
-          //   }})
-          //  console.log(pushToCollection.data.msg)
-        }
+      //   if (res.data.msg === "success") {
+      //     // const identifier = createId(collectionName)
+      //     // const pushToCollection = await axios.put(`/api/updateCollection`, document,       {params: {
+      //     //     collectionId: identifier
+      //     //   }})
+      //     //  console.log(pushToCollection.data.msg)
+      //   }
 
-        if (
-          res.data.response.body.error.items[0].error.description ===
-          `Document by ID "${createId(collectionName)}" already exists`
-        ) {
-          // console.log('yes')
-          //     const getCollections = await axios.get(`/api/fetchCollectionData`);
-          //   const { data } = getCollections
-          //   console.log(data)
-          //     const getMatchingCollection = data.filter((el) => el.collectionAddress === nftAddress )
-          //     console.log(`'${getMatchingCollection[0]._id}'`)
-          //   const identifier = getMatchingCollection[0]._id
-          // const pushToCollection = await axios.patch(`/api/updateCollection`, document,       {params: {
-          //     collectionId: identifier
-          //   }})
-          //   console.log('updateMessage: ', pushToCollection)
-        }
+      //   if (
+      //     res.data.response.body.error.items[0].error.description ===
+      //     `Document by ID "${createId(collectionName)}" already exists`
+      //   ) {
+      //     // console.log('yes')
+      //     //     const getCollections = await axios.get(`/api/fetchCollectionData`);
+      //     //   const { data } = getCollections
+      //     //   console.log(data)
+      //     //     const getMatchingCollection = data.filter((el) => el.collectionAddress === nftAddress )
+      //     //     console.log(`'${getMatchingCollection[0]._id}'`)
+      //     //   const identifier = getMatchingCollection[0]._id
+      //     // const pushToCollection = await axios.patch(`/api/updateCollection`, document,       {params: {
+      //     //     collectionId: identifier
+      //     //   }})
+      //     //   console.log('updateMessage: ', pushToCollection)
+      //   }
 
-        // Document by ID "wizards--dragons-game" already exists
+      //   // Document by ID "wizards--dragons-game" already exists
 
-        // if(res.data.msg === undefined) {
-        //   const getCollections = await axios.get(`/api/fetchCollectionData`);
+      //   // if(res.data.msg === undefined) {
+      //   //   const getCollections = await axios.get(`/api/fetchCollectionData`);
 
-        //   const { data } = getCollections
+      //   //   const { data } = getCollections
 
-        //   console.log(data)
+      //   //   console.log(data)
 
-        //   const getMatchingCollection = data.filter((el) => el.collectionAddress === nftAddress )
+      //   //   const getMatchingCollection = data.filter((el) => el.collectionAddress === nftAddress )
 
-        //   const identifier = getMatchingCollection._id
+      //   //   const identifier = getMatchingCollection._id
 
-        // const pushToCollection = await axios.put(`/api/updateCollection`, document,       {params: {
-        //     collectionId: identifier
-        //   }})
+      //   // const pushToCollection = await axios.put(`/api/updateCollection`, document,       {params: {
+      //   //     collectionId: identifier
+      //   //   }})
 
-        //   console.log(pushToCollection.data.msg)
+      //   //   console.log(pushToCollection.data.msg)
 
-        // }
-      }
+      //   // }
+      // }
+      
     } catch (e) {
       console.warn(e);
     }

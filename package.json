@@ -12,7 +12,7 @@
     "@ant-design/icons": "^4.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/wallet": "^5.7.0",
-    "@renft/sdk": "^5.0.4",
+    "@renft/sdk": "^6.0.0-alpha.1",
     "@sanity/client": "^3.4.1",
     "antd": "^4.24.2",
     "axios": "^1.1.3",

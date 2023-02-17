@@ -43,5 +43,10 @@ export default {
       title: 'Collection Notes',
       type: 'string',
     }, 
+    {
+      name: 'itemCount',
+      title: 'Items Count',
+      type: 'string'
+    }
   ]
 }

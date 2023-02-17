@@ -48,7 +48,8 @@ export const allCollectionsQuery = () => {
     chain,
     collectionImage,
     collectionDesc,
-    status
+    status,
+    itemCount
   }`
   return query
 }
@@ -63,6 +64,7 @@ export const statusOfCollectionsQuery = (status) => {
     chain,
     collectionImage,
     collectionDesc,
+    itemCount,
     status
   }`
   return query
@@ -106,11 +108,23 @@ export const allNftsByCollectionQuery = (contractAddr) => {
 return query
 }
 
+
+
 export const walletAvatarQuery = (walletaddr) => {
   const query = `*[_type == "walletAvatarData" && walletAddress == "${walletaddr}"] | order(_createdAt desc) {
     _id,
     walletAddress,
     walletAvatar,
+  }`
+
+return query
+}
+
+
+export const getItemCollectionCountQuery = (collectionAddr) => {
+  const query = `*[_type == "freshcollectionsData" && collectionAddress == "${collectionAddr}"] | order(_createdAt desc) {
+    _id,
+    itemCount,
   }`
 
 return query

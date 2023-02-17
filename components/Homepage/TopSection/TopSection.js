@@ -100,7 +100,9 @@ const TopSection = () => {
 
   const getAllCollections = async () => {
     try {
-      const getAllCollections = await axios.get(`/api/fetchCollectionData`);
+      const getAllCollections = await axios.post(`/api/fetchCollectionDataByStatus`, {status: 'verified'});
+      
+      // await axios.get(`/api/fetchCollectionData`);
       // console.log("cols", getAllCollections.data);
       // getAllCollections.data.forEach((item) => {
       //   allCollections.push(item)
@@ -124,6 +126,8 @@ const TopSection = () => {
           const neededNfts = response.data.filter((item) => item?.status === "available"  && !item._id?.includes('drafts') )
           // console.log("nfts", neededNfts);
       setAllNfts(neededNfts)
+
+        //  console.log("nfts", neededNfts);
           // neededNfts.forEach((item) => {
           //   allNfts.push(item)
           // })

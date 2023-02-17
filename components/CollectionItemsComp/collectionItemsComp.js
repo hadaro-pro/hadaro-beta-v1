@@ -6,6 +6,9 @@ import {
   NFTStandard,
   packPrice,
   SYLVESTER_ADDRESS,
+  getRenftContract,
+  DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
+  SylvesterV0FunctionInterface,
 } from "@renft/sdk";
 import {
   useAccount,
@@ -149,7 +152,12 @@ const CollectionItemsComp = ({
   const { address, connector, isConnected } = useAccount();
   const { data: signer } = useSigner();
 
-  const collateralFreeContract = new Sylvester(signer);
+  // const collateralFreeContract = new Sylvester(signer);
+
+  const collateralFreeContract =  getRenftContract({
+    deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
+    signer,
+  });
 
   const getLendingIdForNft = async (tokenAddr, tokenID) => {
     try {

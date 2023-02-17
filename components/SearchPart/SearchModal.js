@@ -99,9 +99,10 @@ const previewCollectionToSave = (index) => {
           <div key={item?._id}   className={styles.collectionsPartItem}  onClick={() => {
             previewCollectionToSave(index)
           }}  >
-            <img src={item?.collectionImage}  alt={item?.collectionName} />
+            <img src={item?.collectionImage === null ? "/images/question.png" : item?.collectionImage}  alt={item?.collectionName} />
             <small>{ 
      item.collectionName.length > 15 ?    item.collectionName.slice(0, 15) + "..." : item.collectionName}</small>
+     <small> {item.itemCount} {'item(s)'}</small>
           </div> 
         ))}
         </div>   

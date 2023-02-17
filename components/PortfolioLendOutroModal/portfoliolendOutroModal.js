@@ -18,6 +18,9 @@ import {
   NFTStandard,
   packPrice,
   SYLVESTER_ADDRESS,
+  getRenftContract,
+  SylvesterV0FunctionInterface,
+  DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0
 } from "@renft/sdk";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import { SylvieABI } from "../../utils/abis";
@@ -54,7 +57,12 @@ const PortfolioLendOutroModal = ({
 
  
 
-  const collateralFreeContract = new Sylvester(signer);
+  // const collateralFreeContract = new Sylvester(signer);
+
+  const collateralFreeContract =  getRenftContract({
+    deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
+    signer,
+  });
 
   
 
@@ -79,7 +87,7 @@ const PortfolioLendOutroModal = ({
   const nftAddress = finalLendObject.nftAddress;
   const tokenID = finalLendObject.tokenID;
   const lendAmount = finalLendObject.amount;
-  const dailyRentPrice = packPrice(finalLendObject.dailyRentPrice);
+  const dailyRentPrice = packPrice(String(finalLendObject.dailyRentPrice));
   const maxRentDuration = finalLendObject.maxRentDuration;
   const paymentToken = finalLendObject.paymentToken;
   const nftStandard = parseStandards(finalLendObject.nftStandard);

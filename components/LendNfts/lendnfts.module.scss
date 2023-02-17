@@ -5,12 +5,12 @@
   border-radius: 10px;
   padding: 1rem;
   background: black;
-  transition: all 200ms ease-in-out;
+  // transition: all 200ms ease-in-out;
   cursor: pointer;
 
-  &:hover {
-    opacity: 75%;
-  }
+  // &:hover {
+  //   opacity: 75%;
+  // }
 
   .imagePart {
     width: 100%;
@@ -59,6 +59,12 @@
       background: #1809ff;
       opacity: 90%;
       border-radius: 10px;
+      cursor: pointer;
+      transition: all 200ms ease-in-out;
+
+      &:hover {
+        opacity: 70%;
+      }
     }
   }
 }

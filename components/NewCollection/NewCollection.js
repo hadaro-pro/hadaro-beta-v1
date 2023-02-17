@@ -70,6 +70,7 @@ const NewCollectionComp = ({ inHouseCollections }) => {
       collectionAddress: contractAddr,
       // collectionImage: imageAsset?.url,
       collectionDesc: collectionDesc,
+      itemCount: String(0),
       status: 'pending',
     }
 

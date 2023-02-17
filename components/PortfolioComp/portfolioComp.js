@@ -19,6 +19,9 @@ import {
   NFTStandard,
   packPrice,
   unpackPrice,
+  SylvesterV0FunctionInterface,
+  getRenftContract,
+  DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0
 } from "@renft/sdk";
 import styles from "./portfoliocomp.module.scss";
 import { message } from "antd";
@@ -71,7 +74,12 @@ const PortfolioComp = ({
 
   const { chain: mainChain, chains } = useNetwork();
 
-  const collateralFreeContract = new Sylvester(signer);
+  // const collateralFreeContract = new Sylvester(signer);
+
+  const collateralFreeContract =  getRenftContract({
+    deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
+    signer,
+  });
 
   // console.log('sax: ',lendingNfts)
   // console.log('saxon: ',rentingNfts)
@@ -255,6 +263,51 @@ const PortfolioComp = ({
 
   // }
 
+  const getColandUpdateItemCount = async(collectionAddr) => {
+    // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
+    const getCollection = await axios.post(`/api/fetchItemCollection`, {
+      collectionAddr,
+    });
+
+    const filterDrafts = getCollection.data.filter((item) => !item._id?.includes("drafts"))
+    // console.log('results: ', filterDrafts)
+
+    const itemId = filterDrafts[0]?._id
+
+    const itemCount = filterDrafts[0]?.itemCount
+    // console.log('results: ', itemCount)
+
+    let finalValue
+
+    if(itemCount === null) {
+      finalValue = 0
+    } else {
+      finalValue = Number(itemCount)
+    }
+
+   const valueToSend = String(finalValue - 1)
+    // console.log('final: ', valueToSend)
+
+    if (valueToSend === "-1") {
+      const count = "0"
+
+      const patchItem  = await axios.post(`/api/updateCollectionItemCount`, {
+        itemId,
+        count
+      });
+          // console.log('res0: ', patchItem.data) 
+    } else {
+      const count = valueToSend
+      const patchItem  = await axios.post(`/api/updateCollectionItemCount`, {
+        itemId,
+        count
+      });
+  
+      // console.log('res1: ', patchItem.data)
+    }
+  }
+
+
   const prepareStopLend = async (position) => {
     try {
       setLoadingLendRemove(true);
@@ -294,6 +347,7 @@ const PortfolioComp = ({
             "previousListed for lending",
             "non-available"
           );
+          getColandUpdateItemCount(nftAddress)
           getNewListFunc();
         }
       }
@@ -301,13 +355,20 @@ const PortfolioComp = ({
       //  handleRemoveElement(position)
       //   await handlePatch(iden, "previousListed for lending", "non-available")
       //  getNewListFunc()
-    } catch (error) {
+    } catch (e) {
       setLoadingLendRemove(false);
-      console.error(error);
+      console.error(e);
+      if (e.message[0] === "u" && e.message[1] === "s") {
+        message.error("user rejected transaction");
+      } else if (e.message[0] === "F") {
+        message.error("something went wrong");
+      }
     }
   };
 
   // console.log('owned', ownedNfts)
+
+
 
   return (
     <div className={styles.mainContainer}>
@@ -546,6 +607,7 @@ const PortfolioComp = ({
               </div>
             </div>
           </div>
+          {/* <button onClick={getColandUpdateItemCount}>get and add to item count</button> */}
         </div>
       </div>
     </div>
