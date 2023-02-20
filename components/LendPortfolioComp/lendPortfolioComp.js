@@ -31,6 +31,7 @@ const LendPortfolioComp = ({
   verifiedCollections,
   userAvatar,
   avatarLoading,
+  reloadUserAvatar
 }) => {
   // console.log('bracka', verifiedCollections)
 
@@ -134,6 +135,7 @@ const LendPortfolioComp = ({
               message.info("image upload success");
               // const imgUrl = sortCorsImage(data.url)
               setAvatarAsset(data);
+              reloadUserAvatar()
             }
           });
       } else {
@@ -410,6 +412,21 @@ const LendPortfolioComp = ({
               />
             )}
           </div>
+          {userAvatar?.length > 0  && (
+            <div className={styles.changeAvatar}> 
+            <label htmlFor="imagefile">
+              <p>Change avatar
+              </p>
+              </label>
+              <input
+                  id="imagefile"
+                  type="file"
+                  onChange={(e) => {
+                    setAvatarFile(e.target.files[0]);
+                    uploadImage(e);
+                  }}
+                /> 
+            </div>)}
           <div className={styles.lowerPart}>
             <div className={styles.menuItem}>
               <div

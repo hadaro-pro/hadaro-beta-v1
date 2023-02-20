@@ -118,6 +118,36 @@
 
     }
 
+    .changeAvatar {
+      // outline: 3px solid red;
+      margin-top: .5rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      
+      p {
+        border: none;
+        padding: .5rem 1rem;
+        font-size: 1rem;
+        border-radius: 10px;
+        font-weight: 500;
+        color: #fff;
+        background: #1809ff;
+        cursor: pointer;
+        transition: all 200ms ease-in-out;
+
+        &:hover {
+          opacity: 75%;
+        }
+      }
+
+      input {
+        display: none;
+      }
+    }
+
+
     .lowerPart {
       // outline: 3px solid chartreuse;
       margin-top: 5rem;
@@ -541,6 +571,15 @@
     }
   }
 
+  .changeAvatar {
+    // outline: 3px solid red;
+    
+    p {
+      font-size: .85rem !important;
+    }
+
+  }
+
   .avatarPart {
     // outline: 3px solid red;
     height: 6.5rem !important;
@@ -598,6 +637,15 @@
     h1 {
       font-size: 2.2rem !important;
     }
+  }
+
+  .changeAvatar {
+    // outline: 3px solid red;
+    
+    p {
+      font-size: .8rem !important;
+    }
+
   }
 
 
@@ -665,6 +713,16 @@
     h1 {
       font-size: 1.8rem !important;
     }
+  }
+
+
+  .changeAvatar {
+    // outline: 3px solid red;
+    
+    p {
+      font-size: .7rem !important;
+    }
+
   }
 
 

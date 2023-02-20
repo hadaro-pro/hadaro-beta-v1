@@ -240,6 +240,7 @@ const Portfolio = () => {
         userAvatar={userAvatarArray}
         avatarLoading={loadingAvatar}
         getWalletNfts={handleGetAllNfts}
+        reloadUserAvatar={getWalletAvatar}
       />
       <Footer />
     </div>

@@ -70,6 +70,7 @@ const LendPortfolio = () => {
         verifiedCollections={verifiedCollectionsArray}
         userAvatar={userAvatarArray}
         avatarLoading={loadingAvatar}
+        reloadUserAvatar={getWalletAvatar}
       />
       <Footer />
     </div>

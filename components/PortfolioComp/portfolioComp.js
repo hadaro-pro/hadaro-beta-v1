@@ -42,6 +42,7 @@ const PortfolioComp = ({
   userAvatar,
   avatarLoading,
   getWalletNfts,
+  reloadUserAvatar
 }) => {
   const [openLend, setOpenLend] = useState(false);
   const [openRent, setOpenRent] = useState(false);
@@ -144,6 +145,7 @@ const PortfolioComp = ({
 
               //  const imgUrl = sortCorsImage(data.url)
               setAvatarAsset(data);
+              reloadUserAvatar()
             }
           });
       } else {
@@ -421,6 +423,21 @@ const PortfolioComp = ({
               />
             )}
           </div>
+          {userAvatar?.length > 0  && (
+            <div className={styles.changeAvatar}> 
+            <label htmlFor="imagefile">
+              <p>Change avatar
+              </p>
+              </label>
+              <input
+                  id="imagefile"
+                  type="file"
+                  onChange={(e) => {
+                    setAvatarFile(e.target.files[0]);
+                    uploadImage(e);
+                  }}
+                />
+            </div>)}
           <div className={styles.lowerPart}>
             <div className={styles.menuItem}>
               <div className={styles.menuItemTop}>

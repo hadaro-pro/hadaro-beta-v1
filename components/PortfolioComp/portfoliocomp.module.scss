@@ -74,6 +74,9 @@
         border-radius: 50%;
       }
 
+
+     
+
      
 
       .formUpperImageContainer {
@@ -112,9 +115,38 @@
       }
     }
 
+    .changeAvatar {
+      // outline: 3px solid red;
+      margin-top: .5rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      p {
+        border: none;
+        padding: .5rem 1rem;
+        font-size: 1rem;
+        border-radius: 10px;
+        font-weight: 500;
+        color: #fff;
+        background: #1809ff;
+        cursor: pointer;
+        transition: all 200ms ease-in-out;
+
+        &:hover {
+          opacity: 75%;
+        }
+      }
+
+      input {
+        display: none;
+      }
+    }
+
     .lowerPart {
       // outline: 3px solid chartreuse;
-      margin-top: 5rem;
+      margin-top: 1rem;
       padding: 2rem;
       width: 100%;
       margin-bottom: 8rem;
@@ -348,6 +380,15 @@
     }
   }
 
+  .changeAvatar {
+    // outline: 3px solid red;
+    
+    p {
+      font-size: .85rem !important;
+    }
+
+  }
+
 
   .waitingPart {
     height: 6.5rem !important;
@@ -432,6 +473,15 @@
     }
   }
 
+  .changeAvatar {
+    // outline: 3px solid red;
+    
+    p {
+      font-size: .8rem !important;
+    }
+
+  }
+
   .waitingPart {
     height: 5.5rem !important;
     width: 5.5rem !important;
@@ -503,6 +553,15 @@
     // padding: 1rem;
     gap: 2.5rem;
     height: auto;
+  }
+
+  .changeAvatar {
+    // outline: 3px solid red;
+    
+    p {
+      font-size: .7rem !important;
+    }
+
   }
 
   .waitingPart {
