@@ -308,7 +308,7 @@ const VerificationComp = ({
       {isApproved === true && (
         <>
   <div className={styles.infoTipsPart}>
-  <p>Navigation Tips <BulbFilled style={{ color: "yellow" }} /> : Hover on a collection name to see its notes. Click on the '{'notes'}' button to add or update collection notes</p>
+  <p>Navigation Tips <BulbFilled style={{ color: "yellow" }} /> : Hover on a collection name to see its notes. Click on the &apos;notes&apos; button to add or update a collection note</p>
   </div>
         <div className={styles.lowerPart}>
           <div className={styles.lowerPartItems}>
