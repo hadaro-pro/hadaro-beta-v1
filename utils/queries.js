@@ -65,7 +65,8 @@ export const statusOfCollectionsQuery = (status) => {
     collectionImage,
     collectionDesc,
     itemCount,
-    status
+    status,
+    notes
   }`
   return query
 }

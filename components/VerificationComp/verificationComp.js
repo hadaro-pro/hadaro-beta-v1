@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Dropdown, message } from "antd";
+import { Dropdown, message, Modal, Tooltip, Alert } from "antd";
 import {
   DownOutlined,
   CaretDownOutlined,
   MenuOutlined,
   CloseOutlined,
+  InfoCircleOutlined,
+  BulbOutlined,
+  BulbFilled
 } from "@ant-design/icons";
 import {
   useAccount,
@@ -33,6 +36,72 @@ const VerificationComp = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPage, setShowPage] = useState(false);
   const [isApproved, setIsApproved] = useState(null);
+  const [currentNote, setCurrentNote] = useState("")
+  const [iden, setIden] = useState("")
+  const [updateNoteLoading, setUpdateNoteLoading] = useState(false)
+  const [isNotesModalOpen, setIsNotesModalOpen] = useState(false);
+
+  // console.log(currentNote)
+  
+  const addToCurrentForUnverified = (position) => {
+    const note = unVerifiedCollection[position].notes
+    const identity = unVerifiedCollection[position]._id
+    // console.log(unVerifiedCollection[position])
+    setCurrentNote(note)
+    setIden(identity)
+    showNotesModal()
+  }
+
+  const addToCurrentFoVerified = (position) => {
+    const note = verifiedCollection[position].notes
+    const identity = verifiedCollection[position]._id
+    // console.log(verifiedCollection[position])
+    setCurrentNote(note)
+    setIden(identity)
+    showNotesModal()
+  }
+
+  const addToCurrentForPending = (position) => {
+    const note = pendingCollections[position].notes
+    const identity = pendingCollections[position]._id
+    // console.log(pendingCollections[position])
+    setCurrentNote(note)
+    setIden(identity)
+    showNotesModal()
+  }
+
+
+  const handleUpdateNoteToDB = async() => {
+    try {
+      setUpdateNoteLoading(true)
+
+      const updateNote =  await axios.post(`/api/updateCollectionNote`, {iden, currentNote});
+
+      // console.log('spd_daa', updateNote.data)
+      if (updateNote.data.status === "success") {
+        message.success("operation success!");
+        getPendingCollectionData();
+        getUnverifiedCollection();
+        getVerifiedCollection();
+        handleNotesCancel()
+      }
+
+      setUpdateNoteLoading(false)
+    } catch (error) {
+      console.error(error)
+      setUpdateNoteLoading(false)
+    }
+  }
+  
+  const showNotesModal = () => {
+    setIsNotesModalOpen(true);
+  };
+  // const handleOk = () => {
+  //   setIsModalOpen(false);
+  // }; 
+  const handleNotesCancel = () => {
+    setIsNotesModalOpen(false);
+  };
 
   const clearedAddrs = [
     "0x0b8ad9582c257aC029e335788017dCB1dE5FBE21",
@@ -237,6 +306,10 @@ const VerificationComp = ({
         </div>
       )}
       {isApproved === true && (
+        <>
+  <div className={styles.infoTipsPart}>
+  <p>Navigation Tips <BulbFilled style={{ color: "yellow" }} /> : Hover on a collection name to see its notes. Click on the '{'notes'}' button to add or update collection notes</p>
+  </div>
         <div className={styles.lowerPart}>
           <div className={styles.lowerPartItems}>
             {pendingCollections?.length > 0 && (
@@ -265,7 +338,9 @@ const VerificationComp = ({
               ) : (
                 pendingCollections?.map((item, index) => (
                   <div key={index} className={styles.listBottom}>
-                    <p> {item.collectionName} </p>
+                     <Tooltip title={item.notes === null ? "no notes for this collection yet" : item.notes }  color={'#000'}>
+                     <p> {item.collectionName} </p>
+                     </Tooltip>
                     <p> {item.collectionAddress} </p>
                     <p> {item.collectionSymbol} </p>
                     <div className={styles.actionBtns}>
@@ -281,6 +356,19 @@ const VerificationComp = ({
                       >
                         decline
                       </button>
+                      <button  className={styles.addNotesBtn}  onClick={() => {addToCurrentForPending(index)}}>
+                        notes
+                      </button>
+                      <Modal className={styles.noteModalCover} footer={null} open={isNotesModalOpen} onCancel={handleNotesCancel}>
+                      <div className={styles.closeMenu}>
+        <CloseOutlined  className={styles.closeIcon} onClick={handleNotesCancel} />
+      </div>
+      <div  className={styles.noteModalMainPart}>
+        <h4>Add/Update Notes</h4>
+        <textarea value={currentNote === null ? "" : currentNote}  onChange={(e) => setCurrentNote(e.target.value)}></textarea>
+        <button  onClick={handleUpdateNoteToDB}>{updateNoteLoading ?  'Updating...' : 'Update'}</button>
+      </div>
+      </Modal>
                     </div>
                   </div>
                 ))
@@ -311,7 +399,9 @@ const VerificationComp = ({
               ) : (
                 verifiedCollection?.map((item, index) => (
                   <div key={index} className={styles.listBottom}>
-                    <p> {item.collectionName} </p>
+                                        <Tooltip title={item.notes === null ? "no notes for this collection yet" : item.notes }  color={'#000'}>
+                     <p> {item.collectionName} </p>
+                     </Tooltip>
                     <p> {item.collectionAddress} </p>
                     <p> {item.collectionSymbol} </p>
                     <div className={styles.actionBtnsLower}>
@@ -321,6 +411,19 @@ const VerificationComp = ({
                       >
                         unverify
                       </button>
+                      <button  className={styles.addNotesBtn}  onClick={() => {addToCurrentFoVerified(index)}}>
+                        notes
+                      </button>
+                      <Modal className={styles.noteModalCover} footer={null} open={isNotesModalOpen} onCancel={handleNotesCancel}>
+                      <div className={styles.closeMenu}>
+        <CloseOutlined  className={styles.closeIcon} onClick={handleNotesCancel} />
+      </div>
+      <div  className={styles.noteModalMainPart}>
+        <h4>Add/Update Notes</h4>
+        <textarea value={currentNote === null ? "" : currentNote}  onChange={(e) => setCurrentNote(e.target.value)}></textarea>
+        <button  onClick={handleUpdateNoteToDB}>{updateNoteLoading ?  'Updating...' : 'Update'}</button>
+      </div>
+      </Modal>
                     </div>
                   </div>
                 ))
@@ -351,7 +454,9 @@ const VerificationComp = ({
               ) : (
                 unVerifiedCollection?.map((item, index) => (
                   <div key={index} className={styles.listBottom}>
-                    <p> {item.collectionName} </p>
+                      <Tooltip title={item.notes === null ? "no notes for this collection yet" : item.notes }  color={'#000'}>
+                     <p> {item.collectionName} </p>
+                     </Tooltip>
                     <p> {item.collectionAddress} </p>
                     <p> {item.collectionSymbol} </p>
                     <div className={styles.actionBtnsLower}>
@@ -361,6 +466,19 @@ const VerificationComp = ({
                       >
                         delete
                       </button>
+                      <button  className={styles.addNotesBtn}  onClick={() => {addToCurrentForUnverified(index)}}>
+                     notes
+                      </button>
+                      <Modal className={styles.noteModalCover} footer={null} open={isNotesModalOpen} onCancel={handleNotesCancel}>
+                      <div className={styles.closeMenu}>
+        <CloseOutlined  className={styles.closeIcon} onClick={handleNotesCancel} />
+      </div>
+      <div  className={styles.noteModalMainPart}>
+        <h4>Add/Update Notes</h4>
+        <textarea value={currentNote === null ? "" : currentNote}  onChange={(e) => setCurrentNote(e.target.value)}></textarea>
+        <button  onClick={handleUpdateNoteToDB}>{updateNoteLoading ?  'Updating...' : 'Update'}</button>
+      </div>
+      </Modal>
                     </div>
                   </div>
                 ))
@@ -371,6 +489,7 @@ const VerificationComp = ({
             <button>Go to Home Page</button>
           </div>
         </div>
+        </>
       )}
       {isApproved === false && (
         <div className={styles.connectToView}>

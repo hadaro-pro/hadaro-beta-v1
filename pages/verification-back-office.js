@@ -24,9 +24,12 @@ const VerificationBackOffice = () => {
 
   //  const { data } = getCollections
 
-  //  console.log("xr", getCollections.data) 
+  const filterDrafts = getCollections.data.filter((item) => !item._id?.includes("drafts"))
 
-   setPendingCollections(getCollections.data)
+
+  //  console.log("xr", filterDrafts) 
+
+   setPendingCollections(filterDrafts)
 
 
 
@@ -50,10 +53,12 @@ setVerifiedLoading(true)
 
 //  const { data } = getCollections
 
-//  console.log("xr", getCollections.data) 
+const filterDrafts = getCollections.data.filter((item) => !item._id?.includes("drafts"))
 
- setVerifiedCollections(getCollections.data)
+ console.log("xrt", filterDrafts) 
 
+ setVerifiedCollections(filterDrafts)
+ 
 
 
 
@@ -77,9 +82,14 @@ setUnverifiedLoading(true)
 
 //  const { data } = getCollections
 
-//  console.log("xr", getCollections.data) 
+const filterDrafts = getCollections.data.filter((item) => !item._id?.includes("drafts"))
 
-setUnVerifiedCollections(getCollections.data)
+
+//  console.log("xry", filterDrafts) 
+
+
+
+setUnVerifiedCollections(filterDrafts)
 
 
 
