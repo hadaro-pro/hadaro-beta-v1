@@ -177,7 +177,9 @@ const PortfolioLendOutroModal = ({
 
   //  console.log(receipt);
 
-  const document = {
+
+  if (receipt) {
+   const document = {
     _type: "nftData",
     nftAddress,
     tokenID,
@@ -194,16 +196,71 @@ const PortfolioLendOutroModal = ({
     nftStandard: String(nftStandard)
   };
 
-  const collection = {
-    _type: "collectionsData",
-    _id: createId(collectionName),
-    collectionName: collectionName,
-    collectionSymbol: collectionSymbol,
-    chain,
-    collectionAddress: nftAddress,
-  }; 
+    await axios.post(`/api/postNftData`, document);
 
-  const response = await axios.post(`/api/postNftData`, document);
+    // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
+    const collectionAddr = nftAddress
+    const getCollection = await axios.post(`/api/fetchItemCollection`, {
+      collectionAddr,
+    });
+
+    const filterDrafts = getCollection.data.filter((item) => !item._id?.includes("drafts"))
+    // console.log('results: ', filterDrafts)
+
+    const itemId = filterDrafts[0]?._id
+
+    const itemCount = filterDrafts[0]?.itemCount
+    // console.log('results: ', itemCount)
+
+    let finalValue
+
+    if(itemCount === null) {
+      finalValue = 0
+    } else {
+      finalValue = Number(itemCount)
+    }
+
+   const valueToSend = String(finalValue + 1)
+    // console.log('final: ', valueToSend)
+  
+    const count = valueToSend
+
+    const patchItem  = await axios.post(`/api/updateCollectionItemCount`, {
+      itemId,
+      count
+    });
+
+    // console.log('res: ', patchItem.data)
+
+  }
+
+  // const document = {
+  //   _type: "nftData",
+  //   nftAddress,
+  //   tokenID,
+  //   chain,
+  //   lenderAddress: address,
+  //   price: dailyRentPrice,
+  //   paymentToken: String(paymentToken),
+  //   maxDuration: maxRentDuration,
+  //   transactionType,
+  //   status,
+  //   metadataName,
+  //   metadataDesc,
+  //   metadataImage,
+  //   nftStandard: String(nftStandard)
+  // };
+
+  // const collection = {
+  //   _type: "collectionsData",
+  //   _id: createId(collectionName),
+  //   collectionName: collectionName,
+  //   collectionSymbol: collectionSymbol,
+  //   chain,
+  //   collectionAddress: nftAddress,
+  // }; 
+
+  await axios.post(`/api/postNftData`, document);
 
   // console.log(response.data);
 
@@ -296,8 +353,13 @@ const PortfolioLendOutroModal = ({
         message.error(e.message.slice(0, 25), [3])
       } else if (e === 'You do not own this NFT') {
         message.error('already lent')
-      } else {
-        message.error('Something went wrong, i.e. gas fees related issues, try again at a later time', [5])
+      } else if(e.error?.message === "execution reverted: ReNFT::rent price is zero") {
+        message.error('daily rental price entered too low', [3])
+      } else if(e.message === "supplied price exceeds 9999.9999") {
+        message.error('daily rent price supplied too high', [3])
+      }
+      else {
+        message.error('Something went wrong...', [5])
       }
       console.warn(e)
       // console.warn((prepareError || error)?.message);

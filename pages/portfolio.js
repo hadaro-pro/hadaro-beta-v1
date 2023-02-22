@@ -52,7 +52,7 @@ const Portfolio = () => {
 
       setVerifiedCollectionsArray(mainArrItems);
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 
@@ -71,7 +71,7 @@ const Portfolio = () => {
       setLoadingAvatar(false)
     } catch (e) {
       setLoadingAvatar(false)
-      console.error(e);
+      // console.error(e);
     }
   };
 
@@ -103,7 +103,7 @@ const Portfolio = () => {
   const handleLentNfts = async () => {
     try {
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 
@@ -150,7 +150,7 @@ const Portfolio = () => {
 
       setLoadingRentingNfts(false);
     } catch (e) {
-      console.error(e)
+      // console.error(e)
     } 
   };
 
@@ -202,7 +202,7 @@ const Portfolio = () => {
 
       setLoadingWalletNfts(false);
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 

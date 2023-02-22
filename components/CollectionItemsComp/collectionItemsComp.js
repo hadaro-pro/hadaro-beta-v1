@@ -256,7 +256,7 @@ const CollectionItemsComp = ({
 
       // console.log(processFee);
     } catch (e) {
-      console.error(e.message);
+      // console.error(e.message);
       if (e.message[0] === "u" && e.message[1] === "s") {
         message.error("user rejected transaction");
       } else if (e.message[0] === "F") {
@@ -303,7 +303,7 @@ const CollectionItemsComp = ({
 
       // console.log('nfts patch result: ', typeChange.data)
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     }
   };
 
@@ -386,7 +386,7 @@ const CollectionItemsComp = ({
             const nftStandard = toDisplayData?.nftStandard;
 
             // console.log(toDisplayData?.nftStandard)
-            const nftAddress = toDisplayData?.nftAddress;
+            const nftAddress = toDisplayData?.nftAddress.toLowerCase();
             const tokenID = toDisplayData?.tokenID;
             //       const identity = toDisplayData?._id;
             // const lendingID = "1"; // this information is pulled from the subgraph
@@ -398,7 +398,8 @@ const CollectionItemsComp = ({
 
             const resp = await getLendingIdForNft(nftAddress, tokenID);
 
-            const lendingID = resp.lendings[0].id;
+            //  console.log('vbb', resp)
+            const lendingID = resp.lendings[0]?.id;
 
             // console.log('head', lendingID)
 
@@ -456,7 +457,7 @@ const CollectionItemsComp = ({
     } catch (e) {
       console.warn(e);
       if (
-        e.error.message ===
+        e.error?.message ===
         "execution reverted: SafeERC20: low-level call failed"
       ) {
         message.error(
@@ -464,7 +465,7 @@ const CollectionItemsComp = ({
           [8]
         );
       } else if (
-        e.error.message === "execution reverted: ReNFT::cant rent own nft"
+        e.error?.message === "execution reverted: ReNFT::cant rent own nft" 
       ) {
         message.error("You can't rent an item you own!", [8]);
       }
@@ -675,8 +676,8 @@ const CollectionItemsComp = ({
                   open={isRentModalOpen}
                   footer={null}
                   onCancel={handleRentModalCancel}
+                  className={styles.rentModalCover} 
                   >
-          <div className={styles.showRentMenu}>
             <div className={styles.closeMenu}>
               <CloseOutlined
                 className={styles.closeIcon}
@@ -771,8 +772,6 @@ const CollectionItemsComp = ({
                 </div>
               </div>
             </div>
-          
-        </div>
                   </Modal>
                   </>
                 </div>

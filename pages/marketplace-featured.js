@@ -89,7 +89,7 @@ const MarketplaceFeatured = () => {
     const getfirstNft = await axios.post(`/api/fetchSingleImage`, {addr});
 
     const filterPart = getfirstNft.data.filter((item) => item.transactionType === "lending" || item.transactionType === "renting" && !item._id.includes("drafts"))
-    console.log("xr", filterPart)
+    // console.log("xr", filterPart)
     // console.log(filterPart?.length)
     // singleCollectionDetails.push({imageNft: filterPart[0]?.metadataImage})
      imagesArr.push({imageNft: filterPart[0]?.metadataImage})
@@ -99,7 +99,7 @@ const MarketplaceFeatured = () => {
    
    setImageArr(imagesArr)
 
-   console.log('dff', imagesArr) 
+  //  console.log('dff', imagesArr) 
 
 
    setCollections(filteredCollections)
@@ -174,7 +174,7 @@ const MarketplaceFeatured = () => {
   //  console.log('lengthi', singleCollectionDetails)
   setLoading(false)
     } catch(e) {
-     console.error(e)
+    //  console.error(e)
     }
  }
   

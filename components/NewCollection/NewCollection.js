@@ -126,7 +126,7 @@ const NewCollectionComp = ({ inHouseCollections }) => {
       }
 
     } catch(e) {
-      console.error(e)
+      // console.error(e)
       setLoading(false)
     }
   }

@@ -36,7 +36,7 @@ const LendPortfolio = () => {
       setLoadingAvatar(false)
     } catch (e) {
       setLoadingAvatar(false)
-      console.error(e);
+      // console.error(e);
     }
   };
 

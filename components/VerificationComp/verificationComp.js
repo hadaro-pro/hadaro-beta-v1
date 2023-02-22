@@ -88,7 +88,7 @@ const VerificationComp = ({
 
       setUpdateNoteLoading(false)
     } catch (error) {
-      console.error(error)
+      // console.error(error)
       setUpdateNoteLoading(false)
     }
   }
@@ -156,7 +156,7 @@ const VerificationComp = ({
         getPendingCollectionData();
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
 
     // message.success("operation success!");
@@ -178,7 +178,7 @@ const VerificationComp = ({
         getVerifiedCollection();
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
 
     // message.success("operation success!");
@@ -204,7 +204,7 @@ const VerificationComp = ({
         getUnverifiedCollection();
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
 
     // message.success("operation success!");
@@ -230,7 +230,7 @@ const VerificationComp = ({
         getVerifiedCollection();
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
 
     // message.success("operation success!");

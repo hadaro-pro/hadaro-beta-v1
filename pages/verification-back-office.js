@@ -38,7 +38,7 @@ const VerificationBackOffice = () => {
   //  console.log('lengthi', singleCollectionDetails)
   setPendLoading(false)
     } catch(e) {
-     console.error(e)
+    //  console.error(e)
     }
  }
 
@@ -55,7 +55,7 @@ setVerifiedLoading(true)
 
 const filterDrafts = getCollections.data.filter((item) => !item._id?.includes("drafts"))
 
- console.log("xrt", filterDrafts) 
+//  console.log("xrt", filterDrafts) 
 
  setVerifiedCollections(filterDrafts)
  
@@ -66,7 +66,7 @@ const filterDrafts = getCollections.data.filter((item) => !item._id?.includes("d
 //  console.log('lengthi', singleCollectionDetails)
 setVerifiedLoading(false)
   } catch(e) {
-   console.error(e)
+  //  console.error(e)
   }
 }
 
@@ -98,7 +98,7 @@ setUnVerifiedCollections(filterDrafts)
 //  console.log('lengthi', singleCollectionDetails)
 setUnverifiedLoading(false)
   } catch(e) {
-   console.error(e)
+  //  console.error(e)
   }
 }
 

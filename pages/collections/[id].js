@@ -65,7 +65,7 @@ const CollectionItems = () => {
 
       setLoading(false)
     } catch(err) {
-      console.error(err)
+      // console.error(err)
     }
   }
 

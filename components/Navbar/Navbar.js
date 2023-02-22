@@ -63,7 +63,7 @@ const Navbar = ({}) => {
 
       
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 
@@ -83,7 +83,7 @@ const Navbar = ({}) => {
           //   allNfts.push(item)
           // })
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 

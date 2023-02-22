@@ -7,6 +7,10 @@
   background: black;
   // transition: all 200ms ease-in-out;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 
   // &:hover {
   //   opacity: 95%;

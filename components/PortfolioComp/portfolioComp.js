@@ -179,7 +179,7 @@ const PortfolioComp = ({
 
       // console.log('nfts patch result: ', allNfts.data)
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     }
   };
 
@@ -343,12 +343,12 @@ const PortfolioComp = ({
 
         if (receipt) {
           message.success("successfully stopped lend of NFT!");
-          handleRemoveElement(position);
           await handlePatch(
             iden,
             "previousListed for lending",
             "non-available"
           );
+          handleRemoveElement(position);
           getColandUpdateItemCount(nftAddress)
           getNewListFunc();
         }
@@ -359,7 +359,7 @@ const PortfolioComp = ({
       //  getNewListFunc()
     } catch (e) {
       setLoadingLendRemove(false);
-      console.error(e);
+      // console.error(e);
       if (e.message[0] === "u" && e.message[1] === "s") {
         message.error("user rejected transaction");
       } else if (e.message[0] === "F") {

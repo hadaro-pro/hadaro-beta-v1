@@ -116,7 +116,7 @@ const TopSection = () => {
 
       
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 
@@ -132,7 +132,7 @@ const TopSection = () => {
           //   allNfts.push(item)
           // })
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 
