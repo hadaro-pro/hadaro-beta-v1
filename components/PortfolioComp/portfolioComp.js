@@ -348,8 +348,8 @@ const PortfolioComp = ({
             "previousListed for lending",
             "non-available"
           );
-          handleRemoveElement(position);
           getColandUpdateItemCount(nftAddress)
+          handleRemoveElement(position);
           getNewListFunc();
         }
       }
