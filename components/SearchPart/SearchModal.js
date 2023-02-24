@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Modal, message, Select } from "antd";
@@ -8,12 +8,17 @@ import {CloseOutlined} from '@ant-design/icons'
 import { unpackPrice } from '@renft/sdk'
 import styles from './searchmodal.module.scss'
 
-const SearchModal = ({modalOpen, cancelModal, collectionItems, nftItems}) => {
+const SearchModal = ({modalOpen, cancelModal, collectionItems, nftItems, getCol, getNft}) => {
 
     const [searchText, setSearchText] = useState("")
 
   //  console.log('ss', nftItems)
   //  console.log('ff', collectionItems)
+
+  useEffect(() => {
+    getCol()
+    getNft()
+  }, [])
 
    const router = useRouter()
 
@@ -102,7 +107,7 @@ const previewCollectionToSave = (index) => {
             <img src={item?.collectionImage === null ? "/images/question.png" : item?.collectionImage}  alt={item?.collectionName} />
             <small>{ 
      item.collectionName.length > 15 ?    item.collectionName.slice(0, 15) + "..." : item.collectionName}</small>
-     <small> {item.itemCount} {'item(s)'}</small>
+     <small> {item.itemCount === null ? "0" : item.itemCount} {'item(s)'}</small>
           </div> 
         ))}
         </div>   

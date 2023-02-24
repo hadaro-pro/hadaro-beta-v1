@@ -175,7 +175,7 @@ const PortfolioLendOutroModal = ({
 
    const receipt = await txn.wait()
 
-  //  console.log(receipt);
+   console.log(receipt);
 
 
   if (receipt) {
@@ -197,15 +197,19 @@ const PortfolioLendOutroModal = ({
   };
 
     await axios.post(`/api/postNftData`, document);
+    const nftAddres = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
 
     // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
     const collectionAddr = nftAddress
+    //  const collectionAddr = nftAddres
     const getCollection = await axios.post(`/api/fetchItemCollection`, {
       collectionAddr,
     });
 
+      // console.log('original col: ', getCollection.data)
+
     const filterDrafts = getCollection.data.filter((item) => !item._id?.includes("drafts"))
-    // console.log('results: ', filterDrafts)
+    // console.log('filter col: ', filterDrafts)
 
     const itemId = filterDrafts[0]?._id
 
@@ -225,7 +229,7 @@ const PortfolioLendOutroModal = ({
   
     const count = valueToSend
 
-    const patchItem  = await axios.post(`/api/updateCollectionItemCount`, {
+    await axios.post(`/api/updateCollectionItemCount`, {
       itemId,
       count
     });
@@ -348,7 +352,7 @@ const PortfolioLendOutroModal = ({
       getWalletNft()
       // removeLent(currentLendIndex);
     } catch (e) {
-      console.warn(e.message)
+      // console.warn(e.message)
       if (e.message[0] === 'u') {
         message.error(e.message.slice(0, 25), [3])
       } else if (e === 'You do not own this NFT') {
@@ -361,7 +365,7 @@ const PortfolioLendOutroModal = ({
       else {
         message.error('Something went wrong...', [5])
       }
-      console.warn(e)
+      // console.warn(e)
       // console.warn((prepareError || error)?.message);
       setLoadingTxn(false);
     }

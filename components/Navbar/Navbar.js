@@ -196,6 +196,8 @@ const Navbar = ({}) => {
                     cancelModal={handleSearchModalCancel}
                     collectionItems={allCollections}
                     nftItems={allNfts}
+                    getCol={getAllCollections}
+                    getNft={getAllNfts}
                   />
               </p>
               <p>
@@ -393,6 +395,8 @@ const Navbar = ({}) => {
                     cancelModal={handleSearchModalCancel}
                     collectionItems={allCollections}
                     nftItems={allNfts}
+                    getCol={getAllCollections}
+                    getNft={getAllNfts}
                   />
                 </p>
                 <p>

@@ -3,12 +3,12 @@ import { client } from "../../utils/client";
 export default async function handler(req, res) {
       
 
-    const { iden, status } = req.body
+    const { iden, type } = req.body
 
 
     client
   .patch(iden) // Document ID to patch
-  .set({"status": status}) // Shallow merge
+  .set({"transactionType": type}) // Shallow merge
   .commit() // Perform the patch and return a promise
   .then((updatedDoc) => {
     return  res.status(200).json({
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     })
   })
   .catch((err) => {
-   res.send(err)
+   res.send(err) 
   })
 
 } 

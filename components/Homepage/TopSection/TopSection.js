@@ -330,6 +330,8 @@ const TopSection = () => {
                     cancelModal={handleSearchModalCancel}
                     collectionItems={allCollections}
                     nftItems={allNfts}
+                    getCol={getAllCollections}
+                    getNft={getAllNfts}
                   />
               </p>
               <p>
@@ -534,6 +536,8 @@ const TopSection = () => {
                     cancelModal={handleSearchModalCancel}
                     collectionItems={allCollections}
                     nftItems={allNfts}
+                    getCol={getAllCollections}
+                    getNft={getAllNfts}
                   />
               </p>
               <p>

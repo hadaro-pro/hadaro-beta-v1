@@ -123,9 +123,10 @@ return query
 
 
 export const getItemCollectionCountQuery = (collectionAddr) => {
-  const query = `*[_type == "freshcollectionsData" && collectionAddress == "${collectionAddr}"] | order(_createdAt desc) {
+  const query = `*[_type == "freshcollectionsData"] | order(_createdAt desc) {
     _id,
     itemCount,
+    collectionAddress
   }`
 
 return query

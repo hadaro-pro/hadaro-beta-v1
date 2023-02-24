@@ -166,21 +166,21 @@ const PortfolioComp = ({
     return meta?.name;
   };
 
-  const handlePatch = async (iden, type, status) => {
+  const handlePatch = async(iden, type, status) => {
     try {
-      const allNfts = await axios.put(`/api/updateNftData`, { iden, type });
+      const allNfts = await axios.post(`/api/updateNftTxnType`, { iden, type });
 
-      // console.log('nfts patch result: ', allNfts.data)
+      console.log('nfts patch result: ', allNfts.data)
 
-      const statusChange = await axios.put(`/api/updateNftStatus`, {
-        identity,
-        status,
+      const statusChange = await axios.post(`/api/updateNftStatus`, {
+        iden,
+        status, 
       });
 
-      // console.log('nfts patch result: ', allNfts.data)
+      console.log('nfts patch result: ', statusChange.data)
     } catch (err) {
       // console.error(err);
-    }
+    } 
   };
 
   const getLendingIdForNft = async (tokenAddr, tokenID) => {
@@ -271,7 +271,10 @@ const PortfolioComp = ({
       collectionAddr,
     });
 
-    const filterDrafts = getCollection.data.filter((item) => !item._id?.includes("drafts"))
+    const filterDrafts = getCollection.data.filter((item) => 
+    item.collectionAddress.toLowerCase() === collectionAddr.toLowerCase() &&
+     !item._id?.includes("drafts"))
+    // console.log('results: ', getCollection.data)
     // console.log('results: ', filterDrafts)
 
     const itemId = filterDrafts[0]?._id
@@ -340,23 +343,24 @@ const PortfolioComp = ({
         );
 
         const receipt = await txn.wait();
-
+ 
         if (receipt) {
-          message.success("successfully stopped lend of NFT!");
-          await handlePatch(
+    //       const nftadfr = "0x999e88075692bcee3dbc07e7e64cd32f39a1d3ab"
+    //  const iden = "7Fr0FUO69KxDBqVkyLHEmB"
+        // const response = await axios.get(`/api/fetchAllNftsInCollection`)
+  // console.log('hjs: ', response.data)
+         await handlePatch(
             iden,
             "previousListed for lending",
             "non-available"
           );
-          getColandUpdateItemCount(nftAddress)
-          handleRemoveElement(position);
-          getNewListFunc();
+          await getColandUpdateItemCount(nftAddress)
+          await handleRemoveElement(position);
+          message.success("successfully stopped lend of NFT!");
+          await getNewListFunc();
         }
       }
       setLoadingLendRemove(false);
-      //  handleRemoveElement(position)
-      //   await handlePatch(iden, "previousListed for lending", "non-available")
-      //  getNewListFunc()
     } catch (e) {
       setLoadingLendRemove(false);
       // console.error(e);
@@ -624,7 +628,7 @@ const PortfolioComp = ({
               </div>
             </div>
           </div>
-          {/* <button onClick={getColandUpdateItemCount}>get and add to item count</button> */}
+          {/* <button onClick={prepareStopLend}>get and add to item count</button> */}
         </div>
       </div>
     </div>
