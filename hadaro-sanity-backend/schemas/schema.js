@@ -9,6 +9,8 @@ import collectionsData from './collectionsData'
 import pendingCollectionData  from './pendingCollectionData'
 import freshCollectionData from './freshCollectionData'
 import walletAvatar from './walletAvatar'
+import testNftData from './testNftData'
+import testCollectionData from './testCollectionData'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -23,5 +25,8 @@ export default createSchema({
     pendingCollectionData,
     freshCollectionData,
     walletAvatar,
+    // test schemas
+    testNftData,
+    testCollectionData,
   ]),
 })

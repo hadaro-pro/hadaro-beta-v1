@@ -276,7 +276,7 @@ const CollectionItemsComp = ({
     const collection = itemsToDisplay[index];
 
     setToDisplayData(collection);
-     console.log('collet: ', toDisplayData)
+    //  console.log('collet: ', toDisplayData)
     setIsRentModalOpen(true);
     // openFooter(true);
     // window.scrollTo(0, 100);

@@ -69,9 +69,9 @@ const WalletNfts = ({ collectionName, nftname, nftImg, metadata, allInfo, verifi
 
   const performPrepareLend = (item) => {
 
-    const ifCollectionExists = verifiedCollectionsArr.filter((i) =>  i.collectionAddr === allInfo.token_address)
+    const ifCollectionExists = verifiedCollectionsArr.filter((i) =>  i.collectionAddr.toLowerCase() === allInfo.token_address.toLowerCase())
 
-    // console.log('lki', ifCollectionExists)
+  // console.log('lki', ifCollectionExists)
 
     // const collectionVerificationStatus = ifCollectionExists[0].status
 

@@ -1,5 +1,5 @@
 import { client } from "../../utils/client"
-import { allCollectionsQuery } from "../../utils/queries"
+import { allCollectionsQuery, allTestCollectionsQuery } from "../../utils/queries"
 
 
 
@@ -9,8 +9,9 @@ export default async function handler(req, res) {
     
   try {
      
-      const query =  allCollectionsQuery()
+      // const query =  allCollectionsQuery()
 
+      const query =  allTestCollectionsQuery()
 
       const data = await client.fetch(query)
       

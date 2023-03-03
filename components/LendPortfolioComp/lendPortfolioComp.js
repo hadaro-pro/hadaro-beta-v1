@@ -8,6 +8,7 @@ import {
   useProvider,
   erc721ABI,
   useNetwork,
+  useSwitchNetwork,
 } from "wagmi";
 import {
   Sylvester,
@@ -25,7 +26,7 @@ import NftDisplayComp from "../NftsComp/nftComp";
 import styles from "./lendportfoliocomp.module.scss";
 import ToogleNetwork from "../ToggleNetwork/toogleNetwork";
 import LendModal from "../LendModal/lendmodal";
-import LendOutroModal from "../LendOutroModal/lendOutroModal";
+import LendOutroModal from "../LendOutroModal/lendOutroModal"; 
 
 const LendPortfolioComp = ({
   verifiedCollections,
@@ -84,6 +85,9 @@ const LendPortfolioComp = ({
 
   const { chain: mainChain, chains } = useNetwork();
 
+  const { chains: netChains, status, error, isLoading, pendingChainId, switchNetwork } =
+  useSwitchNetwork()
+
   // const collateralFreeContract = new Sylvester(signer);
   const collateralFreeContract =  getRenftContract({
     deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
@@ -102,6 +106,13 @@ const LendPortfolioComp = ({
   //   return corsImageModified.src
 
   // }
+
+  useEffect(() => {
+    switchNetwork?.(mainChain?.id)
+    // message.info(status)
+    // message.info(`new network id is ${mainChain?.id}`)
+  }, [mainChain?.id])
+  
 
   const uploadImage = async (e) => {
     const selectedFile = e.target.files[0];
@@ -225,7 +236,7 @@ const LendPortfolioComp = ({
   };
 
   const getUserNFTs = async () => {
-    setLoadingNfts(true);
+    setLoadingNfts(true); 
     try {
       const response = await axios.get("/api/nft-balance", {
         params: {

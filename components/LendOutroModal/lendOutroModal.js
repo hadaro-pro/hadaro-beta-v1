@@ -9,8 +9,9 @@ import {
   useConnect,
   erc721ABI,
   useNetwork,
+  useSwitchNetwork
 } from "wagmi";
-import { Contract } from "ethers";
+import { Contract, utils } from "ethers";
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { Wallet } from "@ethersproject/wallet";
 import {
@@ -21,6 +22,7 @@ import {
   getRenftContract,
   DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0
 } from "@renft/sdk";
+import { HADARO_GOERLI_ADDRESS, HADARO_GOERLI_ABI } from "../../constants/abis"; 
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import { SylvieABI } from "../../utils/abis";
 import styles from "./lendoutro.module.scss";
@@ -53,12 +55,25 @@ const LendOutroModal = ({
 
   const { chain: mainChain, chains } = useNetwork();
 
+  
+
+
+  const { data, error, isLoading, signMessage } =           
+useSignMessage({
+    onSuccess(data, variables) {
+       processLend()
+    },
+  })
+
   // const collateralFreeContract = new Sylvester(signer);
 
-  const collateralFreeContract =  getRenftContract({
-    deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
-    signer,
-  });
+
+  const hadaroGoerliTestContract = new Contract(HADARO_GOERLI_ADDRESS, HADARO_GOERLI_ABI, signer);
+
+  // const collateralFreeContract =  getRenftContract({
+  //   deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
+  //   signer,
+  // });
 
   // const provider = new JsonRpcProvider('https://mainnet.infura.io/v3/6fe73d73563b4e56aef1516412dfe130');
   // const privKey = '6d62eb36590393197c6bc45f7471fbc7f66ae9363f33c1c03144957df95a75d4';
@@ -77,7 +92,7 @@ const LendOutroModal = ({
   const nftAddress = finalLendObject.nftAddress; 
   const tokenID = finalLendObject.tokenID;
   const lendAmount = finalLendObject.amount;
-  const dailyRentPrice = packPrice(String(finalLendObject.dailyRentPrice));
+  const dailyRentPrice = packPrice(finalLendObject.dailyRentPrice);
   const maxRentDuration = finalLendObject.maxRentDuration;
   const paymentToken = finalLendObject.paymentToken;
   const nftStandard = parseStandards(finalLendObject.nftStandard);
@@ -122,20 +137,19 @@ const LendOutroModal = ({
       throw new Error(`You do not own this NFT`);
     }
 
+    // getApproved(uint256 tokenId)
+    // approve(address to, uint256 tokenId)
     // Check if user already gave approval to the marketplace
-    const isApproved = await ERC721Contract.isApprovedForAll(
-      address,
-      SYLVESTER_ADDRESS
-    );
+    const isApproved = await ERC721Contract.getApproved(Number(tokenID))
 
     // If not approved
-    if (!isApproved) {
+    if (isApproved.toLowerCase() !== HADARO_GOERLI_ADDRESS.toLowerCase()) {
       // console.log("Requesting approval over NFTs...");
 
       // Send approval transaction to NFT contract
-      const approvalTxn = await ERC721Contract.setApprovalForAll(
-        SYLVESTER_ADDRESS,
-        true
+      const approvalTxn = await ERC721Contract.approve(
+        HADARO_GOERLI_ADDRESS,
+        Number(tokenID)
       );
       await approvalTxn.wait();
     }
@@ -151,23 +165,40 @@ const LendOutroModal = ({
   };
 
   const sylvesterLend = async (transactionType, chain, status) => {
-    const txn = await collateralFreeContract.lend(
+    const txn = await hadaroGoerliTestContract.lend(
       [nftStandard],
       [nftAddress],
       [tokenID],
       [lendAmount],
       [maxRentDuration],
       [dailyRentPrice],
-      [paymentToken]
+      [paymentToken],
+      [false]
     );
 
     const receipt = await txn.wait();
 
     //  console.log(receipt);
 
-    if (receipt) {
+    //  console.log('hash', receipt.transactionHash)
+    
+
+     // if confirmations > 1 -> a check for ifa txn gets signed  blockHash
+// : 
+// "0x92781b0f579a6537ffac78f8e76971059371631e9d3d4ccccc6f91ba14fe0489"
+// blockNumber
+// : 
+// 8574714
+// byzantium
+// : 
+// true
+
+    if (receipt.blockNumber !== null && receipt.confirmations > 0) {
       const document = {
-        _type: "nftData",
+        // for live
+        // _type: "nftData",
+        // for test
+         _type: "testNftData",
         nftAddress,
         tokenID,
         chain,
@@ -182,9 +213,12 @@ const LendOutroModal = ({
         metadataImage,
         nftCollectionName: collectionName,
         nftStandard: String(nftStandard),
+        transactionHash: receipt.transactionHash
       };
 
-      await axios.post(`/api/postNftData`, document);
+     const resty = await axios.post(`/api/postNftData`, document);
+
+    //  console.log('docusave', resty.data)
       // const nftAddres = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
       // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
       const collectionAddr = nftAddress
@@ -309,7 +343,7 @@ const LendOutroModal = ({
 
       removeLent(currentLendIndex);
     } catch (e) {
-      // console.warn(e)
+      console.warn(e)
       if (e.message[0] === 'u') {
         message.error(e.message.slice(0, 25), [3])
       } else if (e === 'You do not own this NFT') {
@@ -339,7 +373,14 @@ const LendOutroModal = ({
       <div className={styles.modalButtons}>
         <button
           //  disabled={!write || isLoading} onClick={() => write()}
-          onClick={() => processLend()}
+          onClick={() => 
+            {
+            const message = JSON.stringify(finlObject)
+              signMessage({message})
+              //  processLend()
+            }
+           
+          }
         >
           Yes
         </button>
@@ -350,3 +391,13 @@ const LendOutroModal = ({
 };
 
 export default LendOutroModal;
+
+
+
+
+
+
+
+
+
+

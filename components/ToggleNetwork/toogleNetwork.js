@@ -36,6 +36,10 @@ const ToogleNetwork = ({ setChain, handleGetNFTs, lendItemObject, setLendItemObj
           {
             value: '0x89',
             label: <div> <img src="/images/polygon-matic-logo.png"  alt='ethereum'  width={20} />  <span style={{marginLeft: ".5rem"}}> Polyon </span> </div>,
+          },
+          {
+            value: '0x5',
+            label: <div> <img src="/images/ethereum-eth-logo.png"  alt='ethereum'  width={20} />  <span style={{marginLeft: ".5rem"}}> Goerli </span> </div>,
           }
         ]} 
       />

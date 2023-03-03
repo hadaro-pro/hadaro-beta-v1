@@ -15,6 +15,7 @@ import { SYLVESTER_SUBGRAPH_URL } from '../../../creds'
 import WalletConnect from "../../walletConnectModal/WalletConnect";
 import SearchModal from "../../SearchPart/SearchModal";
 import styles from "./topsection.module.scss";
+import { toPaddedHex, packPrice } from '@renft/sdk'
 
 const TopSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,6 +28,11 @@ const TopSection = () => {
   const [allCollections, setAllCollections] = useState([])
   // const [nftData, setNftData] = useState(null);
 
+  // const toPaddedPart = toPaddedHex(0.0001)
+  // const toPackPrice = packPrice(0.0001)
+
+  // console.log('padded hex: ', toPaddedPart)
+  // console.log('pack price: ', toPackPrice)
 
   const showModal = () => {
     setOpenMenuBar(false)
@@ -453,7 +459,7 @@ const TopSection = () => {
         <div className={styles.logoCaptionLowerPart}>
           {/* <button onClick={postDataToSanity} >handlePost</button> */}
           <h1>
-            Rent In-Game NFTs <br /> to compete
+            Rent rare In-Game items <br /> to compete
           </h1>
           <p>
           Lend or rent NFT&#39;s to compete <br /> in NFT games across  <br /> the world.

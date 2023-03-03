@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, message, Select } from "antd";
-import { useConnect, useAccount, useNetwork } from "wagmi";
+import { useConnect, useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { Sylvester, PaymentToken } from "@renft/sdk";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import styles from "./lendmodal.module.scss";
@@ -17,7 +17,7 @@ const LendModal = ({
   const { isConnected, address } = useAccount();
 
   const [size, setSize] = useState("middle");
-  const [dailyRentPrice, setDailyRentPrice] = useState("0");
+  const [dailyRentPrice, setDailyRentPrice] = useState(0);
   // const [nftPrice, setNftPrice] = useState("0")
   const [rentError, setRentError] = useState("");
   // const [collateralError, setCollateralError] = useState("")
@@ -31,6 +31,8 @@ const LendModal = ({
 
   // console.log(nftPrice)
   // console.log(dailyRentPrice)
+  const { chains: netChain, error, isLoading, pendingChainId, switchNetwork } =
+  useSwitchNetwork()
 
   const { chain: mainChain, chains } = useNetwork();
 
@@ -73,11 +75,8 @@ const LendModal = ({
   // }
 
   const handleDailyRentalPrice = (value) => {
-    
-    setTimeout(() => {
-      setLendItemObject({ ...lendItemObject, dailyRentPrice: Number(value) });
+      setLendItemObject({ ...lendItemObject, dailyRentPrice: value });
 
-    }, 1000);
   };
 
   const addCollateralAndLendPrice = () => {
@@ -85,17 +84,30 @@ const LendModal = ({
     const { nftPrice, dailyRentPrice, maxRentDuration, paymentToken } =
       lendItemObject;
 
+      const parts = dailyRentPrice.toString().split('.')
+      const whole = parts[0]
+      const decimals = parts[1]
+
     // Ethereum
 
     if (dailyRentPrice === 0 || maxRentDuration === 0 || paymentToken === "") {
       message.error("all form fields must be filled");
-    } else if (mainChain?.name !== "Ethereum") {
-      message.error("Please Connect to the Ethereum Network to proceed", [3]);
-    } else {
+    } else if (mainChain?.name !== "Goerli") {
+      console.log(mainChain?.name)
+      message.error("Please Connect to the Goerli Testnet to proceed", [3]);
+    } else if (Number(whole) !== 0) {
+      message.error("Price supplied too high");
+    }  else if ( decimals.length > 4) {
+      message.error("Price supplied too low");
+    }
+    else {
       displayOutroPart(true);
       openCheckout();
     }
   };
+
+
+ 
 
   return (
     <Modal
@@ -184,7 +196,7 @@ const LendModal = ({
           <small>Set Daily Rent Price</small>
           <input
             type="text"
-            onChange={(e) => handleDailyRentalPrice(e.target.value)}
+            onChange={(e) => handleDailyRentalPrice(Number(e.target.value))}
           />
           {rentError !== null && (
             <span style={{ color: "orangered", fontWeight: "bolder" }}>

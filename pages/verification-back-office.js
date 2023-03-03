@@ -21,7 +21,7 @@ const VerificationBackOffice = () => {
   // const status = 'verified'
 
    const getCollections = await axios.post(`/api/fetchCollectionDataByStatus`, {status: 'pending'});
-
+ 
   //  const { data } = getCollections
 
   const filterDrafts = getCollections.data.filter((item) => !item._id?.includes("drafts"))

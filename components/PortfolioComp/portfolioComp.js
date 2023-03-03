@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import LendNfts from "../LendNfts/LendNfts";
 import WalletNfts from "../WalletNftsComp/walletNfts";
 import axios from "axios";
+import { Contract } from 'ethers'
+import Web3 from 'web3'
+import {  moralisApiKey  } from "../../creds"
 import { createClient } from "urql";
 import { SYLVESTER_SUBGRAPH_URL } from "../../creds";
 import {
@@ -12,6 +15,7 @@ import {
   erc721ABI,
   useNetwork,
 } from "wagmi";
+import { HADARO_GOERLI_ABI, HADARO_GOERLI_ADDRESS } from "../../constants/abis";
 import { client } from "../../utils/client";
 import {
   Sylvester,
@@ -69,6 +73,10 @@ const PortfolioComp = ({
     nftDesc: "",
   });
 
+
+  const web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546' )
+
+
   const { address, connector, isConnected } = useAccount();
 
   const { data: signer } = useSigner();
@@ -77,13 +85,83 @@ const PortfolioComp = ({
 
   // const collateralFreeContract = new Sylvester(signer);
 
+
+
   const collateralFreeContract =  getRenftContract({
     deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
     signer,
   });
 
+
+  const hadaroGoerliTestContract = new Contract(HADARO_GOERLI_ADDRESS, HADARO_GOERLI_ABI, signer);
+
   // console.log('sax: ',lendingNfts)
   // console.log('saxon: ',rentingNfts)
+
+  const decodeTxnData = (dataSource, topicsObj) => {
+
+  const { topic1, topic2, topic3 } = topicsObj
+
+  const res =   web3.eth.abi.decodeLog([      {
+      indexed: false,
+      internalType: 'bool',
+      name: 'is721',
+      type: 'bool',
+    },
+    {
+      indexed: true,
+      internalType: 'address',
+      name: 'lenderAddress',
+      type: 'address',
+    },
+    {
+      indexed: true,
+      internalType: 'address',
+      name: 'nftAddress',
+      type: 'address',
+    },
+    {
+      indexed: true,
+      internalType: 'uint256',
+      name: 'tokenID',
+      type: 'uint256',
+    },
+    {
+      indexed: false,
+      internalType: 'uint256',
+      name: 'lendingID',
+      type: 'uint256',
+    },
+    {
+      indexed: false,
+      internalType: 'uint8',
+      name: 'maxRentDuration',
+      type: 'uint8',
+    },
+    {
+      indexed: false,
+      internalType: 'bytes4',
+      name: 'dailyRentPrice',
+      type: 'bytes4',
+    },
+    {
+      indexed: false,
+      internalType: 'uint16',
+      name: 'lendAmount',
+      type: 'uint16',
+    },
+    {
+      indexed: false,
+      internalType: 'enum IResolver.PaymentToken',
+      name: 'paymentToken',
+      type: 'uint8',
+    }],
+dataSource,
+  [topic1, topic2, topic3]);
+
+    return res.lendingID
+  }
+
 
   const nftImageAggregating = (image) => {
     let imageToDisplay;
@@ -170,42 +248,75 @@ const PortfolioComp = ({
     try {
       const allNfts = await axios.post(`/api/updateNftTxnType`, { iden, type });
 
-      console.log('nfts patch result: ', allNfts.data)
+      // console.log('nfts patch result: ', allNfts.data)
 
       const statusChange = await axios.post(`/api/updateNftStatus`, {
         iden,
         status, 
       });
 
-      console.log('nfts patch result: ', statusChange.data)
+      // console.log('nfts patch result: ', statusChange.data)
     } catch (err) {
       // console.error(err);
     } 
   };
 
-  const getLendingIdForNft = async (tokenAddr, tokenID) => {
+  const getLendingIdForNft = async (transactionHash, chain) => {
+    const config = {
+      headers: {
+        accept: "application/json",
+        "X-API-Key": moralisApiKey,
+      },
+    };
+
     try {
-      const queryNft = `
-      query LendingsQuery {
-          lendings (where: {nftAddress: "${tokenAddr}", tokenID: "${tokenID}"}) {
-            id
-            tokenID
-          }
-        }`;
+      const transactionLogs = await axios.get(
+        `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
+        config
+      );
 
-      const urqlClient = createClient({
-        url: SYLVESTER_SUBGRAPH_URL,
-      });
 
-      const response = await urqlClient.query(queryNft).toPromise();
+      // console.log('data: ', transactionLogs.data?.logs[0])
 
-      const result = response.data;
+      const mainLog = transactionLogs.data?.logs[0]
+
+      const dataToDecode = mainLog?.data
+
+      const topicsObj = {
+        topic1: mainLog?.topic1,
+        topic2: mainLog?.topic2,
+        topic3: mainLog?.topic3
+      }
+
+
+
+      const result = decodeTxnData(dataToDecode, topicsObj)
+
+      // console.log('topics: ', topicsObj)
+
+
+
+      // const queryNft = `
+      // query LendingsQuery {
+      //     lendings (where: {nftAddress: "${tokenAddr}", tokenID: "${tokenID}"}) {
+      //       id
+      //       tokenID
+      //     }
+      //   }`;
+
+      // const urqlClient = createClient({
+      //   url: SYLVESTER_SUBGRAPH_URL,
+      // });
+
+      // const response = await urqlClient.query(queryNft).toPromise();
+
+      // const result = response.data;
 
       // console.log(result)
 
       return result;
     } catch (e) {
-      // console.log(e)
+      console.error(e)
     }
   };
 
@@ -324,18 +435,21 @@ const PortfolioComp = ({
       const nftStandard = objToLook?.nftStandard;
       const nftAddress = objToLook?.nftAddress;
       const iden = objToLook?._id;
+      const transactionHash = objToLook?.transactionHash
 
-      const res = await getLendingIdForNft(tokenAddr, tokenID);
+      // console.log('hash', transactionHash)
 
-      // console.log("id", res.lendings[0].id);
+      const lendingID = await getLendingIdForNft(transactionHash, "goerli");
 
-      const lendingID = res.lendings[0].id;
+      // console.log("id", lendingID);
 
-      if (mainChain?.name !== "Ethereum") {
-        message.error("Please Connect to the Ethereum Network to proceed", [3]);
+  //     const lendingID = res.lendings[0].id;
+
+      if (mainChain?.name !== "Goerli") {
+        message.error("Please Connect to the Goerli Network to proceed", [3]);
         setLoadingLendRemove(false);
       } else {
-        const txn = await collateralFreeContract.stopLending(
+        const txn = await hadaroGoerliTestContract.stopLend(
           [nftStandard],
           [nftAddress],
           [tokenID],
@@ -343,12 +457,14 @@ const PortfolioComp = ({
         );
 
         const receipt = await txn.wait();
+
+        // console.log(receipt)
  
-        if (receipt) {
-    //       const nftadfr = "0x999e88075692bcee3dbc07e7e64cd32f39a1d3ab"
-    //  const iden = "7Fr0FUO69KxDBqVkyLHEmB"
-        // const response = await axios.get(`/api/fetchAllNftsInCollection`)
-  // console.log('hjs: ', response.data)
+        if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+      //  const nftadfr = "0x999e88075692bcee3dbc07e7e64cd32f39a1d3ab"
+     //  const iden = "7Fr0FUO69KxDBqVkyLHEmB"
+    // const response = await axios.get(`/api/fetchAllNftsInCollection`)
+   // console.log('hjs: ', response.data)
          await handlePatch(
             iden,
             "previousListed for lending",
@@ -628,7 +744,7 @@ const PortfolioComp = ({
               </div>
             </div>
           </div>
-          {/* <button onClick={prepareStopLend}>get and add to item count</button> */}
+          {/* <button onClick={decodeTxnData}>get and add to item count</button> */}
         </div>
       </div>
     </div>

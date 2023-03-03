@@ -13,13 +13,13 @@ const NewCollectionComp = ({ inHouseCollections }) => {
   const [imageFile, setImageFile] = useState(null);
   const [imageAsset, setImageAsset] = useState(null)
   const [wrongImageType, setWrongImageType] = useState(false)
-  const [chain, setChain] = useState("0x1")
+  const [chain, setChain] = useState("0x5")
   const [collectionName, setCollectionName] = useState("");
   const [collectionSymbol, setCollectionSymbol] = useState("");
   const [contractAddr, setcontractAddr] = useState("");
   const [collectionDesc, setCollectionDesc] = useState("")
   
-
+ 
   const router = useRouter()
 
   const { address,isConnected } = useAccount();
@@ -64,7 +64,7 @@ const NewCollectionComp = ({ inHouseCollections }) => {
    
   
     const document = {
-      _type: "freshcollectionsData",
+      _type: "testcollectionsData",
       collectionName: collectionName,
       collectionSymbol: collectionSymbol,
       collectionAddress: contractAddr,
@@ -78,8 +78,9 @@ const NewCollectionComp = ({ inHouseCollections }) => {
     let  collectionNfts = []  
     try {
       setLoading(true)
-      if(inHouseCollections.includes(contractAddr.toLowerCase())) {
+      if(inHouseCollections?.includes(contractAddr.toLowerCase())) {
         message.warn('This collection already exists in our database!')
+        setLoading(false)
       } else {
         if(collectionName === "" || collectionDesc === "" || contractAddr === "" ) {
           message.error('All form fields must be filled')

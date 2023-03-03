@@ -1,6 +1,6 @@
 export default {
-  name: 'nftData',
-  title: 'NFT Data',
+  name: 'testNftData',
+  title: 'Test NFT Data',
   type: 'document',
   fields: [
     {

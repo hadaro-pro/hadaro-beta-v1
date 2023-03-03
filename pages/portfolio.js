@@ -164,7 +164,7 @@ const Portfolio = () => {
         params: {
           walletaddr: address,
           // walletaddr: wallet,
-          chain: "0x1",
+          chain: "0x5",
         },
       });
 
@@ -178,13 +178,13 @@ const Portfolio = () => {
         allNfts.push(item);
       });
 
-      const response2 = await axios.get("/api/nft-balance", {
-        params: {
-          walletaddr: address,
-          // walletaddr: wallet,
-          chain: "0x89",
-        },
-      });
+      // const response2 = await axios.get("/api/nft-balance", {
+      //   params: {
+      //     walletaddr: address,
+      //     // walletaddr: wallet,
+      //     chain: "0x89",
+      //   },
+      // });
 
       // const nftDataAdd2 = response2?.data?.result?.map((item) => item)
 
@@ -192,9 +192,9 @@ const Portfolio = () => {
 
       // console.log('x-factor@: ', response2?.data?.result)
 
-      response2?.data?.result?.forEach((item) => {
-        allNfts.push(item);
-      });
+      // response2?.data?.result?.forEach((item) => {
+      //   allNfts.push(item);
+      // });
 
       // console.log('final: ', allNfts)
 

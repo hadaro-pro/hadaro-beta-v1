@@ -8,7 +8,7 @@ const LendNfts = ({ nftImage, nftname, setLendItem, position, loadingLend }) => 
 
   return (
     <div className={styles.mainCover}>
-      <img src={nftImage} alt={nftname} className={styles.imagePart} />
+      <img src={nftImage === null ? "/images/no-image-placeholder.png" : nftImage} alt={nftname} className={styles.imagePart} />
       <div className={styles.mainPartLower}>
         <p> {nftname} </p>
       </div>

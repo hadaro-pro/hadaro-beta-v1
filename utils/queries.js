@@ -39,8 +39,23 @@ export const firstNftImageQuery = (contractAddr) => {
 }
 
 
-export const allCollectionsQuery = () => {
-  const query = `*[_type == "freshcollectionsData"] {
+// export const allCollectionsQuery = () => {
+//   const query = `*[_type == "freshcollectionsData"] {
+//     _id,
+//     collectionAddress,
+//     collectionName,
+//     collectionSymbol,
+//     chain,
+//     collectionImage,
+//     collectionDesc,
+//     status,
+//     itemCount
+//   }`
+//   return query
+// }
+
+export const allTestCollectionsQuery = () => {
+  const query = `*[_type == "testcollectionsData"] {
     _id,
     collectionAddress,
     collectionName,
@@ -56,7 +71,7 @@ export const allCollectionsQuery = () => {
 
 
 export const statusOfCollectionsQuery = (status) => {
-  const query = `*[_type == "freshcollectionsData" && status == '${status}'] {
+  const query = `*[_type == "testcollectionsData" && status == '${status}'] {
     _id,
     collectionAddress,
     collectionName,
@@ -123,7 +138,7 @@ return query
 
 
 export const getItemCollectionCountQuery = (collectionAddr) => {
-  const query = `*[_type == "freshcollectionsData"] | order(_createdAt desc) {
+  const query = `*[_type == "testcollectionsData"] | order(_createdAt desc) {
     _id,
     itemCount,
     collectionAddress
@@ -134,7 +149,7 @@ return query
 
 
 export const allMainNftsByCollectionQuery = (contractAddr) => {
-  const query = `*[_type == "nftData" && nftAddress == "${contractAddr}"] {
+  const query = `*[_type == "testNftData" && nftAddress == "${contractAddr}"] {
     _id,
     nftAddress,
     tokenID,
@@ -157,7 +172,7 @@ return query
 
 
 export const allLendedNftsByAddressQuery = (lenderAddr) => {
-  const query = `*[_type == "nftData"   && lenderAddress == '${lenderAddr}' && transactionType == "lending"] {
+  const query = `*[_type == "testNftData"   && lenderAddress == '${lenderAddr}' && transactionType == "lending"] {
     _id,
     nftAddress,
     tokenID,
@@ -173,12 +188,13 @@ export const allLendedNftsByAddressQuery = (lenderAddr) => {
     metadataName,
     nftStandard,
     nftCollectionName,
+    transactionHash
   }`
 return query
 }
 
 export const allRentedNftsByAddressQuery = (lenderAddr) => {
-  const query = `*[_type == "nftData" && transactionType == "renting"] {
+  const query = `*[_type == "testNftData" && transactionType == "renting"] {
     _id,
     nftAddress,
     tokenID,
