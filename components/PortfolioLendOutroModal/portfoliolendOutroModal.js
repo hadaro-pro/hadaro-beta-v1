@@ -39,6 +39,7 @@ const PortfolioLendOutroModal = ({
   loadingTxn,
   showLendModal,
   getWalletNft,
+  getLendNfts
 }) => {
   const parseStandards = (value) => {
     if (value === "ERC721") {
@@ -370,6 +371,9 @@ useSignMessage({
       message.success('Lending successful!')
 
       getWalletNft()
+
+      getLendNfts()
+      
       // removeLent(currentLendIndex);
     } catch (e) {
       // console.warn(e.message)
@@ -377,7 +381,7 @@ useSignMessage({
         message.error(e.message.slice(0, 25), [3])
       } else if (e === 'You do not own this NFT') {
         message.error('already lent')
-      } else if(e.error?.message === "execution reverted: ReNFT::rent price is zero") {
+      } else if(e.error?.message === "execution reverted: Hadaro::rent price is zero") {
         message.error('daily rental price entered too low', [3])
       } else if(e.message === "supplied price exceeds 9999.9999") {
         message.error('daily rent price supplied too high', [3])

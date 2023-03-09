@@ -360,9 +360,9 @@ const LendPortfolioComp = ({
       // }
       
     } catch (e) {
-      console.warn(e);
+      // console.warn(e);
     }
-  };
+  }; 
 
   // console.log('xama', verifiedCollectionsArray)
 

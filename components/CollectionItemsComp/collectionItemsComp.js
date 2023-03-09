@@ -9,6 +9,7 @@ import {
   getRenftContract,
   DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
   SylvesterV0FunctionInterface,
+  PaymentToken
 } from "@renft/sdk";
 import {
   useAccount,
@@ -18,12 +19,19 @@ import {
   erc20ABI,
   useNetwork,
 } from "wagmi";
+import {
+  WETH_GOERLI_ADDRESS,
+  WETH_GOERLI_ABI,
+  HADARO_GOERLI_ABI,
+  HADARO_GOERLI_ADDRESS,
+} from "../../constants/abis";
 import { Contract, BigNumber, utils } from "ethers";
 import { createClient } from "urql";
-import { SYLVESTER_SUBGRAPH_URL } from "../../creds";
+import { SYLVESTER_SUBGRAPH_URL, moralisApiKey } from "../../creds";
 import axios from "axios";
-import { message, Modal } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import Web3 from "web3";
+import { message, Modal, Select } from "antd";
+import { CloseOutlined, SyncOutlined } from "@ant-design/icons";
 import ArtCard from "../ArtCard/ArtCard";
 import styles from "./collectioncomp.module.scss";
 // import { BigNumber } from "ethers";
@@ -152,36 +160,157 @@ const CollectionItemsComp = ({
   const { address, connector, isConnected } = useAccount();
   const { data: signer } = useSigner();
 
+  const provider = useProvider()
+
+  const web3 = new Web3(
+    Web3.givenProvider || "ws://some.local-or-remote.node:8546"
+  );
+
   // const collateralFreeContract = new Sylvester(signer);
 
-  const collateralFreeContract =  getRenftContract({
+  const wethGoerliTestContract = new Contract(
+    WETH_GOERLI_ADDRESS,
+    WETH_GOERLI_ABI,
+    signer
+  );
+
+  const collateralFreeContract = getRenftContract({
     deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
     signer,
-  });
+  }).rent
 
-  const getLendingIdForNft = async (tokenAddr, tokenID) => {
+  const hadaroGoerliTestContract = new Contract(
+    HADARO_GOERLI_ADDRESS,
+    HADARO_GOERLI_ABI,
+    signer
+  );
+
+  // const getLendingIdForNft = async (tokenAddr, tokenID) => {
+  //   try {
+  //     const queryNft = `
+  //     query LendingsQuery {
+  //         lendings (where: {nftAddress: "${tokenAddr}", tokenID: "${tokenID}"}) {
+  //           id
+  //           tokenID
+  //         }
+  //       }`;
+
+  //     const urqlClient = createClient({
+  //       url: SYLVESTER_SUBGRAPH_URL,
+  //     });
+
+  //     const response = await urqlClient.query(queryNft).toPromise();
+
+  //     const result = response.data;
+
+  //     // console.log(result)
+
+  //     return result;
+  //   } catch (e) {
+  //     // console.log(e)
+  //   }
+  // };
+
+  const decodeTxnData = (dataSource, topicsObj) => {
+    const { topic1, topic2, topic3 } = topicsObj;
+
+    const res = web3.eth.abi.decodeLog(
+      [
+        {
+          indexed: false,
+          internalType: "bool",
+          name: "is721",
+          type: "bool",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "lenderAddress",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "nftAddress",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "tokenID",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "lendingID",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint8",
+          name: "maxRentDuration",
+          type: "uint8",
+        },
+        {
+          indexed: false,
+          internalType: "bytes4",
+          name: "dailyRentPrice",
+          type: "bytes4",
+        },
+        {
+          indexed: false,
+          internalType: "uint16",
+          name: "lendAmount",
+          type: "uint16",
+        },
+        {
+          indexed: false,
+          internalType: "enum IResolver.PaymentToken",
+          name: "paymentToken",
+          type: "uint8",
+        },
+      ],
+      dataSource,
+      [topic1, topic2, topic3]
+    );
+
+    return res.lendingID;
+  };
+
+  const getLendingIdForNft = async (transactionHash, chain) => {
+    const config = {
+      headers: {
+        accept: "application/json",
+        "X-API-Key": moralisApiKey,
+      },
+    };
+
     try {
-      const queryNft = `
-      query LendingsQuery {
-          lendings (where: {nftAddress: "${tokenAddr}", tokenID: "${tokenID}"}) {
-            id
-            tokenID
-          }
-        }`;
+      const transactionLogs = await axios.get(
+        `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
+        config
+      );
 
-      const urqlClient = createClient({
-        url: SYLVESTER_SUBGRAPH_URL,
-      });
+      // console.log('data: ', transactionLogs.data?.logs[0])
 
-      const response = await urqlClient.query(queryNft).toPromise();
+      const mainLog = transactionLogs.data?.logs[0];
 
-      const result = response.data;
+      const dataToDecode = mainLog?.data;
 
-      // console.log(result)
+      const topicsObj = {
+        topic1: mainLog?.topic1,
+        topic2: mainLog?.topic2,
+        topic3: mainLog?.topic3,
+      };
+
+      const result = decodeTxnData(dataToDecode, topicsObj);
+
+      // console.log('topics: ', topicsObj)
 
       return result;
     } catch (e) {
-      // console.log(e)
+      console.error(e);
     }
   };
 
@@ -211,6 +340,31 @@ const CollectionItemsComp = ({
   const [error, setError] = useState(null);
   const [displayAmount, setDisplayAmount] = useState(null);
   const [isRentModalOpen, setIsRentModalOpen] = useState(false);
+  const [chain, setChain] = useState("0x5");
+  const [balances, setBalances] = useState([]);
+  const [wethBalance, setWethBalance] = useState(null);
+  const [daiBalance, setDaiBalance] = useState(null);
+  const [usdcBalance, setUsdcBalance] = useState(null);
+  const [usdtBalance, setUsdtBalance] = useState(null);
+  const [linkBalance, setLinkBalance] = useState(null);
+  const [converterModalOpen, setconverterModalOpen] = useState(false);
+  const [isConverterModalOpen, setIsConverterModalOpen] = useState(false);
+  const [walletBalance, setWalletBalance] = useState(0);
+  const [valueForExhange, setValueForExchange] = useState("");
+  const [priceToBeConverted, setPriceToBeConverted] = useState(0);
+  const [exchangeAddress, setExchangeAddress] = useState({ address: "WETH" });
+  const [size, setSize] = useState("middle");
+  const [conversionLoading, setConversionLoading] = useState(false);
+  const [alreadyConverted, setAlreadyConverted] = useState(false);
+
+  const showConverterModal = () => {
+    setIsConverterModalOpen(true);
+  };
+
+  const handleConverterModalCancel = () => {
+    setIsConverterModalOpen(false);
+    // setconverterModalOpen(false)
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -222,13 +376,86 @@ const CollectionItemsComp = ({
     // openFooter(false);
   };
 
-
   const showRentModal = () => {
     setIsRentModalOpen(true);
   };
 
   const handleRentModalCancel = () => {
     setIsRentModalOpen(false);
+  };
+
+  const getTokenBalances = async () => {
+    let balancesArr = [];
+
+    try {
+      // setBalances([])
+      setWethBalance(null);
+      setDaiBalance(null);
+      setUsdcBalance(null);
+      setUsdtBalance(null);
+      setLinkBalance(null);
+
+      const response = await axios.get(`/api/get-token-balances`, {
+        params: {
+          walletaddr: address,
+          chain: chain,
+        },
+      });
+
+      const response2 = await axios.get(`/api/get-native-balance`, {
+        params: {
+          walletaddr: address,
+          chain: chain,
+        },
+      });
+
+      // console.log("reper", response2.data);
+
+      const convertedPrice = Number(response2.data.balance) / 1e18;
+
+      setWalletBalance(convertedPrice);
+
+      response.data?.forEach((item) => {
+        balancesArr.push({
+          symbol: item.symbol,
+          balance: item.balance,
+          decimals: item.decimals,
+        });
+      });
+
+      // if (value === "1") {
+      //   return "WETH";
+      // } else if (value === "2") {
+      //   return "DAI";
+      // } else if (value === "3") {
+      //   return "USDC";
+      // } else if (value === "4") {
+      //   return "USDT";
+      // }
+
+      const WETHBalance = balancesArr.filter((e) => e.symbol === "WETH");
+      const DAIBalance = balancesArr.filter((e) => e.symbol === "DAI");
+      const USDCBalance = balancesArr.filter((e) => e.symbol === "USDC");
+      const USDTBalance = balancesArr.filter((e) => e.symbol === "USDT");
+      const LINKBalance = balancesArr.filter((e) => e.symbol === "LINK");
+
+      setWethBalance(WETHBalance);
+      setDaiBalance(DAIBalance);
+      setUsdcBalance(USDCBalance);
+      setUsdtBalance(USDTBalance);
+      setLinkBalance(LINKBalance);
+
+      // console.log("wethparts", wethBalance);
+      // console.log("daiparts", daiBalance);
+      // console.log("usdcparts", usdcBalance);
+      // console.log("usdtparts", usdtBalance);
+      // console.log("linkparts", linkBalance);
+
+      // setBalances(balancesArr)
+      // console.log('balances: ', balances)
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const transferPlatformFunds = async () => {
@@ -368,96 +595,231 @@ const CollectionItemsComp = ({
     }
   };
 
+  // const tokenConverter = () => {
+  //   return (
+  //   <Modal
+  //   footer={null}
+  //   open={isConverterModalOpen}
+  //   onCancel={handleConverterModalCancel}
+  //   >
+  //  <h5>This is the converter</h5>
+  //   </Modal>)
+  // }
+
+  const handleExchangeTokenChange = (value) => {
+    setExchangeAddress({ ...exchangeAddress, address: value });
+    // setExchangeAddress(value)
+    // console.log(exchangeAddress)
+  };
+
+  const handleConvertToToken = async () => {
+    setConversionLoading(true);
+    try {
+      // console.log(priceToBeConverted);
+
+      if (
+        priceToBeConverted == 0 ||
+        isNaN(priceToBeConverted) === true ||
+        priceToBeConverted === ""
+      ) {
+        message.error("enter a valid price to convert!");
+        setConversionLoading(false);
+      } else {
+        if (exchangeAddress.address === "WETH") {
+          const txn = await wethGoerliTestContract.deposit({
+            value: priceToBeConverted,
+          });
+
+          const receipt = await txn.wait();
+
+          // console.log(receipt);
+
+          if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+            message.success("conversion success!");
+            setConversionLoading(false);
+            setAlreadyConverted(true);
+            handleConverterModalCancel();
+          }
+        }
+      }
+    } catch (e) { 
+      console.error(e);
+      if (e.code === "ACTION_REJECTED") {
+        message.error("user rejected transaction");
+        setConversionLoading(false);
+        handleConverterModalCancel();
+      } else if (e.data.message.slice(0, 23) === "err: insufficient funds") {
+        message.error("insufficient funds to process conversion");
+        setConversionLoading(false);
+      }
+      setConversionLoading(false);
+    }
+  };
+
+  const convertedPrice = (value) => {
+    const numFormat = Number(value);
+    const converted = numFormat * 10 ** 18;
+    setPriceToBeConverted(String(converted));
+  };
+
+  const returnBalance = (value) => {
+    //  const { symbol, balance, decimals } = valueObj
+
+    //  console.log('eve1: ', typeof(valueObj))
+
+    if (value.length === 0) {
+      const msg = "nothing to see here";
+      return msg;
+    } else {
+      const arr = value[0];
+      const { symbol, balance, decimals } = arr;
+      const concatDivisor = "1" + "e" + `${decimals}`;
+      const divisorNumFormat = Number(concatDivisor);
+      const actualBalance = (Number(balance) / divisorNumFormat).toFixed(4);
+      return actualBalance;
+    }
+  };
+
   const handleCompleteRent = async () => {
     // transferPlatformFunds()
+    // console.log("display: ", toDisplayData);
     try {
       setRentingLoading(true);
       if (isConnected) {
-        if (mainChain?.name !== "Ethereum") {
-          message.error("Please Connect to the Ethereum Network to proceed", [
-            3,
-          ]);
+        if (mainChain?.name !== "Goerli") {
+          message.error("Please Connect to the Goerli Network to proceed", [3]);
           setRentingLoading(false);
         } else {
           if (rentalPeriod === "") {
             message.info("set a rental period then proceed to renting");
             setRentingLoading(false);
           } else {
-            const nftStandard = toDisplayData?.nftStandard;
+            // console.log(typeof displayAmount);
 
-            // console.log(toDisplayData?.nftStandard)
-            const nftAddress = toDisplayData?.nftAddress.toLowerCase();
-            const tokenID = toDisplayData?.tokenID;
-            //       const identity = toDisplayData?._id;
-            // const lendingID = "1"; // this information is pulled from the subgraph
-            const rentDuration = rentalPeriod; // in days
-            //       const decimals = 18;
+            if (toDisplayData?.paymentToken === "1") {
+              const balanceOfToken = returnBalance(wethBalance);
+              const token = "wrapped ether";
+              if (balanceOfToken === "nothing to see here") {
+                message.error(`you do not possess ${token} in your wallet`);
+                // handleCancel()
+                setRentingLoading(false);
+                showConverterModal();
+                // tokenConverter()
+              } else {
+                if (
+                  unpackPrice(toDisplayData?.price) + Number(displayAmount) >
+                  balanceOfToken
+                ) {
+                  message.error(`you do not possess enough ${token} to 
+                 rent this item`);
+                  //  handleCancel()
+                   showConverterModal()
+                  //  tokenConverter()
+                } else {
+                  // message.success("ride on to rent amigo!");
+                  const transactionHash = toDisplayData?.transactionHash;
 
-            // // const amount= BigNumber.from(1).mul(BigNumber.from(10).pow(decimals));
-            const rentAmount = 1;
+                  const lendingID = await getLendingIdForNft(
+                    transactionHash,
+                    "goerli"
+                  );
+                  // console.log('id: ', lendingID)
 
-            const resp = await getLendingIdForNft(nftAddress, tokenID);
+                  const nftStandard = Number(toDisplayData?.nftStandard);
+                  const nftAddress = toDisplayData?.nftAddress.toLowerCase();
 
-            //  console.log('vbb', resp)
-            const lendingID = resp.lendings[0]?.id;
+                  const identity = toDisplayData?._id;
 
-            // console.log('head', lendingID)
+                  const rentDuration = Number(rentalPeriod);
+                  const tokenID = toDisplayData?.tokenID;
+                  const rentAmount = "1";
 
-            // const finalObj = {
-            //   nftStandard,
-            //   nftAddress,
-            //   tokenID,
-            //   rentDuration,
-            //   rentAmount,
-            //   lendingID
-            // }
+                  const finalObj = {
+                    nftAddress,
+                    nftStandard,
+                    tokenID,
+                    lendingID,
+                    rentDuration,
+                    rentAmount,
+                  };
 
-            // const nftStandard = NFTStandard.E721;
-            // const nftAddress = "0x999e88075692bcee3dbc07e7e64cd32f39a1d3ab";
-            // const tokenID = "30916";
-            // const lendingID = "817"; // this information is pulled from the subgraph
-            // const rentDuration = 3; // in days
+
+                  const msgValue = String(displayAmount * 0.03)
+
+                  console.log("values to be passed: ", finalObj);
+
+                  const txn = await hadaroGoerliTestContract.rent(
+                    [nftStandard],
+                    [nftAddress],
+                    [tokenID],
+                    [lendingID],
+                    [rentDuration],
+                    [rentAmount],
+                   {value: utils.parseEther(msgValue)}
+                  );
+
+                  const receipt = await txn.wait();
+ 
+                  // console.log(receipt);
+
+                  if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+                    await handlePatch(
+                      identity,
+                      "in rent",
+                      "renting",
+                      rentDuration,
+                      Date.now()
+                    );
+                    // console.log(finalObj)
+                    setRentingLoading(false);
+                    setRentalPeriod("");
+                    getRefreshItems();
+                    handleCancel();
+                    message.success("rent success!");
+                    handleCancel();
+                  }
+                  setRentingLoading(false);
+                }
+              }
+            }
+
+            // const nftAddress = toDisplayData?.nftAddress.toLowerCase();
+            // const tokenID = toDisplayData?.tokenID;
+            // //       const identity = toDisplayData?._id;
+            // // const lendingID = "1"; // this information is pulled from the subgraph
+            // const rentDuration = rentalPeriod; // in days
+            // //       const decimals = 18;
+
+            // // // const amount= BigNumber.from(1).mul(BigNumber.from(10).pow(decimals));
             // const rentAmount = 1;
 
-            const txn = await collateralFreeContract.rent(
-              [nftStandard],
-              [nftAddress],
-              [tokenID],
-              [lendingID],
-              [rentDuration],
-              [rentAmount]
-            );
+            // const resp = await getLendingIdForNft(nftAddress, tokenID);
 
-            const receipt = await txn.wait();
+            // //  console.log('vbb', resp)
+            // const lendingID = resp.lendings[0]?.id;
 
-            // console.log(receipt);
+            // // console.log('head', lendingID)
 
-            if (receipt) {
-              await handlePatch(
-                identity,
-                "in rent",
-                "renting",
-                rentDuration,
-                Date.now()
-              );
-              // console.log(finalObj)
-              setRentingLoading(false);
-              setRentalPeriod("");
-              getRefreshItems();
-              handleCancel();
-              message.success("rent success!");
-              handleCancel();
-            }
+            // // const finalObj = {
+            // //   nftStandard,
+            // //   nftAddress,
+            // //   tokenID,
+            // //   rentDuration,
+            // //   rentAmount,
+            // //   lendingID
+            // // }
+
+        
           }
-        }
+        } 
       } else {
         message.error("Oops!, connect your wallet to continue");
         setRentingLoading(false);
       }
     } catch (e) {
-      // console.warn(e);
+      console.warn(e);
       if (
-        e.error?.message ===
+        e.reason ===
         "execution reverted: SafeERC20: low-level call failed"
       ) {
         message.error(
@@ -465,14 +827,20 @@ const CollectionItemsComp = ({
           [8]
         );
       } else if (
-        e.error?.message === "execution reverted: ReNFT::cant rent own nft" 
+        e.reason === "execution reverted: Hadaro::cant rent own nft"
       ) {
-        message.error("You can't rent an item you own!", [8]);
+        message.error("You can't rent an item you own!", [3]);
+      } else  if (e.code === "ACTION_REJECTED") {
+        message.error("user rejected transaction");
       }
       setRentingLoading(false);
       handleCancel();
     }
   };
+
+  useEffect(() => {
+    getTokenBalances();
+  }, [alreadyConverted]);
 
   // const fetchCollectionNfts = async() => {
   //   try {
@@ -490,46 +858,6 @@ const CollectionItemsComp = ({
   // useEffect(() => {
   //   fetchCollectionNfts()
   // }, [])
-
-  // chain
-  // :
-  // "0x1"
-  // lenderAddress
-  // :
-  // "0x0b8ad9582c257aC029e335788017dCB1dE5FBE21"
-  // maxDuration
-  // :
-  // 15
-  // metadataDesc
-  // :
-  // "Thousands of Wizards and Dragons compete in a tower in the metaverse. A tempting prize of $GP awaits, with deadly high stakes. All the metadata and images are generated and stored 100% on-chain. No IPFS. NO API. Just the Ethereum blockchain."
-  // metadataImage
-  // :
-  // nftStandard
-  // :
-  // ERC721
-  // "data:image/svg+xml;base64,PHN2ZyBpZD0id25kTkZUIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PGltYWdlIHg9IjQiIHk9IjQiIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgaW1hZ2UtcmVuZGVyaW5nPSJwaXhlbGF0ZWQiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUNBQUFBQWdDQVlBQUFCemVucjBBQUFCV1VsRVFWUjQydTFYc1EzQ1FBek1BalRVVUxOQkNrb2FoTVFBTElBWUlTV01nSmlFSlJBck1BRXRGWFdRSXk2Nk9QNVBRdkpCb0x4a2dSTEhkL2E5blh3VURldFgxMmc4U2RsNkJ6L01GdWt0ampPVC83MlJ5TUYzY2NGNklWRUFqNVdGSmdGd3NkVjBYaUlnMTNBL0NBa0pDbUNBc0dGUGlFOHdBcHloWmNFcjRBTm5Fc0VJU0ltckNNRG5Qd2w4UlFKWGhyN3NPeHZSQ0twSExvQ2s1ZEIydU1ZanVwVWNPVGlQM0RjSjF5ak93ZFV6alVsWW1uSkdYQTBHMW41Nno5UUdmNXlUOUpKc1MxTk9nMWpsMW5LSlNTeUo2U1hCenZ2bE9uMWVqOWt2YnpBTFZPOFJKaVBHc1RncGs0QTRpRE1NckVGQXY0VHVwMDJKRUh6d25NVGdtQ0RoclFMWWdnQkFvTGRWQlgwUEVrQk9ybWJ0VFFpMnJoWnp5Y0NiMGx2MkpnUEl5dHlTd1BYR2JEMSs2MlN2TzZEMVdPYWVyd3V1TzZLVGNld2lZRWtRNUV2NVV3bUNIRVNxQmxId2cwclY5OEJ3Wm15NlhzTFVDSnlTTlRkMkFBQUFBRWxGVGtTdVFtQ0MiLz48aW1hZ2UgeD0iNCIgeT0iNCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBpbWFnZS1yZW5kZXJpbmc9InBpeGVsYXRlZCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQ0FBQUFBZ0NBWUFBQUJ6ZW5yMEFBQUFsRWxFUVZSWWhXTmtJQlB3Q3NuOFI5YjUrZDBUc3N3aVdSUE00bWZGdjFERXBYclp5SElJU1lwQmxuODZMTUR3WmNNckZFdGhqdUVKRUdQZ3MvMUFraU5ZU0hFQURLRDdWcW9YRWlxZkFrZzNpNGtjQjN4NnZBbnNhMUNJZ0RDSURSS2pDNEJaK3YrcXp2Ly9YODlCOEZXZC96QnhVdDB3NExsZ0ZJeUNVVEFLUnNFb0dBV2pZQlNNZ2xFd0NnWVdNREF3QUFBOTFrRVN6ck1lUkFBQUFBQkpSVTVFcmtKZ2dnPT0iLz48aW1hZ2UgeD0iNCIgeT0iNCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBpbWFnZS1yZW5kZXJpbmc9InBpeGVsYXRlZCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQ0FBQUFBZ0NBWUFBQUJ6ZW5yMEFBQUFYa2xFUVZSNDJtTmdHQVdqWUJTTWdsRXdDa2JCS0JnRm8yQVVqSUxCQm5pRlpQNkRNRjNOaFVtQzhQOS9mOEdZbW81QU54ZkZNZWlTWDQ5UG9Ka0RRR1pqZUJKZGt0WlJnTldUeUpLSmhXbzBjd0RNYkp5ZXBGY0lES3BjQndDc21uSFhlOWlzclFBQUFBQkpSVTVFcmtKZ2dnPT0iLz48aW1hZ2UgeD0iNCIgeT0iNCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBpbWFnZS1yZW5kZXJpbmc9InBpeGVsYXRlZCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQ0FBQUFBZ0NBWUFBQUJ6ZW5yMEFBQUFQRWxFUVZSNDJtTmdHQVdqWUJTTWdsRXdGSUh3enRmL0hSVGUvSWZ4UVd5UUdOMGNvR0EwN1Q4eFlxTmdGSXlDVVRBS1JzRW9HQVdqWUVnQUFOT3VEZEU1ZzhMb0FBQUFBRWxGVGtTdVFtQ0MiLz48aW1hZ2UgeD0iNCIgeT0iNCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBpbWFnZS1yZW5kZXJpbmc9InBpeGVsYXRlZCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQ0FBQUFBZ0NBWUFBQUJ6ZW5yMEFBQUFQVWxFUVZSNDJtTmdHQVdqWUJTTWdsRXdDa2JCVUFMYWw3NzlwNFlhbWptQzVwYkR3S2IvbUJaaEU2TzVJNUR4YUFJZEJhTmdGSXlDVVRCa0FRQ3JFU0d0U3dRK0dRQUFBQUJKUlU1RXJrSmdnZz09Ii8+PGltYWdlIHg9IjQiIHk9IjQiIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgaW1hZ2UtcmVuZGVyaW5nPSJwaXhlbGF0ZWQiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUNBQUFBQWdDQVlBQUFCemVucjBBQUFBU2tsRVFWUjQydTNRd1FrQUlBaUZZVmR3dHZab3ZKWXpNT3prb1VOMEVJTC9BOUhiZXlnQ0FBQWVhVGVQYWRQM0xnMlAwSHpyc05vU3VVQ0U1MTN6L2tOWWFZSGJVZ0FBZkdFQmg3UW5uNXZDN2JNQUFBQUFTVVZPUks1Q1lJST0iLz48aW1hZ2UgeD0iNCIgeT0iNCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBpbWFnZS1yZW5kZXJpbmc9InBpeGVsYXRlZCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQ0FBQUFBZ0NBWUFBQUJ6ZW5yMEFBQUFhMGxFUVZSNDJtTmdHQVdqWUJTTUFqb0RYaUdaL3lBOFlKYXZpVEFaZGNEQU9BQm0rZU5TZzRGekFNanlBamVuZ1EyQmtSdi9vS0FmY0FjTVdQekR3SUE1NFAyRzh2OGdER01QaUFPT2xxZitSM2JJZ0RsaVFMUGhnRmsrb0FVUXpQZWpMYUZSTUFvR0xRQUEzN1piVVJwdEN2MEFBQUFBU1VWT1JLNUNZSUk9Ii8+PC9zdmc+"
-  // metadataName
-  // :
-  // "Wizard #30916"
-  // nftAddress
-  // :
-  // "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
-  // paymentToken
-  // :
-  // "WETH"
-  // price
-  // :
-  // "0x0000000A"
-  // tokenID
-  // :
-  // "30916"
-  // transactionType
-  // :
-  // "lending"
-  // _id
-  // :
-  // "dicTh3M3fwU0B9kvr7T1EG"
 
   return (
     <div className={styles.mainContainer}>
@@ -642,146 +970,248 @@ const CollectionItemsComp = ({
       ) 
       
       :  */}
-      
       (
-        <div className={styles.mainPart}>
-          <h2>COLLECTION ITEMS</h2>
-          {loadingItems ? (
-            <div className={styles.loadingPart}>
-              <h1>{"Loading Items...."}</h1>
-            </div>
-          ) : itemsToDisplay?.length === 0 ? (
-            <div className={styles.loadingPart}>
-              <h1> No items available for this collection😶... </h1>
-            </div>
-          ) : (
-            <div className={styles.artPart}>
-              {itemsToDisplay?.map((item, index) => (
-                <div key={index}>
-                  <ArtCard
-                    image={nftImageAggregating(item.metadataImage)}
-                    title={item.metadataName}
-                    collectionName={colName}
-                    bidPrice={`${unpackPrice(item.price)}`}
-                    paymentToken={convertToken(item.paymentToken)}
-                    status={item.transactionType}
-                    identity={item._id}
-                    description={item.metadataDesc}
-                    position={index}
-                    openRentModal={displayNftDetails}
-                    openFinalModal={showRentModal}
-                  />
-                  <>
-                  <Modal
-                  open={isRentModalOpen}
-                  footer={null}
-                  onCancel={handleRentModalCancel}
-                  className={styles.rentModalCover} 
-                  >
-            <div className={styles.closeMenu}>
-              <CloseOutlined
-                className={styles.closeIcon}
-                onClick={handleRentModalCancel}
-              />
-            </div>
-            <div className={styles.infoContainer}>
-              <div className={styles.infoImage}>
-                <img
-                  src={nftImageAggregating(toDisplayData?.metadataImage)}
-                  alt={toDisplayData?.metadataName}
+      <div className={styles.mainPart}>
+        <h2>COLLECTION ITEMS</h2>
+        {loadingItems ? (
+          <div className={styles.loadingPart}>
+            <h1>{"Loading Items...."}</h1>
+          </div>
+        ) : itemsToDisplay?.length === 0 ? (
+          <div className={styles.loadingPart}>
+            <h1> No items available for this collection😶... </h1>
+          </div>
+        ) : (
+          <div className={styles.artPart}>
+            {itemsToDisplay?.map((item, index) => (
+              <div key={index}>
+                <ArtCard
+                  image={nftImageAggregating(item.metadataImage)}
+                  title={item.metadataName}
+                  collectionName={colName}
+                  bidPrice={`${unpackPrice(item.price)}`}
+                  paymentToken={convertToken(item.paymentToken)}
+                  status={item.transactionType}
+                  identity={item._id}
+                  description={item.metadataDesc}
+                  position={index}
+                  openRentModal={displayNftDetails}
+                  openFinalModal={showRentModal}
                 />
-              </div>
-              <div className={styles.infoDesc}>
-                <div className={styles.infoDescLender}>
-                  <small className={styles.gray}>Lender</small>
-                  <small> {addEllipsis(toDisplayData?.lenderAddress)} </small>
-                </div>
-                <div className={styles.infoDescName}>
-                  <div className={styles.infoDescMetaNames}>
-                    <h3> {colName} </h3>
-                    <h2> {toDisplayData?.metadataName} </h2>
-                  </div>
-                  <div className={styles.miniInfo}>
-                    <small>
-                      {" "}
-                      {parseStandards(toDisplayData?.nftStandard)}{" "}
-                    </small>
-                    <small> {addEllipsis(toDisplayData?.nftAddress)} </small>
-                  </div>
-                  <div className={styles.miniDesc}>
-                    {miniText ? (
-                      <p className={styles.miniText}>
-                        {toDisplayData?.metadataDesc
-                          .split(" ")
-                          .splice(0, 15)
-                          .join(" ")}
-                        <span
-                          className={styles.ctaForMore}
-                          onClick={() => setMiniText(false)}
-                        >
-                          more
-                        </span>{" "}
-                      </p>
-                    ) : (
-                      <p>
-                        {toDisplayData?.metadataDesc}
-                        <span onClick={() => setMiniText(true)}>less</span>{" "}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className={styles.formFillPart}>
-                  <h3>
-                    {" "}
-                    Max Duration in Days{" "}
-                    <span> {toDisplayData?.maxDuration} </span>{" "}
-                  </h3>
-
-                  <div className={styles.formFillPartInput}>
-                    <input
-                      type="text"
-                      placeholder="Set Rental Period"
-                      onChange={(e) => {
-                        showTotalAmount(e.target.value);
-                      }}
-                    />
-                    {error !== null && (
-                      <p className={styles.formErorPart}> {error} </p>
-                    )}
-                  </div>
-                  <div className={styles.dailyPricePart}>
-                    <h3>Daily Price </h3>{" "}
-                    <h1>
-                      {unpackPrice(toDisplayData?.price)}{" "}
-                      {convertToken(toDisplayData?.paymentToken)}{" "}
-                    </h1>
-                  </div>
-                  <div className={styles.finalAmountPart}>
-                    <p>Amount: </p>
-                    <div className={styles.finalAmountContainer}>
-                      <h1>{displayAmount === null ? 0 : displayAmount} </h1>{" "}
-                      <h2>{convertToken(toDisplayData?.paymentToken)} </h2>
+                <>
+                  <Modal
+                    open={isRentModalOpen}
+                    footer={null}
+                    onCancel={handleRentModalCancel}
+                    className={styles.rentModalCover}
+                  >
+                    <div className={styles.closeMenu}>
+                      <CloseOutlined
+                        className={styles.closeIcon}
+                        onClick={handleRentModalCancel}
+                      />
                     </div>
-                  </div>
-                </div>
+                    <div className={styles.infoContainer}>
+                      <div className={styles.infoImage}>
+                        <img
+                          src={nftImageAggregating(
+                            toDisplayData?.metadataImage
+                          )}
+                          alt={toDisplayData?.metadataName}
+                        />
+                      </div>
+                      <div className={styles.infoDesc}>
+                        <div className={styles.infoDescLender}>
+                          <small className={styles.gray}>Lender</small>
+                          <small>
+                            {" "}
+                            {addEllipsis(toDisplayData?.lenderAddress)}{" "}
+                          </small>
+                        </div>
+                        <div className={styles.infoDescName}>
+                          <div className={styles.infoDescMetaNames}>
+                            <h3> {colName} </h3>
+                            <h2> {toDisplayData?.metadataName} </h2>
+                          </div>
+                          <div className={styles.miniInfo}>
+                            <small>
+                              {" "}
+                              {parseStandards(toDisplayData?.nftStandard)}{" "}
+                            </small>
+                            <small>
+                              {" "}
+                              {addEllipsis(toDisplayData?.nftAddress)}{" "}
+                            </small>
+                          </div>
+                          <div className={styles.miniDesc}>
+                            {miniText ? (
+                              <p className={styles.miniText}>
+                                {toDisplayData?.metadataDesc
+                                  .split(" ")
+                                  .splice(0, 15)
+                                  .join(" ")}
+                                <span
+                                  className={styles.ctaForMore}
+                                  onClick={() => setMiniText(false)}
+                                >
+                                  more
+                                </span>{" "}
+                              </p>
+                            ) : (
+                              <p>
+                                {toDisplayData?.metadataDesc}
+                                <span onClick={() => setMiniText(true)}>
+                                  less
+                                </span>{" "}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className={styles.formFillPart}>
+                          <h3>
+                            {" "}
+                            Max Duration in Days{" "}
+                            <span> {toDisplayData?.maxDuration} </span>{" "}
+                          </h3>
 
-                <div className={styles.submitBtn}>
-                  <button onClick={handleCompleteRent}>
-                    {rentingLoading ? "Processing" : "Complete Rent"}
-                  </button>
-                </div>
-              </div>
-            </div>
+                          <div className={styles.formFillPartInput}>
+                            <input
+                              type="text"
+                              placeholder="Set Rental Period"
+                              onChange={(e) => {
+                                showTotalAmount(e.target.value);
+                              }}
+                            />
+                            {error !== null && (
+                              <p className={styles.formErorPart}> {error} </p>
+                            )}
+                          </div>
+                          <div className={styles.dailyPricePart}>
+                            <h3>Daily Price </h3>{" "}
+                            <h1>
+                              {unpackPrice(toDisplayData?.price)}{" "}
+                              {convertToken(toDisplayData?.paymentToken)}{" "}
+                            </h1>
+                          </div>
+                          <div className={styles.finalAmountPart}>
+                            <p>Amount: </p>
+                            <div className={styles.finalAmountContainer}>
+                              <h1>
+                                {displayAmount === null ? 0 : displayAmount}{" "}
+                              </h1>{" "}
+                              <h2>
+                                {convertToken(toDisplayData?.paymentToken)}{" "}
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className={styles.submitBtn}>
+                          <button onClick={handleCompleteRent}>
+                            {rentingLoading ? "Processing" : "Complete Rent"}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </Modal>
-                  </>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )
-      
-       {/* } */}
+                  <Modal
+                    footer={null}
+                    open={isConverterModalOpen}
+                    onCancel={handleConverterModalCancel}
+                    className={styles.currencyModalCover}
+                  >
+                    <div className={styles.closeMenu}>
+                      <CloseOutlined
+                        className={styles.closeIcon}
+                        onClick={handleConverterModalCancel}
+                      />
+                    </div>
+                    <div className={styles.converterMain}>
+                      <h1>
+                        Token Converter <SyncOutlined />
+                      </h1>
+                      <div className={styles.converterMainLower}>
+                        <h3>
+                          {" "}
+                          Your Wallet Balance: {walletBalance.toFixed(
+                            4
+                          )} ETH{" "}
+                        </h3>
+                        <div className={styles.converterFormPart}>
+                          <input
+                            type="text"
+                            placeholder="Enter price to convert"
+                            onChange={(e) => {
+                              convertedPrice(e.target.value);
+                            }}
+                          />
+                          <div className={styles.toggleToken}>
+                            <small>Select preferred token</small>
+                            <Select
+                              size={size}
+                              defaultValue={"WETH"}
+                              onChange={handleExchangeTokenChange}
+                              style={{
+                                width: 200,
+                                borderRadius: "5px",
+                              }}
+                              options={[
+                                {
+                                  value: "WETH",
+                                  label: (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {" "}
+                                      <img
+                                        src="/images/ethereum-eth-logo.png"
+                                        alt="ethereum"
+                                        width={20}
+                                      />{" "}
+                                      <span style={{ marginLeft: ".5rem" }}>
+                                        {" "}
+                                        WETH{" "}
+                                      </span>{" "}
+                                    </div>
+                                  ),
+                                },
+                                // {
+                                //   value: '0x07865c6e87b9f70255377e024ace6630c1eaa37f',
+                                //   label: (
+                                //     <div>
+                                //       {" "}
+                                //       <img
+                                //         src="/images/usd-coin-usdc-logo.png"
+                                //         alt="ethereum"
+                                //         width={20}
+                                //       />{" "}
+                                //       <span style={{ marginLeft: ".5rem" }}> USDC </span>{" "}
+                                //     </div>
+                                //   ),
+                                // },
+                              ]}
+                            />
+                            <button onClick={handleConvertToToken}>
+                              {conversionLoading
+                                ? "converting . . ."
+                                : "convert"}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* <button disabled={!valueForExhange} > swap token </button> */}
+                  </Modal>
+                </>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      {/* } */}
     </div>
   );
 };

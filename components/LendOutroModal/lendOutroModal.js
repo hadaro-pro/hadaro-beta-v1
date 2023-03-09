@@ -343,12 +343,12 @@ useSignMessage({
 
       removeLent(currentLendIndex);
     } catch (e) {
-      console.warn(e)
+      // console.warn(e)
       if (e.message[0] === 'u') {
         message.error(e.message.slice(0, 25), [3])
       } else if (e === 'You do not own this NFT') {
         message.error('already lent')
-      } else if(e.error?.message === "execution reverted: ReNFT::rent price is zero") {
+      } else if(e.error?.message === "execution reverted: Hadaro::rent price is zero") {
         message.error('daily rental price entered too low', [3])
       } else if(e.message === "supplied price exceeds 9999.9999") {
         message.error('daily rent price supplied too high', [3])

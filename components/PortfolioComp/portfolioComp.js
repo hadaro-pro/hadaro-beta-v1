@@ -474,6 +474,7 @@ dataSource,
           await handleRemoveElement(position);
           message.success("successfully stopped lend of NFT!");
           await getNewListFunc();
+          await getWalletNfts()
         }
       }
       setLoadingLendRemove(false);
@@ -685,14 +686,14 @@ dataSource,
                 }
               >
                 <div className={styles.subdropmenu}>
-                  {/* {loadingWallet ? (<div> <p>Loading...</p> </div>) : " " } */}
+                  {/* {loadingWallet ? (<div> <p>Loading...</p> </div>) : " " } */}   
                   {walletConnectStatus ? (
                     loadingWallet ? (
                       <div>
                         {" "}
                         <small>Loading...</small>{" "}
                       </div>
-                    ) : ownedNfts?.length < 0 ? (
+                    ) : ownedNfts?.length === 0 ? (
                       <small>No NFTs in wallet</small>
                     ) : (
                       <div className={styles.mainCover}>
@@ -708,6 +709,7 @@ dataSource,
                               setLendItemObject={setCurrentLendItem}
                               verifiedCollectionsArr={verifiedCollections}
                               getWalletNft={getWalletNfts}
+                              getLendNfts={getNewListFunc}
                             />
                           </div>
                           //          <>

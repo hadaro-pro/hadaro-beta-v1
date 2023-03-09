@@ -103,7 +103,7 @@ export const statusOfCollectionsQuery = (status) => {
 
 
 export const allNftsByCollectionQuery = (contractAddr) => {
-  const query = `*[_type == "nftData"] {
+  const query = `*[_type == "testNftData"] {
     _id,
     nftAddress,
     tokenID,
@@ -165,6 +165,7 @@ export const allMainNftsByCollectionQuery = (contractAddr) => {
     metadataName,
     nftStandard,
     nftCollectionName,
+    transactionHash
   }`
 
 return query
