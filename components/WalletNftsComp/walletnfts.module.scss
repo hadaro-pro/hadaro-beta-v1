@@ -43,7 +43,6 @@
       font-weight: 600;
       margin: 0 auto !important;
     }
-
   }
 
   .mainLendCover {
@@ -59,20 +58,19 @@
     outline: none;
     border: none;
     border-radius: 10px;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     font-size: 1rem;
     color: #fff;
     background: #1809ff;
     transition: all 200ms ease-in-out;
     cursor: pointer;
 
-&:hover {
-  opacity: 65%;
-  padding: .6rem 1.2rem;
-}
+    &:hover {
+      opacity: 65%;
+      padding: 0.6rem 1.2rem;
+    }
   }
 }
-
 
 @media only screen and (max-width: 992px) {
   .mainCover {
@@ -81,29 +79,27 @@
     // border-radius: 10px;
     // padding: 1rem;
     // background: black;
-  
+
     .imagePart {
       width: 100%;
       aspect-ratio: 1/1;
     }
-  
+
     .mainPartLower {
-  
       p {
-        font-size: .9rem !important;
+        font-size: 0.9rem !important;
       }
-  
+
       .bottomText {
-        font-size: .8rem !important;
+        font-size: 0.8rem !important;
       }
     }
     .lendButton {
       margin: 1rem 0;
-      font-size: .9rem !important;
+      font-size: 0.9rem !important;
     }
   }
 }
-
 
 @media only screen and (max-width: 768px) {
   .mainCover {
@@ -112,29 +108,27 @@
     // border-radius: 10px;
     // padding: 1rem;
     // background: black;
-  
+
     .imagePart {
       width: 100%;
       aspect-ratio: 1/1;
     }
-  
+
     .mainPartLower {
-  
       p {
-        font-size: .8rem !important;
+        font-size: 0.8rem !important;
       }
-  
+
       .bottomText {
-        font-size: .7rem !important;
+        font-size: 0.7rem !important;
       }
     }
     .lendButton {
       margin: 1rem 0;
-      font-size: .8rem !important;
+      font-size: 0.8rem !important;
     }
   }
 }
-
 
 @media only screen and (max-width: 600px) {
   .mainCover {
@@ -143,27 +137,26 @@
     // border-radius: 10px;
     // padding: 1rem;
     // background: black;
-  
+
     .imagePart {
       width: 100%;
       aspect-ratio: 1/1;
     }
-  
+
     .mainPartLower {
-  
       p {
         // outline: 3px solid red;
-        font-size: .7rem !important;
+        font-size: 0.7rem !important;
       }
-  
+
       .bottomText {
         //  outline: 3px solid red;
-        font-size: .6rem !important;
+        font-size: 0.6rem !important;
       }
     }
     .lendButton {
       margin: 1rem 0;
-      font-size: .7rem !important;
+      font-size: 0.7rem !important;
     }
   }
 }

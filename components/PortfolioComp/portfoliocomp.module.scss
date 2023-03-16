@@ -61,7 +61,7 @@
 
         p {
           color: #fff;
-          font-size: .9rem;
+          font-size: 0.9rem;
           // outline: 3px solid red;
           margin: auto;
         }
@@ -74,11 +74,6 @@
         border-radius: 50%;
       }
 
-
-     
-
-     
-
       .formUpperImageContainer {
         // outline: 3px solid red;
         height: 8rem;
@@ -89,13 +84,11 @@
         justify-content: center;
 
         .formUpperImageDiv {
-
           text-align: center;
 
-
           .imgUpload {
-            width: 8rem ;
-            height: 8rem ;
+            width: 8rem;
+            height: 8rem;
             border-radius: 50%;
             object-fit: cover;
           }
@@ -117,15 +110,15 @@
 
     .changeAvatar {
       // outline: 3px solid red;
-      margin-top: .5rem;
+      margin-top: 0.5rem;
 
       display: flex;
       align-items: center;
       justify-content: center;
-      
+
       p {
         border: none;
-        padding: .5rem 1rem;
+        padding: 0.5rem 1rem;
         font-size: 1rem;
         border-radius: 10px;
         font-weight: 500;
@@ -161,11 +154,8 @@
         // padding-bottom: 1rem;
         // margin-bottom: 1rem;
 
-
-
         height: fit-content;
         border-bottom: 2px solid #00000073;
-
 
         .menuItemImage {
           width: 3rem;
@@ -207,7 +197,6 @@
           // height: 200px;
           animation: dropopen 1000ms ease 1 normal forwards;
 
-
           .subdropmenu {
             // outline: 3px solid orangered;
             height: auto;
@@ -221,8 +210,6 @@
             }
           }
         }
-
-
 
         @keyframes dropopen {
           from {
@@ -271,7 +258,6 @@
           // transition: 500ms ease;
           animation: dropclose 500ms ease 1 normal forwards;
 
-
           .subdropmenu {
             // outline: 3px solid orangered;
             height: auto;
@@ -279,7 +265,6 @@
             margin: auto;
             margin-bottom: 2rem !important;
 
-            
             small {
               color: #ffff;
               font-size: 1rem;
@@ -309,10 +294,364 @@
   }
 }
 
+.rentItemsModalCover {
+  // outline: 3px solid orangered;
+  width: 80% !important;
+  .closeMenu {
+    // outline: 3px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 
+    .closeIcon {
+      background-color: darken($color: #523e93, $amount: 10%);
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: gray;
+      transition: background-color 100ms ease-in-out;
+      // opacity: 80%;
+      &:hover {
+        background-color: darken($color: #523e93, $amount: 15%);
+        width: 3rem;
+        height: 3rem;
+        // font-size: 1.3rem;
+      }
+    }
+  }
 
+  .infoContainer {
+    // outline: 3px solid orange;
+    height: 100%;
+    margin-top: 1rem;
+    display: flex;
 
+    .infoImage {
+      width: 50%;
+      // outline: 3px solid yellow;
+      display: flex;
+      background-color: #ffff;
+      border-radius: 5px;
+      img {
+        width: 100%;
+        border-radius: 5px;
+      }
+    }
 
+    .infoDesc {
+      width: 50%;
+      margin-left: 2%;
+      // outline: 3px solid green;
+      // height: 100%;
+      overflow-y: auto;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+
+      .ctaButton {
+        margin-top: 5rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button {
+          cursor: pointer;
+          outline: none;
+          border: none;
+          padding: 0.5rem 1rem;
+          font-size: 1.05rem;
+          background: #880ed4;
+          color: #ffff;
+          border-radius: 10px;
+        }
+
+        .inProg {
+          opacity: 55%;
+        }
+      }
+
+      .infoDescName {
+        margin-top: 3rem;
+
+        h3 {
+          font-size: 1rem;
+          color: #ffff;
+          line-height: 0.5rem;
+        }
+
+        h2 {
+          font-size: 2.1rem;
+          color: #ffff;
+          // line-height: 2.5rem;
+        }
+
+        .infoDescMetaNames {
+          // background: red;
+          h2 {
+            font-size: 2.1rem;
+            color: #fff;
+          }
+
+          h3 {
+            font-size: 1rem;
+            color: #fff;
+          }
+        }
+
+        .miniInfo {
+          display: flex;
+          // margin-right: 2rem;
+          opacity: 80%;
+          margin-top: -1rem;
+
+          small {
+            font-weight: 600;
+            margin-right: 0.5rem;
+            color: #ffff;
+            font-size: 0.8rem;
+          }
+        }
+
+        .miniDesc {
+          margin-top: 1.5rem;
+
+          p {
+            color: #ffff !important;
+            font-weight: 500;
+            font-size: 0.9rem;
+          }
+
+          .miniText {
+            opacity: 60%;
+          }
+
+          .ctaForMore {
+            // display: none;
+            opacity: none !important;
+          }
+
+          span {
+            opacity: 70%;
+            cursor: pointer;
+            color: #000 !important;
+            font-weight: 600;
+            margin-left: 0.5rem;
+          }
+        }
+
+        .timePart {
+          width: 100%;
+          text-align: center;
+
+          h3 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 0 auto;
+            margin-bottom: 1rem;
+          }
+
+          .notifyText {
+            font-size: 1rem;
+            color: #87ceeb;
+            font-weight: 500;
+            // margin-top: .9rem !important;
+          }
+          .timePartLower {
+            margin-top: 0.5rem;
+            display: flex;
+            // outline: 4px solid red;
+            background: darken($color: #fff, $amount: 80%);
+            border-radius: 2px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            align-items: center;
+            justify-content: center;
+
+            p {
+              font-size: 1.5rem;
+              color: #fff;
+              margin: auto 0;
+              // border-right: 3px solid gray;
+              padding: 0.675rem;
+              span {
+                font-size: 1rem;
+                margin-left: 0.1rem;
+              }
+            }
+          }
+        }
+
+        // .ctaButton {
+        //   margin-top: 5rem;
+        //   width: 100%;
+        //   display: flex;
+        //   align-items: center;
+        //   justify-content: center;
+
+        //   button {
+        //     cursor: pointer;
+        //     outline: none;
+        //     border: none;
+        //     padding: .5rem 1rem;
+        //     font-size: 1.15rem;
+        //     background: #880ed4;
+        //     color: #ffff;
+        //   }
+
+        // }
+      }
+
+      .submitBtn {
+        // outline: 3px solid purple;
+        margin-top: 2rem;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+
+        button {
+          outline: none;
+          border: none;
+          border-radius: 10px;
+          background-color: #9e00ff;
+          color: #ffff;
+          font-size: 1.2rem;
+          font-weight: 500;
+          padding: 1rem 2rem;
+          width: 80%;
+          cursor: pointer;
+          transition: opacity 200ms ease-in;
+
+          &:hover {
+            opacity: 90%;
+          }
+        }
+      }
+
+      .infoDescLender {
+        // margin-top: -3rem;
+        display: flex;
+        // outline: 3px solid black;
+
+        .gray {
+          opacity: 60% !important;
+        }
+
+        small {
+          font-size: 1rem;
+          color: #ffff;
+          margin-right: 0.4rem;
+          // font-weight: 600;
+        }
+      }
+
+      .formFillPart {
+        margin-top: 2rem;
+        h3 {
+          color: #ffff;
+        }
+
+        span {
+          margin-left: 0.5rem;
+          border: 2px solid #ffff;
+          padding: 0.5rem;
+          border-radius: 5px;
+        }
+
+        .finalAmountPart {
+          display: flex;
+          flex-direction: column;
+
+          p {
+            // line-height: 1.5rem;
+            color: #ffff;
+            font-weight: 600;
+            font-size: 1.4rem;
+          }
+
+          .finalAmountContainer {
+            margin-top: -1.5rem;
+            border: 3px solid #ffff;
+            padding: 0.4rem;
+            width: fit-content;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            h1 {
+              margin: 0 auto !important;
+              font-size: 1.5rem;
+              color: #ffff;
+            }
+
+            h2 {
+              // color: #000000;
+              margin: 0 auto;
+              margin-left: 0.5rem !important;
+              // border: none !important;
+              color: #fff;
+
+              font-weight: 600;
+              font-size: 1.5rem;
+              opacity: 70%;
+            }
+          }
+        }
+
+        .dailyPricePart {
+          // outline: 3px solid salmon;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          justify-content: center;
+          margin-top: 1rem;
+          padding-right: 1rem;
+
+          h1 {
+            font-weight: 600;
+            color: #fff;
+            opacity: 75%;
+            line-height: 1rem;
+            font-size: 1.8rem;
+          }
+
+          h3 {
+            font-size: 1.1rem;
+            color: #ffff;
+            font-weight: 600;
+          }
+        }
+
+        .formFillPartInput {
+          margin-top: 2rem;
+
+          input {
+            outline: none;
+            border: 2px solid #ffff;
+            border-radius: 10px;
+            padding: 0.4rem 1rem 0.4rem 0.4rem;
+            background: white;
+            color: #000000;
+            font-size: 1rem;
+          }
+
+          .formErorPart {
+            font-weight: 500;
+            color: red;
+            margin-top: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
 
 .mainCover {
   // outline: 3px solid lightcoral;
@@ -330,19 +669,17 @@
   display: flex;
   // width: 45rem;
 
-
-
   .nftCard {
-     outline: 3px solid orange;
-     height: 100%;
-     width: 100%;
-     display: flex;
-     flex-direction: column;
+    outline: 3px solid orange;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     // background: #0000;
     display: flex;
     // flex-direction: column;
     // height: 20rem;
-  
+
     .imgCover {
       outline: 3px solid purple;
       // height: 15rem;
@@ -356,17 +693,10 @@
       }
     }
   }
-  
-
 }
 
-
-
 @media only screen and (max-width: 992px) {
-
-
   .mainContainer {
-
     .caption {
       width: 80% !important;
       h1 {
@@ -381,33 +711,72 @@
     }
   }
 
-  .changeAvatar {
-    // outline: 3px solid red;
-    
-    p {
-      font-size: .85rem !important;
-    }
+  .ctaButton {
+    // margin-top: 5rem;
+    width: 100%;
 
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 0.95rem !important;
+    }
   }
 
+  .timePart {
+    width: 100%;
+
+    h3 {
+      font-size: 1rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    .notifyText {
+      font-size: 0.875rem !important;
+    }
+    .timePartLower {
+      margin-top: 0.35rem !important;
+
+      // outline: 4px solid red;
+      width: fit-content;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        font-size: 1.2rem !important;
+        margin: auto 0;
+        // border-right: 3px solid gray;
+        padding: 0.475rem !important;
+        span {
+          font-size: 0.85rem !important;
+          margin-left: 0.1rem;
+        }
+      }
+    }
+  }
+
+  .changeAvatar {
+    // outline: 3px solid red;
+
+    p {
+      font-size: 0.85rem !important;
+    }
+  }
 
   .waitingPart {
     height: 6.5rem !important;
     width: 6.5rem !important;
     p {
       color: #fff;
-      font-size: .85rem !important;
+      font-size: 0.85rem !important;
     }
   }
-  
+
   .avatarPart {
     // outline: 3px solid red;
     height: 6.5rem !important;
     width: 6.5rem !important;
     border-radius: 50%;
   }
-
- 
 
   .formUpperImageContainer {
     // outline: 3px solid red;
@@ -419,9 +788,7 @@
     justify-content: center;
 
     .formUpperImageDiv {
-
       text-align: center;
-
 
       .imgUpload {
         width: 6.5rem !important;
@@ -432,13 +799,11 @@
 
       p {
         color: #fff;
-        font-size: .9rem !important;
+        font-size: 0.9rem !important;
         font-weight: 500;
         cursor: pointer;
       }
     }
-
-   
   }
 
   .subdropmenu {
@@ -455,14 +820,10 @@
   }
 }
 
-
 @media only screen and (max-width: 768px) {
-
-
   .mainContainer {
-
     .caption {
-      text-align: center ;
+      text-align: center;
       width: 90% !important;
       h1 {
         font-size: 2.2rem !important;
@@ -474,13 +835,65 @@
     }
   }
 
-  .changeAvatar {
-    // outline: 3px solid red;
-    
-    p {
-      font-size: .8rem !important;
+  .mainCover {
+    // outline: 3px solid lightcoral;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) !important;
+    // padding: 1rem;
+    // gap: 2.5rem;
+    // height: auto;
+  }
+
+  .ctaButton {
+    // margin-top: 5rem;
+    width: 100%;
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem !important;
+    }
+  }
+
+  .timePart {
+    width: 100%;
+
+    h3 {
+      font-size: 0.8rem !important;
+      margin-bottom: 0.3rem !important;
     }
 
+    .notifyText {
+      font-size: 0.675rem !important;
+    }
+
+    .timePartLower {
+      margin-top: 0.3rem !important;
+
+      // outline: 4px solid red;
+      width: fit-content;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        font-size: 0.85rem !important;
+        margin: auto 0;
+        // border-right: 3px solid gray;
+        padding: 0.275rem !important;
+        span {
+          font-size: 0.7rem !important;
+          margin-left: 0.1rem;
+        }
+      }
+    }
+  }
+
+  .changeAvatar {
+    // outline: 3px solid red;
+
+    p {
+      font-size: 0.8rem !important;
+    }
   }
 
   .waitingPart {
@@ -489,10 +902,9 @@
 
     p {
       color: #fff;
-      font-size: .75rem !important;
+      font-size: 0.75rem !important;
     }
   }
-
 
   .avatarPart {
     // outline: 3px solid red;
@@ -500,8 +912,6 @@
     width: 5.5rem !important;
     border-radius: 50%;
   }
-
- 
 
   .formUpperImageContainer {
     // outline: 3px solid red;
@@ -513,9 +923,7 @@
     justify-content: center;
 
     .formUpperImageDiv {
-
       text-align: center;
-
 
       .imgUpload {
         width: 5.5rem !important;
@@ -526,25 +934,20 @@
 
       p {
         color: #fff;
-        font-size: .85rem !important;
+        font-size: 0.85rem !important;
         font-weight: 500;
         cursor: pointer;
       }
     }
-
-   
   }
 
-
   .subdropmenu {
-
     small {
       color: #ffff;
       // font-size: .85rem !important;
     }
   }
 }
-
 
 @media only screen and (max-width: 600px) {
   .mainCover {
@@ -556,13 +959,77 @@
     height: auto;
   }
 
-  .changeAvatar {
-    // outline: 3px solid red;
-    
-    p {
-      font-size: .7rem !important;
+  .rentItemsModalCover {
+    width: 90% !important;
+  }
+
+  .infoContainer {
+    // outline: 3px solid orange;
+    height: 100%;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    .infoImage {
+      width: 100% !important;
     }
 
+    .infoDesc {
+      width: 100% !important;
+      margin-left: 0% !important;
+    }
+  }
+
+  .ctaButton {
+    // margin-top: 5rem;
+    width: 100%;
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem !important;
+    }
+  }
+
+  .timePart {
+    width: 100%;
+
+    h3 {
+      font-size: 0.75rem !important;
+      margin-bottom: 0.3rem !important;
+    }
+
+    .notifyText {
+      font-size: 0.575rem !important;
+    }
+
+    .timePartLower {
+      margin-top: 0.3rem !important;
+
+      // outline: 4px solid red;
+      width: fit-content;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        font-size: 0.85rem !important;
+        margin: auto 0;
+        // border-right: 3px solid gray;
+        padding: 0.275rem !important;
+        span {
+          font-size: 0.65rem !important;
+          margin-left: 0.1rem;
+        }
+      }
+    }
+  }
+
+  .changeAvatar {
+    // outline: 3px solid red;
+
+    p {
+      font-size: 0.7rem !important;
+    }
   }
 
   .waitingPart {
@@ -571,7 +1038,7 @@
 
     p {
       color: #fff;
-      font-size: .7rem !important;
+      font-size: 0.7rem !important;
     }
   }
 
@@ -581,8 +1048,6 @@
     width: 4.5rem !important;
     border-radius: 50%;
   }
-
- 
 
   .formUpperImageContainer {
     // outline: 3px solid red;
@@ -594,9 +1059,7 @@
     justify-content: center;
 
     .formUpperImageDiv {
-
       text-align: center;
-
 
       .imgUpload {
         width: 4.5rem !important;
@@ -607,57 +1070,45 @@
 
       p {
         color: #fff;
-        font-size: .75rem !important;
+        font-size: 0.75rem !important;
         font-weight: 500;
         cursor: pointer;
       }
     }
-
-   
   }
-  
+}
+
+.mainContainer {
+  .caption {
+    width: 90% !important;
+    h1 {
+      font-size: 1.8rem !important;
+    }
   }
 
+  .mainComp {
+    width: 90% !important;
+    margin-bottom: 5rem !important;
+    margin-top: 2rem !important;
+  }
 
-
-  .mainContainer {
-
-    .caption {
-      width: 90% !important;
-      h1 {
-        font-size: 1.8rem !important;
-      }
-    }
-
-    .mainComp {
-      width: 90% !important;
-      margin-bottom: 5rem !important;
-      margin-top: 2rem !important;
-    }
-
-
-    .menuItem {
-      .menuItemImage {
+  .menuItem {
+    .menuItemImage {
       width: 2rem !important;
-        height: 2rem !important;
-      }
-      .menuItemText {
-        color: #ffffff;
-        font-size: 1.2rem !important;
-        font-weight: 600;
-        margin-left: 1.2rem !important;
-      }
+      height: 2rem !important;
+    }
+    .menuItemText {
+      color: #ffffff;
+      font-size: 1.2rem !important;
+      font-weight: 600;
+      margin-left: 1.2rem !important;
     }
   }
+}
 
-
-  .subdropmenu {
-
-    small {
-      color: #ffff;
-      font-size: .85rem !important;
-    }
+.subdropmenu {
+  small {
+    color: #ffff;
+    font-size: 0.85rem !important;
   }
-
-
-
+}

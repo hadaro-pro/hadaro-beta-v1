@@ -129,7 +129,7 @@ const TopSection = () => {
   const getAllNfts = async () => {
     try {
           const response = await axios.get(`/api/fetchAllNftsInCollection`)
-          const neededNfts = response.data.filter((item) => item?.status === "available"  && !item._id?.includes('drafts') )
+          const neededNfts = response.data.filter((item) => item?.status === "available" || item?.status === "in rent" && !item._id?.includes('drafts') )
           // console.log("nfts", neededNfts);
       setAllNfts(neededNfts)
 

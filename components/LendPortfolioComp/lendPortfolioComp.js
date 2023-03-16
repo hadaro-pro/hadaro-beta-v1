@@ -18,7 +18,7 @@ import {
   unpackPrice,
   DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
   SylvesterV0FunctionInterface,
-  getRenftContract
+  getRenftContract,
 } from "@renft/sdk";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import { client } from "../../utils/client";
@@ -26,13 +26,13 @@ import NftDisplayComp from "../NftsComp/nftComp";
 import styles from "./lendportfoliocomp.module.scss";
 import ToogleNetwork from "../ToggleNetwork/toogleNetwork";
 import LendModal from "../LendModal/lendmodal";
-import LendOutroModal from "../LendOutroModal/lendOutroModal"; 
+import LendOutroModal from "../LendOutroModal/lendOutroModal";
 
 const LendPortfolioComp = ({
   verifiedCollections,
   userAvatar,
   avatarLoading,
-  reloadUserAvatar
+  reloadUserAvatar,
 }) => {
   // console.log('bracka', verifiedCollections)
 
@@ -85,11 +85,17 @@ const LendPortfolioComp = ({
 
   const { chain: mainChain, chains } = useNetwork();
 
-  const { chains: netChains, status, error, isLoading, pendingChainId, switchNetwork } =
-  useSwitchNetwork()
+  const {
+    chains: netChains,
+    status,
+    error,
+    isLoading,
+    pendingChainId,
+    switchNetwork,
+  } = useSwitchNetwork();
 
   // const collateralFreeContract = new Sylvester(signer);
-  const collateralFreeContract =  getRenftContract({
+  const collateralFreeContract = getRenftContract({
     deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
     signer,
   });
@@ -108,11 +114,10 @@ const LendPortfolioComp = ({
   // }
 
   useEffect(() => {
-    switchNetwork?.(mainChain?.id)
+    switchNetwork?.(mainChain?.id);
     // message.info(status)
     // message.info(`new network id is ${mainChain?.id}`)
-  }, [mainChain?.id])
-  
+  }, [mainChain?.id]);
 
   const uploadImage = async (e) => {
     const selectedFile = e.target.files[0];
@@ -146,7 +151,7 @@ const LendPortfolioComp = ({
               message.info("image upload success");
               // const imgUrl = sortCorsImage(data.url)
               setAvatarAsset(data);
-              reloadUserAvatar()
+              reloadUserAvatar();
             }
           });
       } else {
@@ -236,7 +241,7 @@ const LendPortfolioComp = ({
   };
 
   const getUserNFTs = async () => {
-    setLoadingNfts(true); 
+    setLoadingNfts(true);
     try {
       const response = await axios.get("/api/nft-balance", {
         params: {
@@ -358,11 +363,10 @@ const LendPortfolioComp = ({
 
       //   // }
       // }
-      
     } catch (e) {
       // console.warn(e);
     }
-  }; 
+  };
 
   // console.log('xama', verifiedCollectionsArray)
 
@@ -423,21 +427,21 @@ const LendPortfolioComp = ({
               />
             )}
           </div>
-          {userAvatar?.length > 0  && (
-            <div className={styles.changeAvatar}> 
-            <label htmlFor="imagefile">
-              <p>Change avatar
-              </p>
+          {userAvatar?.length > 0 && (
+            <div className={styles.changeAvatar}>
+              <label htmlFor="imagefile">
+                <p>Change avatar</p>
               </label>
               <input
-                  id="imagefile"
-                  type="file"
-                  onChange={(e) => {
-                    setAvatarFile(e.target.files[0]);
-                    uploadImage(e);
-                  }}
-                /> 
-            </div>)}
+                id="imagefile"
+                type="file"
+                onChange={(e) => {
+                  setAvatarFile(e.target.files[0]);
+                  uploadImage(e);
+                }}
+              />
+            </div>
+          )}
           <div className={styles.lowerPart}>
             <div className={styles.menuItem}>
               <div

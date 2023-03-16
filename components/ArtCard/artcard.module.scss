@@ -12,8 +12,8 @@
     // height: 5rem;
     object-fit: cover;
     // outline: 3px solid orangered;
-    border-radius:  5px 5px 0 0;
-    background-color: #FFFFFF;
+    border-radius: 5px 5px 0 0;
+    background-color: #ffffff;
   }
 
   .artDesc {
@@ -25,12 +25,6 @@
     // outline:  3px solid chartreuse;
     // align-items: center;
     justify-content: space-between;
-
-
-
-   
-    
-
 
     .topCaption {
       // outline: 3px solid red;
@@ -44,19 +38,19 @@
       span {
         font-size: 1rem;
         font-weight: 500;
-        color: #FFFFFF;
+        color: #ffffff;
       }
 
       .collectionName {
-        font-size: .75rem;
+        font-size: 0.75rem;
         opacity: 60%;
       }
     }
 
     .captionDetails {
-      margin-top: .5rem;
+      margin-top: 0.5rem;
       // outline:  3px solid chartreuse;
-      padding: .1rem 1.5rem;
+      padding: 0.1rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -71,17 +65,17 @@
         justify-content: center;
 
         .status {
-           margin-left: .4rem;
-           text-align: center;
+          margin-left: 0.4rem;
+          text-align: center;
           //  outline: 3px solid orangered;
-           background-color: #ceffdf;
-           padding: 0 .3rem 0 .2rem;
-           border-radius: 5px;
+          background-color: #ceffdf;
+          padding: 0 0.3rem 0 0.2rem;
+          border-radius: 5px;
 
-           small {
-            font-size: .75rem;
+          small {
+            font-size: 0.75rem;
             font-weight: 600;
-           }
+          }
         }
 
         .graybg {
@@ -93,15 +87,15 @@
         .subcaption {
           display: flex;
           flex-direction: column;
-          margin-left: .5rem;
-          
+          margin-left: 0.5rem;
+
           small {
-            color: #FFFFFF;
+            color: #ffffff;
             font-weight: 400;
           }
 
           .small1 {
-            color: #FFFFFF;
+            color: #ffffff;
             font-weight: 400;
             opacity: 50%;
           }
@@ -112,12 +106,11 @@
         display: flex;
         flex-direction: column;
 
-
         .captionDetails2Item {
           display: flex;
 
           small {
-            margin-right: .2rem;
+            margin-right: 0.2rem;
             font-weight: 600;
           }
 
@@ -126,15 +119,13 @@
           }
         }
 
-
         small {
-          color: #FFFFFF;
+          color: #ffffff;
           font-weight: 400;
           font-size: 1rem;
         }
       }
     }
-
 
     button {
       margin-top: 5rem;
@@ -142,12 +133,17 @@
       outline: none;
       border: none;
       // background: #0ca71c;
-      background-image: linear-gradient(90deg, #56DF9E -2.19%, #707BFE 52.24%, #C86CFE 100%);
+      background-image: linear-gradient(
+        90deg,
+        #56df9e -2.19%,
+        #707bfe 52.24%,
+        #c86cfe 100%
+      );
       font-size: 1rem;
       font-weight: 600;
-      color: #FFFFFF;
+      color: #ffffff;
       // text-align: center;
-      padding: .8rem 2rem;
+      padding: 0.8rem 2rem;
       font-family: "Poppins";
       cursor: pointer;
       // margin-top: 4rem;
@@ -156,13 +152,8 @@
     .disabledRent {
       opacity: 30%;
     }
-
   }
-
-  
 }
-
-
 
 .modalContainer {
   border-radius: 30px !important;
@@ -179,7 +170,7 @@
     justify-content: flex-end;
 
     .closeIcon {
-      background-color: darken($color: #523E93, $amount: 10%);
+      background-color: darken($color: #523e93, $amount: 10%);
       width: 3rem;
       height: 3rem;
       border-radius: 50%;
@@ -191,31 +182,25 @@
       transition: background-color 100ms ease-in-out;
       // opacity: 80%;
       &:hover {
-        background-color: darken($color: #523E93, $amount: 15%);
+        background-color: darken($color: #523e93, $amount: 15%);
         width: 3rem;
         height: 3rem;
         // font-size: 1.3rem;
       }
-    } 
+    }
   }
-
 
   .modalContent {
     // outline: 3px solid red;
     margin-bottom: 3rem;
     display: flex;
     width: 100%;
-
-
   }
- 
-
 }
-
 
 @media only screen and (max-width: 1024px) {
   .captionDetails2 {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
     small {
       font-size: 0.75rem !important;
     }
@@ -223,19 +208,18 @@
 
   .captionDetails1 {
     .status {
-      margin-left: .1rem !important;
+      margin-left: 0.1rem !important;
       text-align: center;
       // outline: 3px solid orangered;
       background-color: #ceffdf;
-      padding: .1rem !important;
+      padding: 0.1rem !important;
       border-radius: 3px;
 
       small {
-       font-size: .6rem !important;
-       font-weight: 600;
-       margin: 0 auto !important;
+        font-size: 0.6rem !important;
+        font-weight: 600;
+        margin: 0 auto !important;
       }
     }
   }
-
-} 
+}

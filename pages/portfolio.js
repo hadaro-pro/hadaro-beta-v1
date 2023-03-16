@@ -22,7 +22,7 @@ const Portfolio = () => {
     // "0x9233d7CE2740D5400e95C1F441E5B575BDd38d82"
   );
 
-  const [loadingAvatar, setLoadingAvatar] = useState(false)
+  const [loadingAvatar, setLoadingAvatar] = useState(false);
   const [verifiedCollectionsArray, setVerifiedCollectionsArray] = useState([]);
   const [userAvatarArray, setUserAvatarArray] = useState([]);
   const [lendNfts, setLendNfts] = useState([]);
@@ -47,7 +47,10 @@ const Portfolio = () => {
       //  console.log('xacv', getCollections.data)
 
       getCollections?.data?.forEach((item) => {
-        mainArrItems.push({collectionAddr: item.collectionAddress.toLowerCase(), status: item.status});
+        mainArrItems.push({
+          collectionAddr: item.collectionAddress.toLowerCase(),
+          status: item.status,
+        });
       });
 
       setVerifiedCollectionsArray(mainArrItems);
@@ -56,10 +59,9 @@ const Portfolio = () => {
     }
   };
 
-
   const getWalletAvatar = async () => {
     try {
-      setLoadingAvatar(true)
+      setLoadingAvatar(true);
       const walletAddr = address;
       const getAvatar = await axios.post(`/api/fetchWalletAvatar`, {
         walletAddr,
@@ -68,9 +70,9 @@ const Portfolio = () => {
       // console.log('cvvr',getAvatar.data)
 
       setUserAvatarArray(getAvatar.data);
-      setLoadingAvatar(false)
+      setLoadingAvatar(false);
     } catch (e) {
-      setLoadingAvatar(false)
+      setLoadingAvatar(false);
       // console.error(e);
     }
   };
@@ -121,7 +123,15 @@ const Portfolio = () => {
       //   lendNfts.push(item)
       // })
 
-      setLendNfts(response.data);
+      const filterItems = response.data.filter(
+        (item) =>
+          item.transactionType === "lending" ||
+          item.transactionType === "lending renting"
+      );
+
+      // console.log('responje', filterItems)
+
+      setLendNfts(filterItems);
 
       setLoadingLendingNfts(false);
     } catch (e) {
@@ -132,9 +142,8 @@ const Portfolio = () => {
   const handleGetRentingNfts = async () => {
     try {
       setLoadingRentingNfts(true);
-  
-      const addr = address
 
+      const addr = address;
 
       // console.log('dff', address)
 
@@ -151,7 +160,7 @@ const Portfolio = () => {
       setLoadingRentingNfts(false);
     } catch (e) {
       // console.error(e)
-    } 
+    }
   };
 
   const handleGetAllNfts = async () => {
@@ -239,6 +248,7 @@ const Portfolio = () => {
         verifiedCollections={verifiedCollectionsArray}
         userAvatar={userAvatarArray}
         avatarLoading={loadingAvatar}
+        getRentingNfts={handleGetRentingNfts}
         getWalletNfts={handleGetAllNfts}
         reloadUserAvatar={getWalletAvatar}
       />

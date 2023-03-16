@@ -13,10 +13,9 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 
-import { store, persistor } from '../core/store' 
+import { store, persistor } from "../core/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-
 
 // import { SessionProvider } from 'next-auth/react'
 import "../styles/globals.scss";
@@ -27,18 +26,14 @@ import "slick-carousel/slick/slick-theme.css";
 // import "swiper/css/navigation";
 // import "swiper/css/pagination";
 
-
-
 const { provider, webSocketProvider, chains } = configureChains(defaultChains, [
-  infuraProvider({ apiKey: "6fe73d73563b4e56aef1516412dfe130" })
-  ])
-
+  infuraProvider({ apiKey: "6fe73d73563b4e56aef1516412dfe130" }),
+]);
 
 // const { provider, webSocketProvider, chains } = configureChains(
 //   // [chain.mainnet],
 //   [infuraProvider({ apiKey: "6fe73d73563b4e56aef1516412dfe130" })]
 // );
- 
 
 const client = createClient({
   provider,
@@ -63,12 +58,12 @@ const client = createClient({
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Provider  store={store}>
-      <PersistGate  persistor={persistor}>
-    <WagmiConfig client={client}>
-      <Component {...pageProps} />
-    </WagmiConfig>
-    </PersistGate>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <WagmiConfig client={client}>
+          <Component {...pageProps} />
+        </WagmiConfig>
+      </PersistGate>
     </Provider>
   );
 }

@@ -10,7 +10,7 @@
     justify-content: flex-end;
 
     .closeIcon {
-      background-color: darken($color: #523E93, $amount: 10%);
+      background-color: darken($color: #523e93, $amount: 10%);
       width: 3rem;
       height: 3rem;
       border-radius: 50%;
@@ -22,21 +22,20 @@
       transition: background-color 100ms ease-in-out;
       // opacity: 80%;
       &:hover {
-        background-color: darken($color: #523E93, $amount: 15%);
+        background-color: darken($color: #523e93, $amount: 15%);
         width: 3rem;
         height: 3rem;
         // font-size: 1.3rem;
       }
-    } 
+    }
   }
-
 
   .modalContent {
     // outline: 3px solid red;
     margin-bottom: 3rem;
 
     h4 {
-      color: #FFFFFF;
+      color: #ffffff;
       font-size: 1.2rem;
       text-align: center;
     }
@@ -44,7 +43,7 @@
     .connectOptions {
       // display: flex;
       padding: 1rem 1rem 1.2rem 1rem;
-      border-bottom: 1px solid darken($color: #523E93, $amount: 10%);
+      border-bottom: 1px solid darken($color: #523e93, $amount: 10%);
       img {
         width: 4rem;
         height: 4rem;
@@ -52,7 +51,7 @@
 
       span {
         font-size: 1.2rem;
-        color: #FFFFFF;
+        color: #ffffff;
         font-weight: 700;
         margin-left: 1.5rem;
         cursor: pointer;
@@ -60,7 +59,7 @@
 
       .unsupported {
         color: orangered;
-        font-size: .9rem;
+        font-size: 0.9rem;
         font-weight: normal;
         margin-left: 1.5rem;
         // outline: 3px solid slateblue;
@@ -71,7 +70,6 @@
         // outline: 3px solid slateblue;
       }
     }
-
   }
 
   .errorPart {
@@ -79,17 +77,13 @@
     font-size: 1rem;
     font-weight: 500;
     // font-family: cursive;
-    color:  orange;
+    color: orange;
   }
-
 }
 
-
-
 @media only screen and (max-width: 600px) {
-
   .errorPart {
-    font-size: .85rem !important;
+    font-size: 0.85rem !important;
   }
 
   .modalContent {
@@ -97,11 +91,10 @@
     margin-bottom: 3rem;
 
     h4 {
-      color: #FFFFFF;
+      color: #ffffff;
       font-size: 1rem !important;
       text-align: center;
     }
-
   }
 
   .connectOptions {
@@ -114,15 +107,15 @@
     }
 
     span {
-      font-size: .9rem !important;
-      color: #FFFFFF;
+      font-size: 0.9rem !important;
+      color: #ffffff;
       font-weight: 700;
       margin-left: 1.2rem !important;
       cursor: pointer;
     }
 
     .unsupported {
-      font-size: .8rem !important;
+      font-size: 0.8rem !important;
       margin-left: 1.1rem !important;
       // outline: 3px solid slateblue;
     }

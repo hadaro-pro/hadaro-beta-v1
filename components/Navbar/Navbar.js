@@ -25,8 +25,8 @@ const Navbar = ({}) => {
   const [openContactMenu, setOpenContactMenu] = useState(false);
   const [openMenuBar, setOpenMenuBar] = useState(null);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [allNfts, setAllNfts] = useState([])
-  const [allCollections, setAllCollections] = useState([])
+  const [allNfts, setAllNfts] = useState([]);
+  const [allCollections, setAllCollections] = useState([]);
 
   const showModal = () => {
     setOpenMenuBar(false);
@@ -49,19 +49,22 @@ const Navbar = ({}) => {
 
   const getAllCollections = async () => {
     try {
-      const getAllCollections =  await axios.post(`/api/fetchCollectionDataByStatus`, {status: 'verified'});
+      const getAllCollections = await axios.post(
+        `/api/fetchCollectionDataByStatus`,
+        { status: "verified" }
+      );
       // console.log("cols", getAllCollections.data);
       // getAllCollections.data.forEach((item) => {
       //   allCollections.push(item)
       // })
 
-      const filterCollections = getAllCollections.data.filter((item) => item.status === "verified" && !item._id.includes('drafts'))
+      const filterCollections = getAllCollections.data.filter(
+        (item) => item.status === "verified" && !item._id.includes("drafts")
+      );
 
       // console.log('ccc', filterCollections)
 
-      setAllCollections(filterCollections)
-
-      
+      setAllCollections(filterCollections);
     } catch (e) {
       // console.error(e);
     }
@@ -69,19 +72,20 @@ const Navbar = ({}) => {
 
   const getAllNfts = async () => {
     try {
-      const response = await axios.get(`/api/fetchAllNftsInCollection`)
-      const neededNfts = response.data.filter((item) => item?.status === "available"  && !item._id?.includes('drafts') )
+      const response = await axios.get(`/api/fetchAllNftsInCollection`);
+      const neededNfts = response.data.filter(
+        (item) =>
+          item?.status === "available" ||
+          (item?.status === "in rent" && !item._id?.includes("drafts"))
+      );
       // console.log("nfts", neededNfts);
-  setAllNfts(neededNfts)
+      setAllNfts(neededNfts);
 
-
-          
-
-          // console.log("nfts", neededNfts);
-      setAllNfts(neededNfts)
-          // neededNfts.forEach((item) => {
-          //   allNfts.push(item)
-          // })
+      // console.log("nfts", neededNfts);
+      setAllNfts(neededNfts);
+      // neededNfts.forEach((item) => {
+      //   allNfts.push(item)
+      // })
     } catch (e) {
       // console.error(e);
     }
@@ -122,11 +126,10 @@ const Navbar = ({}) => {
     },
   ];
 
-
   useEffect(() => {
-  getAllCollections()
-  getAllNfts()
-  }, [])
+    getAllCollections();
+    getAllNfts();
+  }, []);
 
   return (
     <div className={styles.mainContainer}>
@@ -185,20 +188,22 @@ const Navbar = ({}) => {
               </div>
               <p>
                 {" "}
-                <img src="/images/Search.png" alt="search" 
-                onClick={() => {
-                  showSearchModal()
-                  setOpenMenuBar(false)
-                }}
+                <img
+                  src="/images/Search.png"
+                  alt="search"
+                  onClick={() => {
+                    showSearchModal();
+                    setOpenMenuBar(false);
+                  }}
                 />{" "}
                 <SearchModal
-                    modalOpen={isSearchModalOpen}
-                    cancelModal={handleSearchModalCancel}
-                    collectionItems={allCollections}
-                    nftItems={allNfts}
-                    getCol={getAllCollections}
-                    getNft={getAllNfts}
-                  />
+                  modalOpen={isSearchModalOpen}
+                  cancelModal={handleSearchModalCancel}
+                  collectionItems={allCollections}
+                  nftItems={allNfts}
+                  getCol={getAllCollections}
+                  getNft={getAllNfts}
+                />
               </p>
               <p>
                 {isConnected ? (
@@ -337,9 +342,9 @@ const Navbar = ({}) => {
                   <Link href="/mission">Mission</Link>{" "}
                 </p>
                 <p>
-                {" "}
-                <Link href="/portfolio">Portfolio</Link>{" "}
-              </p>
+                  {" "}
+                  <Link href="/portfolio">Portfolio</Link>{" "}
+                </p>
                 {/* <div
                   onMouseEnter={() => setOpenLendMenu(true)}
                   onMouseLeave={() => setOpenLendMenu(false)}

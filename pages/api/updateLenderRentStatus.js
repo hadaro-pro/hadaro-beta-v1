@@ -1,11 +1,17 @@
 import { client } from "../../utils/client";
 
 export default async function handler(req, res) {
-  const { itemId, count } = req.body;
+  const { identity, renterAddr, rentClaimedStatus, itemStatus, itemTxnType } =
+    req.body;
 
   client
-    .patch(itemId) // Document ID to patch
-    .set({ itemCount: count }) // Shallow merge
+    .patch(identity) // Document ID to patch
+    .set({
+      renterAddress: renterAddr,
+      isRentClaimed: rentClaimedStatus,
+      status: itemStatus,
+      transactionType: itemTxnType,
+    }) // Shallow merge
     .commit() // Perform the patch and return a promise
     .then((updatedDoc) => {
       return res.status(200).json({

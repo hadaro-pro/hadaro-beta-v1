@@ -1,8 +1,7 @@
-import React from 'react'
-import FeedbackComp from '../components/Feedback/FeedbackComp'
-import Navbar from '../components/Navbar/Navbar'
-import Footer from '../components/Footer/footer'
-
+import React from "react";
+import FeedbackComp from "../components/Feedback/FeedbackComp";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/footer";
 
 const Feedback = () => {
   return (
@@ -11,7 +10,7 @@ const Feedback = () => {
       <FeedbackComp />
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default Feedback
+export default Feedback;

@@ -9,7 +9,7 @@ import {
   getRenftContract,
   DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
   SylvesterV0FunctionInterface,
-  PaymentToken
+  PaymentToken,
 } from "@renft/sdk";
 import {
   useAccount,
@@ -160,12 +160,13 @@ const CollectionItemsComp = ({
   const { address, connector, isConnected } = useAccount();
   const { data: signer } = useSigner();
 
-  const provider = useProvider()
+  const provider = useProvider();
 
   const web3 = new Web3(
     Web3.givenProvider || "ws://some.local-or-remote.node:8546"
   );
 
+  console.log("eluupi: ", itemsToDisplay);
   // const collateralFreeContract = new Sylvester(signer);
 
   const wethGoerliTestContract = new Contract(
@@ -177,7 +178,7 @@ const CollectionItemsComp = ({
   const collateralFreeContract = getRenftContract({
     deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
     signer,
-  }).rent
+  }).rent;
 
   const hadaroGoerliTestContract = new Contract(
     HADARO_GOERLI_ADDRESS,
@@ -310,7 +311,7 @@ const CollectionItemsComp = ({
 
       return result;
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 
@@ -356,6 +357,8 @@ const CollectionItemsComp = ({
   const [size, setSize] = useState("middle");
   const [conversionLoading, setConversionLoading] = useState(false);
   const [alreadyConverted, setAlreadyConverted] = useState(false);
+  const [approvalLoading, setApprovalLoading] = useState(false);
+  const [preventedApproval, setPreventedApproval] = useState(false);
 
   const showConverterModal = () => {
     setIsConverterModalOpen(true);
@@ -454,43 +457,43 @@ const CollectionItemsComp = ({
       // setBalances(balancesArr)
       // console.log('balances: ', balances)
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 
-  const transferPlatformFunds = async () => {
-    try {
-      const ERC20Contract = new Contract(
-        `0x0b8ad9582c257aC029e335788017dCB1dE5FBE21`,
-        erc20ABI,
-        signer
-      );
+  // const transferPlatformFunds = async () => {
+  //   try {
+  //     const ERC20Contract = new Contract(
+  //       `0x0b8ad9582c257aC029e335788017dCB1dE5FBE21`,
+  //       erc20ABI,
+  //       signer
+  //     );
 
-      const fundsToTransfer = displayAmount * 0.03;
-      //  console.log('tccr', fundsToTransfer)
+  //     const fundsToTransfer = displayAmount * 0.03;
+  //     //  console.log('tccr', fundsToTransfer)
 
-      // const erc20Value = BigNumber.from(fundsToTransfer * 10**18)
-      // const erc20Value = BigNumber.from(Number(String(0.9)).toFixed(18))
+  //     // const erc20Value = BigNumber.from(fundsToTransfer * 10**18)
+  //     // const erc20Value = BigNumber.from(Number(String(0.9)).toFixed(18))
 
-      // console.log('tccr', erc20Value._hex)
+  //     // console.log('tccr', erc20Value._hex)
 
-      const processFee = await ERC20Contract.transfer(
-        `0x0b8ad9582c257aC029e335788017dCB1dE5FBE21`,
-        utils.parseEther(0.9 * 10 ** 18)
-      );
+  //     const processFee = await ERC20Contract.transfer(
+  //       `0x0b8ad9582c257aC029e335788017dCB1dE5FBE21`,
+  //       utils.parseEther(0.9 * 10 ** 18)
+  //     );
 
-      await processFee.wait();
+  //     await processFee.wait();
 
-      // console.log(processFee);
-    } catch (e) {
-      // console.error(e.message);
-      if (e.message[0] === "u" && e.message[1] === "s") {
-        message.error("user rejected transaction");
-      } else if (e.message[0] === "F") {
-        message.error("something went wrong");
-      }
-    }
-  };
+  //     // console.log(processFee);
+  //   } catch (e) {
+  //     // console.error(e.message);
+  //     if (e.message[0] === "u" && e.message[1] === "s") {
+  //       message.error("user rejected transaction");
+  //     } else if (e.message[0] === "F") {
+  //       message.error("something went wrong");
+  //     }
+  //   }
+  // };
 
   const addEllipsis = (value) => {
     const firstPart = value?.slice(0, 4);
@@ -514,21 +517,29 @@ const CollectionItemsComp = ({
     status,
     type,
     noOfRentDays,
-    timeOfRent
+    rentTxnHash,
+    timeOfRent,
+    rentClaimedStatus
   ) => {
     try {
-      await axios.put(`/api/updateNftStatus`, { identity, status });
+      // await axios.put(`/api/updateNftStatus`, { identity, status });
 
-      // console.log('nfts patch result: ', allNfts.data)
+      // // console.log('nfts patch result: ', allNfts.data)
 
-      await axios.put(`/api/updateNftData`, {
+      const renterAddress = address;
+
+      const patchData = await axios.put(`/api/updateNftData`, {
         identity,
         type,
         noOfRentDays,
         timeOfRent,
+        status,
+        renterAddress,
+        rentTxnHash,
+        rentClaimedStatus,
       });
 
-      // console.log('nfts patch result: ', typeChange.data)
+      console.log("nfts patch result: ", patchData.data);
     } catch (err) {
       // console.error(err);
     }
@@ -636,14 +647,16 @@ const CollectionItemsComp = ({
 
           if (receipt.blockNumber !== null && receipt.confirmations > 0) {
             message.success("conversion success!");
+            setPriceToBeConverted("");
             setConversionLoading(false);
             setAlreadyConverted(true);
+            getTokenBalances();
             handleConverterModalCancel();
           }
         }
       }
-    } catch (e) { 
-      console.error(e);
+    } catch (e) {
+      // console.error(e);
       if (e.code === "ACTION_REJECTED") {
         message.error("user rejected transaction");
         setConversionLoading(false);
@@ -680,6 +693,88 @@ const CollectionItemsComp = ({
     }
   };
 
+  const processTokenApproval = async () => {
+    const maxTokens = BigNumber.from("2")
+      .pow(BigNumber.from("256"))
+      .sub(BigNumber.from("1"));
+    console.log("max tokens: ", maxTokens);
+    setApprovalLoading(true);
+    try {
+      const approvalTxn = await wethGoerliTestContract.approve(
+        HADARO_GOERLI_ADDRESS,
+        maxTokens
+      );
+
+      const receipt = await approvalTxn.wait();
+      if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+        message.success("token approval success");
+        setApprovalLoading(false);
+      }
+    } catch (e) {
+      // console.error(e)
+      if (e.code === "ACTION_REJECTED") {
+        message.error("user rejected transaction");
+        setPreventedApproval(true);
+        setRentingLoading(false);
+      }
+      setApprovalLoading(false);
+    }
+  };
+
+  const rentContractCallAndDBPatch = async (
+    nftStandard,
+    nftAddress,
+    tokenID,
+    lendingID,
+    rentDuration,
+    rentAmount,
+    identity
+  ) => {
+    setRentingLoading(true);
+    try {
+      const txn = await hadaroGoerliTestContract.rent(
+        [nftStandard],
+        [nftAddress],
+        [tokenID],
+        [lendingID],
+        [rentDuration],
+        [rentAmount]
+      );
+
+      const receipt = await txn.wait();
+
+      console.log(receipt);
+
+      if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+        const rentTxnHash = receipt.transactionHash;
+
+        await handlePatch(
+          identity,
+          "in rent",
+          "lending renting",
+          rentDuration,
+          rentTxnHash,
+          Date.now(),
+          "not yet"
+        );
+        // console.log(finalObj)
+        setRentingLoading(false);
+        setRentalPeriod("");
+        getRefreshItems();
+        handleCancel();
+        message.success("rent success!");
+        // handleCancel();
+        handleRentModalCancel();
+      }
+    } catch (e) {
+      setRentingLoading(false);
+      // console.warn(e)
+      if (e.code === "ACTION_REJECTED") {
+        message.error("user rejected transaction");
+      }
+    }
+  };
+
   const handleCompleteRent = async () => {
     // transferPlatformFunds()
     // console.log("display: ", toDisplayData);
@@ -706,14 +801,12 @@ const CollectionItemsComp = ({
                 showConverterModal();
                 // tokenConverter()
               } else {
-                if (
-                  unpackPrice(toDisplayData?.price) + Number(displayAmount) >
-                  balanceOfToken
-                ) {
+                if (Number(displayAmount) > balanceOfToken) {
                   message.error(`you do not possess enough ${token} to 
                  rent this item`);
                   //  handleCancel()
-                   showConverterModal()
+                  showConverterModal();
+                  setRentingLoading(false);
                   //  tokenConverter()
                 } else {
                   // message.success("ride on to rent amigo!");
@@ -730,9 +823,12 @@ const CollectionItemsComp = ({
 
                   const identity = toDisplayData?._id;
 
+                  // console.log('iden of data: ', identity)
+
                   const rentDuration = Number(rentalPeriod);
                   const tokenID = toDisplayData?.tokenID;
                   const rentAmount = "1";
+                  const rentTxnHash = toDisplayData?.rentTxnHash;
 
                   const finalObj = {
                     nftAddress,
@@ -743,42 +839,85 @@ const CollectionItemsComp = ({
                     rentAmount,
                   };
 
+                  const msgValue = String(0);
 
-                  const msgValue = String(displayAmount * 0.03)
+                  // console.log("values to be passed: ", finalObj);
 
-                  console.log("values to be passed: ", finalObj);
-
-                  const txn = await hadaroGoerliTestContract.rent(
-                    [nftStandard],
-                    [nftAddress],
-                    [tokenID],
-                    [lendingID],
-                    [rentDuration],
-                    [rentAmount],
-                   {value: utils.parseEther(msgValue)}
+                  const checkAllowance = await wethGoerliTestContract.allowance(
+                    address,
+                    HADARO_GOERLI_ADDRESS
                   );
 
-                  const receipt = await txn.wait();
- 
-                  // console.log(receipt);
+                  const convHex = web3.utils
+                    .toBN(checkAllowance._hex)
+                    .toString();
 
-                  if (receipt.blockNumber !== null && receipt.confirmations > 0) {
-                    await handlePatch(
-                      identity,
-                      "in rent",
-                      "renting",
+                  // console.log('allowe res: ', convHex)
+
+                  // web3.utils.toBN(number)
+
+                  if (convHex === "0") {
+                    // console.log('yes1')
+                    // setRentingLoading(false)
+                    await processTokenApproval();
+                    if (!preventedApproval) {
+                      await rentContractCallAndDBPatch(
+                        nftStandard,
+                        nftAddress,
+                        tokenID,
+                        lendingID,
+                        rentDuration,
+                        rentAmount,
+                        rentTxnHash
+                      );
+                    } else {
+                      setRentingLoading(false);
+                    }
+                  } else if (convHex > 1) {
+                    // console.log('yes2')
+                    // setRentingLoading(true)
+                    await rentContractCallAndDBPatch(
+                      nftStandard,
+                      nftAddress,
+                      tokenID,
+                      lendingID,
                       rentDuration,
-                      Date.now()
+                      rentAmount,
+                      identity,
+                      rentTxnHash
                     );
-                    // console.log(finalObj)
-                    setRentingLoading(false);
-                    setRentalPeriod("");
-                    getRefreshItems();
-                    handleCancel();
-                    message.success("rent success!");
-                    handleCancel();
                   }
-                  setRentingLoading(false);
+
+                  // const txn = await hadaroGoerliTestContract.rent(
+                  //   [nftStandard],
+                  //   [nftAddress],
+                  //   [tokenID],
+                  //   [lendingID],
+                  //   [rentDuration],
+                  //   [rentAmount],
+                  // );
+
+                  // const receipt = await txn.wait();
+
+                  // // console.log(receipt);
+
+                  // if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+                  //   await handlePatch(
+                  //     identity,
+                  //     "in rent",
+                  //     "renting",
+                  //     rentDuration,
+                  //     Date.now()
+                  //   );
+                  //   // console.log(finalObj)
+                  //   setRentingLoading(false);
+                  //   setRentalPeriod("");
+                  //   getRefreshItems();
+                  //   handleCancel();
+                  //   message.success("rent success!");
+                  //   handleCancel();
+                  // }
+                  // setRentingLoading(false);
                 }
               }
             }
@@ -808,29 +947,22 @@ const CollectionItemsComp = ({
             // //   rentAmount,
             // //   lendingID
             // // }
-
-        
           }
-        } 
+        }
       } else {
         message.error("Oops!, connect your wallet to continue");
         setRentingLoading(false);
       }
     } catch (e) {
-      console.warn(e);
-      if (
-        e.reason ===
-        "execution reverted: SafeERC20: low-level call failed"
-      ) {
+      // console.warn(e);
+      if (e.reason === "execution reverted: SafeERC20: low-level call failed") {
         message.error(
           "You do not have enough funds to pay rental fees for this item!",
           [8]
         );
-      } else if (
-        e.reason === "execution reverted: Hadaro::cant rent own nft"
-      ) {
+      } else if (e.reason === "execution reverted: Hadaro::cant rent own nft") {
         message.error("You can't rent an item you own!", [3]);
-      } else  if (e.code === "ACTION_REJECTED") {
+      } else if (e.code === "ACTION_REJECTED") {
         message.error("user rejected transaction");
       }
       setRentingLoading(false);
@@ -867,110 +999,7 @@ const CollectionItemsComp = ({
           {colName} {`(${colSymbol})`}{" "}
         </h1>
       </div>
-      {/* {showRentMenu ? 
-      (
-        <div className={styles.overlay}>
-          <div className={styles.showRentMenu}>
-            <div className={styles.closeMenu}>
-              <CloseOutlined
-                className={styles.closeIcon}
-                onClick={handleCancel}
-              />
-            </div>
-            <div className={styles.infoContainer}>
-              <div className={styles.infoImage}>
-                <img
-                  src={nftImageAggregating(toDisplayData?.metadataImage)}
-                  alt={toDisplayData?.metadataName}
-                />
-              </div>
-              <div className={styles.infoDesc}>
-                <div className={styles.infoDescLender}>
-                  <small className={styles.gray}>Lender</small>
-                  <small> {addEllipsis(toDisplayData?.lenderAddress)} </small>
-                </div>
-                <div className={styles.infoDescName}>
-                  <div className={styles.infoDescMetaNames}>
-                    <h3> {colName} </h3>
-                    <h2> {toDisplayData?.metadataName} </h2>
-                  </div>
-                  <div className={styles.miniInfo}>
-                    <small>
-                      {" "}
-                      {parseStandards(toDisplayData?.nftStandard)}{" "}
-                    </small>
-                    <small> {addEllipsis(toDisplayData?.nftAddress)} </small>
-                  </div>
-                  <div className={styles.miniDesc}>
-                    {miniText ? (
-                      <p className={styles.miniText}>
-                        {toDisplayData?.metadataDesc
-                          .split(" ")
-                          .splice(0, 15)
-                          .join(" ")}
-                        <span
-                          className={styles.ctaForMore}
-                          onClick={() => setMiniText(false)}
-                        >
-                          more
-                        </span>{" "}
-                      </p>
-                    ) : (
-                      <p>
-                        {toDisplayData?.metadataDesc}
-                        <span onClick={() => setMiniText(true)}>less</span>{" "}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className={styles.formFillPart}>
-                  <h3>
-                    {" "}
-                    Max Duration in Days{" "}
-                    <span> {toDisplayData?.maxDuration} </span>{" "}
-                  </h3>
 
-                  <div className={styles.formFillPartInput}>
-                    <input
-                      type="text"
-                      placeholder="Set Rental Period"
-                      onChange={(e) => {
-                        showTotalAmount(e.target.value);
-                      }}
-                    />
-                    {error !== null && (
-                      <p className={styles.formErorPart}> {error} </p>
-                    )}
-                  </div>
-                  <div className={styles.dailyPricePart}>
-                    <h3>Daily Price </h3>{" "}
-                    <h1>
-                      {unpackPrice(toDisplayData?.price)}{" "}
-                      {convertToken(toDisplayData?.paymentToken)}{" "}
-                    </h1>
-                  </div>
-                  <div className={styles.finalAmountPart}>
-                    <p>Amount: </p>
-                    <div className={styles.finalAmountContainer}>
-                      <h1>{displayAmount === null ? 0 : displayAmount} </h1>{" "}
-                      <h2>{convertToken(toDisplayData?.paymentToken)} </h2>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.submitBtn}>
-                  <button onClick={handleCompleteRent}>
-                    {rentingLoading ? "Processing" : "Complete Rent"}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) 
-      
-      :  */}
-      (
       <div className={styles.mainPart}>
         <h2>COLLECTION ITEMS</h2>
         {loadingItems ? (
@@ -1108,7 +1137,9 @@ const CollectionItemsComp = ({
 
                         <div className={styles.submitBtn}>
                           <button onClick={handleCompleteRent}>
-                            {rentingLoading ? "Processing" : "Complete Rent"}
+                            {approvalLoading && "Requesting Approval"}{" "}
+                            {!approvalLoading &&
+                              (rentingLoading ? "Processing" : "Complete Rent")}
                           </button>
                         </div>
                       </div>
@@ -1196,8 +1227,8 @@ const CollectionItemsComp = ({
                             />
                             <button onClick={handleConvertToToken}>
                               {conversionLoading
-                                ? "converting . . ."
-                                : "convert"}
+                                ? "Converting . . ."
+                                : "Convert"}
                             </button>
                           </div>
                         </div>

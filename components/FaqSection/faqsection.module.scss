@@ -16,7 +16,7 @@
     h1 {
       font-size: 3rem;
       font-weight: 700;
-      color: #FFFFFF;
+      color: #ffffff;
     }
   }
 
@@ -25,17 +25,16 @@
     margin-bottom: 10rem;
     width: 80%;
     // height: 30rem;
-    background: #523E93;
+    background: #523e93;
     border-radius: 30px;
     padding: 2rem;
 
     .firstCoverInner {
       display: flex;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
-      
 
       img {
         // width: 100%;
@@ -49,13 +48,13 @@
 
         h4 {
           margin-top: 4rem;
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1.2rem;
           font-weight: 600;
         }
 
         small {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1rem;
           opacity: 60%;
           font-weight: lighter;
@@ -69,14 +68,14 @@
     margin-bottom: 10rem;
     width: 80%;
     // height: 30rem;
-    background: #523E93;
+    background: #523e93;
     border-radius: 30px;
     padding: 2rem;
 
     .firstCoverInner2 {
       display: flex;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
 
@@ -89,8 +88,6 @@
         margin-top: 3rem;
       }
 
-
-
       .firstCoverInnerDesc2 {
         flex: 1;
         // outline: 3px solid red;
@@ -98,17 +95,16 @@
         display: flex;
         flex-direction: column;
         // justify-content: flex-start;
-  
 
         h4 {
           margin-top: 3rem;
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1.2rem;
           font-weight: 600;
         }
 
         small {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1rem;
           opacity: 60%;
           font-weight: lighter;
@@ -122,14 +118,14 @@
     margin-bottom: 10rem;
     width: 80%;
     // height: 30rem;
-    background: #523E93;
+    background: #523e93;
     border-radius: 30px;
     padding: 2rem;
 
     .firstCoverInner3 {
       display: flex;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
       // outline: 3px solid red;
@@ -142,8 +138,6 @@
         margin-bottom: 3rem;
       }
 
-
-
       .firstCoverInnerDesc3 {
         // outline: 3px solid red;
         margin-left: 3rem;
@@ -153,13 +147,13 @@
 
         h4 {
           margin-top: 3rem;
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1.2rem;
           font-weight: 600;
         }
 
         small {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1rem;
           opacity: 60%;
           font-weight: lighter;
@@ -173,14 +167,14 @@
     margin-bottom: 15rem;
     width: 80%;
     // height: 30rem;
-    background: #523E93;
+    background: #523e93;
     border-radius: 30px;
     padding: 2rem;
 
     .firstCoverInner4 {
       display: flex;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
       // outline: 3px solid red;
@@ -194,8 +188,6 @@
         margin-right: 4rem;
       }
 
-
-
       .firstCoverInnerDesc4 {
         // outline: 3px solid red;
         margin-left: 3rem;
@@ -205,13 +197,13 @@
 
         h4 {
           margin-top: 3rem;
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1.2rem;
           font-weight: 600;
         }
 
         small {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1rem;
           opacity: 60%;
           font-weight: lighter;
@@ -219,14 +211,9 @@
       }
     }
   }
-
 }
 
-
-
 @media only screen and (max-width: 992px) {
-
-
   .upperCover {
     // outline: 3px solid #FFFFFF;
     // width: 80%;
@@ -242,7 +229,7 @@
   }
 
   .firstCover4 {
-    margin-bottom:  10rem !important;
+    margin-bottom: 10rem !important;
   }
 
   .firstCover {
@@ -254,7 +241,7 @@
     .firstCoverInner {
       display: flex;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
 
@@ -268,14 +255,14 @@
         // margin-left: 4rem !important;
 
         h4 {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1.2rem;
           font-weight: 600;
           // margin-top: 2rem !important;
         }
 
         small {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1rem;
           opacity: 60%;
           font-weight: lighter;
@@ -289,14 +276,14 @@
     margin-bottom: 10rem;
     width: 80%;
     // height: 30rem;
-    background: #523E93;
+    background: #523e93;
     border-radius: 30px;
     padding: 2rem;
 
     .firstCoverInner2 {
       display: flex;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
 
@@ -311,8 +298,6 @@
         margin-top: 3rem;
       }
 
-
-
       .firstCoverInnerDesc2 {
         flex: 1;
         // outline: 3px solid red;
@@ -320,17 +305,16 @@
         display: flex;
         flex-direction: column;
         // justify-content: flex-start;
-  
 
         h4 {
           margin-top: 3rem;
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1.2rem;
           font-weight: 600;
         }
 
         small {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1rem;
           opacity: 60%;
           font-weight: lighter;
@@ -338,13 +322,9 @@
       }
     }
   }
-
-
 }
 
 @media only screen and (max-width: 768px) {
-
-
   .upperCover {
     // outline: 3px solid #FFFFFF;
     width: 90% !important;
@@ -359,7 +339,6 @@
     }
   }
 
-
   .firstCover {
     margin-top: 3rem !important;
     // margin-bottom: 10rem;
@@ -369,7 +348,7 @@
     .firstCoverInner {
       display: flex;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
 
@@ -383,14 +362,14 @@
         margin-right: 1rem !important;
 
         h4 {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1.2rem;
           font-weight: 600;
           // margin-top: 2rem !important;
         }
 
         small {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1rem;
           opacity: 60%;
           font-weight: lighter;
@@ -404,14 +383,14 @@
     margin-bottom: 10rem;
     width: 90% !important;
     // height: 30rem;
-    background: #523E93;
+    background: #523e93;
     border-radius: 30px;
     padding: 2rem;
 
     .firstCoverInner2 {
       display: flex;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
 
@@ -426,8 +405,6 @@
         margin-top: 3rem;
       }
 
-
-
       .firstCoverInnerDesc2 {
         flex: 1;
         // outline: 3px solid red;
@@ -435,17 +412,16 @@
         display: flex;
         flex-direction: column;
         // justify-content: flex-start;
-  
 
         h4 {
           margin-top: 3rem;
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1.2rem;
           font-weight: 600;
         }
 
         small {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1rem;
           opacity: 60%;
           font-weight: lighter;
@@ -454,25 +430,21 @@
     }
   }
 
-
   .firstCover3 {
     margin-top: 1rem;
     margin-bottom: 10rem;
     width: 90% !important;
-
   }
-
 
   .firstCover4 {
     margin-top: 1rem;
     margin-bottom: 10rem;
     width: 90% !important;
 
-
     .firstCoverInner4 {
       display: flex;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
       // outline: 3px solid red;
@@ -485,16 +457,11 @@
         margin-bottom: 5rem;
         margin-right: 2rem !important;
       }
-
     }
   }
-
 }
 
-
 @media only screen and (max-width: 600px) {
-
-
   .upperCover {
     // outline: 3px solid #FFFFFF;
     width: 90% !important;
@@ -509,7 +476,6 @@
     }
   }
 
-
   .firstCover {
     margin-top: 3rem !important;
     // margin-bottom: 10rem;
@@ -520,7 +486,7 @@
       display: flex;
       flex-direction: column;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
       justify-content: center;
@@ -538,15 +504,15 @@
         margin-bottom: 2rem !important;
 
         h4 {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1.15rem !important;
           font-weight: 600;
           margin-top: 0 !important;
         }
 
         small {
-          color: #FFFFFF;
-          font-size: .85rem !important;
+          color: #ffffff;
+          font-size: 0.85rem !important;
           opacity: 60%;
           font-weight: lighter;
         }
@@ -559,7 +525,7 @@
     margin-bottom: 10rem;
     width: 90% !important;
     // height: 30rem;
-    background: #523E93;
+    background: #523e93;
     border-radius: 30px;
     padding: 2rem;
 
@@ -567,7 +533,7 @@
       display: flex;
       flex-direction: column;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
       align-items: center;
@@ -585,8 +551,6 @@
         // outline: 3px solid salmon;
       }
 
-
-
       .firstCoverInnerDesc2 {
         flex: 1;
         // outline: 3px solid red;
@@ -597,17 +561,16 @@
         text-align: center;
         margin-bottom: 2rem;
 
-
         h4 {
           margin-top: 3rem;
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 1.15rem !important;
           font-weight: 600;
         }
 
         small {
-          color: #FFFFFF;
-          font-size: .85rem !important;
+          color: #ffffff;
+          font-size: 0.85rem !important;
           opacity: 60%;
           font-weight: lighter;
         }
@@ -615,12 +578,10 @@
     }
   }
 
-
   .firstCover3 {
     margin-top: 1rem;
     margin-bottom: 10rem;
     width: 90% !important;
-
 
     .firstCoverInner3 {
       flex-direction: column;
@@ -635,8 +596,6 @@
         object-fit: cover;
         margin-bottom: 3rem;
       }
-
-
     }
 
     .firstCoverInnerDesc3 {
@@ -649,35 +608,32 @@
       text-align: center;
       margin-bottom: 2rem;
 
-
       h4 {
         margin-top: 3rem;
-        color: #FFFFFF;
+        color: #ffffff;
         font-size: 1.15rem !important;
         font-weight: 600;
       }
 
       small {
-        color: #FFFFFF;
-        font-size: .85rem !important;
+        color: #ffffff;
+        font-size: 0.85rem !important;
         opacity: 60%;
         font-weight: lighter;
       }
     }
   }
 
-
   .firstCover4 {
     margin-top: 1rem;
     margin-bottom: 10rem;
     width: 90% !important;
 
-
     .firstCoverInner4 {
       display: flex;
       flex-direction: column;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
       align-items: center;
@@ -702,11 +658,9 @@
         }
 
         small {
-          font-size: .85rem !important;
+          font-size: 0.85rem !important;
         }
       }
-
     }
   }
-
 }

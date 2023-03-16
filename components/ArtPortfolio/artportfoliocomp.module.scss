@@ -1,13 +1,12 @@
 .mainContainer {
   // outline: 3px solid red;
-   margin-top: 3rem;
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-
-   .topCaption {
+  .topCaption {
     // outline: 3px solid white;
     width: 60%;
 
@@ -16,42 +15,41 @@
       font-weight: 700;
       color: #ffffff;
     }
-   }
+  }
 
-   .mainContentCover {
+  .mainContentCover {
     margin-top: 10rem;
-    background: #523E93;
+    background: #523e93;
     padding: 2rem 1rem;
     width: 60%;
     border-radius: 30px;
     margin-bottom: 40rem;
 
     .mainContent {
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       border-radius: 30px;
       width: 100%;
       display: flex;
       justify-content: space-between;
       padding: 2rem 2rem;
 
-
       .mainContentDesc {
         width: 40%;
-         h3 {
+        h3 {
           color: #ffffff;
           font-weight: 600;
           font-size: 1.5rem;
-         }
+        }
 
-         p {
+        p {
           color: #ffffff;
           font-weight: lighter;
           font-size: 1rem;
           line-height: 2rem;
           width: 75%;
-         }
+        }
 
-         .chainInfo {
+        .chainInfo {
           margin-top: 2rem;
           display: flex;
           flex-direction: column;
@@ -66,10 +64,10 @@
             font-size: 1.05rem;
             font-weight: lighter;
           }
-         }
+        }
 
-         .lendPrice {
-          margin-top: .5rem;
+        .lendPrice {
+          margin-top: 0.5rem;
           display: flex;
           flex-direction: column;
           h4 {
@@ -82,13 +80,12 @@
             color: #ffffff;
             font-size: 1.05rem;
             font-weight: lighter;
-            background: #D9D9D936;
+            background: #d9d9d936;
             border-radius: 6px;
             width: fit-content;
-            padding: .5rem .4rem;
+            padding: 0.5rem 0.4rem;
           }
-         }
-
+        }
       }
 
       .mainContentImg {
@@ -115,9 +112,7 @@
             // border-radius: 20px;
           }
         }
-
-      
       }
     }
-   }
+  }
 }

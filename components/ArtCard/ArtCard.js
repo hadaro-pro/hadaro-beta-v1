@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./artcard.module.scss";
 import { message, Modal } from "antd";
-import { CloseOutlined } from '@ant-design/icons'
+import { CloseOutlined } from "@ant-design/icons";
 const ArtCard = ({
   image,
   title,
@@ -14,7 +14,7 @@ const ArtCard = ({
   description,
   position,
   openRentModal,
-  openFinalModal
+  openFinalModal,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -55,22 +55,22 @@ const ArtCard = ({
           </div>
         </div>
         <>
-        {status === "lending" ? (
-          <button
-            onClick={() => {
-              openRentModal(position)
-              // openFinalModal()
-              // showModal();
-            }}
-          >
-            RENT
-          </button>
-        ) : (
-          <button className={styles.disabledRent} disabled={true}>
-            RENT
-          </button>
-        )}
-        {/* <Modal
+          {status === "lending" ? (
+            <button
+              onClick={() => {
+                openRentModal(position);
+                // openFinalModal()
+                // showModal();
+              }}
+            >
+              RENT
+            </button>
+          ) : (
+            <button className={styles.disabledRent} disabled={true}>
+              RENT
+            </button>
+          )}
+          {/* <Modal
           open={isModalOpen}
           footer={null}
           onCancel={handleCancel}
@@ -92,7 +92,7 @@ const ArtCard = ({
           </div>
         </Modal> */}
         </>
-      </div> 
+      </div>
     </div>
   );
 };

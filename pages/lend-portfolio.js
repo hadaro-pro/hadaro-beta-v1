@@ -14,8 +14,7 @@ import Navbar from "../components/Navbar/Navbar";
 import PortfolioComp from "../components/PortfolioComp/portfolioComp";
 
 const LendPortfolio = () => {
-
-  const [loadingAvatar, setLoadingAvatar] = useState(false)
+  const [loadingAvatar, setLoadingAvatar] = useState(false);
   const [verifiedCollectionsArray, setVerifiedCollectionsArray] = useState([]);
   const [userAvatarArray, setUserAvatarArray] = useState([]);
 
@@ -24,7 +23,7 @@ const LendPortfolio = () => {
 
   const getWalletAvatar = async () => {
     try {
-      setLoadingAvatar(true)
+      setLoadingAvatar(true);
       const walletAddr = address;
       const getAvatar = await axios.post(`/api/fetchWalletAvatar`, {
         walletAddr,
@@ -33,9 +32,9 @@ const LendPortfolio = () => {
       // console.log('cvvr',getAvatar.data)
 
       setUserAvatarArray(getAvatar.data);
-      setLoadingAvatar(false)
+      setLoadingAvatar(false);
     } catch (e) {
-      setLoadingAvatar(false)
+      setLoadingAvatar(false);
       // console.error(e);
     }
   };
@@ -49,7 +48,10 @@ const LendPortfolio = () => {
       //  console.log('xacv', getCollections.data)
 
       getCollections?.data?.forEach((item) => {
-        mainArrItems.push({collectionAddr: item.collectionAddress.toLowerCase(), status: item.status});
+        mainArrItems.push({
+          collectionAddr: item.collectionAddress.toLowerCase(),
+          status: item.status,
+        });
       });
 
       setVerifiedCollectionsArray(mainArrItems);

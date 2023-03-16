@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LendNfts from "../LendNfts/LendNfts";
 import WalletNfts from "../WalletNftsComp/walletNfts";
 import axios from "axios";
-import { Contract } from 'ethers'
-import Web3 from 'web3'
-import {  moralisApiKey  } from "../../creds"
+import { Contract } from "ethers";
+import Web3 from "web3";
+import { moralisApiKey } from "../../creds";
 import { createClient } from "urql";
 import { SYLVESTER_SUBGRAPH_URL } from "../../creds";
 import {
@@ -25,10 +25,12 @@ import {
   unpackPrice,
   SylvesterV0FunctionInterface,
   getRenftContract,
-  DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0
+  DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
 } from "@renft/sdk";
+import moment from "moment";
 import styles from "./portfoliocomp.module.scss";
-import { message } from "antd";
+import { message, Modal } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 import RentNfts from "../RentNfts/RentNfts";
 
 const PortfolioComp = ({
@@ -37,6 +39,7 @@ const PortfolioComp = ({
   loadingWallet,
   lendingNfts,
   loadingLendNfts,
+  getRentingNfts,
   setLendingNfts,
   getNewListFunc,
   rentingNfts,
@@ -46,7 +49,7 @@ const PortfolioComp = ({
   userAvatar,
   avatarLoading,
   getWalletNfts,
-  reloadUserAvatar
+  reloadUserAvatar,
 }) => {
   const [openLend, setOpenLend] = useState(false);
   const [openRent, setOpenRent] = useState(false);
@@ -73,9 +76,59 @@ const PortfolioComp = ({
     nftDesc: "",
   });
 
+  const [showRentDetailsMenu, setShowRentDetailsMenu] = useState(false);
+  const [showLendDetailsMenu, setShowLendDetailsMenu] = useState(false);
+  const [img, setImg] = useState("");
+  const [renter, setRenter] = useState("");
+  const [itemName, setItemName] = useState("");
+  const [tokenId, setTokenId] = useState("");
+  const [collectionName, setCollectionName] = useState("");
+  const [standard, setStandard] = useState("");
+  const [mainStandard, setMainStandard] = useState("");
+  const [itemAddr, setItemAddr] = useState("");
+  const [mainItemAddr, setMainItemAddr] = useState("");
+  const [isRentClaimed, setIsRentClaimed] = useState("");
+  const [renterAddress, setRenterAddress] = useState("");
+  const [transactionType, setTransactionType] = useState("");
+  const [desc, setDesc] = useState("");
+  const [rentTxnData, setRentTxnData] = useState("");
+  const [lendTxnData, setLendTxnData] = useState("");
+  const [identi, setIdenti] = useState("");
+  const [rentDays, setRentDays] = useState("");
+  const [payToken, setPayToken] = useState("");
+  const [price, setPrice] = useState("");
+  const [targetTime, setTargetTime] = useState("");
+  const [alreadySetTime, setAlreadySetTime] = useState(false);
+  const [timerDays, setTimerDays] = useState();
+  const [timerHours, setTimerHours] = useState();
+  const [timerMinutes, setTimerMinutes] = useState();
+  const [timerSeconds, setTimerSeconds] = useState();
+  const [miniText, setMiniText] = useState(true);
+  const [loadStopRent, setLoadStopRent] = useState(false);
+  const [loadClaimRent, setLoadClaimRent] = useState(false);
+  const [nanValue, setNanValue] = useState(false);
 
-  const web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546' )
+  const showRentDetailsModal = () => {
+    setShowRentDetailsMenu(true);
+  };
 
+  const handleRentDetailsModalCancel = () => {
+    setShowRentDetailsMenu(false);
+    setAlreadySetTime(false);
+  };
+
+  const showLendDetailsModal = () => {
+    setShowLendDetailsMenu(true);
+  };
+
+  const handleLendDetailsModalCancel = () => {
+    setShowLendDetailsMenu(false);
+    setAlreadySetTime(false);
+  };
+
+  const web3 = new Web3(
+    Web3.givenProvider || "ws://some.local-or-remote.node:8546"
+  );
 
   const { address, connector, isConnected } = useAccount();
 
@@ -85,83 +138,156 @@ const PortfolioComp = ({
 
   // const collateralFreeContract = new Sylvester(signer);
 
-
-
-  const collateralFreeContract =  getRenftContract({
+  const collateralFreeContract = getRenftContract({
     deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
     signer,
-  });
+  }).claimCollateral;
 
-
-  const hadaroGoerliTestContract = new Contract(HADARO_GOERLI_ADDRESS, HADARO_GOERLI_ABI, signer);
+  const hadaroGoerliTestContract = new Contract(
+    HADARO_GOERLI_ADDRESS,
+    HADARO_GOERLI_ABI,
+    signer
+  );
 
   // console.log('sax: ',lendingNfts)
   // console.log('saxon: ',rentingNfts)
 
-  const decodeTxnData = (dataSource, topicsObj) => {
+  // console.log("target time: ", targetTime !== "Invalid date")
 
-  const { topic1, topic2, topic3 } = topicsObj
+  const decodeLendingTxnData = (dataSource, topicsObj) => {
+    const { topic1, topic2, topic3 } = topicsObj;
 
-  const res =   web3.eth.abi.decodeLog([      {
-      indexed: false,
-      internalType: 'bool',
-      name: 'is721',
-      type: 'bool',
-    },
-    {
-      indexed: true,
-      internalType: 'address',
-      name: 'lenderAddress',
-      type: 'address',
-    },
-    {
-      indexed: true,
-      internalType: 'address',
-      name: 'nftAddress',
-      type: 'address',
-    },
-    {
-      indexed: true,
-      internalType: 'uint256',
-      name: 'tokenID',
-      type: 'uint256',
-    },
-    {
-      indexed: false,
-      internalType: 'uint256',
-      name: 'lendingID',
-      type: 'uint256',
-    },
-    {
-      indexed: false,
-      internalType: 'uint8',
-      name: 'maxRentDuration',
-      type: 'uint8',
-    },
-    {
-      indexed: false,
-      internalType: 'bytes4',
-      name: 'dailyRentPrice',
-      type: 'bytes4',
-    },
-    {
-      indexed: false,
-      internalType: 'uint16',
-      name: 'lendAmount',
-      type: 'uint16',
-    },
-    {
-      indexed: false,
-      internalType: 'enum IResolver.PaymentToken',
-      name: 'paymentToken',
-      type: 'uint8',
-    }],
-dataSource,
-  [topic1, topic2, topic3]);
+    const res = web3.eth.abi.decodeLog(
+      [
+        {
+          indexed: false,
+          internalType: "bool",
+          name: "is721",
+          type: "bool",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "lenderAddress",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "nftAddress",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "tokenID",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "lendingID",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint8",
+          name: "maxRentDuration",
+          type: "uint8",
+        },
+        {
+          indexed: false,
+          internalType: "bytes4",
+          name: "dailyRentPrice",
+          type: "bytes4",
+        },
+        {
+          indexed: false,
+          internalType: "uint16",
+          name: "lendAmount",
+          type: "uint16",
+        },
+        {
+          indexed: false,
+          internalType: "enum IResolver.PaymentToken",
+          name: "paymentToken",
+          type: "uint8",
+        },
+      ],
+      dataSource,
+      [topic1, topic2, topic3]
+    );
 
-    return res.lendingID
-  }
+    return res.lendingID;
+  };
 
+  const decodeRentTxnData = (dataSource, topicsObj) => {
+    const { topic1, topic2, topic3 } = topicsObj;
+
+    const res = web3.eth.abi.decodeLog(
+      [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "renterAddress",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "lendingID",
+          type: "uint256",
+        },
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "rentingID",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint16",
+          name: "rentAmount",
+          type: "uint16",
+        },
+        {
+          indexed: false,
+          internalType: "uint8",
+          name: "rentDuration",
+          type: "uint8",
+        },
+        {
+          indexed: false,
+          internalType: "uint32",
+          name: "rentedAt",
+          type: "uint32",
+        },
+      ],
+      dataSource,
+      [topic1, topic2, topic3]
+    );
+
+    return res.rentingID;
+  };
+
+  const addEllipsis = (value) => {
+    if (value === null) {
+      return "";
+    } else {
+      const firstPart = value?.slice(0, 4);
+      const lastPart = value?.slice(-3);
+
+      return firstPart + "..." + lastPart;
+    }
+  };
+
+  const parseStandards = (value) => {
+    if (value === "0") {
+      return "E721";
+    } else if (value === "1") {
+      return "E1155";
+    }
+  };
 
   const nftImageAggregating = (image) => {
     let imageToDisplay;
@@ -180,15 +306,6 @@ dataSource,
 
     return imageToDisplay;
   };
-
-  // const sortCorsImage = (img) => {
-  //   const corsImageModified = new Image();
-  //   corsImageModified.crossOrigin = "Anonymous";
-  //   corsImageModified.src = img + "?not-from-cache-please";
-  //   return corsImageModified.src;
-  // };
-
-  // console.log(sortCorsImage(userAvatar[0]?.walletAvatar))
 
   const uploadImage = async (e) => {
     const selectedFile = e.target.files[0];
@@ -223,7 +340,7 @@ dataSource,
 
               //  const imgUrl = sortCorsImage(data.url)
               setAvatarAsset(data);
-              reloadUserAvatar()
+              reloadUserAvatar();
             }
           });
       } else {
@@ -244,21 +361,56 @@ dataSource,
     return meta?.name;
   };
 
-  const handlePatch = async(iden, type, status) => {
+  const handleLenderRentPatch = async (
+    identity,
+    renterAddr,
+    rentClaimedStatus,
+    itemStatus,
+    itemTxnType
+  ) => {
     try {
-      const allNfts = await axios.post(`/api/updateNftTxnType`, { iden, type });
-
-      // console.log('nfts patch result: ', allNfts.data)
-
-      const statusChange = await axios.post(`/api/updateNftStatus`, {
-        iden,
-        status, 
+      const statusChange = await axios.put(`/api/updateLenderRentStatus`, {
+        identity,
+        renterAddr,
+        rentClaimedStatus,
+        itemStatus,
+        itemTxnType,
       });
 
       // console.log('nfts patch result: ', statusChange.data)
     } catch (err) {
       // console.error(err);
-    } 
+    }
+  };
+
+  const handleRentPatch = async (identity, renterAddr) => {
+    try {
+      const statusChange = await axios.put(`/api/updateRentStatus`, {
+        identity,
+        renterAddr,
+      });
+
+      // console.log('nfts patch result: ', statusChange.data)
+    } catch (err) {
+      // console.error(err);
+    }
+  };
+
+  const handlePatch = async (iden, type, status) => {
+    try {
+      const allNfts = await axios.put(`/api/updateNftTxnType`, { iden, type });
+
+      // console.log('nfts patch result: ', allNfts.data)
+
+      const statusChange = await axios.put(`/api/updateNftStatus`, {
+        iden,
+        status,
+      });
+
+      // console.log('nfts patch result: ', statusChange.data)
+    } catch (err) {
+      // console.error(err);
+    }
   };
 
   const getLendingIdForNft = async (transactionHash, chain) => {
@@ -275,26 +427,21 @@ dataSource,
         config
       );
 
-
       // console.log('data: ', transactionLogs.data?.logs[0])
 
-      const mainLog = transactionLogs.data?.logs[0]
+      const mainLog = transactionLogs.data?.logs[0];
 
-      const dataToDecode = mainLog?.data
+      const dataToDecode = mainLog?.data;
 
       const topicsObj = {
         topic1: mainLog?.topic1,
         topic2: mainLog?.topic2,
-        topic3: mainLog?.topic3
-      }
+        topic3: mainLog?.topic3,
+      };
 
-
-
-      const result = decodeTxnData(dataToDecode, topicsObj)
+      const result = decodeLendingTxnData(dataToDecode, topicsObj);
 
       // console.log('topics: ', topicsObj)
-
-
 
       // const queryNft = `
       // query LendingsQuery {
@@ -316,7 +463,170 @@ dataSource,
 
       return result;
     } catch (e) {
-      console.error(e)
+      // console.error(e);
+    }
+  };
+
+  const getRentingId = async (transactionHash, chain) => {
+    const config = {
+      headers: {
+        accept: "application/json",
+        "X-API-Key": moralisApiKey,
+      },
+    };
+
+    try {
+      const transactionLogs = await axios.get(
+        `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
+        config
+      );
+
+      // console.log('data: ', transactionLogs.data?.logs[1])
+
+      const mainLog = transactionLogs.data?.logs[1];
+
+      const dataToDecode = mainLog?.data;
+      // web3.utils.hexToNumber(mainLog?.topic3);
+      const topicsObj = {
+        // topic1: mainLog?.topic1,
+        // topic2: mainLog?.topic2,
+        topic3: web3.utils.hexToNumber(mainLog?.topic3),
+      };
+
+      // console.log("datatopics: ", topicsObj);
+      const result = topicsObj?.topic3;
+      // const result = decodeRentTxnData(dataToDecode, topicsObj);
+      // console.log("dataresult: ", result);
+      return result;
+    } catch (e) {
+      // console.error(e);
+    }
+  };
+
+  const handleClaimRent = async () => {
+    try {
+      setLoadClaimRent(true);
+
+      const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
+      const rentingID = await getRentingId(rentTxnData, "goerli");
+
+      const rentingIDToString = String(rentingID);
+
+      // console.log("rnt", rentingID);
+      // console.log("lnt", lendingID)
+      if (mainChain?.name !== "Goerli") {
+        message.error("Please Connect to the Goerli Network to proceed", [3]);
+        setLoadClaimRent(false);
+      } else {
+        const whatToSend = {
+          mainStandard,
+          mainItemAddr,
+          tokenId,
+          lendingID,
+          rentingIDToString,
+        };
+
+        // console.log("txnpayload", whatToSend);
+        const txn = await hadaroGoerliTestContract.claimRent(
+          [mainStandard],
+          [mainItemAddr],
+          [tokenId],
+          [lendingID],
+          [rentingID]
+        );
+
+        const receipt = await txn.wait();
+
+        // console.log(receipt)
+        // 0x9d91778c5e5f506701482ee59ca9668d16d308ae6deafb7d87c1fd90ac290b2f
+        if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+          const newRenterAddress = "";
+          await handleLenderRentPatch(
+            identi,
+            newRenterAddress,
+            "already claimed",
+            "available",
+            "lending"
+          );
+          // await getColandUpdateItemCount(nftAddress);
+          // await handleRemoveElement(position);
+          message.success("successfully claimed rental fees!");
+          handleLendDetailsModalCancel();
+          getNewListFunc();
+        }
+      }
+      setLoadClaimRent(false);
+    } catch (e) {
+      // console.warn(e)
+      setLoadClaimRent(false);
+      if (e.code === "ACTION_REJECTED") {
+        message.error("user rejected transaction");
+      } else if (e.message[0] === "F") {
+        message.error("something went wrong");
+      }
+    }
+  };
+
+  const handleStopRent = async () => {
+    try {
+      // message.error('tf')
+      // console.log('gfkdvdvb')
+      setLoadStopRent(true);
+
+      const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
+      const rentingID = await getRentingId(rentTxnData, "goerli");
+
+      const rentingIDToString = String(rentingID);
+
+      // console.log("rnt", rentingID);
+      // console.log("lnt", lendingID)
+      if (mainChain?.name !== "Goerli") {
+        message.error("Please Connect to the Goerli Network to proceed", [3]);
+        setLoadStopRent(false);
+      } else {
+        const whatToSend = {
+          mainStandard,
+          mainItemAddr,
+          tokenId,
+          lendingID,
+          rentingIDToString,
+        };
+
+        // console.log("txnpayload", whatToSend);
+        const txn = await hadaroGoerliTestContract.stopRent(
+          [mainStandard],
+          [mainItemAddr],
+          [tokenId],
+          [lendingID],
+          [rentingID]
+        );
+
+        const receipt = await txn.wait();
+
+        // console.log(receipt)
+        // 0x9d91778c5e5f506701482ee59ca9668d16d308ae6deafb7d87c1fd90ac290b2f
+        if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+          const newRenterAddress = "";
+          await handleRentPatch(identi, newRenterAddress);
+          // await getColandUpdateItemCount(nftAddress);
+          // await handleRemoveElement(position);
+          message.success("successfully stopped rent of NFT!");
+          getRentingNfts();
+        }
+      }
+      setLoadStopRent(false);
+    } catch (e) {
+      setLoadStopRent(false);
+      // console.warn(e);
+      if (e.message[0] === "u" && e.message[1] === "s") {
+        message.error("user rejected transaction");
+      } else if (e.message[0] === "F") {
+        message.error("something went wrong");
+      } else if (
+        e.error.data.message === "execution reverted: Hadaro::past return date"
+      ) {
+        message.error("You failed to return item before expiry!");
+      }
     }
   };
 
@@ -376,105 +686,147 @@ dataSource,
 
   // }
 
-  const getColandUpdateItemCount = async(collectionAddr) => {
+  const getColandUpdateItemCount = async (collectionAddr) => {
     // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
     const getCollection = await axios.post(`/api/fetchItemCollection`, {
       collectionAddr,
     });
 
-    const filterDrafts = getCollection.data.filter((item) => 
-    item.collectionAddress.toLowerCase() === collectionAddr.toLowerCase() &&
-     !item._id?.includes("drafts"))
+    const filterDrafts = getCollection.data.filter(
+      (item) =>
+        item.collectionAddress.toLowerCase() === collectionAddr.toLowerCase() &&
+        !item._id?.includes("drafts")
+    );
     // console.log('results: ', getCollection.data)
     // console.log('results: ', filterDrafts)
 
-    const itemId = filterDrafts[0]?._id
+    const itemId = filterDrafts[0]?._id;
 
-    const itemCount = filterDrafts[0]?.itemCount
+    const itemCount = filterDrafts[0]?.itemCount;
     // console.log('results: ', itemCount)
 
-    let finalValue
+    let finalValue;
 
-    if(itemCount === null) {
-      finalValue = 0
+    if (itemCount === null) {
+      finalValue = 0;
     } else {
-      finalValue = Number(itemCount)
+      finalValue = Number(itemCount);
     }
 
-   const valueToSend = String(finalValue - 1)
+    const valueToSend = String(finalValue - 1);
     // console.log('final: ', valueToSend)
 
     if (valueToSend === "-1") {
-      const count = "0"
+      const count = "0";
 
-      const patchItem  = await axios.post(`/api/updateCollectionItemCount`, {
+      const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
         itemId,
-        count
+        count,
       });
-          // console.log('res0: ', patchItem.data) 
+      // console.log('res0: ', patchItem.data)
     } else {
-      const count = valueToSend
-      const patchItem  = await axios.post(`/api/updateCollectionItemCount`, {
+      const count = valueToSend;
+      const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
         itemId,
-        count
+        count,
       });
-  
+
       // console.log('res1: ', patchItem.data)
     }
-  }
+  };
 
+  const showLendingDetails = (position) => {
+    const lendItem = lendingNfts[position];
 
-  const prepareStopLend = async (position) => {
+    setImg(nftImageAggregating(lendItem?.metadataImage));
+    setRenter(addEllipsis(lendItem?.renterAddress));
+    setStandard(parseStandards(lendItem?.nftStandard));
+    setMainStandard(lendItem?.nftStandard);
+    setItemAddr(addEllipsis(lendItem?.nftAddress));
+    setMainItemAddr(lendItem?.nftAddress);
+    setItemName(lendItem?.metadataName);
+    setTokenId(lendItem?.tokenID);
+    setDesc(lendItem?.metadataDesc);
+    setRentTxnData(lendItem?.rentTransactionHash);
+    setLendTxnData(lendItem?.transactionHash);
+    setIdenti(lendItem?._id);
+    setIsRentClaimed(lendItem?.isRentClaimed);
+    setRenterAddress(lendItem?.renterAddress);
+    setTransactionType(lendItem?.transactionType);
+
+    const noOfRentDays = lendItem?.noOfRentDays;
+    const timeRented = lendItem?.timeOfRent;
+
+    const formattedExpiry = moment(timeRented)
+      .add(noOfRentDays, "days")
+      .format();
+
+    setTargetTime(formattedExpiry);
+    setAlreadySetTime(true);
+    console.log("prep up", lendItem);
+    showLendDetailsModal();
+  };
+
+  const prepareStopLend = async () => {
     try {
       setLoadingLendRemove(true);
-      const objToLook = lendingNfts[position];
-      // console.log('prep up', objToLook)
+      // const objToLook = lendingNfts[position];
+      // // console.log('prep up', objToLook)
 
-      const tokenAddr = objToLook?.nftAddress;
-      const tokenID = objToLook?.tokenID;
-      const nftStandard = objToLook?.nftStandard;
-      const nftAddress = objToLook?.nftAddress;
-      const iden = objToLook?._id;
-      const transactionHash = objToLook?.transactionHash
+      // const tokenAddr = objToLook?.nftAddress;
+      // const tokenID = objToLook?.tokenID;
+      // const nftStandard = objToLook?.nftStandard;
+      // const nftAddress = objToLook?.nftAddress;
+      // const iden = objToLook?._id;
+      // const transactionHash = objToLook?.transactionHash;
 
       // console.log('hash', transactionHash)
 
-      const lendingID = await getLendingIdForNft(transactionHash, "goerli");
+      const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
 
       // console.log("id", lendingID);
 
-  //     const lendingID = res.lendings[0].id;
+      //     const lendingID = res.lendings[0].id;
 
       if (mainChain?.name !== "Goerli") {
         message.error("Please Connect to the Goerli Network to proceed", [3]);
         setLoadingLendRemove(false);
       } else {
+        const mst = {
+          mainStandard,
+          mainItemAddr,
+          tokenId,
+          lendingID,
+        };
+
+        // console.log('cdf', mst)
+
         const txn = await hadaroGoerliTestContract.stopLend(
-          [nftStandard],
-          [nftAddress],
-          [tokenID],
+          [mainStandard],
+          [mainItemAddr],
+          [tokenId],
           [lendingID]
         );
 
         const receipt = await txn.wait();
 
         // console.log(receipt)
- 
+
         if (receipt.blockNumber !== null && receipt.confirmations > 0) {
-      //  const nftadfr = "0x999e88075692bcee3dbc07e7e64cd32f39a1d3ab"
-     //  const iden = "7Fr0FUO69KxDBqVkyLHEmB"
-    // const response = await axios.get(`/api/fetchAllNftsInCollection`)
-   // console.log('hjs: ', response.data)
-         await handlePatch(
-            iden,
+          //  const nftadfr = "0x999e88075692bcee3dbc07e7e64cd32f39a1d3ab"
+          //  const iden = "7Fr0FUO69KxDBqVkyLHEmB"
+          // const response = await axios.get(`/api/fetchAllNftsInCollection`)
+          // console.log('hjs: ', response.data)
+          await handlePatch(
+            identi,
             "previousListed for lending",
             "non-available"
           );
-          await getColandUpdateItemCount(nftAddress)
-          await handleRemoveElement(position);
+          await getColandUpdateItemCount(mainItemAddr);
           message.success("successfully stopped lend of NFT!");
+          handleLendDetailsModalCancel();
           await getNewListFunc();
-          await getWalletNfts()
+          await getWalletNfts();
         }
       }
       setLoadingLendRemove(false);
@@ -491,7 +843,97 @@ dataSource,
 
   // console.log('owned', ownedNfts)
 
+  let interval;
 
+  const startTimer = () => {
+    const countDown = new Date(targetTime).getTime();
+
+    interval = setInterval(() => {
+      const now = new Date().getTime();
+
+      const diff = countDown - now;
+
+      const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+      const hours = Math.floor(
+        (diff % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((diff % (60 * 60 * 1000)) / (1000 * 60));
+      const seconds = Math.floor((diff % (60 * 1000)) / 1000);
+
+      // console.log('diff', isNaN(diff))
+      if (isNaN(diff) === true) {
+        setNanValue(true);
+      }
+
+      if (diff <= 0 || isNaN(diff) === true) {
+        clearInterval(interval.current);
+      } else {
+        setTimerDays(days);
+        setTimerHours(hours);
+        setTimerMinutes(minutes);
+        setTimerSeconds(seconds);
+      }
+    });
+  };
+
+  const handleRemoveFromRent = async () => {
+    try {
+      const newRenterAddress = "";
+      const dataSend = await handleRentPatch(identi, newRenterAddress);
+      // console.log('data ', identi)
+      message.success("successfully removed!");
+      handleRentDetailsModalCancel();
+      getRentingNfts();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleViewRentDetails = (position) => {
+    const rentItem = rentingNfts[position];
+    setImg(nftImageAggregating(rentItem?.metadataImage));
+    setRenter(addEllipsis(rentItem?.renterAddress));
+    setStandard(parseStandards(rentItem?.nftStandard));
+    setMainStandard(rentItem?.nftStandard);
+    setItemAddr(addEllipsis(rentItem?.nftAddress));
+    setMainItemAddr(rentItem?.nftAddress);
+    setItemName(rentItem?.metadataName);
+    setTokenId(rentItem?.tokenID);
+    setDesc(rentItem?.metadataDesc);
+    setRentTxnData(rentItem?.rentTransactionHash);
+    setLendTxnData(rentItem?.transactionHash);
+    setIdenti(rentItem?._id);
+
+    const noOfRentDays = rentItem?.noOfRentDays;
+    const timeRented = rentItem?.timeOfRent;
+    const expiryDate = noOfRentDays * 24 * 60 * 60 + timeRented;
+
+    const formattedExpiry = moment(timeRented)
+      .add(noOfRentDays, "days")
+      .format();
+    const formattedStartDate = moment(timeRented).format();
+
+    const eventTime = new Date(formattedExpiry).getTime();
+
+    // moment.duration(targetTime.diff(currentTime));
+
+    // moment(timeRented).format("MMM Do YY");
+    // moment(expiryDate).format("MMM Do YY");
+
+    setTargetTime(formattedExpiry);
+    setAlreadySetTime(true);
+    // console.log(rentItem);
+    // console.log('start date: ', formattedStartDate)
+    // console.log("end date: ", formattedExpiry);
+    // console.log('timeRemaining ', eventTime)
+    showRentDetailsModal();
+  };
+
+  useEffect(() => {
+    if (targetTime !== "" || targetTime !== "Invalid date") {
+      startTimer();
+    }
+  }, [alreadySetTime]);
 
   return (
     <div className={styles.mainContainer}>
@@ -544,21 +986,21 @@ dataSource,
               />
             )}
           </div>
-          {userAvatar?.length > 0  && (
-            <div className={styles.changeAvatar}> 
-            <label htmlFor="imagefile">
-              <p>Change avatar
-              </p>
+          {userAvatar?.length > 0 && (
+            <div className={styles.changeAvatar}>
+              <label htmlFor="imagefile">
+                <p>Change avatar</p>
               </label>
               <input
-                  id="imagefile"
-                  type="file"
-                  onChange={(e) => {
-                    setAvatarFile(e.target.files[0]);
-                    uploadImage(e);
-                  }}
-                />
-            </div>)}
+                id="imagefile"
+                type="file"
+                onChange={(e) => {
+                  setAvatarFile(e.target.files[0]);
+                  uploadImage(e);
+                }}
+              />
+            </div>
+          )}
           <div className={styles.lowerPart}>
             <div className={styles.menuItem}>
               <div className={styles.menuItemTop}>
@@ -595,12 +1037,166 @@ dataSource,
                             <LendNfts
                               nftname={el.metadataName}
                               nftImage={nftImageAggregating(el.metadataImage)}
-                              setLendItem={prepareStopLend}
+                              setLendItem={showLendingDetails}
+                              // setLendItem={prepareStopLend}
                               position={index}
                               loadingLend={loadingLendRemove}
                             />
                           </div>
                         ))}
+                        <Modal
+                          footer={null}
+                          open={showLendDetailsMenu}
+                          onCancel={handleLendDetailsModalCancel}
+                          className={styles.rentItemsModalCover}
+                        >
+                          <div className={styles.closeMenu}>
+                            <CloseOutlined
+                              className={styles.closeIcon}
+                              onClick={handleLendDetailsModalCancel}
+                            />
+                          </div>
+                          <div className={styles.infoContainer}>
+                            <div className={styles.infoImage}>
+                              <img src={img} alt="item-image" />
+                            </div>
+                            <div className={styles.infoDesc}>
+                              <div className={styles.infoDescLender}>
+                                <small className={styles.gray}>Renter</small>
+                                <small> {renter} </small>
+                              </div>
+                              <div className={styles.infoDescName}>
+                                <div className={styles.infoDescMetaNames}>
+                                  {/* <h3> {collectionName} </h3> */}
+                                  <h2> {itemName} </h2>
+                                </div>
+                                <div className={styles.miniInfo}>
+                                  <small> {standard} </small>
+                                  {/* <small> {tokenId} </small> */}
+                                  <small> {itemAddr} </small>
+                                </div>
+                                <div className={styles.miniDesc}>
+                                  {miniText ? (
+                                    <p className={styles.miniText}>
+                                      {desc.split(" ").splice(0, 15).join(" ")}
+                                      {desc.split(" ").length < 15 ? (
+                                        " "
+                                      ) : (
+                                        <span
+                                          className={styles.ctaForMore}
+                                          onClick={() => setMiniText(false)}
+                                        >
+                                          more
+                                        </span>
+                                      )}
+                                    </p>
+                                  ) : (
+                                    <p>
+                                      {desc}
+                                      {desc.split(" ").length < 15 ? (
+                                        " "
+                                      ) : (
+                                        <span onClick={() => setMiniText(true)}>
+                                          less
+                                        </span>
+                                      )}
+                                    </p>
+                                  )}
+                                </div>
+                                {isRentClaimed === "already claimed" ||
+                                isRentClaimed === null ? (
+                                  ""
+                                ) : (
+                                  <div className={styles.timePart}>
+                                    <h3>Time Remaining </h3>
+                                    {timerSeconds === undefined && (
+                                      <small className={styles.notifyText}>
+                                        Renting for your item has ended...😮
+                                      </small>
+                                    )}
+                                    {isRentClaimed === "not yet" &&
+                                      renterAddress === "" && (
+                                        <small className={styles.notifyText}>
+                                          Renter returned this item...😐
+                                        </small>
+                                      )}
+                                    <div className={styles.timePartLower}>
+                                      <p>
+                                        {timerDays === undefined
+                                          ? "0"
+                                          : timerDays}{" "}
+                                        <span>Days</span>
+                                      </p>
+                                      <p>
+                                        {timerHours === undefined
+                                          ? "0"
+                                          : timerHours}{" "}
+                                        <span>Hours</span>
+                                      </p>
+                                      <p>
+                                        {timerMinutes === undefined
+                                          ? "0"
+                                          : timerMinutes}{" "}
+                                        <span>Minutes</span>
+                                      </p>
+                                      <p>
+                                        {timerSeconds === undefined
+                                          ? "0"
+                                          : timerSeconds}{" "}
+                                        <span>Seconds</span>
+                                      </p>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className={styles.ctaButton}>
+                                {isRentClaimed === "already claimed" &&
+                                transactionType === "lending" ? (
+                                  <button onClick={prepareStopLend}>
+                                    {" "}
+                                    {loadingLendRemove
+                                      ? "Retrieving item..."
+                                      : "Stop Lend"}{" "}
+                                  </button>
+                                ) : renterAddress === "" &&
+                                  timerSeconds !== undefined ? (
+                                  <button onClick={handleClaimRent}>
+                                    {loadClaimRent
+                                      ? "Claiming fees..."
+                                      : "Claim Rental fees"}{" "}
+                                  </button>
+                                ) : timerSeconds === undefined ? (
+                                  isRentClaimed === "not yet" ? (
+                                    <button onClick={handleClaimRent}>
+                                      {loadClaimRent
+                                        ? "Claiming fees..."
+                                        : "Claim Rental fees"}{" "}
+                                    </button>
+                                  ) : (
+                                    <button onClick={prepareStopLend}>
+                                      {" "}
+                                      {loadingLendRemove
+                                        ? "Retrieving item..."
+                                        : "Stop Lend"}{" "}
+                                    </button>
+                                  )
+                                ) : renterAddress === null ? (
+                                  <button onClick={prepareStopLend}>
+                                    {" "}
+                                    {loadingLendRemove
+                                      ? "Retrieving item..."
+                                      : "Stop Lend"}{" "}
+                                  </button>
+                                ) : (
+                                  <button className={styles.inProg}>
+                                    Rental in progress
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </Modal>
                       </div>
                     )
                   ) : (
@@ -651,9 +1247,132 @@ dataSource,
                               nftStatus={el.status}
                               position={index}
                               loadingRent={loadingRentRemove}
+                              setRentItem={handleViewRentDetails}
                             />
                           </div>
                         ))}
+                        <Modal
+                          footer={null}
+                          open={showRentDetailsMenu}
+                          onCancel={handleRentDetailsModalCancel}
+                          className={styles.rentItemsModalCover}
+                        >
+                          <div className={styles.closeMenu}>
+                            <CloseOutlined
+                              className={styles.closeIcon}
+                              onClick={handleRentDetailsModalCancel}
+                            />
+                          </div>
+                          <div className={styles.infoContainer}>
+                            <div className={styles.infoImage}>
+                              <img src={img} alt="item-image" />
+                            </div>
+                            <div className={styles.infoDesc}>
+                              <div className={styles.infoDescLender}>
+                                <small className={styles.gray}>Renter</small>
+                                <small> {renter} </small>
+                              </div>
+                              <div className={styles.infoDescName}>
+                                <div className={styles.infoDescMetaNames}>
+                                  {/* <h3> {collectionName} </h3> */}
+                                  <h2> {itemName} </h2>
+                                </div>
+                                <div className={styles.miniInfo}>
+                                  <small> {standard} </small>
+                                  {/* <small> {tokenId} </small> */}
+                                  <small> {itemAddr} </small>
+                                </div>
+                                <div className={styles.miniDesc}>
+                                  {miniText ? (
+                                    <p className={styles.miniText}>
+                                      {desc.split(" ").splice(0, 15).join(" ")}
+                                      {desc.split(" ").length < 15 ? (
+                                        " "
+                                      ) : (
+                                        <span
+                                          className={styles.ctaForMore}
+                                          onClick={() => setMiniText(false)}
+                                        >
+                                          more
+                                        </span>
+                                      )}
+                                    </p>
+                                  ) : (
+                                    <p>
+                                      {desc}
+                                      {desc.split(" ").length < 15 ? (
+                                        " "
+                                      ) : (
+                                        <span onClick={() => setMiniText(true)}>
+                                          less
+                                        </span>
+                                      )}
+                                    </p>
+                                  )}
+                                </div>
+                                <div className={styles.timePart}>
+                                  <h3>Time Remaining </h3>
+                                  {timerDays === undefined &&
+                                    timerHours === undefined &&
+                                    timerMinutes === undefined &&
+                                    timerSeconds === undefined && (
+                                      <small className={styles.notifyText}>
+                                        Time for rentage has elapsed...😪
+                                      </small>
+                                    )}
+                                  <div className={styles.timePartLower}>
+                                    <p>
+                                      {timerDays === undefined
+                                        ? "0"
+                                        : timerDays}{" "}
+                                      <span>Days</span>
+                                    </p>
+                                    <p>
+                                      {timerHours === undefined
+                                        ? "0"
+                                        : timerHours}{" "}
+                                      <span>Hours</span>
+                                    </p>
+                                    <p>
+                                      {timerMinutes === undefined
+                                        ? "0"
+                                        : timerMinutes}{" "}
+                                      <span>Minutes</span>
+                                    </p>
+                                    <p>
+                                      {timerSeconds === undefined
+                                        ? "0"
+                                        : timerSeconds}{" "}
+                                      <span>Seconds</span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className={styles.ctaButton}>
+                                <button
+                                  onClick={
+                                    timerDays === undefined &&
+                                    timerHours === undefined &&
+                                    timerMinutes === undefined &&
+                                    timerSeconds === undefined
+                                      ? handleRemoveFromRent
+                                      : handleStopRent
+                                  }
+                                >
+                                  {timerDays === undefined &&
+                                  timerHours === undefined &&
+                                  timerMinutes === undefined &&
+                                  timerSeconds === undefined
+                                    ? "Remove from list"
+                                    : loadStopRent
+                                    ? "Stopping Rent"
+                                    : "Stop Rent"}
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </Modal>
                       </div>
                     )
                   ) : (
@@ -686,7 +1405,7 @@ dataSource,
                 }
               >
                 <div className={styles.subdropmenu}>
-                  {/* {loadingWallet ? (<div> <p>Loading...</p> </div>) : " " } */}   
+                  {/* {loadingWallet ? (<div> <p>Loading...</p> </div>) : " " } */}
                   {walletConnectStatus ? (
                     loadingWallet ? (
                       <div>
@@ -712,28 +1431,6 @@ dataSource,
                               getLendNfts={getNewListFunc}
                             />
                           </div>
-                          //          <>
-                          //          <div className={styles.nftCardCover}>
-                          //          <div key={index} className={styles.nftCard}>
-                          //      <div className={styles.imageCover}>
-                          //      <img
-                          //      onError={(e) =>
-                          //        e.target.src = "/images/no-image-placeholder.png"
-                          //      }
-                          //      src={  el.metadata === null ? "/images/no-image-placeholder.png" :  el.image ? el.image : el.image === null ? "/images/no-image-placeholder.png" : ""} />
-                          //      </div>
-                          //      <div className={styles.downPart}>
-                          //        <span> {convertMetadata(index)} </span>
-                          //        <span>
-                          //          {el.name} xx
-                          //        </span>
-                          //        <span>
-                          //        {console.log(el.image)}
-                          //        </span>
-                          //      </div>
-                          //  </div>
-                          //  </div>
-                          //  </>
                         ))}
                       </div>
                     )

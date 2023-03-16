@@ -47,7 +47,6 @@
       margin: auto 0;
       cursor: pointer;
 
-
       .waitingPart {
         height: 8rem;
         width: 8rem;
@@ -56,17 +55,15 @@
         align-items: center;
         text-align: center;
 
-
         p {
           color: #fff;
-          font-size: .9rem;
+          font-size: 0.9rem;
           // outline: 3px solid red;
           margin: auto;
         }
       }
 
-
-       // img {
+      // img {
       //   object-fit: cover;
       //   width: 9rem;
       //   height: 9rem;
@@ -79,8 +76,6 @@
         border-radius: 50%;
       }
 
-     
-
       .formUpperImageContainer {
         // outline: 3px solid red;
         height: 8rem;
@@ -91,13 +86,11 @@
         justify-content: center;
 
         .formUpperImageDiv {
-
           text-align: center;
 
-
           .imgUpload {
-            width: 8rem ;
-            height: 8rem ;
+            width: 8rem;
+            height: 8rem;
             border-radius: 50%;
             object-fit: cover;
           }
@@ -115,20 +108,19 @@
           display: none;
         }
       }
-
     }
 
     .changeAvatar {
       // outline: 3px solid red;
-      margin-top: .5rem;
+      margin-top: 0.5rem;
 
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      
+
       p {
         border: none;
-        padding: .5rem 1rem;
+        padding: 0.5rem 1rem;
         font-size: 1rem;
         border-radius: 10px;
         font-weight: 500;
@@ -147,7 +139,6 @@
       }
     }
 
-
     .lowerPart {
       // outline: 3px solid chartreuse;
       margin-top: 5rem;
@@ -165,12 +156,9 @@
         // padding-bottom: 1rem;
         // margin-bottom: 1rem;
 
-
-
         height: fit-content;
         padding-bottom: 2rem;
         border-bottom: 2px solid #00000073;
-
 
         img {
           width: 3rem;
@@ -205,7 +193,6 @@
           // height: 200px;
           animation: dropopen 500ms ease 1 normal forwards;
 
-
           .subdropmenu {
             // outline: 3px solid orangered;
             height: auto;
@@ -239,7 +226,6 @@
                 }
               }
 
-
               .lendArtButtons {
                 // outline: 3px solid orangered;
                 margin-top: 1rem;
@@ -251,26 +237,29 @@
 
                 button {
                   outline: none;
-                  border: 1px solid #01C5BA;
-                  background: linear-gradient(180deg, rgba(158, 0, 255, 0.65) 0%, rgba(194, 89, 211, 0.65) 100%);
-                  font-size: .7rem;
+                  border: 1px solid #01c5ba;
+                  background: linear-gradient(
+                    180deg,
+                    rgba(158, 0, 255, 0.65) 0%,
+                    rgba(194, 89, 211, 0.65) 100%
+                  );
+                  font-size: 0.7rem;
                   color: #ffffff;
                   font-family: "Poppins";
-                  margin: 0 .5rem;
+                  margin: 0 0.5rem;
                   border-radius: 5px;
                   width: fit-content;
-                  padding: .2rem .5rem;
+                  padding: 0.2rem 0.5rem;
                   transition: all 200ms ease-in-out;
                   cursor: pointer;
 
                   &:hover {
-                    padding: .3rem .6rem;
+                    padding: 0.3rem 0.6rem;
                     opacity: 40%;
                   }
                 }
               }
             }
-
 
             .uploadArt {
               display: flex;
@@ -284,7 +273,7 @@
               .uploadArtImage {
                 width: 10rem;
                 height: 10rem;
-                background: #D9D9D933;
+                background: #d9d9d933;
                 border-radius: 10px;
                 display: flex;
                 align-items: center;
@@ -298,11 +287,8 @@
                 // outline: 3px solid orange;
               }
             }
-            
           }
         }
-
-
 
         @keyframes dropopen {
           from {
@@ -351,7 +337,6 @@
           // transition: 500ms ease;
           animation: dropclose 500ms ease 1 normal forwards;
 
-
           .subdropmenu {
             // outline: 3px solid orangered;
             height: auto;
@@ -383,7 +368,6 @@
                 }
               }
 
-
               .lendArtButtons {
                 // outline: 3px solid orangered;
                 margin-top: 1rem;
@@ -395,26 +379,29 @@
 
                 button {
                   outline: none;
-                  border: 1px solid #01C5BA;
-                  background: linear-gradient(180deg, rgba(158, 0, 255, 0.65) 0%, rgba(194, 89, 211, 0.65) 100%);
-                  font-size: .7rem;
+                  border: 1px solid #01c5ba;
+                  background: linear-gradient(
+                    180deg,
+                    rgba(158, 0, 255, 0.65) 0%,
+                    rgba(194, 89, 211, 0.65) 100%
+                  );
+                  font-size: 0.7rem;
                   color: #ffffff;
                   font-family: "Poppins";
-                  margin: 0 .5rem;
+                  margin: 0 0.5rem;
                   border-radius: 5px;
                   width: fit-content;
-                  padding: .2rem .5rem;
+                  padding: 0.2rem 0.5rem;
                   transition: all 200ms ease-in-out;
                   cursor: pointer;
 
                   &:hover {
-                    padding: .3rem .6rem;
+                    padding: 0.3rem 0.6rem;
                     opacity: 40%;
                   }
-                } 
+                }
               }
             }
-
 
             .uploadArt {
               display: flex;
@@ -426,7 +413,7 @@
               .uploadArtImage {
                 width: 10rem;
                 height: 10rem;
-                background: #D9D9D933;
+                background: #d9d9d933;
                 border-radius: 10px;
                 display: flex;
                 align-items: center;
@@ -440,7 +427,6 @@
                 // outline: 3px solid orange;
               }
             }
-            
           }
         }
 
@@ -464,10 +450,6 @@
       }
     }
   }
-
-
-  
-  
 }
 
 .modalContainer {
@@ -485,7 +467,7 @@
     justify-content: flex-end;
 
     .closeIcon {
-      background-color: darken($color: #523E93, $amount: 10%);
+      background-color: darken($color: #523e93, $amount: 10%);
       width: 3rem;
       height: 3rem;
       border-radius: 50%;
@@ -497,14 +479,13 @@
       transition: background-color 100ms ease-in-out;
       // opacity: 80%;
       &:hover {
-        background-color: darken($color: #523E93, $amount: 15%);
+        background-color: darken($color: #523e93, $amount: 15%);
         width: 3rem;
         height: 3rem;
         // font-size: 1.3rem;
       }
-    } 
+    }
   }
-
 
   .modalContent {
     // outline: 3px solid red;
@@ -514,16 +495,12 @@
     width: 100%;
 
     h4 {
-      color: #FFFFFF;
+      color: #ffffff;
       font-size: 1.2rem;
       text-align: center;
     }
-
   }
-
-
 }
-
 
 .finalItems {
   // outline: 3px solid crimson;
@@ -532,7 +509,6 @@
   align-items: center;
   justify-content: center;
 }
-
 
 .loadingPart {
   // outline: 3px solid saddlebrown;
@@ -543,7 +519,6 @@
   justify-content: center;
   text-align: center;
 
-
   h1 {
     color: #fff;
     font-size: 1rem;
@@ -551,7 +526,6 @@
     text-align: center;
   }
 }
-
 
 @media only screen and (max-width: 992px) {
   .caption {
@@ -567,17 +541,16 @@
 
     p {
       color: #fff;
-      font-size: .85rem !important;
+      font-size: 0.85rem !important;
     }
   }
 
   .changeAvatar {
     // outline: 3px solid red;
-    
-    p {
-      font-size: .85rem !important;
-    }
 
+    p {
+      font-size: 0.85rem !important;
+    }
   }
 
   .avatarPart {
@@ -586,8 +559,6 @@
     width: 6.5rem !important;
     border-radius: 50%;
   }
-
- 
 
   .formUpperImageContainer {
     // outline: 3px solid red;
@@ -599,9 +570,7 @@
     justify-content: center;
 
     .formUpperImageDiv {
-
       text-align: center;
-
 
       .imgUpload {
         width: 6.5rem !important;
@@ -612,13 +581,11 @@
 
       p {
         color: #fff;
-        font-size: .9rem !important;
+        font-size: 0.9rem !important;
         font-weight: 500;
         cursor: pointer;
       }
     }
-
-   
   }
 
   .mainComp {
@@ -627,7 +594,6 @@
     margin-bottom: 10rem !important;
   }
 }
-
 
 @media only screen and (max-width: 768px) {
   .caption {
@@ -641,13 +607,11 @@
 
   .changeAvatar {
     // outline: 3px solid red;
-    
+
     p {
-      font-size: .8rem !important;
+      font-size: 0.8rem !important;
     }
-
   }
-
 
   .waitingPart {
     height: 5.5rem !important;
@@ -655,7 +619,7 @@
 
     p {
       color: #fff;
-      font-size: .75rem !important;
+      font-size: 0.75rem !important;
     }
   }
 
@@ -665,8 +629,6 @@
     width: 5.5rem !important;
     border-radius: 50%;
   }
-
- 
 
   .formUpperImageContainer {
     // outline: 3px solid red;
@@ -678,9 +640,7 @@
     justify-content: center;
 
     .formUpperImageDiv {
-
       text-align: center;
-
 
       .imgUpload {
         width: 5.5rem !important;
@@ -691,20 +651,17 @@
 
       p {
         color: #fff;
-        font-size: .85rem !important;
+        font-size: 0.85rem !important;
         font-weight: 500;
         cursor: pointer;
       }
     }
-
-   
   }
 
   .mainComp {
     width: 90% !important;
   }
 }
-
 
 @media only screen and (max-width: 600px) {
   .caption {
@@ -715,17 +672,13 @@
     }
   }
 
-
   .changeAvatar {
     // outline: 3px solid red;
-    
+
     p {
-      font-size: .7rem !important;
+      font-size: 0.7rem !important;
     }
-
   }
-
-
 
   .mainComp {
     width: 90% !important;
@@ -738,7 +691,7 @@
     width: 4.5rem !important;
     p {
       color: #fff;
-      font-size: .7rem !important;
+      font-size: 0.7rem !important;
     }
   }
 
@@ -748,8 +701,6 @@
     width: 4.5rem !important;
     border-radius: 50%;
   }
-
- 
 
   .formUpperImageContainer {
     // outline: 3px solid red;
@@ -761,9 +712,7 @@
     justify-content: center;
 
     .formUpperImageDiv {
-
       text-align: center;
-
 
       .imgUpload {
         width: 4.5rem !important;
@@ -774,31 +723,25 @@
 
       p {
         color: #fff;
-        font-size: .75rem !important;
+        font-size: 0.75rem !important;
         font-weight: 500;
         cursor: pointer;
       }
     }
-
-   
   }
-
-
 
   .submenucover {
     // outline: 3px solid orangered;
     display: grid;
     grid-template-columns: repeat(1, 1fr) !important;
-   gap: 1.5rem;
+    gap: 1.5rem;
     margin: auto !important;
   }
 
   .menuItemTop {
-
     p {
       font-size: 1.25rem !important;
     }
-  
 
     img {
       width: 2rem !important;
@@ -807,7 +750,6 @@
   }
 
   .uploadArtImage {
-
     width: 7.5rem !important;
     height: 7.5rem !important;
 
@@ -818,19 +760,16 @@
   }
 
   .uploadArt {
-
     small {
-      font-size: .85rem !important;
+      font-size: 0.85rem !important;
     }
   }
-  
 
   .modalContent {
     // outline: 3px solid red;
     h4 {
       font-size: 1rem !important;
     }
-
   }
 
   .loadingPart {
@@ -841,11 +780,10 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-  
-  
+
     h1 {
       color: #fff;
-      font-size: .9rem !important;
+      font-size: 0.9rem !important;
       font-weight: normal;
       text-align: center;
     }

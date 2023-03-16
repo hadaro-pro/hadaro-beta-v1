@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, message, Select } from "antd";
-import axios from 'axios';
+import axios from "axios";
 import {
   useAccount,
   useSigner,
@@ -9,9 +9,9 @@ import {
   useConnect,
   erc721ABI,
   useNetwork,
-  useSwitchNetwork
+  useSwitchNetwork,
 } from "wagmi";
-import { Contract } from 'ethers'
+import { Contract } from "ethers";
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { Wallet } from "@ethersproject/wallet";
 import {
@@ -21,9 +21,9 @@ import {
   SYLVESTER_ADDRESS,
   getRenftContract,
   SylvesterV0FunctionInterface,
-  DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0
+  DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
 } from "@renft/sdk";
-import { HADARO_GOERLI_ADDRESS,  HADARO_GOERLI_ABI} from "../../constants/abis";
+import { HADARO_GOERLI_ADDRESS, HADARO_GOERLI_ABI } from "../../constants/abis";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import { SylvieABI } from "../../utils/abis";
 import styles from "./portfolliolendoutro.module.scss";
@@ -39,7 +39,8 @@ const PortfolioLendOutroModal = ({
   loadingTxn,
   showLendModal,
   getWalletNft,
-  getLendNfts
+  getLendNfts,
+  setApprovalLoad,
 }) => {
   const parseStandards = (value) => {
     if (value === "ERC721") {
@@ -54,28 +55,28 @@ const PortfolioLendOutroModal = ({
 
   const { data: signer } = useSigner();
 
-  const { address  } = useAccount()
+  const { address } = useAccount();
 
-  const { chain: mainChain, chains } = useNetwork()
-
- 
+  const { chain: mainChain, chains } = useNetwork();
 
   // const collateralFreeContract = new Sylvester(signer);
 
-  const { data, error, isLoading, signMessage } =           
-useSignMessage({
+  const { data, error, isLoading, signMessage } = useSignMessage({
     onSuccess(data, variables) {
-       processLend()
+      processLend();
     },
-  })
+  });
 
   // const collateralFreeContract =  getRenftContract({
   //   deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
   //   signer,
   // });
 
-  const hadaroGoerliTestContract = new Contract(HADARO_GOERLI_ADDRESS, HADARO_GOERLI_ABI, signer);
-  
+  const hadaroGoerliTestContract = new Contract(
+    HADARO_GOERLI_ADDRESS,
+    HADARO_GOERLI_ABI,
+    signer
+  );
 
   // const provider = new JsonRpcProvider('https://mainnet.infura.io/v3/6fe73d73563b4e56aef1516412dfe130');
   // const privKey = '6d62eb36590393197c6bc45f7471fbc7f66ae9363f33c1c03144957df95a75d4';
@@ -89,11 +90,7 @@ useSignMessage({
       // removeLent(currentLendIndex);
     }, 5000);
 
- 
-
   const provider = useProvider();
-
- 
 
   const nftAddress = finalLendObject.nftAddress;
   const tokenID = finalLendObject.tokenID;
@@ -105,10 +102,9 @@ useSignMessage({
   const chain = finalLendObject.chain;
   const collectionName = finalLendObject.collectionName;
   const collectionSymbol = finalLendObject.collectionSymbol;
-  const metadataImage = finalLendObject.nftImage
-  const metadataDesc = finalLendObject.nftDesc
-  const metadataName = finalLendObject.nftName
-
+  const metadataImage = finalLendObject.nftImage;
+  const metadataDesc = finalLendObject.nftDesc;
+  const metadataName = finalLendObject.nftName;
 
   const finlObject = {
     nftAddress,
@@ -118,15 +114,12 @@ useSignMessage({
     maxRentDuration,
     paymentToken,
     nftStandard,
-    chain
+    chain,
   };
 
   // console.log('hjkol', finlObject);
 
-
-
   // console.log('parsed price', dailyRentPrice)
-
 
   // const ERC721Contract = useContract({
   //   addressOrName: nftAddress,
@@ -134,8 +127,8 @@ useSignMessage({
   //   signerOrProvider: provider,
   // });
 
-
   async function requestApproval() {
+    setApprovalLoad(true);
     // Get signer's address
     const address = await signer.getAddress();
 
@@ -151,7 +144,7 @@ useSignMessage({
     // getApproved(uint256 tokenId)
     // approve(address to, uint256 tokenId)
     // Check if user already gave approval to the marketplace
-    const isApproved = await ERC721Contract.getApproved(Number(tokenID))
+    const isApproved = await ERC721Contract.getApproved(Number(tokenID));
 
     // If not approved
     if (isApproved.toLowerCase() !== HADARO_GOERLI_ADDRESS.toLowerCase()) {
@@ -163,16 +156,21 @@ useSignMessage({
         Number(tokenID)
       );
       await approvalTxn.wait();
+      setApprovalLoad(false);
     }
+    setApprovalLoad(false);
   }
 
   const createId = (value) => {
-    const result = value.replace(/([^\w ]|_)/g, '').split(" ").join("-").toLowerCase()
-    return result
-  }
+    const result = value
+      .replace(/([^\w ]|_)/g, "")
+      .split(" ")
+      .join("-")
+      .toLowerCase();
+    return result;
+  };
 
-
-  const sylvesterLend = async(transactionType, chain, status) => {
+  const sylvesterLend = async (transactionType, chain, status) => {
     const txn = await hadaroGoerliTestContract.lend(
       [nftStandard],
       [nftAddress],
@@ -184,132 +182,128 @@ useSignMessage({
       [false]
     );
 
-   const receipt = await txn.wait()
+    const receipt = await txn.wait();
 
-  //  console.log(receipt);
+    //  console.log(receipt);
 
-  //  console.log('hash', receipt.transactionHash) 
-  //  console.log('blockNumber', receipt.blockNumber)
-  //  console.log('confirmations', receipt.confirmations)
+    //  console.log('hash', receipt.transactionHash)
+    //  console.log('blockNumber', receipt.blockNumber)
+    //  console.log('confirmations', receipt.confirmations)
 
+    if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+      const document = {
+        // for live
+        // _type: "nftData",
+        // for test
+        _type: "testNftData",
+        nftAddress,
+        tokenID,
+        chain,
+        lenderAddress: address,
+        price: dailyRentPrice,
+        paymentToken: String(paymentToken),
+        maxDuration: maxRentDuration,
+        transactionType,
+        status,
+        metadataName,
+        metadataDesc,
+        metadataImage,
+        nftStandard: String(nftStandard),
+        transactionHash: receipt.transactionHash,
+      };
 
-  if (receipt.blockNumber !== null && receipt.confirmations > 0) {
-   const document = {
-    // for live
-    // _type: "nftData",
-    // for test
-    _type: "testNftData",
-    nftAddress,
-    tokenID,
-    chain,
-    lenderAddress: address,
-    price: dailyRentPrice,
-    paymentToken: String(paymentToken),
-    maxDuration: maxRentDuration,
-    transactionType,
-    status,
-    metadataName,
-    metadataDesc,
-    metadataImage,
-    nftStandard: String(nftStandard),
-    transactionHash: receipt.transactionHash
-  };
+      await axios.post(`/api/postNftData`, document);
+      // const nftAddres = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
 
-   await axios.post(`/api/postNftData`, document);
-    // const nftAddres = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
+      // console.log('docusave', resty.data)
 
-    // console.log('docusave', resty.data)
-
-    // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
-    const collectionAddr = nftAddress
-    //  const collectionAddr = nftAddres
-    const getCollection = await axios.post(`/api/fetchItemCollection`, {
-      collectionAddr,
-    });
+      // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
+      const collectionAddr = nftAddress;
+      //  const collectionAddr = nftAddres
+      const getCollection = await axios.post(`/api/fetchItemCollection`, {
+        collectionAddr,
+      });
 
       // console.log('original col: ', getCollection.data)
 
-    const filterDrafts = getCollection.data.filter((item) => !item._id?.includes("drafts"))
-    // console.log('filter col: ', filterDrafts)
+      const filterDrafts = getCollection.data.filter(
+        (item) => !item._id?.includes("drafts")
+      );
+      // console.log('filter col: ', filterDrafts)
 
-    const itemId = filterDrafts[0]?._id
+      const itemId = filterDrafts[0]?._id;
 
-    const itemCount = filterDrafts[0]?.itemCount
-    // console.log('results: ', itemCount)
+      const itemCount = filterDrafts[0]?.itemCount;
+      // console.log('results: ', itemCount)
 
-    let finalValue
+      let finalValue;
 
-    if(itemCount === null) {
-      finalValue = 0
-    } else {
-      finalValue = Number(itemCount)
+      if (itemCount === null) {
+        finalValue = 0;
+      } else {
+        finalValue = Number(itemCount);
+      }
+
+      const valueToSend = String(finalValue + 1);
+      // console.log('final: ', valueToSend)
+
+      const count = valueToSend;
+
+      await axios.post(`/api/updateCollectionItemCount`, {
+        itemId,
+        count,
+      });
+
+      // console.log('res: ', patchItem.data)
     }
 
-   const valueToSend = String(finalValue + 1)
-    // console.log('final: ', valueToSend)
-  
-    const count = valueToSend
+    // const document = {
+    //   _type: "nftData",
+    //   nftAddress,
+    //   tokenID,
+    //   chain,
+    //   lenderAddress: address,
+    //   price: dailyRentPrice,
+    //   paymentToken: String(paymentToken),
+    //   maxDuration: maxRentDuration,
+    //   transactionType,
+    //   status,
+    //   metadataName,
+    //   metadataDesc,
+    //   metadataImage,
+    //   nftStandard: String(nftStandard)
+    // };
 
-    await axios.post(`/api/updateCollectionItemCount`, {
-      itemId,
-      count
-    });
+    // const collection = {
+    //   _type: "collectionsData",
+    //   _id: createId(collectionName),
+    //   collectionName: collectionName,
+    //   collectionSymbol: collectionSymbol,
+    //   chain,
+    //   collectionAddress: nftAddress,
+    // };
 
-    // console.log('res: ', patchItem.data)
+    await axios.post(`/api/postNftData`, document);
 
-  }
+    // console.log(response.data);
 
-  // const document = {
-  //   _type: "nftData",
-  //   nftAddress,
-  //   tokenID,
-  //   chain,
-  //   lenderAddress: address,
-  //   price: dailyRentPrice,
-  //   paymentToken: String(paymentToken),
-  //   maxDuration: maxRentDuration,
-  //   transactionType,
-  //   status,
-  //   metadataName,
-  //   metadataDesc,
-  //   metadataImage,
-  //   nftStandard: String(nftStandard)
-  // };
+    //   if(response.data.msg === 'success') {
 
-  // const collection = {
-  //   _type: "collectionsData",
-  //   _id: createId(collectionName),
-  //   collectionName: collectionName,
-  //   collectionSymbol: collectionSymbol,
-  //   chain,
-  //   collectionAddress: nftAddress,
-  // }; 
+    //     const res = await axios.post(`/api/postCollectionsData`, collection);
+    //     console.log('for collectionCreation', res.data);
 
-  await axios.post(`/api/postNftData`, document);
+    //     if(res.data.msg === 'success') {
+    //        console.log('collection created successfully')
+    //   }
 
-  // console.log(response.data);
-
-//   if(response.data.msg === 'success') {
-   
-
-//     const res = await axios.post(`/api/postCollectionsData`, collection);
-//     console.log('for collectionCreation', res.data);
-
-
-//     if(res.data.msg === 'success') {
-//        console.log('collection created successfully')
-//   }
-
-//   if(res.data.response.body.error.items[0].error.description === `Document by ID "${createId(collectionName)}" already exists`){
-//     console.log('collection successful')
-//   }
-//  }
-}
+    //   if(res.data.response.body.error.items[0].error.description === `Document by ID "${createId(collectionName)}" already exists`){
+    //     console.log('collection successful')
+    //   }
+    //  }
+  };
 
   const processLend = async () => {
     try {
-
-
       // const nftAddress = finalLendObject.nftAddress;
       // const tokenID = finalLendObject.tokenID;
       // const lendAmount = finalLendObject.amount;
@@ -318,11 +312,9 @@ useSignMessage({
       // const paymentToken = finalLendObject.paymentToken;
       // const nftStandard = parseStandards(finalLendObject.nftStandard);
 
-
-
       const transactionType = "lending";
 
-      const status = "available"
+      const status = "available";
 
       const finalObject = {
         nftAddress,
@@ -332,7 +324,7 @@ useSignMessage({
         maxRentDuration,
         paymentToken,
         nftStandard,
-        chain
+        chain,
       };
 
       // console.log(finalObject);
@@ -349,45 +341,42 @@ useSignMessage({
 
       // console.log(data?.hash);
 
-
-
-      if(nftStandard === 0) {
-         await  requestApproval()
-         await sylvesterLend(transactionType, chain, status)
-      } 
-
-      if(nftStandard === 1) {
-       await sylvesterLend(transactionType, chain, status)
+      if (nftStandard === 0) {
+        await requestApproval();
+        await sylvesterLend(transactionType, chain, status);
       }
 
+      if (nftStandard === 1) {
+        await sylvesterLend(transactionType, chain, status);
+      }
 
-       
       // unfakeTxn()
 
       setLoadingTxn(false);
 
       cancelLendModal();
 
-      message.success('Lending successful!')
+      message.success("Lending successful!");
 
-      getWalletNft()
+      await getWalletNft();
 
-      getLendNfts()
-      
+      await getLendNfts();
+
       // removeLent(currentLendIndex);
     } catch (e) {
       // console.warn(e.message)
-      if (e.message[0] === 'u') {
-        message.error(e.message.slice(0, 25), [3])
-      } else if (e === 'You do not own this NFT') {
-        message.error('already lent')
-      } else if(e.error?.message === "execution reverted: Hadaro::rent price is zero") {
-        message.error('daily rental price entered too low', [3])
-      } else if(e.message === "supplied price exceeds 9999.9999") {
-        message.error('daily rent price supplied too high', [3])
-      }
-      else {
-        message.error('Something went wrong...', [5])
+      if (e.message[0] === "u") {
+        message.error(e.message.slice(0, 25), [3]);
+      } else if (e === "You do not own this NFT") {
+        message.error("already lent");
+      } else if (
+        e.error?.message === "execution reverted: Hadaro::rent price is zero"
+      ) {
+        message.error("daily rental price entered too low", [3]);
+      } else if (e.message === "supplied price exceeds 9999.9999") {
+        message.error("daily rent price supplied too high", [3]);
+      } else {
+        message.error("Something went wrong...", [5]);
       }
       // console.warn(e)
       // console.warn((prepareError || error)?.message);
@@ -404,15 +393,16 @@ useSignMessage({
     >
       <h3>Are you sure?</h3>
       <div className={styles.modalButtons}>
-        <button 
-        //  disabled={!write || isLoading} onClick={() => write()}
-        onClick={() => {
-          const message = JSON.stringify(finlObject)
-          signMessage({message})
-          //  processLend()
-        }
-           }
-        >Yes</button>
+        <button
+          //  disabled={!write || isLoading} onClick={() => write()}
+          onClick={() => {
+            const message = JSON.stringify(finlObject);
+            // signMessage({message})
+            processLend();
+          }}
+        >
+          Yes
+        </button>
         <button onClick={() => cancleOutro()}>No</button>
       </div>
     </Modal>

@@ -1,7 +1,7 @@
-import React from 'react'
-import MarketDiscover from '../components/MarketDiscover/marketDiscover'
-import Navbar from '../components/Navbar/Navbar'
-import Footer from '../components/Footer/footer'
+import React from "react";
+import MarketDiscover from "../components/MarketDiscover/marketDiscover";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/footer";
 
 const MarketplaceDiscover = () => {
   return (
@@ -10,7 +10,7 @@ const MarketplaceDiscover = () => {
       <MarketDiscover />
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default MarketplaceDiscover
+export default MarketplaceDiscover;

@@ -20,7 +20,7 @@ const artportfolioComp = () => {
             </p>
             <div className={styles.chainInfo}>
               <h4> Blockchain </h4>
-              <small> ETH  </small>
+              <small> ETH </small>
             </div>
             <div className={styles.lendPrice}>
               <h4> Lending Price </h4>
@@ -28,8 +28,8 @@ const artportfolioComp = () => {
             </div>
           </div>
           <div className={styles.mainContentImg}>
-            <div  className={styles.ImgCover}>
-            <img src="/images/ART07.png" alt="nft" />
+            <div className={styles.ImgCover}>
+              <img src="/images/ART07.png" alt="nft" />
             </div>
           </div>
         </div>

@@ -14,6 +14,11 @@ export default {
       type: 'string',
     },
     {
+      name: 'renterAddress',
+      title: 'Renter Address',
+      type:  'string',
+    },
+    {
       name: 'tokenID',
       title: 'token ID',
       type: 'string',
@@ -84,8 +89,18 @@ export default {
       type: 'number',
     },
     {
+      name: 'isRentClaimed',
+      title: 'Status of Rent Claimed',
+      type: 'string',
+    },
+    {
       name: 'transactionHash',
       title: 'Transaction Hash',
+      type: 'string',
+    },
+    {
+      name: 'rentTransactionHash',
+      title: 'Rent Transaction Hash',
       type: 'string',
     },
   ]

@@ -10,19 +10,45 @@ const Footer = () => {
           <img src="/Hadaro-BETA-logo.png" alt="hadaro" />
         </div>
         <div className={styles.captionPart}>
-         
           <div className={styles.captionLower}>
-            <p> <Link href="/mission">MISSION</Link> </p>
-            <p> <Link href="/feedback"> CONTACT US</Link></p>
-            <p> <Link href="/feedback"> FEEDBACK</Link></p>
-            <p> <Link href="/marketplace-discover"> EXPLORE</Link></p>
-            <p className={styles.lastPart} > <Link href="/marketplace-featured"> MARKETPLACE</Link></p>
-            </div>
-            <div className={styles.captionLower}>
-            <p> <Link href="/lend-portfolio">LEND</Link> </p>
-            <p> <Link href="/portfolio">PORTFOLIO</Link> </p>
-            <p> <Link href="/faqs">FAQS</Link> </p>
-            <p  className={styles.lastPart}> <Link href="/blog">BLOG</Link> </p>
+            <p>
+              {" "}
+              <Link href="/mission">MISSION</Link>{" "}
+            </p>
+            <p>
+              {" "}
+              <Link href="/feedback"> CONTACT US</Link>
+            </p>
+            <p>
+              {" "}
+              <Link href="/feedback"> FEEDBACK</Link>
+            </p>
+            <p>
+              {" "}
+              <Link href="/marketplace-discover"> EXPLORE</Link>
+            </p>
+            <p className={styles.lastPart}>
+              {" "}
+              <Link href="/marketplace-featured"> MARKETPLACE</Link>
+            </p>
+          </div>
+          <div className={styles.captionLower}>
+            <p>
+              {" "}
+              <Link href="/lend-portfolio">LEND</Link>{" "}
+            </p>
+            <p>
+              {" "}
+              <Link href="/portfolio">PORTFOLIO</Link>{" "}
+            </p>
+            <p>
+              {" "}
+              <Link href="/faqs">FAQS</Link>{" "}
+            </p>
+            <p className={styles.lastPart}>
+              {" "}
+              <Link href="/blog">BLOG</Link>{" "}
+            </p>
           </div>
         </div>
         <div className={styles.subscriptionPart}>

@@ -1,23 +1,19 @@
-import Moralis from 'moralis'
-import { moralisApiKey } from '../../creds'
-
-
-
-
+import Moralis from "moralis";
+import { moralisApiKey } from "../../creds";
 
 export default async function handler(req, res) {
-    await Moralis.start({ apiKey: moralisApiKey })
+  await Moralis.start({ apiKey: moralisApiKey });
 
-    try {
-        const {  walletaddr, chain  } = req.query
+  try {
+    const { walletaddr, chain } = req.query;
 
-        const response = await Moralis.EvmApi.nft.getWalletNFTs({
-          address: walletaddr,
-          chain: chain
-        })
+    const response = await Moralis.EvmApi.nft.getWalletNFTs({
+      address: walletaddr,
+      chain: chain,
+    });
 
-       return res.send(response.data)
-    } catch(err) {
-        res.send(err)
-    }
-} 
+    return res.send(response.data);
+  } catch (err) {
+    res.send(err);
+  }
+}

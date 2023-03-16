@@ -106,19 +106,10 @@
     // height: 100%;
   }
 
- 
-
- 
-
- 
-
- 
   .shortenMainContainer {
     //  opacity: 60% !important;
   }
-
 }
-
 
 .currencyModalCover {
   width: 30% !important;
@@ -153,7 +144,7 @@
   .converterMain {
     width: 100%;
     text-align: center;
- 
+
     h1 {
       color: #fff;
       font-size: 1.2rem;
@@ -178,8 +169,8 @@
           border-radius: 5px;
           font-size: 1rem;
           color: #000;
-          padding: .5rem 1rem;
-          margin-top: .5rem;
+          padding: 0.5rem 1rem;
+          margin-top: 0.5rem;
         }
 
         .toggleToken {
@@ -188,12 +179,12 @@
           margin-top: 1.5rem;
           width: 100%;
           text-align: start;
-          
+
           small {
             color: #fff;
-            font-size: .9rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            margin-bottom: .2rem;
+            margin-bottom: 0.2rem;
           }
 
           button {
@@ -205,7 +196,7 @@
             font-size: 1.05rem;
             color: #fff;
             font-size: bold;
-            padding: .8rem 1rem;
+            padding: 0.8rem 1rem;
             transition: all 200ms ease-in-out;
             cursor: pointer;
 
@@ -217,9 +208,7 @@
       }
     }
   }
-
 }
-
 
 .rentModalCover {
   // outline: 3px solid orangered;
@@ -251,7 +240,6 @@
     }
   }
 
-
   .infoContainer {
     // outline: 3px solid orange;
     height: 100%;
@@ -280,7 +268,6 @@
       justify-content: center;
       flex-direction: column;
 
-
       .infoDescName {
         margin-top: 3rem;
 
@@ -302,7 +289,7 @@
             font-size: 2.1rem;
             color: #fff;
           }
-      
+
           h3 {
             font-size: 1rem;
             color: #fff;
@@ -314,7 +301,7 @@
           // margin-right: 2rem;
           opacity: 80%;
           margin-top: -1rem;
-      
+
           small {
             font-weight: 600;
             margin-right: 0.5rem;
@@ -325,22 +312,22 @@
 
         .miniDesc {
           margin-top: 1.5rem;
-      
+
           p {
             color: #ffff !important;
             font-weight: 500;
-            font-size: .9rem;
+            font-size: 0.9rem;
           }
-      
+
           .miniText {
             opacity: 60%;
           }
-      
+
           .ctaForMore {
             // display: none;
             opacity: none !important;
           }
-      
+
           span {
             opacity: 70%;
             cursor: pointer;
@@ -349,7 +336,6 @@
             margin-left: 0.5rem;
           }
         }
-      
       }
 
       .submitBtn {
@@ -493,15 +479,10 @@
             margin-top: 0.5rem;
           }
         }
-
       }
     }
   }
-
 }
-
-
-
 
 @media only screen and (max-width: 1024px) {
   .infoDesc {
@@ -514,7 +495,6 @@
     justify-content: center;
     flex-direction: column;
   }
-  
 }
 
 @media only screen and (max-width: 992px) {
@@ -551,13 +531,12 @@
     margin-top: 5rem !important;
   }
 
-
   .rentModalCover {
     // outline: 3px solid orangered;
     width: 90% !important;
     .closeMenu {
       // outline: 3px solid white
-  
+
       .closeIcon {
         width: 2.8rem;
         height: 2.8rem;
@@ -571,62 +550,59 @@
         }
       }
     }
-  
-  
+
     .infoContainer {
       // outline: 3px solid orange;
       margin-top: 1rem;
       display: flex;
-  
+
       .infoImage {
         width: 50%;
         // outline: 3px solid yellow;
         display: flex;
       }
-  
+
       .infoDesc {
         width: 50%;
         margin-left: 2%;
         // outline: 3px solid green;
         // height: 100%;
-        
-  
-  
+
         .infoDescName {
           margin-top: 3rem;
-  
+
           h3 {
             font-size: 1rem;
             color: #ffff;
             line-height: 0.5rem;
           }
-  
+
           h2 {
             font-size: 2.1rem;
             color: #ffff;
             // line-height: 2.5rem;
           }
-  
+
           .infoDescMetaNames {
             // background: red;
             h2 {
               font-size: 2.1rem;
               color: #fff;
             }
-        
+
             h3 {
               font-size: 1rem;
               color: #fff;
             }
           }
-  
+
           .miniInfo {
             // outline: 3px solid green;
             display: flex;
             // margin-right: 2rem;
             opacity: 80%;
             margin-top: -1rem;
-        
+
             small {
               font-weight: 600;
               margin-right: 0.5rem;
@@ -634,24 +610,24 @@
               font-size: 0.8rem;
             }
           }
-  
+
           .miniDesc {
             // outline: 3px solid green;
             margin-top: 1.5rem;
 
             p {
-              font-size: .85rem;
+              font-size: 0.85rem;
             }
-        
+
             .miniText {
               opacity: 60%;
             }
-        
+
             .ctaForMore {
               // display: none;
               opacity: none !important;
             }
-        
+
             span {
               opacity: 70%;
               cursor: pointer;
@@ -660,12 +636,11 @@
               margin-left: 0.5rem;
             }
           }
-        
         }
-  
+
         .submitBtn {
           // outline: 3px solid purple;
-  
+
           button {
             font-size: 1.05rem;
             font-weight: 500;
@@ -674,16 +649,16 @@
             cursor: pointer;
           }
         }
-  
+
         .infoDescLender {
           // margin-top: -3rem;
           display: flex;
           // outline: 3px solid black;
-  
+
           .gray {
             opacity: 60% !important;
           }
-  
+
           small {
             font-size: 1rem;
             color: #ffff;
@@ -691,41 +666,41 @@
             // font-weight: 600;
           }
         }
-  
+
         .formFillPart {
           margin-top: 2rem;
           h3 {
             color: #ffff;
           }
-  
+
           span {
             margin-left: 0.5rem;
             border: 2px solid #ffff;
             padding: 0.5rem;
             border-radius: 5px;
           }
-  
+
           .finalAmountPart {
             display: flex;
             flex-direction: column;
-  
+
             p {
               // line-height: 1.5rem;
               color: #ffff;
               font-weight: 600;
               font-size: 1.2rem;
             }
-  
+
             .finalAmountContainer {
               margin-top: -1.3rem;
               padding: 0.4rem;
               width: fit-content;
-  
+
               h1 {
                 margin: 0 auto !important;
                 font-size: 1.3rem;
               }
-  
+
               h2 {
                 // color: #000000;
                 margin: 0 auto;
@@ -735,7 +710,7 @@
               }
             }
           }
-  
+
           .dailyPricePart {
             // outline: 3px solid salmon;
             display: flex;
@@ -744,102 +719,97 @@
             justify-content: center;
             margin-top: 1rem;
             padding-right: 1rem;
-  
+
             h1 {
               line-height: 1rem;
               font-size: 1.5rem;
             }
-  
+
             h3 {
               font-size: 1rem;
             }
           }
-  
+
           .formFillPartInput {
             margin-top: 2rem;
-  
+
             input {
               padding: 0.4rem 1rem 0.4rem 0.4rem;
-              font-size: .9rem;
+              font-size: 0.9rem;
             }
-  
+
             .formErorPart {
               font-weight: 500;
               color: red;
               margin-top: 0.5rem;
             }
           }
-  
         }
       }
     }
   }
-
 
   .currencyModalCover {
-  width: 50% !important;
+    width: 50% !important;
 
-  .closeMenu {
-    // outline: 3px solid white
+    .closeMenu {
+      // outline: 3px solid white
 
-    .closeIcon {
-      background-color: darken($color: #523e93, $amount: 10%);
-      width: 2.8rem;
-      height: 2.8rem;
-      font-size: 1.1rem;
-      // opacity: 80%;
-      &:hover {
-        background-color: darken($color: #523e93, $amount: 15%);
+      .closeIcon {
+        background-color: darken($color: #523e93, $amount: 10%);
         width: 2.8rem;
         height: 2.8rem;
-        // font-size: 1.3rem;
+        font-size: 1.1rem;
+        // opacity: 80%;
+        &:hover {
+          background-color: darken($color: #523e93, $amount: 15%);
+          width: 2.8rem;
+          height: 2.8rem;
+          // font-size: 1.3rem;
+        }
       }
     }
-  }
 
-  .converterMain {
-    width: 100%;
-    h1 {
-      font-size: 1.1rem;
-    }
-
-    .converterMainLower {
-      h3 {
-        font-size: .9rem;
+    .converterMain {
+      width: 100%;
+      h1 {
+        font-size: 1.1rem;
       }
 
-      .converterFormPart {
-        width: 100%;
-
-        input {
-          font-size: .95rem;
-          padding: .5rem 1rem;
-          margin-top: .5rem;
+      .converterMainLower {
+        h3 {
+          font-size: 0.9rem;
         }
 
-        .toggleToken {
-          margin-top: 1.5rem;
+        .converterFormPart {
           width: 100%;
-          
-          small {
-            color: #fff;
-            font-size: .85rem;
-            margin-bottom: .2rem;
+
+          input {
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
           }
 
-          button {
-            margin-top: 3rem;
-            font-size: 1rem;
-            padding: .7rem .95rem;
+          .toggleToken {
+            margin-top: 1.5rem;
+            width: 100%;
+
+            small {
+              color: #fff;
+              font-size: 0.85rem;
+              margin-bottom: 0.2rem;
+            }
+
+            button {
+              margin-top: 3rem;
+              font-size: 1rem;
+              padding: 0.7rem 0.95rem;
+            }
           }
         }
       }
     }
   }
-
-}
-  
-
 }
 
 @media only screen and (max-width: 768px) {
@@ -859,13 +829,12 @@
     }
   }
 
-
   .rentModalCover {
     // outline: 3px solid orangered;
     width: 90% !important;
     .closeMenu {
       // outline: 3px solid white
-  
+
       .closeIcon {
         width: 2.6rem;
         height: 2.6rem;
@@ -879,62 +848,59 @@
         }
       }
     }
-  
-  
+
     .infoContainer {
       // outline: 3px solid orange;
       margin-top: 1rem;
       display: flex;
-  
+
       .infoImage {
         width: 50%;
         // outline: 3px solid yellow;
         display: flex;
       }
-  
+
       .infoDesc {
         width: 50%;
         margin-left: 2%;
         // outline: 3px solid green;
         // height: 100%;
-        
-  
-  
+
         .infoDescName {
           margin-top: 2rem;
-  
+
           h3 {
             font-size: 1rem;
             color: #ffff;
             line-height: 0.5rem;
           }
-  
+
           h2 {
             font-size: 2.1rem;
             color: #ffff;
             // line-height: 2.5rem;
           }
-  
+
           .infoDescMetaNames {
             // background: red;
             h2 {
               font-size: 2.1rem;
               color: #fff;
             }
-        
+
             h3 {
               font-size: 1rem;
               color: #fff;
             }
           }
-  
+
           .miniInfo {
             // outline: 3px solid green;
             display: flex;
             // margin-right: 2rem;
             opacity: 80%;
             margin-top: -1rem;
-        
+
             small {
               font-weight: 600;
               margin-right: 0.5rem;
@@ -942,24 +908,24 @@
               font-size: 0.8rem;
             }
           }
-  
+
           .miniDesc {
             // outline: 3px solid green;
             margin-top: 1.5rem;
 
             p {
-              font-size: .8rem;
+              font-size: 0.8rem;
             }
-        
+
             .miniText {
               opacity: 60%;
             }
-        
+
             .ctaForMore {
               // display: none;
               opacity: none !important;
             }
-        
+
             span {
               opacity: 70%;
               cursor: pointer;
@@ -968,70 +934,69 @@
               margin-left: 0.5rem;
             }
           }
-        
         }
-  
+
         .submitBtn {
           // outline: 3px solid purple;
-  
+
           button {
             font-size: 1rem;
             padding: 1rem 2rem;
             width: 80%;
           }
         }
-  
+
         .infoDescLender {
           // margin-top: -3rem;
           display: flex;
           // outline: 3px solid black;
-  
+
           .gray {
             opacity: 60% !important;
           }
-  
+
           small {
-            font-size: .85rem;
+            font-size: 0.85rem;
             color: #ffff;
             margin-right: 0.4rem;
             // font-weight: 600;
           }
         }
-  
+
         .formFillPart {
           margin-top: 2rem;
           h3 {
             color: #ffff;
           }
-  
+
           span {
             margin-left: 0.5rem;
             border: 2px solid #ffff;
             padding: 0.5rem;
             border-radius: 5px;
           }
-  
+
           .finalAmountPart {
             display: flex;
             flex-direction: column;
-  
+
             p {
               // line-height: 1.5rem;
               color: #ffff;
               font-weight: 600;
               font-size: 1.1rem;
             }
-  
+
             .finalAmountContainer {
               margin-top: -1.2rem;
               padding: 0.4rem;
               width: fit-content;
-  
+
               h1 {
                 margin: 0 auto !important;
                 font-size: 1.15rem;
               }
-  
+
               h2 {
                 // color: #000000;
                 margin: 0 auto;
@@ -1041,7 +1006,7 @@
               }
             }
           }
-  
+
           .dailyPricePart {
             // outline: 3px solid salmon;
             display: flex;
@@ -1050,32 +1015,31 @@
             justify-content: center;
             margin-top: 1rem;
             padding-right: 1rem;
-  
+
             h1 {
               line-height: 1rem;
               font-size: 1.3rem;
             }
-  
+
             h3 {
-              font-size: .9rem;
+              font-size: 0.9rem;
             }
           }
-  
+
           .formFillPartInput {
             margin-top: 2rem;
-  
+
             input {
               padding: 0.4rem 1rem 0.4rem 0.4rem;
-              font-size: .85rem;
+              font-size: 0.85rem;
             }
-  
+
             .formErorPart {
               font-weight: 500;
               color: red;
               margin-top: 0.5rem;
             }
           }
-  
         }
       }
     }
@@ -1083,10 +1047,10 @@
 
   .currencyModalCover {
     width: 60% !important;
-  
+
     .closeMenu {
       // outline: 3px solid white
-  
+
       .closeIcon {
         background-color: darken($color: #523e93, $amount: 10%);
         width: 2.5rem;
@@ -1101,50 +1065,47 @@
         }
       }
     }
-  
+
     .converterMain {
       width: 100%;
       h1 {
         font-size: 1rem;
       }
-  
+
       .converterMainLower {
         h3 {
-          font-size: .85rem;
+          font-size: 0.85rem;
         }
-  
+
         .converterFormPart {
           width: 100%;
-  
+
           input {
-            font-size: .9rem;
-            padding: .5rem 1rem;
-            margin-top: .5rem;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
           }
-  
+
           .toggleToken {
             margin-top: 1.5rem;
             width: 100%;
-            
+
             small {
               color: #fff;
-              font-size: .8rem;
-              margin-bottom: .2rem;
+              font-size: 0.8rem;
+              margin-bottom: 0.2rem;
             }
-  
+
             button {
               margin-top: 3rem;
-              font-size: .9rem;
-              padding: .7rem .95rem;
+              font-size: 0.9rem;
+              padding: 0.7rem 0.95rem;
             }
           }
         }
       }
     }
-  
   }
-
-
 
   .mainContainer {
     .caption {
@@ -1178,8 +1139,6 @@
     // gap: 1.5rem !important;
     grid-template-columns: repeat(3, 1fr) !important;
   }
-
-  
 }
 
 @media only screen and (max-width: 600px) {
@@ -1219,8 +1178,6 @@
     }
   }
 
-
-
   .mainPart {
     width: 90% !important;
     h2 {
@@ -1238,7 +1195,7 @@
     width: 95% !important;
     .closeMenu {
       // outline: 3px solid white
-  
+
       .closeIcon {
         width: 2.5rem;
         height: 2.5rem;
@@ -1252,64 +1209,61 @@
         }
       }
     }
-  
-  
+
     .infoContainer {
       // outline: 3px solid orange;
       margin-top: 1rem;
       display: flex;
       flex-direction: column;
-  
+
       .infoImage {
         width: 100%;
         // outline: 3px solid yellow;
         display: flex;
       }
-  
+
       .infoDesc {
         width: 100%;
         margin-left: 0;
         // outline: 3px solid green;
         margin-top: 1rem;
         // height: 100%;
-        
-  
-  
+
         .infoDescName {
           margin-top: 2rem;
-  
+
           h3 {
             font-size: 1rem;
             color: #ffff;
             line-height: 0.5rem;
           }
-  
+
           h2 {
             font-size: 2.1rem;
             color: #ffff;
             // line-height: 2.5rem;
           }
-  
+
           .infoDescMetaNames {
             // background: red;
             h2 {
               font-size: 2.1rem;
               color: #fff;
             }
-        
+
             h3 {
               font-size: 1rem;
               color: #fff;
             }
           }
-  
+
           .miniInfo {
             // outline: 3px solid green;
             display: flex;
             // margin-right: 2rem;
             opacity: 80%;
             margin-top: -1rem;
-        
+
             small {
               font-weight: 600;
               margin-right: 0.5rem;
@@ -1317,24 +1271,24 @@
               font-size: 0.75rem;
             }
           }
-  
+
           .miniDesc {
             // outline: 3px solid green;
             margin-top: 1.5rem;
 
             p {
-              font-size: .75rem;
+              font-size: 0.75rem;
             }
-        
+
             .miniText {
               opacity: 60%;
             }
-        
+
             .ctaForMore {
               // display: none;
               opacity: none !important;
             }
-        
+
             span {
               opacity: 70%;
               cursor: pointer;
@@ -1343,70 +1297,69 @@
               margin-left: 0.5rem;
             }
           }
-        
         }
-  
+
         .submitBtn {
           // outline: 3px solid purple;
-  
+
           button {
-            font-size: .9rem;
+            font-size: 0.9rem;
             padding: 1rem 2rem;
             width: 80%;
           }
         }
-  
+
         .infoDescLender {
           // margin-top: -3rem;
           display: flex;
           // outline: 3px solid black;
-  
+
           .gray {
             opacity: 60% !important;
           }
-  
+
           small {
-            font-size: .8rem;
+            font-size: 0.8rem;
             color: #ffff;
             margin-right: 0.4rem;
             // font-weight: 600;
           }
         }
-  
+
         .formFillPart {
           margin-top: 2rem;
           h3 {
             color: #ffff;
           }
-  
+
           span {
             margin-left: 0.5rem;
             border: 2px solid #ffff;
             padding: 0.5rem;
             border-radius: 5px;
           }
-  
+
           .finalAmountPart {
             display: flex;
             flex-direction: column;
-  
+
             p {
               // line-height: 1.5rem;
               color: #ffff;
               font-weight: 600;
               font-size: 1rem;
             }
-  
+
             .finalAmountContainer {
               margin-top: -1.2rem;
               padding: 0.4rem;
               width: fit-content;
-  
+
               h1 {
                 margin: 0 auto !important;
                 font-size: 1.05rem;
               }
-  
+
               h2 {
                 // color: #000000;
                 margin: 0 auto;
@@ -1416,7 +1369,7 @@
               }
             }
           }
-  
+
           .dailyPricePart {
             // outline: 3px solid salmon;
             display: flex;
@@ -1425,32 +1378,31 @@
             justify-content: center;
             margin-top: 1rem;
             padding-right: 1rem;
-  
+
             h1 {
               line-height: 1rem;
               font-size: 1.15rem;
             }
-  
+
             h3 {
-              font-size: .85rem;
+              font-size: 0.85rem;
             }
           }
-  
+
           .formFillPartInput {
             margin-top: 2rem;
-  
+
             input {
               padding: 0.4rem 1rem 0.4rem 0.4rem;
-              font-size: .8rem;
+              font-size: 0.8rem;
             }
-  
+
             .formErorPart {
               font-weight: 500;
               color: red;
               margin-top: 0.5rem;
             }
           }
-  
         }
       }
     }
@@ -1458,15 +1410,15 @@
 
   .currencyModalCover {
     width: 85% !important;
-  
+
     .closeMenu {
       // outline: 3px solid white
-  
+
       .closeIcon {
         background-color: darken($color: #523e93, $amount: 10%);
         width: 2.3rem;
         height: 2.3rem;
-        font-size: .9rem;
+        font-size: 0.9rem;
         // opacity: 80%;
         &:hover {
           background-color: darken($color: #523e93, $amount: 15%);
@@ -1476,48 +1428,45 @@
         }
       }
     }
-  
+
     .converterMain {
       width: 100%;
       h1 {
-        font-size: .9rem;
+        font-size: 0.9rem;
       }
-  
+
       .converterMainLower {
         h3 {
-          font-size: .8rem;
+          font-size: 0.8rem;
         }
-  
+
         .converterFormPart {
           width: 100%;
-  
+
           input {
-            font-size: .85rem;
-            padding: .5rem 1rem;
-            margin-top: .5rem;
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
           }
-  
+
           .toggleToken {
             margin-top: 1.5rem;
             width: 100%;
-            
+
             small {
               color: #fff;
-              font-size: .75rem;
-              margin-bottom: .2rem;
+              font-size: 0.75rem;
+              margin-bottom: 0.2rem;
             }
-  
+
             button {
               margin-top: 3rem;
-              font-size: .85rem;
-              padding: .7rem .95rem;
+              font-size: 0.85rem;
+              padding: 0.7rem 0.95rem;
             }
           }
         }
       }
     }
-  
   }
-
-
 }

@@ -1,7 +1,12 @@
-import React, {useState} from 'react'
-import Link from 'next/link'
-import {Dropdown} from 'antd'
-import {DownOutlined, CaretDownOutlined, MenuOutlined, CloseOutlined}  from "@ant-design/icons"
+import React, { useState } from "react";
+import Link from "next/link";
+import { Dropdown } from "antd";
+import {
+  DownOutlined,
+  CaretDownOutlined,
+  MenuOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 import {
   useAccount,
   useConnect,
@@ -10,21 +15,18 @@ import {
   useEnsName,
 } from "wagmi";
 
-import MissionComp from '../components/Mission/MissionComp'
-import Navbar from '../components/Navbar/Navbar'
-import Footer from '../components/Footer/footer'
-import styles from '../styles/mission.module.scss'
-
-
+import MissionComp from "../components/Mission/MissionComp";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/footer";
+import styles from "../styles/mission.module.scss";
 
 const Mission = () => {
-
-  const { address, connector, isConnected } = useAccount()
+  const { address, connector, isConnected } = useAccount();
   // const { data: ensAvatar } = useEnsAvatar({ address })
-  const { data: ensName } = useEnsName({ address })
+  const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error, isLoading, pendingConnector } =
-    useConnect()
-  const { disconnect } = useDisconnect()
+    useConnect();
+  const { disconnect } = useDisconnect();
 
   const [openLendMenu, setOpenLendMenu] = useState(false);
   const [openMenuBar, setOpenMenuBar] = useState(null);
@@ -43,16 +45,14 @@ const Mission = () => {
 
   return (
     <div>
-      <Navbar /* setMenubar={setOpenMenuBar} */  />
+      <Navbar /* setMenubar={setOpenMenuBar} */ />
       <MissionComp />
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default Mission
-
-
+export default Mission;
 
 // { openMenuBar === true && <div className={styles.menuBarContent}>
 // <div className={styles.logoMenuBarItems}>
@@ -83,7 +83,7 @@ export default Mission
 //           {" "}
 //           <Link href="/marketplace-discover"> Explore </Link>
 //         </p>
-//         <div 
+//         <div
 //          onMouseEnter={() => setOpenContactMenu(true)}
 //          onMouseLeave={() => setOpenContactMenu(false)}
 //          onClick={() => setOpenContactMenu((prev) => !prev)}
@@ -121,7 +121,7 @@ export default Mission
 //               <button onClick={showModal}>Wallet Connect</button>
 //               <WalletConnect
 //                 modalOpen={isModalOpen}
-//                 cancelModal={handleCancel} 
+//                 cancelModal={handleCancel}
 //               />
 //             </>
 //           )}
@@ -158,7 +158,7 @@ export default Mission
 //           {" "}
 //           <Link href="/marketplace-discover"> Explore </Link>
 //         </p>
-//         <div 
+//         <div
 //          onMouseEnter={() => setOpenContactMenu(true)}
 //          onMouseLeave={() => setOpenContactMenu(false)}
 //          onClick={() => setOpenContactMenu((prev) => !prev)}
@@ -196,7 +196,7 @@ export default Mission
 //               <button onClick={showModal}>Wallet Connect</button>
 //               <WalletConnect
 //                 modalOpen={isModalOpen}
-//                 cancelModal={handleCancel} 
+//                 cancelModal={handleCancel}
 //               />
 //             </>
 //           )}

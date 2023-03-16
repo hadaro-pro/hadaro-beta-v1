@@ -5,8 +5,18 @@ import { message } from "antd";
 import LendModal from "../LendModal/lendmodal";
 import PortfolioLendOutroModal from "../PortfolioLendOutroModal/portfoliolendOutroModal";
 
-const WalletNfts = ({ collectionName, nftname, nftImg, metadata, allInfo, verifiedCollectionsArr, getWalletNft, getLendNfts }) => {
+const WalletNfts = ({
+  collectionName,
+  nftname,
+  nftImg,
+  metadata,
+  allInfo,
+  verifiedCollectionsArr,
+  getWalletNft,
+  getLendNfts,
+}) => {
   const [loadingLend, setLoadingLend] = useState(false);
+  const [loadingApproval, setLoadingApproval] = useState(false);
   const [isLendModalOpen, setIsLendModalOpen] = useState(false);
   const showOutroModal = () => {
     setIsOutroModalOpen(true);
@@ -30,8 +40,7 @@ const WalletNfts = ({ collectionName, nftname, nftImg, metadata, allInfo, verifi
     nftDesc: "",
   });
 
-  const router = useRouter()
-
+  const router = useRouter();
 
   // console.log(currentLendItem)
 
@@ -68,32 +77,41 @@ const WalletNfts = ({ collectionName, nftname, nftImg, metadata, allInfo, verifi
   };
 
   const performPrepareLend = (item) => {
+    const ifCollectionExists = verifiedCollectionsArr.filter(
+      (i) =>
+        i.collectionAddr.toLowerCase() === allInfo.token_address.toLowerCase()
+    );
 
-    const ifCollectionExists = verifiedCollectionsArr.filter((i) =>  i.collectionAddr.toLowerCase() === allInfo.token_address.toLowerCase())
-
-  // console.log('lki', ifCollectionExists)
+    // console.log('lki', ifCollectionExists)
 
     // const collectionVerificationStatus = ifCollectionExists[0].status
 
- 
-if (ifCollectionExists.length === 0) {
-    message.info('Your NFT belongs to a collection not yet registered on the platform, redirecting you to the collection form page',[5])
-  
-    setTimeout(() =>  router.push('/new-collection'), 5500)
-} else {
-  if(ifCollectionExists[0].status === "verified") {
-    if(ifCollectionExists[0].collectionAddr.includes(allInfo.token_address.toLowerCase())) {
-      showLendModal();
-      pushToNewArray();
-    }
-  } else  if(ifCollectionExists[0].status === "unverified") {
-    message.info('item belongs to an unverified collection')
-  } else  if(ifCollectionExists[0].status === "pending") {
-    message.info('item belongs to a collection still undergoing the verification process')
-  } 
-}
-  }
+    if (ifCollectionExists.length === 0) {
+      message.info(
+        "Your NFT belongs to a collection not yet registered on the platform, redirecting you to the collection form page",
+        [5]
+      );
 
+      setTimeout(() => router.push("/new-collection"), 5500);
+    } else {
+      if (ifCollectionExists[0].status === "verified") {
+        if (
+          ifCollectionExists[0].collectionAddr.includes(
+            allInfo.token_address.toLowerCase()
+          )
+        ) {
+          showLendModal();
+          pushToNewArray();
+        }
+      } else if (ifCollectionExists[0].status === "unverified") {
+        message.info("item belongs to an unverified collection");
+      } else if (ifCollectionExists[0].status === "pending") {
+        message.info(
+          "item belongs to a collection still undergoing the verification process"
+        );
+      }
+    }
+  };
 
   return (
     <div className={styles.mainCover}>
@@ -117,23 +135,23 @@ if (ifCollectionExists.length === 0) {
           {" "}
           {collectionName === null ? "No Collection Name" : collectionName}{" "}
         </p>
-       
-     
+
         {/* <p> {nftImg} </p> */}
       </div>
       <div className={styles.mainLendCover}>
-      <button
+        <button
           className={styles.lendButton}
           onClick={() => {
-            performPrepareLend()
+            performPrepareLend();
             // showLendModal();
             // pushToNewArray();
           }}
         >
-      Lend
+          Lend
         </button>
-            <LendModal
+        <LendModal
           loadingTxn={loadingLend}
+          loadingApproval={loadingApproval}
           modalOpen={isLendModalOpen}
           cancelModal={handleLendModalCancel}
           lendItemObject={currentLendItem}
@@ -150,13 +168,14 @@ if (ifCollectionExists.length === 0) {
             // removeLent={handleRemoveElement}
             // currentLendIndex={lastposition}
             setLoadingTxn={setLoadingLend}
+            setApprovalLoad={setLoadingApproval}
             loadingTxn={loadingLend}
             showLendModal={showLendModal}
             getWalletNft={getWalletNft}
             getLendNfts={getLendNfts}
           />
         )}
-        </div>
+      </div>
     </div>
   );
 };

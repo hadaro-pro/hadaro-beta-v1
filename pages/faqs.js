@@ -1,7 +1,7 @@
-import React from 'react'
-import FaqSection from '../components/FaqSection/FaqSection'
-import Navbar from '../components/Navbar/Navbar'
-import Footer from '../components/Footer/footer'
+import React from "react";
+import FaqSection from "../components/FaqSection/FaqSection";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/footer";
 
 const Faqs = () => {
   return (
@@ -10,7 +10,7 @@ const Faqs = () => {
       <FaqSection />
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default Faqs
+export default Faqs;

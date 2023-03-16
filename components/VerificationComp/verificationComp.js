@@ -9,7 +9,7 @@ import {
   CloseOutlined,
   InfoCircleOutlined,
   BulbOutlined,
-  BulbFilled
+  BulbFilled,
 } from "@ant-design/icons";
 import {
   useAccount,
@@ -36,46 +36,48 @@ const VerificationComp = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPage, setShowPage] = useState(false);
   const [isApproved, setIsApproved] = useState(null);
-  const [currentNote, setCurrentNote] = useState("")
-  const [iden, setIden] = useState("")
-  const [updateNoteLoading, setUpdateNoteLoading] = useState(false)
+  const [currentNote, setCurrentNote] = useState("");
+  const [iden, setIden] = useState("");
+  const [updateNoteLoading, setUpdateNoteLoading] = useState(false);
   const [isNotesModalOpen, setIsNotesModalOpen] = useState(false);
 
   // console.log(currentNote)
-  
+
   const addToCurrentForUnverified = (position) => {
-    const note = unVerifiedCollection[position].notes
-    const identity = unVerifiedCollection[position]._id
+    const note = unVerifiedCollection[position].notes;
+    const identity = unVerifiedCollection[position]._id;
     // console.log(unVerifiedCollection[position])
-    setCurrentNote(note)
-    setIden(identity)
-    showNotesModal()
-  }
+    setCurrentNote(note);
+    setIden(identity);
+    showNotesModal();
+  };
 
   const addToCurrentFoVerified = (position) => {
-    const note = verifiedCollection[position].notes
-    const identity = verifiedCollection[position]._id
+    const note = verifiedCollection[position].notes;
+    const identity = verifiedCollection[position]._id;
     // console.log(verifiedCollection[position])
-    setCurrentNote(note)
-    setIden(identity)
-    showNotesModal()
-  }
+    setCurrentNote(note);
+    setIden(identity);
+    showNotesModal();
+  };
 
   const addToCurrentForPending = (position) => {
-    const note = pendingCollections[position].notes
-    const identity = pendingCollections[position]._id
+    const note = pendingCollections[position].notes;
+    const identity = pendingCollections[position]._id;
     // console.log(pendingCollections[position])
-    setCurrentNote(note)
-    setIden(identity)
-    showNotesModal()
-  }
+    setCurrentNote(note);
+    setIden(identity);
+    showNotesModal();
+  };
 
-
-  const handleUpdateNoteToDB = async() => {
+  const handleUpdateNoteToDB = async () => {
     try {
-      setUpdateNoteLoading(true)
+      setUpdateNoteLoading(true);
 
-      const updateNote =  await axios.post(`/api/updateCollectionNote`, {iden, currentNote});
+      const updateNote = await axios.post(`/api/updateCollectionNote`, {
+        iden,
+        currentNote,
+      });
 
       // console.log('spd_daa', updateNote.data)
       if (updateNote.data.status === "success") {
@@ -83,22 +85,22 @@ const VerificationComp = ({
         getPendingCollectionData();
         getUnverifiedCollection();
         getVerifiedCollection();
-        handleNotesCancel()
+        handleNotesCancel();
       }
 
-      setUpdateNoteLoading(false)
+      setUpdateNoteLoading(false);
     } catch (error) {
       // console.error(error)
-      setUpdateNoteLoading(false)
+      setUpdateNoteLoading(false);
     }
-  }
-  
+  };
+
   const showNotesModal = () => {
     setIsNotesModalOpen(true);
   };
   // const handleOk = () => {
   //   setIsModalOpen(false);
-  // }; 
+  // };
   const handleNotesCancel = () => {
     setIsNotesModalOpen(false);
   };
@@ -307,188 +309,267 @@ const VerificationComp = ({
       )}
       {isApproved === true && (
         <>
-  <div className={styles.infoTipsPart}>
-  <p>Navigation Tips <BulbFilled style={{ color: "yellow" }} /> : Hover on a collection name to see its notes. Click on the &apos;notes&apos; button to add or update a collection note</p>
-  </div>
-        <div className={styles.lowerPart}>
-          <div className={styles.lowerPartItems}>
-            {pendingCollections?.length > 0 && (
-              <h2>Pending Collections List</h2>
-            )}
-            <div className={styles.listCover}>
+          <div className={styles.infoTipsPart}>
+            <p>
+              Navigation Tips <BulbFilled style={{ color: "yellow" }} /> : Hover
+              on a collection name to see its notes. Click on the
+              &apos;notes&apos; button to add or update a collection note
+            </p>
+          </div>
+          <div className={styles.lowerPart}>
+            <div className={styles.lowerPartItems}>
               {pendingCollections?.length > 0 && (
-                <div className={styles.listHead}>
-                  <p>Name</p>
-                  <p>Contract Address</p>
-                  <p>Symbol</p>
-                  <p>Actions</p>
-                </div>
+                <h2>Pending Collections List</h2>
               )}
-              {loadingPendingData ? (
-                <div className={styles.connectToView}>
-                  <h1> </h1>
-                </div>
-              ) : pendingCollections?.length === 0 ? (
-                <div className={styles.connectToView}>
-                  <h1>
-                    {" "}
-                    No pending verification collections at the moment😴...
-                  </h1>
-                </div>
-              ) : (
-                pendingCollections?.map((item, index) => (
-                  <div key={index} className={styles.listBottom}>
-                     <Tooltip title={item.notes === null ? "no notes for this collection yet" : item.notes }  color={'#000'}>
-                     <p> {item.collectionName} </p>
-                     </Tooltip>
-                    <p> {item.collectionAddress} </p>
-                    <p> {item.collectionSymbol} </p>
-                    <div className={styles.actionBtns}>
-                      <button
-                        onClick={() => handleVerify(item._id)}
-                        className={styles.verifyBtn}
-                      >
-                        verify
-                      </button>
-                      <button
-                        onClick={() => handleDecline(item._id)}
-                        className={styles.declineBtn}
-                      >
-                        decline
-                      </button>
-                      <button  className={styles.addNotesBtn}  onClick={() => {addToCurrentForPending(index)}}>
-                        notes
-                      </button>
-                      <Modal className={styles.noteModalCover} footer={null} open={isNotesModalOpen} onCancel={handleNotesCancel}>
-                      <div className={styles.closeMenu}>
-        <CloseOutlined  className={styles.closeIcon} onClick={handleNotesCancel} />
-      </div>
-      <div  className={styles.noteModalMainPart}>
-        <h4>Add/Update Notes</h4>
-        <textarea value={currentNote === null ? "" : currentNote}  onChange={(e) => setCurrentNote(e.target.value)}></textarea>
-        <button  onClick={handleUpdateNoteToDB}>{updateNoteLoading ?  'Updating...' : 'Update'}</button>
-      </div>
-      </Modal>
-                    </div>
+              <div className={styles.listCover}>
+                {pendingCollections?.length > 0 && (
+                  <div className={styles.listHead}>
+                    <p>Name</p>
+                    <p>Contract Address</p>
+                    <p>Symbol</p>
+                    <p>Actions</p>
                   </div>
-                ))
-              )}
+                )}
+                {loadingPendingData ? (
+                  <div className={styles.connectToView}>
+                    <h1> </h1>
+                  </div>
+                ) : pendingCollections?.length === 0 ? (
+                  <div className={styles.connectToView}>
+                    <h1>
+                      {" "}
+                      No pending verification collections at the moment😴...
+                    </h1>
+                  </div>
+                ) : (
+                  pendingCollections?.map((item, index) => (
+                    <div key={index} className={styles.listBottom}>
+                      <Tooltip
+                        title={
+                          item.notes === null
+                            ? "no notes for this collection yet"
+                            : item.notes
+                        }
+                        color={"#000"}
+                      >
+                        <p> {item.collectionName} </p>
+                      </Tooltip>
+                      <p> {item.collectionAddress} </p>
+                      <p> {item.collectionSymbol} </p>
+                      <div className={styles.actionBtns}>
+                        <button
+                          onClick={() => handleVerify(item._id)}
+                          className={styles.verifyBtn}
+                        >
+                          verify
+                        </button>
+                        <button
+                          onClick={() => handleDecline(item._id)}
+                          className={styles.declineBtn}
+                        >
+                          decline
+                        </button>
+                        <button
+                          className={styles.addNotesBtn}
+                          onClick={() => {
+                            addToCurrentForPending(index);
+                          }}
+                        >
+                          notes
+                        </button>
+                        <Modal
+                          className={styles.noteModalCover}
+                          footer={null}
+                          open={isNotesModalOpen}
+                          onCancel={handleNotesCancel}
+                        >
+                          <div className={styles.closeMenu}>
+                            <CloseOutlined
+                              className={styles.closeIcon}
+                              onClick={handleNotesCancel}
+                            />
+                          </div>
+                          <div className={styles.noteModalMainPart}>
+                            <h4>Add/Update Notes</h4>
+                            <textarea
+                              value={currentNote === null ? "" : currentNote}
+                              onChange={(e) => setCurrentNote(e.target.value)}
+                            ></textarea>
+                            <button onClick={handleUpdateNoteToDB}>
+                              {updateNoteLoading ? "Updating..." : "Update"}
+                            </button>
+                          </div>
+                        </Modal>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
-          </div>
-          <div className={styles.lowerPartItems}>
-            {verifiedCollection?.length > 0 && (
-              <h2>Verified Collections List</h2>
-            )}
-            <div className={styles.listCover}>
+            <div className={styles.lowerPartItems}>
               {verifiedCollection?.length > 0 && (
-                <div className={styles.listHead}>
-                  <p>Name</p>
-                  <p>Contract Address</p>
-                  <p>Symbol</p>
-                  <p>Actions</p>
-                </div>
+                <h2>Verified Collections List</h2>
               )}
-              {loadingVerifiedData ? (
-                <div className={styles.connectToView}>
-                  <h1> </h1>
-                </div>
-              ) : verifiedCollection?.length === 0 ? (
-                <div className={styles.connectToView}>
-                  <h1> No verified collections at the moment😴...</h1>
-                </div>
-              ) : (
-                verifiedCollection?.map((item, index) => (
-                  <div key={index} className={styles.listBottom}>
-                                        <Tooltip title={item.notes === null ? "no notes for this collection yet" : item.notes }  color={'#000'}>
-                     <p> {item.collectionName} </p>
-                     </Tooltip>
-                    <p> {item.collectionAddress} </p>
-                    <p> {item.collectionSymbol} </p>
-                    <div className={styles.actionBtnsLower}>
-                      <button
-                        onClick={() => handleUnverify(item._id)}
-                        className={styles.declineBtn}
-                      >
-                        unverify
-                      </button>
-                      <button  className={styles.addNotesBtn}  onClick={() => {addToCurrentFoVerified(index)}}>
-                        notes
-                      </button>
-                      <Modal className={styles.noteModalCover} footer={null} open={isNotesModalOpen} onCancel={handleNotesCancel}>
-                      <div className={styles.closeMenu}>
-        <CloseOutlined  className={styles.closeIcon} onClick={handleNotesCancel} />
-      </div>
-      <div  className={styles.noteModalMainPart}>
-        <h4>Add/Update Notes</h4>
-        <textarea value={currentNote === null ? "" : currentNote}  onChange={(e) => setCurrentNote(e.target.value)}></textarea>
-        <button  onClick={handleUpdateNoteToDB}>{updateNoteLoading ?  'Updating...' : 'Update'}</button>
-      </div>
-      </Modal>
-                    </div>
+              <div className={styles.listCover}>
+                {verifiedCollection?.length > 0 && (
+                  <div className={styles.listHead}>
+                    <p>Name</p>
+                    <p>Contract Address</p>
+                    <p>Symbol</p>
+                    <p>Actions</p>
                   </div>
-                ))
-              )}
+                )}
+                {loadingVerifiedData ? (
+                  <div className={styles.connectToView}>
+                    <h1> </h1>
+                  </div>
+                ) : verifiedCollection?.length === 0 ? (
+                  <div className={styles.connectToView}>
+                    <h1> No verified collections at the moment😴...</h1>
+                  </div>
+                ) : (
+                  verifiedCollection?.map((item, index) => (
+                    <div key={index} className={styles.listBottom}>
+                      <Tooltip
+                        title={
+                          item.notes === null
+                            ? "no notes for this collection yet"
+                            : item.notes
+                        }
+                        color={"#000"}
+                      >
+                        <p> {item.collectionName} </p>
+                      </Tooltip>
+                      <p> {item.collectionAddress} </p>
+                      <p> {item.collectionSymbol} </p>
+                      <div className={styles.actionBtnsLower}>
+                        <button
+                          onClick={() => handleUnverify(item._id)}
+                          className={styles.declineBtn}
+                        >
+                          unverify
+                        </button>
+                        <button
+                          className={styles.addNotesBtn}
+                          onClick={() => {
+                            addToCurrentFoVerified(index);
+                          }}
+                        >
+                          notes
+                        </button>
+                        <Modal
+                          className={styles.noteModalCover}
+                          footer={null}
+                          open={isNotesModalOpen}
+                          onCancel={handleNotesCancel}
+                        >
+                          <div className={styles.closeMenu}>
+                            <CloseOutlined
+                              className={styles.closeIcon}
+                              onClick={handleNotesCancel}
+                            />
+                          </div>
+                          <div className={styles.noteModalMainPart}>
+                            <h4>Add/Update Notes</h4>
+                            <textarea
+                              value={currentNote === null ? "" : currentNote}
+                              onChange={(e) => setCurrentNote(e.target.value)}
+                            ></textarea>
+                            <button onClick={handleUpdateNoteToDB}>
+                              {updateNoteLoading ? "Updating..." : "Update"}
+                            </button>
+                          </div>
+                        </Modal>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
-          </div>
-          <div className={styles.lowerPartItems}>
-            {unVerifiedCollection?.length > 0 && (
-              <h2>Unverified Collections List</h2>
-            )}
-            <div className={styles.listCover}>
+            <div className={styles.lowerPartItems}>
               {unVerifiedCollection?.length > 0 && (
-                <div className={styles.listHead}>
-                  <p>Name</p>
-                  <p>Contract Address</p>
-                  <p>Symbol</p>
-                  <p>Actions</p>
-                </div>
+                <h2>Unverified Collections List</h2>
               )}
-              {loadingUnverifiedData ? (
-                <div className={styles.connectToView}>
-                  <h1> </h1>
-                </div>
-              ) : unVerifiedCollection?.length === 0 ? (
-                <div className={styles.connectToView}>
-                  <h1> No unverified collections at the moment😴...</h1>
-                </div>
-              ) : (
-                unVerifiedCollection?.map((item, index) => (
-                  <div key={index} className={styles.listBottom}>
-                      <Tooltip title={item.notes === null ? "no notes for this collection yet" : item.notes }  color={'#000'}>
-                     <p> {item.collectionName} </p>
-                     </Tooltip>
-                    <p> {item.collectionAddress} </p>
-                    <p> {item.collectionSymbol} </p>
-                    <div className={styles.actionBtnsLower}>
-                      <button
-                        onClick={() => handleDecline(item._id)}
-                        className={styles.deletedBtn}
-                      >
-                        delete
-                      </button>
-                      <button  className={styles.addNotesBtn}  onClick={() => {addToCurrentForUnverified(index)}}>
-                     notes
-                      </button>
-                      <Modal className={styles.noteModalCover} footer={null} open={isNotesModalOpen} onCancel={handleNotesCancel}>
-                      <div className={styles.closeMenu}>
-        <CloseOutlined  className={styles.closeIcon} onClick={handleNotesCancel} />
-      </div>
-      <div  className={styles.noteModalMainPart}>
-        <h4>Add/Update Notes</h4>
-        <textarea value={currentNote === null ? "" : currentNote}  onChange={(e) => setCurrentNote(e.target.value)}></textarea>
-        <button  onClick={handleUpdateNoteToDB}>{updateNoteLoading ?  'Updating...' : 'Update'}</button>
-      </div>
-      </Modal>
-                    </div>
+              <div className={styles.listCover}>
+                {unVerifiedCollection?.length > 0 && (
+                  <div className={styles.listHead}>
+                    <p>Name</p>
+                    <p>Contract Address</p>
+                    <p>Symbol</p>
+                    <p>Actions</p>
                   </div>
-                ))
-              )}
+                )}
+                {loadingUnverifiedData ? (
+                  <div className={styles.connectToView}>
+                    <h1> </h1>
+                  </div>
+                ) : unVerifiedCollection?.length === 0 ? (
+                  <div className={styles.connectToView}>
+                    <h1> No unverified collections at the moment😴...</h1>
+                  </div>
+                ) : (
+                  unVerifiedCollection?.map((item, index) => (
+                    <div key={index} className={styles.listBottom}>
+                      <Tooltip
+                        title={
+                          item.notes === null
+                            ? "no notes for this collection yet"
+                            : item.notes
+                        }
+                        color={"#000"}
+                      >
+                        <p> {item.collectionName} </p>
+                      </Tooltip>
+                      <p> {item.collectionAddress} </p>
+                      <p> {item.collectionSymbol} </p>
+                      <div className={styles.actionBtnsLower}>
+                        <button
+                          onClick={() => handleDecline(item._id)}
+                          className={styles.deletedBtn}
+                        >
+                          delete
+                        </button>
+                        <button
+                          className={styles.addNotesBtn}
+                          onClick={() => {
+                            addToCurrentForUnverified(index);
+                          }}
+                        >
+                          notes
+                        </button>
+                        <Modal
+                          className={styles.noteModalCover}
+                          footer={null}
+                          open={isNotesModalOpen}
+                          onCancel={handleNotesCancel}
+                        >
+                          <div className={styles.closeMenu}>
+                            <CloseOutlined
+                              className={styles.closeIcon}
+                              onClick={handleNotesCancel}
+                            />
+                          </div>
+                          <div className={styles.noteModalMainPart}>
+                            <h4>Add/Update Notes</h4>
+                            <textarea
+                              value={currentNote === null ? "" : currentNote}
+                              onChange={(e) => setCurrentNote(e.target.value)}
+                            ></textarea>
+                            <button onClick={handleUpdateNoteToDB}>
+                              {updateNoteLoading ? "Updating..." : "Update"}
+                            </button>
+                          </div>
+                        </Modal>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+            <div className={styles.homeBtn} onClick={() => router.push("/")}>
+              <button>Go to Home Page</button>
             </div>
           </div>
-          <div className={styles.homeBtn} onClick={() => router.push("/")}>
-            <button>Go to Home Page</button>
-          </div>
-        </div>
         </>
       )}
       {isApproved === false && (

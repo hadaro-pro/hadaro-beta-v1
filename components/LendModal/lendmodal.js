@@ -13,6 +13,7 @@ const LendModal = ({
   openCheckout,
   displayOutroPart,
   loadingTxn,
+  loadingApproval
 }) => {
   const { isConnected, address } = useAccount();
 
@@ -93,7 +94,7 @@ const LendModal = ({
     if (dailyRentPrice === 0 || maxRentDuration === 0 || paymentToken === "") {
       message.error("all form fields must be filled");
     } else if (mainChain?.name !== "Goerli") {
-      console.log(mainChain?.name)
+      // console.log(mainChain?.name)
       message.error("Please Connect to the Goerli Testnet to proceed", [3]);
     } else if (Number(whole) !== 0) {
       message.error("Price supplied too high");
@@ -228,7 +229,7 @@ const LendModal = ({
         </div>
 
         <button onClick={() => addCollateralAndLendPrice()}>
-          {loadingTxn ? "Processing Lending..." : "Complete Lend"}
+          { loadingApproval ? "Requesting Approval"  : loadingTxn ? "Processing Lending..." : "Complete Lend"}
         </button>
       </div>
     </Modal>

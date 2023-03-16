@@ -20,17 +20,15 @@
 
   .mainPart {
     width: 80%;
-    background: #523E93;
+    background: #523e93;
     border-radius: 30px;
     padding: 2rem 1.2rem;
     margin-bottom: 15rem;
-    
-
 
     .mainPartInner {
       display: flex;
       border-radius: 30px;
-      background: darken($color: #523E93, $amount: 3.5);
+      background: darken($color: #523e93, $amount: 3.5);
       height: 100%;
       width: 100%;
       position: relative;
@@ -52,15 +50,12 @@
           font-weight: 600;
         }
 
-
         h3 {
           margin-top: 1rem;
           color: #fff;
           font-size: 1.5rem;
           font-weight: 600;
         }
-
-
 
         .innerDescItem {
           // margin-bottom: 3rem;
@@ -72,7 +67,7 @@
           }
 
           p {
-            margin-top: -.3rem;
+            margin-top: -0.3rem;
             font-size: 1rem;
             color: #fff;
             font-weight: normal;
@@ -96,12 +91,8 @@
         position: absolute;
         right: -22%;
         top: 15%;
-        
-        
 
-      
-
-        .imageUpper{
+        .imageUpper {
           // object-fit: cover;
           // margin-top: 6rem;
           height: 20rem;
@@ -110,13 +101,13 @@
           // transform: scale(.5);
         }
 
-        .imageLower{
+        .imageLower {
           // object-fit: cover;
           margin-top: -15rem;
           z-index: 10000;
           // margin-bottom: 2rem;
           // // width: 100%;
-           width: 28rem;
+          width: 28rem;
           height: 72rem;
           // transform: scaleY(1.2);
         }
@@ -124,7 +115,6 @@
     }
   }
 }
-
 
 @media only screen and (max-width: 992px) {
   .mainPart {
@@ -137,7 +127,6 @@
     }
   }
 }
-
 
 @media only screen and (max-width: 768px) {
   .caption {
@@ -154,14 +143,12 @@
   .mainPart {
     width: 90% !important;
     margin-bottom: 5rem !important;
-  
+
     .mainPartInner {
       text-align: center;
     }
   }
 
-
-  
   .innerDescPart {
     // outline: 3px solid orange;
     margin-top: 5rem;
@@ -174,12 +161,9 @@
       font-size: 1.5rem !important;
     }
 
-
     h3 {
       font-size: 1.2rem !important;
     }
-
-
 
     .innerDescItem {
       // margin-bottom: 3rem;
@@ -189,8 +173,8 @@
       }
 
       p {
-        margin-top: -.3rem;
-        font-size: .9rem !important;
+        margin-top: -0.3rem;
+        font-size: 0.9rem !important;
         color: #fff;
         font-weight: normal;
         line-height: 2rem;
@@ -199,16 +183,13 @@
       }
     }
   }
-
 }
 
 @media only screen and (max-width: 600px) {
-
   .mainContainer {
     margin-top: 3rem;
     margin-left: 2rem !important;
   }
-
 
   .caption {
     width: 90% !important;
@@ -224,32 +205,27 @@
 
   .mainPart {
     width: 90% !important;
-  
+
     .mainPartInner {
       text-align: center;
     }
   }
 
-
-  
   .innerDescPart {
     // outline: 3px solid orange;
     margin-top: 5rem;
     flex: 40%;
     display: flex;
     flex-direction: column;
-    padding: .5rem !important;
+    padding: 0.5rem !important;
 
     h2 {
       font-size: 1rem !important;
     }
 
-
     h3 {
-      font-size: .9rem !important;
+      font-size: 0.9rem !important;
     }
-
-
 
     .innerDescItem {
       margin-bottom: 2rem;
@@ -259,8 +235,8 @@
       }
 
       p {
-        margin-top: -.3rem;
-        font-size: .8rem !important;
+        margin-top: -0.3rem;
+        font-size: 0.8rem !important;
         color: #fff;
         font-weight: normal;
         line-height: 2rem;
@@ -269,5 +245,4 @@
       }
     }
   }
-
 }

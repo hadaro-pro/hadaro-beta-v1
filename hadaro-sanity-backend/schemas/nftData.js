@@ -14,6 +14,11 @@ export default {
       type: 'string',
     },
     {
+      name: 'renterAddress',
+      title: 'Renter Address',
+      type: 'string',
+    },
+    {
       name: 'tokenID',
       title: 'token ID',
       type: 'string',

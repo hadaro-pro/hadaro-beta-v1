@@ -16,7 +16,14 @@ const RentNfts = ({
         <p> {nftname} </p>
       </div>
       <div className={styles.stopLendButton}>
-        {loadingRent ? (
+        <button
+          onClick={() => {
+            setRentItem(position);
+          }}
+        >
+          View Details
+        </button>
+        {/* {loadingRent ? (
           <button disabled={true}> Processing...</button>
         ) : nftStatus === "in rent" ? (
           <button
@@ -35,8 +42,8 @@ const RentNfts = ({
           >
             {" "}
             Stop Rent
-          </button>
-        )}
+          </button> */}
+        {/* )} */}
       </div>
     </div>
   );

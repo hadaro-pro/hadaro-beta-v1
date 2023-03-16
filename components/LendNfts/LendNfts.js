@@ -13,7 +13,8 @@ const LendNfts = ({ nftImage, nftname, setLendItem, position, loadingLend }) => 
         <p> {nftname} </p>
       </div>
       <div className={styles.stopLendButton}>
-  { loadingLend ? <button disabled={true} > Processing...</button> :     <button  onClick={() => {setLendItem(position)}} > Stop Lend</button>}
+  {/* { loadingLend ? <button disabled={true} > Processing...</button> :     <button  onClick={() => {setLendItem(position)}} > Stop Lend</button>} */}
+  {<button  onClick={() => {setLendItem(position)}} > Show Details </button>}
       </div>
     </div>
   );

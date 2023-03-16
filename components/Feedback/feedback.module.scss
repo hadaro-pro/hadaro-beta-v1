@@ -7,145 +7,139 @@
   padding: 1rem;
   // list-style-type: square;
 
+  .topPart {
+    // outline: 3px solid orange;
+    width: 80%;
+    margin-top: 3rem;
+    margin-bottom: 6rem;
 
-.topPart {
-  // outline: 3px solid orange;
-  width: 80%;
-  margin-top: 3rem;
-  margin-bottom: 6rem;
-
-  h1 {
-    color: #fff;
-    font-size: 3rem;
-    font-weight: 700;
+    h1 {
+      color: #fff;
+      font-size: 3rem;
+      font-weight: 700;
+    }
   }
-}
 
-
-.formPart {
-  width: 80%;
-  background: #523E93;
-  border-radius: 30px;
-  padding: 2rem 1.2rem;
-  margin-bottom: 15rem;
-
-
-  .formPartInner {
-    background: darken($color: #523E93, $amount: 3.5);
-    width: 100%;
-    display: flex;
+  .formPart {
+    width: 80%;
+    background: #523e93;
     border-radius: 30px;
-    flex-direction: column;
-    padding: 3rem 2rem;
+    padding: 2rem 1.2rem;
+    margin-bottom: 15rem;
 
-    .formInput {
-      // outline: 3px solid orange;
-      margin-bottom: 3rem;
+    .formPartInner {
+      background: darken($color: #523e93, $amount: 3.5);
+      width: 100%;
       display: flex;
+      border-radius: 30px;
       flex-direction: column;
-      width: 60%;
-      margin-left: 3rem;
-      
-      small {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #fff;
-        margin-bottom: .3rem;
+      padding: 3rem 2rem;
 
-        .asterisk {
-          color: red;
-          font-size: 1.2rem;
-          margin-left: .2rem;
-          // margin-bottom: 2rem !important;
+      .formInput {
+        // outline: 3px solid orange;
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        margin-left: 3rem;
+
+        small {
+          font-size: 1rem;
+          font-weight: 500;
+          color: #fff;
+          margin-bottom: 0.3rem;
+
+          .asterisk {
+            color: red;
+            font-size: 1.2rem;
+            margin-left: 0.2rem;
+            // margin-bottom: 2rem !important;
+          }
+        }
+
+        input {
+          outline: none;
+          border: none;
+          border-radius: 10px;
+          font-size: 0.9rem;
+          padding: 1rem 2rem 1rem 1rem;
         }
       }
 
-      input {
-        outline: none;
-        border: none;
-        border-radius: 10px;
-        font-size: .9rem;
-        padding: 1rem 2rem 1rem 1rem;
+      .textAreaInput {
+        // outline: 3px solid orange;
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin-left: 3rem;
+
+        small {
+          font-size: 1rem;
+          font-weight: 500;
+          color: #fff;
+          margin-bottom: 0.3rem;
+
+          .asterisk {
+            color: red;
+            font-size: 1.2rem;
+            margin-left: 0.2rem;
+            // margin-bottom: 2rem !important;
+          }
+        }
+
+        textarea {
+          outline: none;
+          border: none;
+          border-radius: 10px;
+          font-size: 0.9rem;
+          padding: 1rem 2rem 1rem 1rem;
+          height: 15rem;
+          resize: none;
+        }
+      }
+
+      .buttonPart {
+        margin: auto;
+        margin-top: 2rem !important;
+
+        button {
+          outline: none;
+          background: linear-gradient(
+            180deg,
+            rgba(158, 0, 255, 0.65) 0%,
+            rgba(194, 89, 211, 0.65) 100%
+          );
+          border: 1px solid #01c5ba;
+          text-transform: uppercase;
+          border-radius: 10px;
+          font-size: 1rem;
+          font-weight: 600;
+          color: #fff;
+          padding: 0.5rem 1.5rem;
+          cursor: pointer;
+        }
       }
     }
-
-    .textAreaInput {
-       // outline: 3px solid orange;
-       margin-bottom: 3rem;
-       display: flex;
-       flex-direction: column;
-       width: 80%;
-       margin-left: 3rem;
-       
-       small {
-         font-size: 1rem;
-         font-weight: 500;
-         color: #fff;
-         margin-bottom: .3rem;
- 
-         .asterisk {
-           color: red;
-           font-size: 1.2rem;
-           margin-left: .2rem;
-           // margin-bottom: 2rem !important;
-         }
-       }
- 
-       textarea {
-         outline: none;
-         border: none;
-         border-radius: 10px;
-         font-size: .9rem;
-         padding: 1rem 2rem 1rem 1rem;
-         height: 15rem;
-         resize: none;
-       }
-    }
-
-    .buttonPart {
-      margin: auto;
-      margin-top: 2rem !important;
-
-      button {
-        outline: none;
-        background: linear-gradient(180deg, rgba(158, 0, 255, 0.65) 0%, rgba(194, 89, 211, 0.65) 100%);
-        border: 1px solid #01C5BA;
-        text-transform: uppercase;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 600;
-        color: #fff;
-        padding: .5rem 1.5rem;
-        cursor: pointer;
-      }
-    }
-
   }
 }
-
-
-
-}
-
-
 
 @media only screen and (max-width: 992px) {
-.topPart {
-  margin-bottom: 4rem !important;
-  h1 {
-    font-size: 2.5rem !important;
+  .topPart {
+    margin-bottom: 4rem !important;
+    h1 {
+      font-size: 2.5rem !important;
+    }
+  }
+
+  .formPart {
+    margin-bottom: 10rem !important;
   }
 }
-
-.formPart {
-  margin-bottom: 10rem !important;
-}
-}
-
 
 @media only screen and (max-width: 768px) {
   .topPart {
-    width:  90% !important;
+    width: 90% !important;
     text-align: center;
     h1 {
       font-size: 2.2rem !important;
@@ -156,8 +150,7 @@
     width: 90% !important;
 
     // padding: 2rem 0 !important;
-  
-  
+
     .formPartInner {
       padding: 3rem 0 !important;
     }
@@ -169,21 +162,17 @@
     width: 70% !important;
 
     input {
-      
-      font-size: .85rem !important;
-  
+      font-size: 0.85rem !important;
     }
-    
+
     small {
-      font-size: .95rem !important;
-    
+      font-size: 0.95rem !important;
 
       .asterisk {
         font-size: 1rem !important;
       }
     }
   }
-
 
   .textAreaInput {
     // outline: 3px solid orange;
@@ -193,68 +182,56 @@
     width: 80%;
 
     textarea {
-      font-size: .85rem !important;
+      font-size: 0.85rem !important;
     }
-    
+
     small {
-      font-size: .95rem !important;
+      font-size: 0.95rem !important;
 
       .asterisk {
-       
         font-size: 1rem !important;
-      }   
+      }
     }
-
   }
+}
+
+@media only screen and (max-width: 600px) {
+  .topPart {
+    width: 100% !important;
+    margin-bottom: 2rem !important;
+    h1 {
+      font-size: 1.5rem !important;
+    }
   }
 
+  .formPart {
+    margin-bottom: 5rem !important;
 
-  @media only screen and (max-width: 600px) {
-    .topPart {
-      width:  100% !important;
-      margin-bottom: 2rem !important;
-      h1 {
-        font-size: 1.5rem !important;
-      }
+    width: 100% !important;
+
+    // padding: 2rem 0 !important;
+
+    .formPartInner {
+      padding: 3rem 0 !important;
     }
+  }
 
-    .formPart {
-      
-      margin-bottom: 5rem !important;
-      
-      width: 100% !important;
-  
-      // padding: 2rem 0 !important;
-    
-    
-      .formPartInner {
-        padding: 3rem 0 !important;
-      }
-    } 
+  .formInput {
+    // outline: 3px solid orange;
+    margin-bottom: 3rem;
+    width: 80% !important;
+    margin-left: 1rem !important;
 
-    .formInput {
-      // outline: 3px solid orange;
-      margin-bottom: 3rem;
-      width: 80% !important;
-      margin-left: 1rem !important;
-
-      input {
-        font-size: .8rem !important;
-      }
+    input {
+      font-size: 0.8rem !important;
     }
+  }
 
-    .textAreaInput {
-      margin-left: 1rem !important;
+  .textAreaInput {
+    margin-left: 1rem !important;
 
-      
     textarea {
-      font-size: .8rem !important;
+      font-size: 0.8rem !important;
     }
-    }
-
-
-
-  
   }
-
-
+}

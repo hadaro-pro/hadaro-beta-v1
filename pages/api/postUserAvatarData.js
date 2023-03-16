@@ -7,11 +7,11 @@ export default async function handler(req, res) {
 
     const document = req.body;
 
-   const result =  await client.create(document);
+    const result = await client.create(document);
 
     return res.status(200).json({
       msg: "success",
-      data: result
+      data: result,
     });
   } catch (err) {
     res.send(err);

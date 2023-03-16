@@ -5,12 +5,6 @@
   border-radius: 10px;
   padding: 1rem;
   background: black;
-  transition: all 200ms ease-in-out;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 75%;
-  }
 
   .imagePart {
     width: 100%;
@@ -51,7 +45,7 @@
     button {
       outline: none;
       border: none;
-      padding: .5rem 1rem;
+      padding: 0.5rem 1rem;
       width: fit-content;
       font-size: 1rem;
       font-weight: 500;
@@ -59,10 +53,10 @@
       background: #1809ff;
       opacity: 90%;
       border-radius: 10px;
+      cursor: pointer;
     }
   }
 }
-
 
 @media only screen and (max-width: 992px) {
   .mainCover {
@@ -71,25 +65,23 @@
     // border-radius: 10px;
     // padding: 1rem;
     // background: black;
-  
+
     .imagePart {
       width: 100%;
       aspect-ratio: 1/1;
     }
-  
+
     .mainPartLower {
-  
       p {
-        font-size: .9rem !important;
+        font-size: 0.9rem !important;
       }
-  
+
       .bottomText {
-        font-size: .8rem !important;
+        font-size: 0.8rem !important;
       }
     }
   }
 }
-
 
 @media only screen and (max-width: 768px) {
   .mainCover {
@@ -98,20 +90,19 @@
     // border-radius: 10px;
     // padding: 1rem;
     // background: black;
-  
+
     .imagePart {
       width: 100%;
       aspect-ratio: 1/1;
     }
-  
+
     .mainPartLower {
-  
       p {
-        font-size: .8rem !important;
+        font-size: 0.8rem !important;
       }
-  
+
       .bottomText {
-        font-size: .7rem !important;
+        font-size: 0.7rem !important;
       }
     }
   }
@@ -120,11 +111,10 @@
     // outline: 3px solid red;
 
     button {
-      font-size: 9rem !important;
+      font-size: 0.9rem !important;
     }
   }
 }
-
 
 @media only screen and (max-width: 600px) {
   .mainCover {
@@ -133,31 +123,29 @@
     // border-radius: 10px;
     // padding: 1rem;
     // background: black;
-  
+
     .imagePart {
       width: 100%;
       aspect-ratio: 1/1;
     }
-  
+
     .mainPartLower {
-  
       p {
         // outline: 3px solid red;
-        font-size: .7rem !important;
+        font-size: 0.7rem !important;
       }
-  
+
       .bottomText {
         //  outline: 3px solid red;
-        font-size: .6rem !important;
+        font-size: 0.6rem !important;
       }
     }
     .stopLendButton {
       // outline: 3px solid red;
-  
+
       button {
-        font-size: .75rem !important;
+        font-size: 0.75rem !important;
       }
     }
   }
-
 }
