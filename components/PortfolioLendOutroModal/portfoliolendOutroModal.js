@@ -42,6 +42,10 @@ const PortfolioLendOutroModal = ({
   getLendNfts,
   setApprovalLoad,
 }) => {
+
+
+  const [ alreadyApprovedToken, setAlreadyApprovedToken] = useState(false)
+
   const parseStandards = (value) => {
     if (value === "ERC721") {
       return 0;
@@ -129,36 +133,58 @@ const PortfolioLendOutroModal = ({
 
   async function requestApproval() {
     setApprovalLoad(true);
-    // Get signer's address
-    const address = await signer.getAddress();
+    try {
+  // Get signer's address
+  const address = await signer.getAddress();
 
-    // Initialize a contract instance for the NFT contract
-    const ERC721Contract = new Contract(nftAddress, erc721ABI, signer);
+  // Initialize a contract instance for the NFT contract
+  const ERC721Contract = new Contract(nftAddress, erc721ABI, signer);
 
-    // Make sure user is owner of the NFT in question
-    const tokenOwner = await ERC721Contract.ownerOf(tokenID);
-    if (tokenOwner.toLowerCase() !== address.toLowerCase()) {
-      throw new Error(`You do not own this NFT`);
-    }
+  // Make sure user is owner of the NFT in question
 
-    // getApproved(uint256 tokenId)
-    // approve(address to, uint256 tokenId)
-    // Check if user already gave approval to the marketplace
-    const isApproved = await ERC721Contract.getApproved(Number(tokenID));
-
-    // If not approved
-    if (isApproved.toLowerCase() !== HADARO_GOERLI_ADDRESS.toLowerCase()) {
-      // console.log("Requesting approval over NFTs...");
-
-      // Send approval transaction to NFT contract
-      const approvalTxn = await ERC721Contract.approve(
-        HADARO_GOERLI_ADDRESS,
-        Number(tokenID)
-      );
-      await approvalTxn.wait();
-      setApprovalLoad(false);
-    }
+  // console.log('token id', tokenID)
+  const tokenOwner = await ERC721Contract.ownerOf(tokenID);
+  // console.log('token owner: ', tokenOwner)
+  // console.log('address: ', address)
+  if (tokenOwner.toLowerCase() !== address.toLowerCase()) {
     setApprovalLoad(false);
+    throw new Error(`You do not own this NFT`); 
+  }
+
+  // getApproved(uint256 tokenId)
+  // approve(address to, uint256 tokenId)
+  // Check if user already gave approval to the marketplace
+  const isApproved = await ERC721Contract.getApproved(Number(tokenID));
+  // console.log('approve: ', isApproved)
+  // If not approved
+  if (isApproved.toLowerCase() !== HADARO_GOERLI_ADDRESS.toLowerCase()) {
+    // console.log("Requesting approval over NFTs...");
+
+    // Send approval transaction to NFT contract
+    const approvalTxn = await ERC721Contract.approve(
+      HADARO_GOERLI_ADDRESS,
+      Number(tokenID)
+    );
+      const receipt = await approvalTxn.wait();
+
+      console.log('approval', receipt)
+
+
+      if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+        setApprovalLoad(false);
+        setAlreadyApprovedToken(true)
+      }
+  } else {
+    setApprovalLoad(false);
+    setAlreadyApprovedToken(true)
+  } 
+    // setApprovalLoad(false);
+    } catch (e) {
+      console.warn(e)
+      setApprovalLoad(false)
+    }
+   
+  
   }
 
   const createId = (value) => {
@@ -171,6 +197,7 @@ const PortfolioLendOutroModal = ({
   };
 
   const sylvesterLend = async (transactionType, chain, status) => {
+    try {
     const txn = await hadaroGoerliTestContract.lend(
       [nftStandard],
       [nftAddress],
@@ -300,6 +327,9 @@ const PortfolioLendOutroModal = ({
     //     console.log('collection successful')
     //   }
     //  }
+  } catch (e) {
+      console.warn(e)
+  }
   };
 
   const processLend = async () => {
@@ -352,35 +382,51 @@ const PortfolioLendOutroModal = ({
 
       // unfakeTxn()
 
-      setLoadingTxn(false);
 
-      cancelLendModal();
+      if (alreadyApprovedToken) {
+        setLoadingTxn(false);
 
-      message.success("Lending successful!");
-
-      await getWalletNft();
-
-      await getLendNfts();
-
+        cancelLendModal();
+  
+        message.success("Lending successful!");
+  
+        await getWalletNft();
+  
+        await getLendNfts();
+      } else {
+        message.error('unable to get approval for tokens')
+        setLoadingTxn(false);
+      }
       // removeLent(currentLendIndex);
     } catch (e) {
-      // console.warn(e.message)
-      if (e.message[0] === "u") {
-        message.error(e.message.slice(0, 25), [3]);
-      } else if (e === "You do not own this NFT") {
-        message.error("already lent");
-      } else if (
-        e.error?.message === "execution reverted: Hadaro::rent price is zero"
-      ) {
-        message.error("daily rental price entered too low", [3]);
-      } else if (e.message === "supplied price exceeds 9999.9999") {
-        message.error("daily rent price supplied too high", [3]);
-      } else {
-        message.error("Something went wrong...", [5]);
-      }
-      // console.warn(e)
-      // console.warn((prepareError || error)?.message);
-      setLoadingTxn(false);
+      console.warn(e)
+      setApprovalLoad(false)
+      // if (e.message[0] === "u") {
+      //   message.error(e.message.slice(0, 25), [3]);
+      //   setLoadingTxn(false);
+      //   setApprovalLoad(false)
+      // } else if (e === "You do not own this NFT") {
+      //   message.error("already lent");
+      //   setLoadingTxn(false);
+      //   setApprovalLoad(false)
+      // } else if (
+      //   e.error?.message === "execution reverted: Hadaro::rent price is zero"
+      // ) {
+      //   message.error("daily rental price entered too low", [3]);
+      //   setLoadingTxn(false);
+      //   setApprovalLoad(false)
+      // } else if (e.message === "supplied price exceeds 9999.9999") {
+      //   message.error("daily rent price supplied too high", [3]);
+      //   setLoadingTxn(false);
+      //   setApprovalLoad(false)
+      // } else {
+      //   message.error("Something went wrong...", [5]);
+      //   setLoadingTxn(false);
+      //   setApprovalLoad(false)
+      // }
+      // // console.warn(e)
+      // // console.warn((prepareError || error)?.message);
+      // setLoadingTxn(false);
     }
   };
 

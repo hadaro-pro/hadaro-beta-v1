@@ -526,7 +526,7 @@ const PortfolioComp = ({
           rentingIDToString,
         };
 
-        // console.log("txnpayload", whatToSend);
+        console.log("txnpayload", whatToSend);
         const txn = await hadaroGoerliTestContract.claimRent(
           [mainStandard],
           [mainItemAddr],

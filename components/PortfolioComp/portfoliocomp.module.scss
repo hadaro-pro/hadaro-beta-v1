@@ -953,7 +953,7 @@
   .mainCover {
     // outline: 3px solid lightcoral;
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(1, 1fr) !important;
     // padding: 1rem;
     gap: 2.5rem;
     height: auto;
