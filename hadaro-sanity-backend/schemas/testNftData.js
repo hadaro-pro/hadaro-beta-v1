@@ -94,8 +94,8 @@ export default {
       type: 'string',
     },
     {
-      name: 'transactionHash',
-      title: 'Transaction Hash',
+      name: 'lendTransactionHash',
+      title: 'Lend Transaction Hash',
       type: 'string',
     },
     {

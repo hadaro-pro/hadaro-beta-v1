@@ -172,11 +172,11 @@ const PortfolioLendOutroModal = ({
 
       if (receipt.blockNumber !== null && receipt.confirmations > 0) {
         setApprovalLoad(false);
-        setAlreadyApprovedToken(true)
+        // setAlreadyApprovedToken(true)
       }
   } else {
     setApprovalLoad(false);
-    setAlreadyApprovedToken(true)
+    // setAlreadyApprovedToken(true)
   } 
     // setApprovalLoad(false);
     } catch (e) {
@@ -236,7 +236,7 @@ const PortfolioLendOutroModal = ({
         metadataDesc,
         metadataImage,
         nftStandard: String(nftStandard),
-        transactionHash: receipt.transactionHash,
+        lendTransactionHash: receipt.transactionHash,
       };
 
       await axios.post(`/api/postNftData`, document);
@@ -383,7 +383,7 @@ const PortfolioLendOutroModal = ({
       // unfakeTxn()
 
 
-      if (alreadyApprovedToken) {
+      // if (alreadyApprovedToken) {
         setLoadingTxn(false);
 
         cancelLendModal();
@@ -393,10 +393,10 @@ const PortfolioLendOutroModal = ({
         await getWalletNft();
   
         await getLendNfts();
-      } else {
-        message.error('unable to get approval for tokens')
+      // } else {
+        // message.error('unable to get approval for tokens')
         setLoadingTxn(false);
-      }
+      // }
       // removeLent(currentLendIndex);
     } catch (e) {
       console.warn(e)

@@ -166,7 +166,7 @@ export const allMainNftsByCollectionQuery = (contractAddr) => {
     metadataName,
     nftStandard,
     nftCollectionName,
-    transactionHash,
+    lendTransactionHash,
     rentTransactionHash,
     noOfRentDays,
     timeOfRent,
@@ -194,7 +194,7 @@ export const allLendedNftsByAddressQuery = (lenderAddr) => {
     metadataName,
     nftStandard,
     nftCollectionName,
-    transactionHash,
+    lendTransactionHash,
     rentTransactionHash,
     renterAddress,
     noOfRentDays,
@@ -225,7 +225,7 @@ export const allRentedNftsByAddressQuery = (renterAddr) => {
     noOfRentDays,
     timeOfRent,
     rentTransactionHash,
-    transactionHash,
+    lendTransactionHash,
     isRentClaimed,
   }`
 return query

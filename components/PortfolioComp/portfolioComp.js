@@ -93,6 +93,7 @@ const PortfolioComp = ({
   const [desc, setDesc] = useState("");
   const [rentTxnData, setRentTxnData] = useState("");
   const [lendTxnData, setLendTxnData] = useState("");
+  const [dayPassed, setDayPassed] = useState(false)
   const [identi, setIdenti] = useState("");
   const [rentDays, setRentDays] = useState("");
   const [payToken, setPayToken] = useState("");
@@ -526,7 +527,7 @@ const PortfolioComp = ({
           rentingIDToString,
         };
 
-        console.log("txnpayload", whatToSend);
+        // console.log("txnpayload", whatToSend);
         const txn = await hadaroGoerliTestContract.claimRent(
           [mainStandard],
           [mainItemAddr],
@@ -607,7 +608,18 @@ const PortfolioComp = ({
         // 0x9d91778c5e5f506701482ee59ca9668d16d308ae6deafb7d87c1fd90ac290b2f
         if (receipt.blockNumber !== null && receipt.confirmations > 0) {
           const newRenterAddress = "";
-          await handleRentPatch(identi, newRenterAddress);
+          if (dayPassed) {
+            await handleRentPatch(identi, newRenterAddress);
+          } else {
+
+            await handleRentPatch(identi, newRenterAddress);
+            await handlePatch(
+              identi,
+              "previousListed for lending",
+              "non-available"
+            );
+            await getColandUpdateItemCount(mainItemAddr);
+          }
           // await getColandUpdateItemCount(nftAddress);
           // await handleRemoveElement(position);
           message.success("successfully stopped rent of NFT!");
@@ -737,6 +749,7 @@ const PortfolioComp = ({
 
   const showLendingDetails = (position) => {
     const lendItem = lendingNfts[position];
+    // console.log('lenditem', lendItem)
 
     setImg(nftImageAggregating(lendItem?.metadataImage));
     setRenter(addEllipsis(lendItem?.renterAddress));
@@ -748,7 +761,7 @@ const PortfolioComp = ({
     setTokenId(lendItem?.tokenID);
     setDesc(lendItem?.metadataDesc);
     setRentTxnData(lendItem?.rentTransactionHash);
-    setLendTxnData(lendItem?.transactionHash);
+    setLendTxnData(lendItem?.lendTransactionHash);
     setIdenti(lendItem?._id);
     setIsRentClaimed(lendItem?.isRentClaimed);
     setRenterAddress(lendItem?.renterAddress);
@@ -763,7 +776,7 @@ const PortfolioComp = ({
 
     setTargetTime(formattedExpiry);
     setAlreadySetTime(true);
-    console.log("prep up", lendItem);
+    // console.log("prep up", lendItem);
     showLendDetailsModal();
   };
 
@@ -778,7 +791,7 @@ const PortfolioComp = ({
       // const nftStandard = objToLook?.nftStandard;
       // const nftAddress = objToLook?.nftAddress;
       // const iden = objToLook?._id;
-      // const transactionHash = objToLook?.transactionHash;
+      // const transactionHash = objToLook?.lendTransactionHash;
 
       // console.log('hash', transactionHash)
 
@@ -901,12 +914,24 @@ const PortfolioComp = ({
     setTokenId(rentItem?.tokenID);
     setDesc(rentItem?.metadataDesc);
     setRentTxnData(rentItem?.rentTransactionHash);
-    setLendTxnData(rentItem?.transactionHash);
+    setLendTxnData(rentItem?.lendTransactionHash);
     setIdenti(rentItem?._id);
 
     const noOfRentDays = rentItem?.noOfRentDays;
     const timeRented = rentItem?.timeOfRent;
     const expiryDate = noOfRentDays * 24 * 60 * 60 + timeRented;
+
+
+    const singleDay = 24 * 60 * 60 * 1000
+
+    const isSingleDayPassed = Date.now() - timeRented > singleDay
+
+    // console.log('check', isSingleDayPassed)
+    
+    if (isSingleDayPassed) {
+      setDayPassed(true)
+    }
+
 
     const formattedExpiry = moment(timeRented)
       .add(noOfRentDays, "days")
@@ -922,7 +947,7 @@ const PortfolioComp = ({
 
     setTargetTime(formattedExpiry);
     setAlreadySetTime(true);
-    // console.log(rentItem);
+    // console.log('rent dets', rentItem);
     // console.log('start date: ', formattedStartDate)
     // console.log("end date: ", formattedExpiry);
     // console.log('timeRemaining ', eventTime)

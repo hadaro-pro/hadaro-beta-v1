@@ -211,7 +211,7 @@ const LendOutroModal = ({
         metadataImage,
         nftCollectionName: collectionName,
         nftStandard: String(nftStandard),
-        transactionHash: receipt.transactionHash,
+        lendTransactionHash: receipt.transactionHash,
       };
 
       const resty = await axios.post(`/api/postNftData`, document);

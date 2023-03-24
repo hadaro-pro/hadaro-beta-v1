@@ -166,7 +166,7 @@ const CollectionItemsComp = ({
     Web3.givenProvider || "ws://some.local-or-remote.node:8546"
   );
 
-  console.log("eluupi: ", itemsToDisplay);
+  // console.log("eluupi: ", itemsToDisplay);
   // const collateralFreeContract = new Sylvester(signer);
 
   const wethGoerliTestContract = new Contract(
@@ -697,7 +697,7 @@ const CollectionItemsComp = ({
     const maxTokens = BigNumber.from("2")
       .pow(BigNumber.from("256"))
       .sub(BigNumber.from("1"));
-    console.log("max tokens: ", maxTokens);
+    // console.log("max tokens: ", maxTokens);
     setApprovalLoading(true);
     try {
       const approvalTxn = await wethGoerliTestContract.approve(
@@ -743,7 +743,7 @@ const CollectionItemsComp = ({
 
       const receipt = await txn.wait();
 
-      console.log(receipt);
+      // console.log(receipt);
 
       if (receipt.blockNumber !== null && receipt.confirmations > 0) {
         const rentTxnHash = receipt.transactionHash;
@@ -810,7 +810,7 @@ const CollectionItemsComp = ({
                   //  tokenConverter()
                 } else {
                   // message.success("ride on to rent amigo!");
-                  const transactionHash = toDisplayData?.transactionHash;
+                  const transactionHash = toDisplayData?.lendTransactionHash;
 
                   const lendingID = await getLendingIdForNft(
                     transactionHash,
