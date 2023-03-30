@@ -539,7 +539,7 @@ const CollectionItemsComp = ({
         rentClaimedStatus,
       });
 
-      console.log("nfts patch result: ", patchData.data);
+      // console.log("nfts patch result: ", patchData.data);
     } catch (err) {
       // console.error(err);
     }

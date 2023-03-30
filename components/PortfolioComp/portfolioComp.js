@@ -93,7 +93,7 @@ const PortfolioComp = ({
   const [desc, setDesc] = useState("");
   const [rentTxnData, setRentTxnData] = useState("");
   const [lendTxnData, setLendTxnData] = useState("");
-  const [dayPassed, setDayPassed] = useState(false)
+  const [dayPassed, setDayPassed] = useState(false);
   const [identi, setIdenti] = useState("");
   const [rentDays, setRentDays] = useState("");
   const [payToken, setPayToken] = useState("");
@@ -527,7 +527,8 @@ const PortfolioComp = ({
           rentingIDToString,
         };
 
-        // console.log("txnpayload", whatToSend);
+        console.log("txnpayload", whatToSend);
+
         const txn = await hadaroGoerliTestContract.claimRent(
           [mainStandard],
           [mainItemAddr],
@@ -546,14 +547,14 @@ const PortfolioComp = ({
             identi,
             newRenterAddress,
             "already claimed",
-            "available",
-            "lending"
+            "non-available",
+            "previouslyListed for lending"
           );
-          // await getColandUpdateItemCount(nftAddress);
-          // await handleRemoveElement(position);
+          await getColandUpdateItemCount(mainItemAddr);
           message.success("successfully claimed rental fees!");
           handleLendDetailsModalCancel();
-          getNewListFunc();
+          await getNewListFunc();
+          await getWalletNfts();
         }
       }
       setLoadClaimRent(false);
@@ -564,6 +565,17 @@ const PortfolioComp = ({
         message.error("user rejected transaction");
       } else if (e.message[0] === "F") {
         message.error("something went wrong");
+      } else if(e.error.data.message === "execution reverted: Hadaro::zero address"){
+        await handlePatch(
+          identi,
+          "previousListed for lending",
+          "non-available"
+        );
+        await getColandUpdateItemCount(mainItemAddr);
+        message.success("item already returned to your wallet, removing from lendings...", [5]);
+        handleLendDetailsModalCancel();
+        await getNewListFunc();
+        await getWalletNfts();
       }
     }
   };
@@ -610,8 +622,13 @@ const PortfolioComp = ({
           const newRenterAddress = "";
           if (dayPassed) {
             await handleRentPatch(identi, newRenterAddress);
+            await handlePatch(
+              identi,
+              "previousListed for lending",
+              "non-available"
+            );
+            await getColandUpdateItemCount(mainItemAddr);
           } else {
-
             await handleRentPatch(identi, newRenterAddress);
             await handlePatch(
               identi,
@@ -638,6 +655,20 @@ const PortfolioComp = ({
         e.error.data.message === "execution reverted: Hadaro::past return date"
       ) {
         message.error("You failed to return item before expiry!");
+        const newRenterAddress = "" 
+        await handleRentPatch(identi, newRenterAddress);
+        await getRentingNfts()
+      } else if(e.error.data.message === "execution reverted: Hadaro::zero address"){
+        await handlePatch(
+          identi,
+          "previousListed for lending",
+          "non-available"
+        );
+        await getColandUpdateItemCount(mainItemAddr);
+        message.success("item already returned to your wallet, removing from lendings...", [5]);
+        handleLendDetailsModalCancel();
+        await getNewListFunc();
+        await getWalletNfts();
       }
     }
   };
@@ -845,11 +876,24 @@ const PortfolioComp = ({
       setLoadingLendRemove(false);
     } catch (e) {
       setLoadingLendRemove(false);
-      // console.error(e);
+      // console.error(e.error.data.message);
       if (e.message[0] === "u" && e.message[1] === "s") {
         message.error("user rejected transaction");
       } else if (e.message[0] === "F") {
         message.error("something went wrong");
+      } else if(e.error.data.message === "execution reverted: Hadaro::zero address"){
+        await handlePatch(
+          identi,
+          "previousListed for lending",
+          "non-available"
+        );
+        await getColandUpdateItemCount(mainItemAddr);
+        message.success("item already returned to your wallet, removing from lendings...", [5]);
+        handleLendDetailsModalCancel();
+        await getNewListFunc();
+        await getWalletNfts();
+      }  else if (e.error.data.message === "execution reverted: Hadaro::actively rented") {
+        message.error("Unable to perform action! rental is in progress...")
       }
     }
   };
@@ -898,7 +942,7 @@ const PortfolioComp = ({
       handleRentDetailsModalCancel();
       getRentingNfts();
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 
@@ -921,17 +965,15 @@ const PortfolioComp = ({
     const timeRented = rentItem?.timeOfRent;
     const expiryDate = noOfRentDays * 24 * 60 * 60 + timeRented;
 
+    const singleDay = 24 * 60 * 60 * 1000;
 
-    const singleDay = 24 * 60 * 60 * 1000
-
-    const isSingleDayPassed = Date.now() - timeRented > singleDay
+    const isSingleDayPassed = Date.now() - timeRented > singleDay;
 
     // console.log('check', isSingleDayPassed)
-    
-    if (isSingleDayPassed) {
-      setDayPassed(true)
-    }
 
+    if (isSingleDayPassed) {
+      setDayPassed(true);
+    }
 
     const formattedExpiry = moment(timeRented)
       .add(noOfRentDays, "days")
@@ -1214,9 +1256,14 @@ const PortfolioComp = ({
                                       : "Stop Lend"}{" "}
                                   </button>
                                 ) : (
-                                  <button className={styles.inProg}>
-                                    Rental in progress
+                                  <div>
+                                  <button onClick={prepareStopLend}>
+                                    Stop Lend
                                   </button>
+                                    <button className={styles.inProg}>
+                                      Rental in progress
+                                    </button>
+                                  </div>
                                 )}
                               </div>
                             </div>

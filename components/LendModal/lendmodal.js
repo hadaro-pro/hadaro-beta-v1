@@ -148,48 +148,48 @@ const LendModal = ({
                   </div>
                 ),
               },
-              {
-                value: 2,
-                label: (
-                  <div>
-                    {" "}
-                    <img
-                      src="/images/multi-collateral-dai-dai-logo.png"
-                      alt="ethereum"
-                      width={20}
-                    />{" "}
-                    <span style={{ marginLeft: ".5rem" }}> DAI </span>{" "}
-                  </div>
-                ),
-              },
-              {
-                value: 3,
-                label: (
-                  <div>
-                    {" "}
-                    <img
-                      src="/images/usd-coin-usdc-logo.png"
-                      alt="ethereum"
-                      width={20}
-                    />{" "}
-                    <span style={{ marginLeft: ".5rem" }}> USDC </span>{" "}
-                  </div>
-                ),
-              },
-              {
-                value: 4,
-                label: (
-                  <div>
-                    {" "}
-                    <img
-                      src="/images/tether-usdt-logo.png"
-                      alt="ethereum"
-                      width={20}
-                    />{" "}
-                    <span style={{ marginLeft: ".5rem" }}> USDT </span>{" "}
-                  </div>
-                ),
-              },
+              // {
+              //   value: 2,
+              //   label: (
+              //     <div>
+              //       {" "}
+              //       <img
+              //         src="/images/multi-collateral-dai-dai-logo.png"
+              //         alt="ethereum"
+              //         width={20}
+              //       />{" "}
+              //       <span style={{ marginLeft: ".5rem" }}> DAI </span>{" "}
+              //     </div>
+              //   ),
+              // },
+              // {
+              //   value: 3,
+              //   label: (
+              //     <div>
+              //       {" "}
+              //       <img
+              //         src="/images/usd-coin-usdc-logo.png"
+              //         alt="ethereum"
+              //         width={20}
+              //       />{" "}
+              //       <span style={{ marginLeft: ".5rem" }}> USDC </span>{" "}
+              //     </div>
+              //   ),
+              // },
+              // {
+              //   value: 4,
+              //   label: (
+              //     <div>
+              //       {" "}
+              //       <img
+              //         src="/images/tether-usdt-logo.png"
+              //         alt="ethereum"
+              //         width={20}
+              //       />{" "}
+              //       <span style={{ marginLeft: ".5rem" }}> USDT </span>{" "}
+              //     </div>
+              //   ),
+              // },
             ]}
           />
         </div>

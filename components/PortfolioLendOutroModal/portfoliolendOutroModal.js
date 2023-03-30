@@ -167,7 +167,7 @@ const PortfolioLendOutroModal = ({
     );
       const receipt = await approvalTxn.wait();
 
-      console.log('approval', receipt)
+      // console.log('approval', receipt)
 
 
       if (receipt.blockNumber !== null && receipt.confirmations > 0) {
