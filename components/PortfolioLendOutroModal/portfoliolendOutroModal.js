@@ -24,8 +24,10 @@ import {
   DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
 } from "@renft/sdk";
 import { HADARO_GOERLI_ADDRESS, HADARO_GOERLI_ABI } from "../../constants/abis";
+import Web3 from "web3";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import { SylvieABI } from "../../utils/abis";
+import { erc1155Abi } from "../../constants/abis";
 import styles from "./portfolliolendoutro.module.scss";
 
 const PortfolioLendOutroModal = ({
@@ -82,6 +84,11 @@ const PortfolioLendOutroModal = ({
     signer
   );
 
+
+  const web3 = new Web3(
+    Web3.givenProvider || "ws://some.local-or-remote.node:8546"
+  );
+
   // const provider = new JsonRpcProvider('https://mainnet.infura.io/v3/6fe73d73563b4e56aef1516412dfe130');
   // const privKey = '6d62eb36590393197c6bc45f7471fbc7f66ae9363f33c1c03144957df95a75d4';
   // let wallet = new Wallet(privKey);
@@ -130,8 +137,85 @@ const PortfolioLendOutroModal = ({
   //   contractInterface: erc721ABI,
   //   signerOrProvider: provider,
   // });
+  async function requestE1155Approval() {
+    setApprovalLoad(true);
+    try {
+  // Get signer's address
+  const address = await signer.getAddress();
 
-  async function requestApproval() {
+  // Initialize a contract instance for the NFT contract
+  const ERC1155Contract = new Contract(nftAddress, erc1155Abi, signer);
+
+  // Make sure user is owner of the NFT in question
+
+  // console.log('token id', tokenID)
+  const tokenOwner = await ERC1155Contract.balanceOf(address, tokenID);
+  const convHex = web3.utils
+  .toBN(tokenOwner._hex)
+  .toString();
+  // console.log('token owner: ', convHex)
+  // console.log('address: ', address)
+  if (convHex === 0 ) {
+    setApprovalLoad(false);
+    throw new Error(`You do not own this NFT`); 
+  }
+
+  // // getApproved(uint256 tokenId)
+  // // approve(address to, uint256 tokenId)
+  // Check if user already gave approval to the marketplace
+  const isApproved = await ERC1155Contract.isApprovedForAll(address, HADARO_GOERLI_ADDRESS);
+  // console.log('approve: ', isApproved)
+  // If not approved
+  if (!isApproved) {
+    // console.log("Requesting approval over NFTs...");
+
+    // Send approval transaction to NFT contract
+const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRESS, true)
+      const receipt = await approvalTxn.wait();
+
+      // console.log('approval', receipt)
+
+
+      if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+        // const transferToken =  await ERC1155Contract.safeTransferFrom(address, HADARO_GOERLI_ADDRESS, tokenID, lendAmount, "0x00")
+        // const receipt = await transferToken.wait();
+        //  console.log('approval2i', receipt)
+        //  if (receipt.blockNumber !== null && receipt.confirmations > 0) { 
+          setApprovalLoad(false);
+          return "operation success"
+      }
+  } else {
+    // console.log("viva")
+    setApprovalLoad(false);
+    return "operation success"
+    // const transferToken =  await ERC1155Contract.safeTransferFrom(address, HADARO_GOERLI_ADDRESS, tokenID, lendAmount, "0x00")
+    // const receipt = await transferToken.wait();
+    //  console.log('approval2j', receipt)
+    //  if (receipt.blockNumber !== null && receipt.confirmations > 0) { 
+      // setApprovalLoad(false);
+      // setAlreadyApprovedToken(true)
+    //  }
+    // setAlreadyApprovedToken(true)
+  } 
+    // setApprovalLoad(false);
+    } catch (e) {
+      // console.warn(e)
+      if (e.code === "ACTION_REJECTED") {
+        message.error("user denied transaction")
+        setApprovalLoad(false)
+        return "operation failed"
+        //  setAlreadyApprovedToken(false)
+      } else {
+        message.error("something went wrong...")
+        setApprovalLoad(false)
+        return "operation failed"
+        // setAlreadyApprovedToken(false)
+      }
+    }
+   
+  
+  }
+  async function requestE721Approval() {
     setApprovalLoad(true);
     try {
   // Get signer's address
@@ -172,16 +256,33 @@ const PortfolioLendOutroModal = ({
 
       if (receipt.blockNumber !== null && receipt.confirmations > 0) {
         setApprovalLoad(false);
+        return "operation success"
+        // setLoadingTxn(true)
         // setAlreadyApprovedToken(true)
       }
   } else {
     setApprovalLoad(false);
+    return "operation success"
+    // setLoadingTxn(true)
     // setAlreadyApprovedToken(true)
   } 
     // setApprovalLoad(false);
     } catch (e) {
-      console.warn(e)
-      setApprovalLoad(false)
+      // console.warn(e)
+      // console.warn(e.code)
+      if (e.code === "ACTION_REJECTED") {
+        message.error("user denied transaction")
+        setApprovalLoad(false)
+        return "operation failed"
+        // setAlreadyApprovedToken(false)
+        // setLoadingTxn(false)
+      } else {
+        message.error("something went wrong...")
+        setApprovalLoad(false)
+        return "operation failed"
+        // setLoadingTxn(false)
+        // setAlreadyApprovedToken(false)
+      }
     }
    
   
@@ -281,6 +382,10 @@ const PortfolioLendOutroModal = ({
         count,
       });
 
+      message.success("Lending successful!");
+      await getWalletNft();
+      await getLendNfts();
+      setLoadingTxn(false);
       // console.log('res: ', patchItem.data)
     }
 
@@ -310,7 +415,7 @@ const PortfolioLendOutroModal = ({
     //   collectionAddress: nftAddress,
     // };
 
-    await axios.post(`/api/postNftData`, document);
+    // await axios.post(`/api/postNftData`, document);
 
     // console.log(response.data);
 
@@ -328,7 +433,13 @@ const PortfolioLendOutroModal = ({
     //   }
     //  }
   } catch (e) {
-      console.warn(e)
+      // console.info(e)
+      if (e.code === "ACTION_REJECTED") {
+        message.error("user denied transaction")
+        setLoadingTxn(false)
+      } else {
+        message.error("something went wrong")
+      }
   }
   };
 
@@ -358,7 +469,6 @@ const PortfolioLendOutroModal = ({
       };
 
       // console.log(finalObject);
-
       // message.success(`lending successful!`, [5])
       // console.log(finalLendObject)
       cancleOutro();
@@ -372,61 +482,29 @@ const PortfolioLendOutroModal = ({
       // console.log(data?.hash);
 
       if (nftStandard === 0) {
-        await requestApproval();
+     const stat =  await requestE721Approval();
+    //  console.log('stats1', stat)
+     if (stat === "operation success") {
+      // if (alreadyApprovedToken) {
         await sylvesterLend(transactionType, chain, status);
+
+     }
       }
 
       if (nftStandard === 1) {
+        // console.log("xyz")
+     const stat =  await requestE1155Approval()
+    //  console.log('stats2', stat)
+     if (stat === "operation success") {
         await sylvesterLend(transactionType, chain, status);
+     }
+    
       }
 
-      // unfakeTxn()
-
-
-      // if (alreadyApprovedToken) {
-        setLoadingTxn(false);
-
-        cancelLendModal();
-  
-        message.success("Lending successful!");
-  
-        await getWalletNft();
-  
-        await getLendNfts();
-      // } else {
-        // message.error('unable to get approval for tokens')
-        setLoadingTxn(false);
-      // }
-      // removeLent(currentLendIndex);
     } catch (e) {
-      console.warn(e)
+      // console.warn(e)
       setApprovalLoad(false)
-      // if (e.message[0] === "u") {
-      //   message.error(e.message.slice(0, 25), [3]);
-      //   setLoadingTxn(false);
-      //   setApprovalLoad(false)
-      // } else if (e === "You do not own this NFT") {
-      //   message.error("already lent");
-      //   setLoadingTxn(false);
-      //   setApprovalLoad(false)
-      // } else if (
-      //   e.error?.message === "execution reverted: Hadaro::rent price is zero"
-      // ) {
-      //   message.error("daily rental price entered too low", [3]);
-      //   setLoadingTxn(false);
-      //   setApprovalLoad(false)
-      // } else if (e.message === "supplied price exceeds 9999.9999") {
-      //   message.error("daily rent price supplied too high", [3]);
-      //   setLoadingTxn(false);
-      //   setApprovalLoad(false)
-      // } else {
-      //   message.error("Something went wrong...", [5]);
-      //   setLoadingTxn(false);
-      //   setApprovalLoad(false)
-      // }
-      // // console.warn(e)
-      // // console.warn((prepareError || error)?.message);
-      // setLoadingTxn(false);
+ 
     }
   };
 

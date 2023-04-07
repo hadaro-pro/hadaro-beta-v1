@@ -74,6 +74,7 @@ const LendPortfolioComp = ({
   const [lastposition, setLastPosition] = useState(null);
 
   const [loadingLend, setLoadingLend] = useState(false);
+  const [loadingApproval, setLoadingApproval] = useState(false);
 
   const [isLendModalOpen, setIsLendModalOpen] = useState(false);
   const [isOutroModalOpen, setIsOutroModalOpen] = useState(false);
@@ -200,14 +201,14 @@ const LendPortfolioComp = ({
     setLastPosition(position);
     setCurrentLendItem({
       ...currentLendItem,
-      nftAddress: selectedNFTs[position].token_address,
-      tokenID: selectedNFTs[position].token_id,
-      nftStandard: selectedNFTs[position].contract_type,
-      collectionName: selectedNFTs[position].name,
-      collectionSymbol: selectedNFTs[position].symbol,
-      nftName: metadata.name,
-      nftImage: metadata.image,
-      nftDesc: metadata.description,
+      nftAddress: selectedNFTs[position]?.token_address,
+      tokenID: selectedNFTs[position]?.token_id,
+      nftStandard: selectedNFTs[position]?.contract_type,
+      collectionName: selectedNFTs[position]?.name,
+      collectionSymbol: selectedNFTs[position]?.symbol,
+      nftName: metadata?.name,
+      nftImage: metadata?.image,
+      nftDesc: metadata?.description,
     });
   };
 
@@ -473,7 +474,7 @@ const LendPortfolioComp = ({
                         <div key={index} className={styles.lendArt}>
                           <div className={styles.lendArtImage}>
                             <img
-                              src={item.image ? item.image : ""}
+                              src={item.image ? item.image : "/images/no-image-placeholder.png"}
                               alt={item.name}
                             />
                           </div>
@@ -495,6 +496,7 @@ const LendPortfolioComp = ({
                             modalOpen={isLendModalOpen}
                             cancelModal={handleLendModalCancel}
                             lendItemObject={currentLendItem}
+                            loadingApproval={loadingApproval}
                             setLendItemObject={setCurrentLendItem}
                             openCheckout={showOutroModal}
                             displayOutroPart={setOpenOutroModalOpen}
@@ -508,6 +510,7 @@ const LendPortfolioComp = ({
                               removeLent={handleRemoveElement}
                               currentLendIndex={lastposition}
                               setLoadingTxn={setLoadingLend}
+                              setApprovalLoad={setLoadingApproval}
                               loadingTxn={loadingLend}
                               showLendModal={showLendModal}
                             />

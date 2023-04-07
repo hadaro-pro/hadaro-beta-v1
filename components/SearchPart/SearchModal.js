@@ -48,7 +48,7 @@ const SearchModal = ({
 
   const nftImageAggregating = (image) => {
     let imageToDisplay;
-    if (image.includes(".")) {
+    if (image?.includes(".")) {
       imageToDisplay = image;
     } else {
       imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + image;
@@ -130,7 +130,7 @@ const SearchModal = ({
               />
               <small>
                 {item.collectionName.length > 15
-                  ? item.collectionName.slice(0, 15) + "..."
+                  ? item.collectionName.slice(0, 10) + "..."
                   : item.collectionName}
               </small>
               <small>
@@ -147,11 +147,11 @@ const SearchModal = ({
           {filterNfts.map((item) => (
             <div key={item?._id} className={styles.nftPartItem}>
               <img
-                src={nftImageAggregating(item.metadataImage)}
+                src={nftImageAggregating(item.metadataImage).includes('undefined') ? "/images/no-image-placeholder.png" :nftImageAggregating(item.metadataImage)}
                 alt={item?.metadataName}
               />
               <h5> {item?.nftCollectionName?.toLowerCase()} </h5>
-              <small>{item?.metadataName}</small>
+              <small>{item?.metadataName === null ? "No name" : item?.metadataName}</small>
               <div className={styles.nftPartBottom}>
                 <p className={styles.nftStatus}> {item?.status} </p>
                 <h4>

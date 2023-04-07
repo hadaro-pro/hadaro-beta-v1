@@ -73,6 +73,7 @@ const Navbar = ({}) => {
   const getAllNfts = async () => {
     try {
       const response = await axios.get(`/api/fetchAllNftsInCollection`);
+      // console.log('erty', response.data)
       const neededNfts = response.data.filter(
         (item) =>
           item?.status === "available" ||

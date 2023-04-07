@@ -33,10 +33,10 @@ const ArtCard = ({
 
   return (
     <div className={styles.mainCover}>
-      <img src={image} alt="artwork" />
+      <img src={image.includes('undefined') ? "/images/no-image-placeholder.png" : image} alt="artwork" />
       <div className={styles.artDesc}>
         <div className={styles.topCaption}>
-          <span> {title} </span>
+          <span> {title === null ? "No name" : title} </span>
           <span className={styles.collectionName}> {collectionName} </span>
         </div>
         <div className={styles.captionDetails}>

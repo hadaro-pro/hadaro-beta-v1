@@ -292,7 +292,7 @@ const PortfolioComp = ({
 
   const nftImageAggregating = (image) => {
     let imageToDisplay;
-    if (image.includes(".")) {
+    if (image?.includes(".")) {
       imageToDisplay = image;
     } else {
       imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + image;
@@ -527,7 +527,7 @@ const PortfolioComp = ({
           rentingIDToString,
         };
 
-        console.log("txnpayload", whatToSend);
+        // console.log("txnpayload", whatToSend);
 
         const txn = await hadaroGoerliTestContract.claimRent(
           [mainStandard],
@@ -1102,8 +1102,8 @@ const PortfolioComp = ({
                         {lendingNfts?.map((el, index) => (
                           <div key={index}>
                             <LendNfts
-                              nftname={el.metadataName}
-                              nftImage={nftImageAggregating(el.metadataImage)}
+                              nftname={el?.metadataName}
+                              nftImage={nftImageAggregating(el?.metadataImage)}
                               setLendItem={showLendingDetails}
                               // setLendItem={prepareStopLend}
                               position={index}
@@ -1125,7 +1125,7 @@ const PortfolioComp = ({
                           </div>
                           <div className={styles.infoContainer}>
                             <div className={styles.infoImage}>
-                              <img src={img} alt="item-image" />
+                              <img src={img.includes('undefined') ? "/images/no-image-placeholder.png" : img } alt="item-image" />
                             </div>
                             <div className={styles.infoDesc}>
                               <div className={styles.infoDescLender}>
@@ -1135,7 +1135,7 @@ const PortfolioComp = ({
                               <div className={styles.infoDescName}>
                                 <div className={styles.infoDescMetaNames}>
                                   {/* <h3> {collectionName} </h3> */}
-                                  <h2> {itemName} </h2>
+                                  <h2> {itemName === null ? "No name" : itemName} </h2>
                                 </div>
                                 <div className={styles.miniInfo}>
                                   <small> {standard} </small>
@@ -1145,8 +1145,8 @@ const PortfolioComp = ({
                                 <div className={styles.miniDesc}>
                                   {miniText ? (
                                     <p className={styles.miniText}>
-                                      {desc.split(" ").splice(0, 15).join(" ")}
-                                      {desc.split(" ").length < 15 ? (
+                                      {desc?.split(" ").splice(0, 15).join(" ")}
+                                      {desc?.split(" ").length < 15 ? (
                                         " "
                                       ) : (
                                         <span
@@ -1160,7 +1160,7 @@ const PortfolioComp = ({
                                   ) : (
                                     <p>
                                       {desc}
-                                      {desc.split(" ").length < 15 ? (
+                                      {desc?.split(" ").length < 15 ? (
                                         " "
                                       ) : (
                                         <span onClick={() => setMiniText(true)}>
@@ -1314,8 +1314,8 @@ const PortfolioComp = ({
                         {rentingNfts?.map((el, index) => (
                           <div key={index}>
                             <RentNfts
-                              nftname={el.metadataName}
-                              nftImage={nftImageAggregating(el.metadataImage)}
+                              nftname={el?.metadataName}
+                              nftImage={nftImageAggregating(el.metadataImage).includes('undefined')?"/images/no-image-placeholder.png": nftImageAggregating(el.metadataImage)}
                               nftStatus={el.status}
                               position={index}
                               loadingRent={loadingRentRemove}
@@ -1337,7 +1337,7 @@ const PortfolioComp = ({
                           </div>
                           <div className={styles.infoContainer}>
                             <div className={styles.infoImage}>
-                              <img src={img} alt="item-image" />
+                              <img src={img.includes('undefined')? "/images/no-image-placeholder.png": img} alt="item-image" />
                             </div>
                             <div className={styles.infoDesc}>
                               <div className={styles.infoDescLender}>
@@ -1347,7 +1347,7 @@ const PortfolioComp = ({
                               <div className={styles.infoDescName}>
                                 <div className={styles.infoDescMetaNames}>
                                   {/* <h3> {collectionName} </h3> */}
-                                  <h2> {itemName} </h2>
+                                  <h2> {itemName === null ? "No name" : itemName} </h2>
                                 </div>
                                 <div className={styles.miniInfo}>
                                   <small> {standard} </small>
@@ -1357,8 +1357,8 @@ const PortfolioComp = ({
                                 <div className={styles.miniDesc}>
                                   {miniText ? (
                                     <p className={styles.miniText}>
-                                      {desc.split(" ").splice(0, 15).join(" ")}
-                                      {desc.split(" ").length < 15 ? (
+                                      {desc?.split(" ").splice(0, 15).join(" ")}
+                                      {desc?.split(" ").length < 15 ? (
                                         " "
                                       ) : (
                                         <span

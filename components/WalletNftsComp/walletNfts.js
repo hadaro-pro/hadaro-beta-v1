@@ -50,14 +50,14 @@ const WalletNfts = ({
     // // setLastPosition(position)
     setCurrentLendItem({
       ...currentLendItem,
-      nftAddress: allInfo.token_address,
-      tokenID: allInfo.token_id,
-      nftStandard: allInfo.contract_type,
-      collectionName: allInfo.name,
-      collectionSymbol: allInfo.symbol,
-      nftName: metadataInfo.name,
-      nftImage: metadataInfo.image,
-      nftDesc: metadataInfo.description,
+      nftAddress: allInfo?.token_address,
+      tokenID: allInfo?.token_id,
+      nftStandard: allInfo?.contract_type,
+      collectionName: allInfo?.name,
+      collectionSymbol: allInfo?.symbol,
+      nftName: metadataInfo?.name,
+      nftImage: metadataInfo?.image,
+      nftDesc: metadataInfo?.description,
     });
 
     // console.log(metadataInfo)

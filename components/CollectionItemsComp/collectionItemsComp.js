@@ -276,6 +276,8 @@ const CollectionItemsComp = ({
       [topic1, topic2, topic3]
     );
 
+    // console.log("prt", res)
+
     return res.lendingID;
   };
 
@@ -392,11 +394,11 @@ const CollectionItemsComp = ({
 
     try {
       // setBalances([])
-      setWethBalance(null);
-      setDaiBalance(null);
-      setUsdcBalance(null);
-      setUsdtBalance(null);
-      setLinkBalance(null);
+      // setWethBalance(null);
+      // setDaiBalance(null);
+      // setUsdcBalance(null);
+      // setUsdtBalance(null);
+      // setLinkBalance(null);
 
       const response = await axios.get(`/api/get-token-balances`, {
         params: {
@@ -412,7 +414,8 @@ const CollectionItemsComp = ({
         },
       });
 
-      // console.log("reper", response2.data);
+      // console.log("reper", response.data);
+      // console.log("repert", response2.data);
 
       const convertedPrice = Number(response2.data.balance) / 1e18;
 
@@ -510,6 +513,56 @@ const CollectionItemsComp = ({
     setIsRentModalOpen(true);
     // openFooter(true);
     // window.scrollTo(0, 100);
+  };
+
+
+  const getColandUpdateItemCount = async (collectionAddr) => {
+    // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
+    const getCollection = await axios.post(`/api/fetchItemCollection`, {
+      collectionAddr,
+    });
+
+    const filterDrafts = getCollection.data.filter(
+      (item) =>
+        item.collectionAddress.toLowerCase() === collectionAddr.toLowerCase() &&
+        !item._id?.includes("drafts")
+    );
+    // console.log('results: ', getCollection.data)
+    // console.log('results: ', filterDrafts)
+
+    const itemId = filterDrafts[0]?._id;
+
+    const itemCount = filterDrafts[0]?.itemCount;
+    // console.log('results: ', itemCount)
+
+    let finalValue;
+
+    if (itemCount === null) {
+      finalValue = 0;
+    } else {
+      finalValue = Number(itemCount);
+    }
+
+    const valueToSend = String(finalValue - 1);
+    // console.log('final: ', valueToSend)
+
+    if (valueToSend === "-1") {
+      const count = "0";
+
+      const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
+        itemId,
+        count,
+      });
+      // console.log('res0: ', patchItem.data)
+    } else {
+      const count = valueToSend;
+      const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
+        itemId,
+        count,
+      });
+
+      // console.log('res1: ', patchItem.data)
+    }
   };
 
   const handlePatch = async (
@@ -678,9 +731,9 @@ const CollectionItemsComp = ({
   const returnBalance = (value) => {
     //  const { symbol, balance, decimals } = valueObj
 
-    //  console.log('eve1: ', typeof(valueObj))
+    //  console.log('eve1: ', value)
 
-    if (value.length === 0) {
+    if (value?.length === 0) {
       const msg = "nothing to see here";
       return msg;
     } else {
@@ -731,6 +784,7 @@ const CollectionItemsComp = ({
     identity
   ) => {
     setRentingLoading(true);
+    // console.log("gart", rentAmount)
     try {
       const txn = await hadaroGoerliTestContract.rent(
         [nftStandard],
@@ -767,10 +821,23 @@ const CollectionItemsComp = ({
         handleRentModalCancel();
       }
     } catch (e) {
-      setRentingLoading(false);
       // console.warn(e)
       if (e.code === "ACTION_REJECTED") {
+        setRentingLoading(false);
         message.error("user rejected transaction");
+      } else if (e.reason === "execution reverted: Hadaro::rentAmount is zero"  || e.reason ===   "execution reverted: Hadaro::invalid rent amount") {
+        message.info("item returned to lender already, removing from marketplace...")
+        handlePatch(toDisplayData?._id, "non-available", "previousListed for Lending")
+        const itemAddr = toDisplayData?.nftAddress.toLowerCase()
+        setRentingLoading(false);
+        getColandUpdateItemCount(itemAddr);
+        getRefreshItems();
+      } else if (e.reason="execution reverted: Hadaro::cant rent own nft") {
+        message.error("can't rent own item!")
+        setRentingLoading(false);
+      } else {
+        message.error("something went wrong...")
+        setRentingLoading(false);
       }
     }
   };
@@ -789,8 +856,8 @@ const CollectionItemsComp = ({
             message.info("set a rental period then proceed to renting");
             setRentingLoading(false);
           } else {
-            // console.log(typeof displayAmount);
-
+            // console.log("styer", toDisplayData?.paymentToken); 
+            // console.log("styarz", wethBalance);
             if (toDisplayData?.paymentToken === "1") {
               const balanceOfToken = returnBalance(wethBalance);
               const token = "wrapped ether";
@@ -827,7 +894,7 @@ const CollectionItemsComp = ({
 
                   const rentDuration = Number(rentalPeriod);
                   const tokenID = toDisplayData?.tokenID;
-                  const rentAmount = "1";
+                  const rentAmount = 1;
                   const rentTxnHash = toDisplayData?.rentTxnHash;
 
                   const finalObj = {
@@ -838,6 +905,7 @@ const CollectionItemsComp = ({
                     rentDuration,
                     rentAmount,
                   };
+// execution reverted: Hadaro::rentAmount is zero   execution reverted: Hadaro::invalid rent amount
 
                   const msgValue = String(0);
 
@@ -1015,8 +1083,8 @@ const CollectionItemsComp = ({
             {itemsToDisplay?.map((item, index) => (
               <div key={index}>
                 <ArtCard
-                  image={nftImageAggregating(item.metadataImage)}
-                  title={item.metadataName}
+                  image={nftImageAggregating(item?.metadataImage)}
+                  title={item?.metadataName}
                   collectionName={colName}
                   bidPrice={`${unpackPrice(item.price)}`}
                   paymentToken={convertToken(item.paymentToken)}
@@ -1045,6 +1113,8 @@ const CollectionItemsComp = ({
                         <img
                           src={nftImageAggregating(
                             toDisplayData?.metadataImage
+                          ).includes('undefined') ? "/images/no-image-placeholder.png": nftImageAggregating(
+                            toDisplayData?.metadataImage
                           )}
                           alt={toDisplayData?.metadataName}
                         />
@@ -1060,7 +1130,7 @@ const CollectionItemsComp = ({
                         <div className={styles.infoDescName}>
                           <div className={styles.infoDescMetaNames}>
                             <h3> {colName} </h3>
-                            <h2> {toDisplayData?.metadataName} </h2>
+                            <h2> {toDisplayData?.metadataName === null ? "No Name" : toDisplayData?.metadataName} </h2>
                           </div>
                           <div className={styles.miniInfo}>
                             <small>
@@ -1076,7 +1146,7 @@ const CollectionItemsComp = ({
                             {miniText ? (
                               <p className={styles.miniText}>
                                 {toDisplayData?.metadataDesc
-                                  .split(" ")
+                                  ?.split(" ")
                                   .splice(0, 15)
                                   .join(" ")}
                                 <span
