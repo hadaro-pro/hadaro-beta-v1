@@ -560,10 +560,12 @@ const PortfolioComp = ({
       setLoadClaimRent(false);
     } catch (e) {
       // console.warn(e)
-      setLoadClaimRent(false);
+     
       if (e.code === "ACTION_REJECTED") {
+        setLoadClaimRent(false);
         message.error("user rejected transaction");
       } else if (e.message[0] === "F") {
+        setLoadClaimRent(false);
         message.error("something went wrong");
       } else if(e.error.data.message === "execution reverted: Hadaro::zero address"){
         await handlePatch(
@@ -572,10 +574,11 @@ const PortfolioComp = ({
           "non-available"
         );
         await getColandUpdateItemCount(mainItemAddr);
-        message.success("item already returned to your wallet, removing from lendings...", [5]);
+        message.success("item already being returned to your wallet, removing from lendings...", [5]);
         handleLendDetailsModalCancel();
         await getNewListFunc();
         await getWalletNfts();
+        setLoadClaimRent(false);
       }
     }
   };
