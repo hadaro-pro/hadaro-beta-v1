@@ -457,7 +457,7 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
       // console.log(data?.hash);
       if (nftStandard === 0) {
         const stat =  await requestE721Approval();
-        console.log('stats1', stat)
+        // console.log('stats1', stat)
         if (stat === "operation success") {
          // if (alreadyApprovedToken) {
            await sylvesterLend(transactionType, chain, status);

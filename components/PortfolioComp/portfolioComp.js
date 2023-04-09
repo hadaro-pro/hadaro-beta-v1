@@ -548,7 +548,7 @@ const PortfolioComp = ({
             newRenterAddress,
             "already claimed",
             "non-available",
-            "previouslyListed for lending"
+            "previousListed for lending"
           );
           await getColandUpdateItemCount(mainItemAddr);
           message.success("successfully claimed rental fees!");
@@ -559,8 +559,7 @@ const PortfolioComp = ({
       }
       setLoadClaimRent(false);
     } catch (e) {
-      // console.warn(e)
-     
+      // console.warn(e) 
       if (e.code === "ACTION_REJECTED") {
         setLoadClaimRent(false);
         message.error("user rejected transaction");
@@ -648,18 +647,20 @@ const PortfolioComp = ({
       }
       setLoadStopRent(false);
     } catch (e) {
-      setLoadStopRent(false);
       // console.warn(e);
       if (e.message[0] === "u" && e.message[1] === "s") {
         message.error("user rejected transaction");
+        setLoadStopRent(false);
       } else if (e.message[0] === "F") {
         message.error("something went wrong");
+        setLoadStopRent(false);
       } else if (
         e.error.data.message === "execution reverted: Hadaro::past return date"
       ) {
         message.error("You failed to return item before expiry!");
         const newRenterAddress = "" 
         await handleRentPatch(identi, newRenterAddress);
+        setLoadStopRent(false);
         await getRentingNfts()
       } else if(e.error.data.message === "execution reverted: Hadaro::zero address"){
         await handlePatch(
@@ -670,6 +671,7 @@ const PortfolioComp = ({
         await getColandUpdateItemCount(mainItemAddr);
         message.success("item already returned to your wallet, removing from lendings...", [5]);
         handleLendDetailsModalCancel();
+        setLoadStopRent(false);
         await getNewListFunc();
         await getWalletNfts();
       }
@@ -878,13 +880,14 @@ const PortfolioComp = ({
       }
       setLoadingLendRemove(false);
     } catch (e) {
-      setLoadingLendRemove(false);
-      // console.error(e.error.data.message);
-      if (e.message[0] === "u" && e.message[1] === "s") {
+      // console.error(e.error.message);
+      if (e.code === "ACTION_REJECTED") {
         message.error("user rejected transaction");
+        setLoadingLendRemove(false);
       } else if (e.message[0] === "F") {
         message.error("something went wrong");
-      } else if(e.error.data.message === "execution reverted: Hadaro::zero address"){
+        setLoadingLendRemove(false);
+      } else if(e.error.message === "execution reverted: Hadaro::zero address"){
         await handlePatch(
           identi,
           "previousListed for lending",
@@ -893,10 +896,12 @@ const PortfolioComp = ({
         await getColandUpdateItemCount(mainItemAddr);
         message.success("item already returned to your wallet, removing from lendings...", [5]);
         handleLendDetailsModalCancel();
+        setLoadingLendRemove(false);
         await getNewListFunc();
         await getWalletNfts();
-      }  else if (e.error.data.message === "execution reverted: Hadaro::actively rented") {
+      }  else if (e.error.message === "execution reverted: Hadaro::actively rented") {
         message.error("Unable to perform action! rental is in progress...")
+        setLoadingLendRemove(false);
       }
     }
   };

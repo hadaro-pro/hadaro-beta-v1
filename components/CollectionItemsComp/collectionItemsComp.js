@@ -1030,8 +1030,10 @@ const CollectionItemsComp = ({
         );
       } else if (e.reason === "execution reverted: Hadaro::cant rent own nft") {
         message.error("You can't rent an item you own!", [3]);
+        setRentingLoading(false);
       } else if (e.code === "ACTION_REJECTED") {
         message.error("user rejected transaction");
+        setRentingLoading(false);
       }
       setRentingLoading(false);
       handleCancel();

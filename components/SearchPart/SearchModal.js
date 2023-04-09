@@ -21,11 +21,6 @@ const SearchModal = ({
   //  console.log('ss', nftItems)
   //  console.log('ff', collectionItems)
 
-  useEffect(() => {
-    getCol();
-    getNft();
-  }, []);
-
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -90,6 +85,15 @@ const SearchModal = ({
 
     router.push(`/collections/${objToSave.iden}`);
   };
+
+  useEffect(() => {
+    const runFirst = async() => {
+    await getCol();
+    await getNft();
+    }
+
+    runFirst()
+  }, []);
 
   return (
     <Modal
