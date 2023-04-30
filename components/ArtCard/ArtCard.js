@@ -41,10 +41,11 @@ const ArtCard = ({
         </div>
         <div className={styles.captionDetails}>
           <div className={styles.captionDetails1}>
-            <div className={styles.graybg}></div>
-            <div className={styles.status}>
-              <small>{status === "lending" ? "Available" : "Rented"}</small>
-            </div>
+            {status === "lending" ?  <div className={styles.statusOne}>
+              <small>Available</small>
+            </div> :  <div className={styles.statusTwo}>
+              <small>Rented</small>
+            </div>}
           </div>
           <div className={styles.captionDetails2}>
             <small>Price</small>

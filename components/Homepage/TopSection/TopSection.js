@@ -317,7 +317,7 @@ const TopSection = () => {
                className={styles.compPart}>
                 <p>
                   {" "}
-                  Contact Us <CaretDownOutlined style={{ color: "#fff" }} />
+                  Feed <CaretDownOutlined style={{ color: "#fff" }} />
                 </p>
                 <small className={
                     openContactMenu ? styles.displayMenu : styles.displayNone
@@ -407,7 +407,7 @@ const TopSection = () => {
                className={styles.compPart}>
                 <p>
                   {" "}
-                  Contact Us <CaretDownOutlined style={{ color: "#fff" }} />
+                  Feedback <CaretDownOutlined style={{ color: "#fff" }} />
                 </p>
                 <small className={
                     openContactMenu ? styles.displayMenu : styles.displayNone
@@ -522,7 +522,7 @@ const TopSection = () => {
                className={styles.compPart}>
                 <p>
                   {" "}
-                  Contact Us <CaretDownOutlined style={{ color: "#fff" }} />
+                  Feedback <CaretDownOutlined style={{ color: "#fff" }} />
                 </p>
                 <small className={
                     openContactMenu ? styles.displayMenu : styles.displayNone

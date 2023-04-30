@@ -38,7 +38,7 @@ import ImageSlider from "../../ImageSlider/ImageSlider";
 const ExploreCollection = () => {
   return (
     <div className={styles.mainContainer}>
-      <h1> Explore collection </h1>
+      <h1> Explore collections </h1>
       
         <ImageSlider />
 

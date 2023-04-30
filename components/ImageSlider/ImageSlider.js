@@ -8,18 +8,18 @@ const ImageSlider = () => {
   const [itemAnimation, setItemAnimation] = useState(false);
   const [closeCaption, setCloseCaption] = useState(false);
   const carouselData = [
-    {
-      caption: "$50,000 dollars worth of prizes!",
-      description: "Compete your way to the top 10.",
-      link: "/marketplace-discover",
-      backgroundColor: "rgb(155 81 224)",
-    },
-    {
-      caption: "10 tournaments taking place this week!",
-      description: "Rent to compete now.",
-      link: "/marketplace-discover",
-      backgroundColor: " rgb(43, 171, 86)",
-    },
+    // {
+    //   caption: "$50,000 dollars worth of prizes!",
+    //   description: "Compete your way to the top 10.",
+    //   link: "/marketplace-discover",
+    //   backgroundColor: "rgb(155 81 224)",
+    // },
+    // {
+    //   caption: "10 tournaments taking place this week!",
+    //   description: "Rent to compete now.",
+    //   link: "/marketplace-discover",
+    //   backgroundColor: " rgb(43, 171, 86)",
+    // },
     {
       caption: "Level Up your NFTs by lending",
       description: "Lend your NFTs for other gamers to compete for you.",

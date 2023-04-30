@@ -505,9 +505,9 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
       // console.warn(e)
       setApprovalLoad(false)
  
-    }
+    }    
   };
-
+ 
   return (
     <Modal
       open={outroOpen}

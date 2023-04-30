@@ -47,38 +47,91 @@ const Footer = () => {
             </p>
             <p className={styles.lastPart}>
               {" "}
-              <Link href="/blog">BLOG</Link>{" "}
+              <Link href="/blog">BLOG</Link>{" "}   
             </p>
           </div>
         </div>
-        <div className={styles.subscriptionPart}>
+        <div className= {styles.subscriptionPart}>
           <div className={styles.subscriptionPartUpper}>
             <h2>Join our thriving community.</h2>
           </div>
           <div className={styles.subscriptionPartLower}>
-            <p>
-              <img src="/images/twitter.png" alt="twitter" />
-            </p>
-            <p>
+            <a
+              href="https://twitter.com/gohadaro"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <p>
+                <img src="/images/twitter.png" alt="twitter" />
+              </p>
+            </a>
+
+            <a
+              href="https://www.linkedin.com/company/hadaro/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {" "} 
+              <p>
+                <img src="/images/linkedin.png" alt="linkedin" />
+              </p> 
+            </a> 
+            <a
+              href="https://medium.com/@goHadaro"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {" "}
+              <p>
+                <img src="/images/medium.png" alt="medium" />
+              </p>
+            </a>
+            <a
+              href="https://www.instagram.com/gohadaro/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {" "}
+              <p>
+                <img src="/images/instagram.png" alt="instagram" />
+              </p>
+            </a>
+            <a
+              href="https://t.me/+rVTKqNA6K184YTRl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {" "}
+              <p>
+                <img src="/images/telegram.png" alt="telegram" />
+              </p>
+            </a>
+
+            <a
+              href="https://www.facebook.com/profile.php?id=100088876557442"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <p>
+                <img src="/images/fb-icon.png" alt="facebook" />
+              </p>
+            </a>
+
+            {/* <p>
               <img src="/images/tiktok.png" alt="tiktok" />
-            </p>
-            <p>
-              <img src="/images/telegram.png" alt="telegram" />
-            </p>
-            <p>
-              <img src="/images/fb-icon.png" alt="facebook" />
-            </p>
-            <p>
+            </p> */}
+
+            {/* <p>
               <img src="/images/discord-icon.png" alt="discord" />
-            </p>
-            <p>
+            </p> */}
+            {/* <p>
               <img src="/images/youtube.png" alt="youtube" />
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
       <div className={styles.footerLowerPart}>
-        <small>Copyright &copy; Hadaro 2022</small>
+        <small>Copyright &copy; Hadaro 2023</small>
       </div>
     </div>
   );

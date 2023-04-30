@@ -177,7 +177,7 @@ const Navbar = ({}) => {
               >
                 <p>
                   {" "}
-                  Contact Us <CaretDownOutlined style={{ color: "#fff" }} />
+                  Feedback <CaretDownOutlined style={{ color: "#fff" }} />
                 </p>
                 <small
                   className={
@@ -275,7 +275,7 @@ const Navbar = ({}) => {
               >
                 <p>
                   {" "}
-                  Contact Us <CaretDownOutlined style={{ color: "#fff" }} />
+                  Feedback <CaretDownOutlined style={{ color: "#fff" }} />
                 </p>
                 <small
                   className={
@@ -377,7 +377,7 @@ const Navbar = ({}) => {
                 >
                   <p>
                     {" "}
-                    Contact Us <CaretDownOutlined style={{ color: "#fff" }} />
+                    Feedback <CaretDownOutlined style={{ color: "#fff" }} />
                   </p>
                   <small
                     className={

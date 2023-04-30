@@ -814,9 +814,9 @@ const CollectionItemsComp = ({
         // console.log(finalObj)
         setRentingLoading(false);
         setRentalPeriod("");
-        getRefreshItems();
         handleCancel();
         message.success("rent success!");
+        getRefreshItems();
         // handleCancel();
         handleRentModalCancel();
       }

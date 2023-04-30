@@ -82,8 +82,8 @@ const InfoSection = () => {
 
       <div>
         <InfoGraph heading="Lender" topImage={"/images/info-img01.png"}  dataArray={infoData1}/>
-        <InfoGraph heading="Gamer" topImage={"/images/info-img02.png"}  dataArray={infoData2}/>
-        <InfoGraph heading="Benefits for NFT gaming tournaments" topImage={"/images/info-img03.png"}  dataArray={infoData3}/>
+        <InfoGraph heading="Players" topImage={"/images/info-img02.png"}  dataArray={infoData2}/>
+        <InfoGraph heading="NFT Powered games" topImage={"/images/info-img03.png"}  dataArray={infoData3}/>
       </div>
     </div>
   )

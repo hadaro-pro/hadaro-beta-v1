@@ -89,7 +89,7 @@ const SearchModal = ({
   useEffect(() => {
     const runFirst = async() => {
     await getCol();
-    await getNft();
+    // await getNft();
     }
 
     runFirst()
@@ -108,7 +108,7 @@ const SearchModal = ({
       <div className={styles.searchPartForm}>
         <input
           type="text"
-          placeholder="Search Collections and NFTs"
+          placeholder="Search Collections"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
@@ -145,8 +145,8 @@ const SearchModal = ({
           ))}
         </div>
       </div>
-      <div className={styles.nftsPart}>
-        {filterNfts?.length > 0 && <h1> NFTS </h1>}
+      {/* <div className={styles.nftsPart}> */}
+        {/* {filterNfts?.length > 0 && <h1> NFTS </h1>}
         <div className={styles.nftPartItems}>
           {filterNfts.map((item) => (
             <div key={item?._id} className={styles.nftPartItem}>
@@ -166,8 +166,8 @@ const SearchModal = ({
               </div>
             </div>
           ))}
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
       {searchText !== "" &&
         filterCollection?.length === 0 &&
         filterNfts?.length === 0 && (

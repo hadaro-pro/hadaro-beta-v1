@@ -64,7 +64,7 @@
         align-items: center;
         justify-content: center;
 
-        .status {
+        .statusOne {
           margin-left: 0.4rem;
           text-align: center;
           //  outline: 3px solid orangered;
@@ -77,6 +77,21 @@
             font-weight: 600;
           }
         }
+
+        .statusTwo {
+          margin-left: 0.4rem;
+          text-align: center;
+          //  outline: 3px solid orangered;
+          background-color: gray;
+          padding: 0 0.3rem 0 0.2rem;
+          border-radius: 5px;
+
+          small {
+            font-size: 0.75rem;
+            font-weight: 600;
+          }
+        }
+
 
         .graybg {
           width: 2rem;

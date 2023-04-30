@@ -9,7 +9,7 @@ const FaqSection = () => {
         <h1>FAQS</h1>
         <img src="/images/faq.png" alt="faqs" />
       </div>
-      <div className={styles.firstCover}>
+      {/* <div className={styles.firstCover}>
         <div className={styles.firstCoverInner}>
           <img
             src="/images/Girl-solving-problem-with-phone.png"
@@ -23,8 +23,8 @@ const FaqSection = () => {
             </small>
           </div>
         </div>
-      </div>
-      <div className={styles.firstCover2}>
+      </div> */}
+      {/* <div className={styles.firstCover2}>
         <div className={styles.firstCoverInner2}>
           <img src="/images/Subtract.png" alt="NFTs" />
           <div className={styles.firstCoverInnerDesc2}>
@@ -36,7 +36,7 @@ const FaqSection = () => {
             </small>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className={styles.firstCover3}>
         <div className={styles.firstCoverInner3}>
           <div className={styles.firstCoverInnerDesc3}>

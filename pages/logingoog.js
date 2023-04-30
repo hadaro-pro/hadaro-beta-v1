@@ -28,8 +28,34 @@ const options = {
   return `${rootUrl}?${qs.toString()}`
   }
 
+  const runFacebookSignIn = () => {
+    const fb_client_id = "560358619285745"
+const server_endpoint = "http://localhost:4000"
+
+const redirect_uri = "https://432d-102-89-47-187.ngrok-free.app/api/v2/auth/login-facebook"
+
+const rootUrl = 'https://www.facebook.com/v4.0/dialog/oauth'
+
+const options = {
+  client_id: fb_client_id,
+  redirect_uri: redirect_uri,
+  scope: ['email'].join(','), // comma seperated string
+  response_type: 'code',
+  auth_type: 'rerequest',
+  display: 'popup',
+}  
+
+  const qs = new URLSearchParams(options)
+ 
+  return `${rootUrl}?${qs.toString()}`
+  }
+
   return (
-    <div> <a href={runGoogleSignIn()}>Login with Google</a> </div>
+    <div>
+       <a href={runGoogleSignIn()}>Login with Google</a> 
+       <br/>
+       <a href={runFacebookSignIn()}>Login with Facebook</a> 
+       </div>
   )
 }
 

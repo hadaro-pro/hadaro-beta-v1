@@ -41,11 +41,11 @@ const listData = [
   },
   {
     caption: "What we do",
-    description: "We are an NFT rental marketplace focused on play to earn gamers. We allow NFT gamers to list their gaming NFTs on our marketplace for other gamers to rent for a fraction of the price, use and give back after the duration period ends.",
+    description: "Hadaro is an NFT rental marketplace focused on NFT games. Hadaro helps gamers produce passive income by lending out their in-game assets to gamers for a fraction of the price making it easier for gamers at all levels to gain access to rare in-game items.",
   },
   {
     caption: "Our mission",
-    description: "We aim to build the largest NFT rental marketplace, you can lend & rent game assets, virtual land, virtual fashion, phygital event tickets, eNFTs, music, physical real estate & subscriptions. Eliminating the traditional middle man in the rental industry through self executing smart contracts, making transactions fast, sufficient & effective for all parties involved."
+    description: "To become the Largest decentralised NFT rental marketplace, you can lend & rent in-game assets, Virtual Real Estate, virtual fashion, phygital event tickets, eNFTs, music, physical real estate, streaming & subscriptions. Eliminating the traditional middle man in the rental industry through self executing smart contracts, making transactions fast, sufficient & effective for all parties involved."
   },
   
 ];
