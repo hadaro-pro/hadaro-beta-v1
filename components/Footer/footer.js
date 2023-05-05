@@ -17,26 +17,26 @@ const Footer = () => {
             </p>
             <p>
               {" "}
-              <Link href="/feedback"> CONTACT US</Link>
+              <Link href="mailto:support@hadaro.com.au"> CONTACT US</Link>
             </p>
             <p>
               {" "}
               <Link href="/feedback"> FEEDBACK</Link>
             </p>
-            <p>
+            {/* <p>
               {" "}
               <Link href="/marketplace-discover"> EXPLORE</Link>
-            </p>
+            </p> */}
             <p className={styles.lastPart}>
               {" "}
               <Link href="/marketplace-featured"> MARKETPLACE</Link>
             </p>
           </div>
           <div className={styles.captionLower}>
-            <p>
+            {/* <p>
               {" "}
               <Link href="/lend-portfolio">LEND</Link>{" "}
-            </p>
+            </p> */}
             <p>
               {" "}
               <Link href="/portfolio">PORTFOLIO</Link>{" "}
@@ -47,7 +47,8 @@ const Footer = () => {
             </p>
             <p className={styles.lastPart}>
               {" "}
-              <Link href="/blog">BLOG</Link>{" "}   
+              <Link href="https://medium.com/@goHadaro" target="_blank" 
+              rel="noopener noreferrer">BLOG</Link>{" "}   
             </p>
           </div>
         </div>

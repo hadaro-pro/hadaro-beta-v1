@@ -170,22 +170,24 @@ const Navbar = ({}) => {
                 <Link href="/marketplace-discover"> Explore </Link>
               </p>
               <div
-                onMouseEnter={() => setOpenContactMenu(true)}
-                onMouseLeave={() => setOpenContactMenu(false)}
-                onClick={() => setOpenContactMenu((prev) => !prev)}
+                // onMouseEnter={() => setOpenContactMenu(true)}
+                // onMouseLeave={() => setOpenContactMenu(false)}
+                // onClick={() => setOpenContactMenu((prev) => !prev)}
                 className={styles.compPart}
               >
                 <p>
                   {" "}
-                  Feedback <CaretDownOutlined style={{ color: "#fff" }} />
+                  <Link href="/feedback"> Feedback </Link>
+                  {/* Feedback 
+                  <CaretDownOutlined style={{ color: "#fff" }} /> */}
                 </p>
-                <small
+                {/* <small
                   className={
                     openContactMenu ? styles.displayMenu : styles.displayNone
                   }
                 >
-                  <Link href="/feedback"> Feedback </Link>
-                </small>
+                  
+                </small> */}
               </div>
               <p>
                 {" "}
@@ -268,22 +270,23 @@ const Navbar = ({}) => {
                 <Link href="/marketplace-discover"> Explore </Link>
               </p>
               <div
-                onMouseEnter={() => setOpenContactMenu(true)}
-                onMouseLeave={() => setOpenContactMenu(false)}
-                onClick={() => setOpenContactMenu((prev) => !prev)}
+                // onMouseEnter={() => setOpenContactMenu(true)}
+                // onMouseLeave={() => setOpenContactMenu(false)}
+                // onClick={() => setOpenContactMenu((prev) => !prev)}
                 className={styles.compPart}
               >
                 <p>
                   {" "}
-                  Feedback <CaretDownOutlined style={{ color: "#fff" }} />
+                  <Link href="/feedback"> Feedback </Link>
+                  {/* Feedback <CaretDownOutlined style={{ color: "#fff" }} /> */}
                 </p>
-                <small
+                {/* <small
                   className={
                     openContactMenu ? styles.displayMenu : styles.displayNone
                   }
                 >
                   <Link href="/feedback"> Feedback </Link>
-                </small>
+                </small> */}
               </div>
               <p>
                 {" "}
@@ -370,22 +373,24 @@ const Navbar = ({}) => {
                   <Link href="/marketplace-discover"> Explore </Link>
                 </p>
                 <div
-                  onMouseEnter={() => setOpenContactMenu(true)}
-                  onMouseLeave={() => setOpenContactMenu(false)}
-                  onClick={() => setOpenContactMenu((prev) => !prev)}
+                  // onMouseEnter={() => setOpenContactMenu(true)}
+                  // onMouseLeave={() => setOpenContactMenu(false)}
+                  // onClick={() => setOpenContactMenu((prev) => !prev)}
                   className={styles.compPart}
                 >
                   <p>
                     {" "}
-                    Feedback <CaretDownOutlined style={{ color: "#fff" }} />
+                    <Link href="/feedback"> Feedback </Link>
+                    {/* Feedback  */}
+                    {/* <CaretDownOutlined style={{ color: "#fff" }} /> */}
                   </p>
-                  <small
+                  {/* <small
                     className={
                       openContactMenu ? styles.displayMenu : styles.displayNone
                     }
                   >
                     <Link href="/feedback"> Feedback </Link>
-                  </small>
+                  </small> */}
                 </div>
                 <p>
                   {" "}
