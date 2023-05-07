@@ -12,7 +12,7 @@ export default function Home() {
       <Head>
         <title>Hadaro BETA</title>
         <meta name="description" content="Hadaro NFT Rental" />
-        <link rel="icon" href="/Hadaro-BETA-logo.png" />
+        <link rel="icon" href="/hadaro-icon.png" />
       </Head>
 
       <TopSection />

@@ -5,7 +5,7 @@ const FeedbackComp = () => {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.topPart}>
-        <h1>TELL US WHAT YOU WANT</h1>
+        <h1>Please provide your feedback</h1>
       </div>
 
       <div className={styles.formPart}>

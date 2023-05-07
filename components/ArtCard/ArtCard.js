@@ -25,7 +25,7 @@ const ArtCard = ({
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+ 
   // console.log(image)
   // console.log(title)
   // console.log(collectionName)
