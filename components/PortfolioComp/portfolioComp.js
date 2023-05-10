@@ -1584,7 +1584,7 @@ const PortfolioComp = ({
           {/* <button onClick={updateCount}>get and add to item count</button> */}
         </div>
       </div>
-    </div>
+    </div> 
   );
 };
 
