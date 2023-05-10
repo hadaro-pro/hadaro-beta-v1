@@ -65,7 +65,7 @@ const NewCollectionComp = ({ inHouseCollections }) => {
       _type: "testcollectionsData",
       collectionName: collectionName,
       collectionSymbol: collectionSymbol,
-      collectionAddress: contractAddr,
+      collectionAddress: contractAddr.toLowerCase(),
       // collectionImage: imageAsset?.url,
       collectionDesc: collectionDesc,
       itemCount: String(0),

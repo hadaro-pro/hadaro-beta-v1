@@ -352,17 +352,18 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
         collectionAddr,
       });
 
-      // console.log('original col: ', getCollection.data)
+     //  console.log('original col: ', getCollection.data)
 
-      const filterDrafts = getCollection.data.filter(
-        (item) => !item._id?.includes("drafts")
-      );
-      // console.log('filter col: ', filterDrafts)
+     const filterDraftsandCol = getCollection.data.filter(
+      (item) => !item._id?.includes("drafts") && item.collectionAddress === collectionAddr
+    );
+    // console.log('filter col: ', filterDraftsandCol)
 
-      const itemId = filterDrafts[0]?._id;
+    const itemId = filterDraftsandCol[0]?._id;
 
-      const itemCount = filterDrafts[0]?.itemCount;
-      // console.log('results: ', itemCount)
+    const itemCount = filterDraftsandCol[0]?.itemCount;
+    // console.log('item count: ', itemCount)
+    // console.log('item id: ', itemId)
 
       let finalValue;
 

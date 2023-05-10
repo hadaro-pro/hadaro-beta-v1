@@ -1,3 +1,4 @@
+import Head from "next/head";
 import {
   createClient,
   configureChains,
@@ -57,7 +58,14 @@ const client = createClient({
 });
 
 function MyApp({ Component, pageProps }) {
+
   return (
+    <>
+     <Head>
+        <title>Hadaro BETA</title>
+        <meta name="description" content="Hadaro NFT Rental" />
+        <link rel="icon" href="/hadaro-icon.png" />
+      </Head>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <WagmiConfig client={client}>
@@ -65,6 +73,7 @@ function MyApp({ Component, pageProps }) {
         </WagmiConfig>
       </PersistGate>
     </Provider>
+    </>
   );
 }
 
