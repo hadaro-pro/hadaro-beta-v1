@@ -22,7 +22,7 @@ const FeedbackComp = () => {
     const mainMessage = e.target.add_or_remove_message?.value;
     const howItWorks = e.target.how_feature_works_message?.value;
     const otherMessage = e.target.other_message?.value;
-    // const msgTot = { userEmail, mainMessage, howItWorks, otherMessage };
+    // const msgObj = { userEmail, mainMessage, howItWorks, otherMessage };
 
     if (userEmail === "" || mainMessage === "" || howItWorks === "") {
       message.error("please fill the important fields...");
