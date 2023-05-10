@@ -337,7 +337,7 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
         // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
         const collectionAddr = nftAddress;
         // const collectionAddr = nftAddres
-        const getCollection = await axios.post(`/api/fetchItemCollection`, {
+        const getCollection = await axios.get(`/api/fetchItemCollection`, {
           collectionAddr,
         });
   

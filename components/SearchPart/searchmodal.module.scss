@@ -3,6 +3,8 @@
   // display: flex;
   // margin: 0 auto;
   width: 90vw !important;
+  // padding-bottom: 5rem;
+
 
   .notFound {
     // outline: 3px solid orangered;
@@ -11,7 +13,8 @@
     font-size: 2rem;
     height: 50vh;
     display: flex;
-    align-items: center;
+    width: 100%;
+    // align-items: center;
     justify-content: center;
   }
 
@@ -29,6 +32,14 @@
       border: none;
       font-size: 1.15rem;
       color: #000;
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 1.5rem;
+      margin-top: 1.5rem;
+      font-style: italic;
+      // margin-bottom: 10rem;
     }
   }
 
@@ -52,6 +63,7 @@
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       gap: 2rem;
+      // min-height: 10rem;
 
       .collectionsPartItem {
         // outline: 3px solid red;
@@ -275,8 +287,8 @@
       font-size: 1.2rem !important;
       height: 50vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      // align-items: center;
+      // justify-content: center;
     }
   }
 
@@ -289,9 +301,18 @@
       font-size: 0.9rem !important;
       color: #000;
     }
+
+    h1 {
+      color: #fff;
+      font-size: 1.1rem !important;
+    }
+
   }
   .collectionsPart {
     // outline: 3px solid green;
+    // min-height: 20rem;
+
+
 
     h1 {
       color: #fff;
@@ -395,8 +416,8 @@
       font-size: 1rem !important;
       height: 50vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      // align-items: center;
+      // justify-content: center;
     }
   }
 
@@ -407,6 +428,10 @@
     input {
       padding: 0.8rem !important;
       font-size: 0.8rem !important;
+    }
+    
+    h1 {
+      font-size: 1rem !important;
     }
   }
   .collectionsPart {
@@ -510,6 +535,11 @@
       padding: 0.85rem;
       font-size: 0.9rem;
       color: #000;
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 1.2rem;
     }
   }
   .collectionsPart {
@@ -617,8 +647,8 @@
       font-size: 1.5rem;
       height: 50vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      // align-items: center;
+      // justify-content: center;
     }
   }
 
@@ -630,6 +660,11 @@
       padding: 0.85rem !important;
       font-size: 0.9rem !important;
       color: #000;
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 1.2rem !important;
     }
   }
   .collectionsPart {

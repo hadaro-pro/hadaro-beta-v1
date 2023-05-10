@@ -112,9 +112,14 @@ const SearchModal = ({
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
+         <h1>Suggested Collections</h1>
       </div>
-      <div className={styles.collectionsPart}>
-        {filterCollection?.length > 0 && <h1> Collections </h1>}
+      {searchText === ""  &&
+        (
+          <h1 className={styles.notFound}></h1>
+        )}
+    { searchText !== "" &&  ( <div className={styles.collectionsPart}>
+        {/* {filterCollection?.length > 0 && <h1> Collections </h1>} */}
         <div className={styles.collectionsPartItems}>
           {filterCollection.map((item, index) => (
             <div
@@ -144,7 +149,13 @@ const SearchModal = ({
             </div>
           ))}
         </div>
-      </div>
+      </div>)}
+      {searchText !== "" &&
+        filterCollection?.length === 0 &&
+        // filterNfts?.length === 0 && 
+        (
+          <h1 className={styles.notFound}>No items match your search😑...</h1>
+        )}
       {/* <div className={styles.nftsPart}> */}
         {/* {filterNfts?.length > 0 && <h1> NFTS </h1>}
         <div className={styles.nftPartItems}>
@@ -168,16 +179,11 @@ const SearchModal = ({
           ))}
         </div> */}
       {/* </div> */}
-      {searchText !== "" &&
-        filterCollection?.length === 0 &&
-        filterNfts?.length === 0 && (
-          <h1 className={styles.notFound}>No items match your search😑...</h1>
-        )}
-      {collectionItems?.length === 0 && nftItems?.length === 0 && (
+      {/* {collectionItems?.length === 0 && nftItems?.length === 0 && (
         <h1 className={styles.notFound}>
           No collections or items available at the moment😑...
         </h1>
-      )}
+      )} */}
     </Modal>
   );
 };

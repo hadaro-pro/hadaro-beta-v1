@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@emailjs/browser": "^3.11.0",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/wallet": "^5.7.0",
     "@renft/sdk": "^6.0.0-alpha.1",
