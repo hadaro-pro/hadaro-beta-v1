@@ -132,7 +132,7 @@ const SearchModal = ({
               <img
                 src={
                   item?.collectionImage === null
-                    ? "/images/question.png"
+                    ? "/images/ART01.png"
                     : item?.collectionImage
                 }
                 alt={item?.collectionName}

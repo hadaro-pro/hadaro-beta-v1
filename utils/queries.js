@@ -137,6 +137,15 @@ export const walletAvatarQuery = (walletaddr) => {
 return query
 }
 
+// export const collectionImageQuery = (collectionaddr) => {
+//   const query = `*[_type == "collectionImageData" && walletAddress == "${collectionaddr}"] | order(_createdAt desc) {
+//     _id,
+//     collectionAddress,
+//     collectionImaAvatar,
+//   }`
+
+// return query
+// }
 
 export const getItemCollectionCountQuery = (collectionAddr) => {
   const query = `*[_type == "testcollectionsData"] | order(_createdAt desc) {

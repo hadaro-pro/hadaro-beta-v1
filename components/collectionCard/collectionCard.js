@@ -49,7 +49,7 @@ const CollectionCard = ({ posterImage, collectionTitle, status, colAddr }) => {
       <div className={styles.imageContainer}>
         <img
           src={
-            posterImage === (null || undefined)
+            posterImage === (null || "")
               ? "/images/no-image-placeholder.png"
               : posterImage
           }

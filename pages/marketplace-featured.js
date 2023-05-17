@@ -80,17 +80,17 @@ const MarketplaceFeatured = () => {
 
       filteredCollections.forEach(async (item) => {
         const addr = item.collectionAddress.toLowerCase();
-        const getfirstNft = await axios.post(`/api/fetchSingleImage`, { addr });
+        // const getfirstNft = await axios.post(`/api/fetchSingleImage`, { addr });
 
-        const filterPart = getfirstNft.data.filter(
-          (item) =>
-            item.transactionType === "lending" ||
-            (item.transactionType === "renting" && !item._id.includes("drafts"))
-        );
-        // console.log("xr", filterPart)
-        // console.log(filterPart?.length)
-        // singleCollectionDetails.push({imageNft: filterPart[0]?.metadataImage})
-        imagesArr.push({ imageNft: filterPart[0]?.metadataImage });
+        // const filterPart = getfirstNft.data.filter(
+        //   (item) =>
+        //     item.transactionType === "lending" ||
+        //     (item.transactionType === "renting" && !item._id.includes("drafts"))
+        // );
+        // // console.log("xr", filterPart)
+        // // console.log(filterPart?.length)
+        // // singleCollectionDetails.push({imageNft: filterPart[0]?.metadataImage})
+        // imagesArr.push({ imageNft: filterPart[0]?.metadataImage });
       });
 
       setImageArr(imagesArr);
@@ -172,7 +172,7 @@ const MarketplaceFeatured = () => {
       <Navbar />
       <MarketFeatured
         storeCollections={collections}
-        imagesArray={imageArr}
+        // imagesArray={imageArr}
         loadingCollections={loading}
       />
       {/* <button onClick={sharpSTuff}>

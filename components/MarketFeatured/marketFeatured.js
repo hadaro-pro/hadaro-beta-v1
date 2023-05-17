@@ -12,7 +12,7 @@ import axios from "axios";
 
 const MarketFeatured = ({
   storeCollections,
-  imagesArray,
+  // imagesArray,
   loadingCollections,
 }) => {
 
@@ -22,11 +22,11 @@ const MarketFeatured = ({
 
   const router = useRouter();
 
-  if (imagesArray?.length > 0 ) {
-   imagesArray.forEach((item) => {
-    finalImg.push(item)
-   })
-  }
+  // if (imagesArray?.length > 0 ) {
+  //  imagesArray.forEach((item) => {
+  //   finalImg.push(item)
+  //  })
+  // }
 
 
 // console.log('img arr', finalImg)
@@ -62,24 +62,24 @@ const parseImage = (position) => {
     return imageToDisplay;
   };
 
-  const getImgForCollection = async(address) => {
-    try{
+  // const getImgForCollection = async(address) => {
+  //   try{
       
-          const response = await axios.post(`/api/fetchSingleImage`, {address} )
+  //         const response = await axios.post(`/api/fetchSingleImage`, {address} )
       
        
-          // console.log(response.data)
+  //         // console.log(response.data)
     
 
-      // const imageToPlace = response.data[0]?.metadataImage
+  //     // const imageToPlace = response.data[0]?.metadataImage
 
-      // const finalRes = nftImageAggregating(imageToPlace)
+  //     // const finalRes = nftImageAggregating(imageToPlace)
 
-      // return finalRes
-    } catch(e) {
-      // console.error(e)
-    }
-  }
+  //     // return finalRes
+  //   } catch(e) {
+  //     // console.error(e)
+  //   }
+  // }
 
 
  
@@ -136,7 +136,7 @@ const parseImage = (position) => {
                   }}
                 >
                   <CollectionCard
-                    posterImage={parseImage(index)}
+                    posterImage={element.collectionImage}
                     collectionTitle={element.collectionName}
                     status={element.status}
                     colAddr={element.collectionAddress}

@@ -145,6 +145,7 @@
           margin-right: 0.5rem;
           border: none;
           outline: none;
+          background: orangered;
           color: #ffffff;
           font-weight: 500;
           padding: 0.25rem 0.8rem;
@@ -159,17 +160,20 @@
           }
         }
 
-        .declineBtn {
-          background: #d10000;
-        }
+        // .declineBtn {
+        //   background: #d10000;
+        // }
 
-        .deletedBtn {
-          background: #d10000;
-        }
+        // .deletedBtn {
+        //   background: #d10000;
+        // }
 
-        .addNotesBtn {
-          background: #11773f;
-        }
+        // .addNotesBtn {
+        //   background: #11773f;
+        // }
+        // .addImagesBtn {
+        //   background: #1809ff;
+        // }
       }
 
       .actionBtns {
@@ -230,13 +234,72 @@
   }
 }
 
+
+.declineBtn {
+  background: #d10000;
+  margin-right: 0.5rem;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 0.25rem 0.8rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: fit-content;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+
+  &:hover {
+    opacity: 60%;
+  }
+}
+
+.addNotesBtn {
+  background: #11773f;
+  margin-right: 0.5rem;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 0.25rem 0.8rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: fit-content;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+
+  &:hover {
+    opacity: 60%;
+  }
+}
+.addImagesBtn {
+  background: #1809ff;
+  margin-right: 0.5rem;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 0.25rem 0.8rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: fit-content;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+
+  &:hover {
+    opacity: 60%;
+  }
+}
+
+
 .dropdownWallet {
   color: crimson;
   font-size: 0.75rem;
   font-weight: 600;
   user-select: none;
 }
-
+/////////////////////////////////////////////////////////////////
+/// 
 .dropdowndisconnect {
   border: none;
   outline: none;
@@ -383,6 +446,101 @@
       }
     }
   }
+
+  .noteModalLowerPart {
+    //  outline: 3px solid orange;
+     display: flex;
+     flex-direction: column;
+     text-align: center;
+     margin-top: 1rem;
+
+    h4 {
+      color: #ffffff;
+      font-size: 1.1rem;
+    }
+
+    .colImageInner {
+      //  outline: 3px solid orange;
+
+      .noImageVisible {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+
+        input {
+          display: none;
+        }
+
+        p {
+          color: #fff;
+          font-size: 1.1rem;
+        }
+
+        .uploadImgPart {
+          small {
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: .85rem;
+            border-radius: 10px;
+            font-weight: 500;
+            color: #fff;
+            background: #1809ff;
+            cursor: pointer;
+            transition: all 200ms ease-in-out;
+    
+            &:hover {
+              opacity: 75%;
+            }
+          }
+        }
+      }
+
+
+       .imageVisible {
+        // outline: 3px solid #d10000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        // background-color: #000;
+
+        img{
+          width: 80%;
+          height: 80%;
+        }
+
+        .changeImage {
+          // outline: 3px solid red;
+          margin-top: 0.5rem;
+    
+          display: flex;
+          align-items: center;
+          justify-content: center;
+    
+          p {
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border-radius: 10px;
+            font-weight: 500;
+            color: #fff;
+            background: #1809ff;
+            cursor: pointer;
+            transition: all 200ms ease-in-out;
+    
+            &:hover {
+              opacity: 75%;
+            }
+          }
+    
+          input {
+            display: none;
+          }
+        }
+    
+       }
+    }
+  }
 }
 
 @media only screen and (max-width: 992px) {
@@ -396,6 +554,7 @@
   }
 
   .noteModalCover {
+    // height: 100vh;
     .closeMenu {
       // outline: 3px solid white;
       display: flex;
@@ -624,6 +783,24 @@
     }
   }
 
+  .declineBtn {
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.8rem;
+    font-size: .85rem;
+  }
+  
+  .addNotesBtn {
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.8rem;
+    font-size: .85rem;
+  }
+  .addImagesBtn {
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.8rem;
+    font-size: .85rem;
+  }
+
+
   .homeBtn {
     // outline: 3px solid red;
     margin-top: 5rem;
@@ -847,6 +1024,22 @@
     h1 {
       font-size: 0.95rem;
     }
+  }
+  .declineBtn {
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.8rem;
+    font-size: .8rem;
+  }
+  
+  .addNotesBtn {
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.8rem;
+    font-size: .8rem;
+  }
+  .addImagesBtn {
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.8rem;
+    font-size: .8rem;
   }
 
   .infoTipsPart {

@@ -351,62 +351,62 @@ const PortfolioComp = ({
   };
 
 
-  const updateCount = async () => {
-    try {
-      const collectionAddr = '0x2b9732bcf1e37a09ac4a578ed442f04e3e8f2d44';
-      // const collectionAddr = nftAddres
-      const getCollection = await axios.get(`/api/fetchItemCollection`, {
-        collectionAddr,
-      });
+  // const updateCount = async () => {
+  //   try {
+  //     const collectionAddr = '0x2b9732bcf1e37a09ac4a578ed442f04e3e8f2d44';
+  //     // const collectionAddr = nftAddres
+  //     const getCollection = await axios.get(`/api/fetchItemCollection`, {
+  //       collectionAddr,
+  //     });
 
-      //  console.log('original col: ', getCollection.data)
+  //     //  console.log('original col: ', getCollection.data)
 
-       const filterDraftsandCol = getCollection.data.filter(
-        (item) => !item._id?.includes("drafts") && item.collectionAddress === collectionAddr
-      );
-      // console.log('filter col: ', filterDraftsandCol)
+  //      const filterDraftsandCol = getCollection.data.filter(
+  //       (item) => !item._id?.includes("drafts") && item.collectionAddress === collectionAddr
+  //     );
+  //     // console.log('filter col: ', filterDraftsandCol)
 
-      const itemId = filterDraftsandCol[0]?._id;
+  //     const itemId = filterDraftsandCol[0]?._id;
   
-      const itemCount = filterDraftsandCol[0]?.itemCount;
-      // console.log('item count: ', itemCount)
-      // console.log('item id: ', itemId)
+  //     const itemCount = filterDraftsandCol[0]?.itemCount;
+  //     // console.log('item count: ', itemCount)
+  //     // console.log('item id: ', itemId)
 
-      let finalValue;
+  //     let finalValue;
 
 
-      if (itemCount === null) {
-        finalValue = 0;
-      } else {
-        finalValue = Number(itemCount);
-      }
+  //     if (itemCount === null) {
+  //       finalValue = 0;
+  //     } else {
+  //       finalValue = Number(itemCount);
+  //     }
 
   
-      const valueToSend = String(finalValue - 1);
-      console.log('final: ', valueToSend)
+  //     const valueToSend = String(finalValue - 1);
+  //     console.log('final: ', valueToSend)
   
-      if (valueToSend === "-1") {
-        const count = "0";
+  //     if (valueToSend === "-1") {
+  //       const count = "0";
   
-        const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
-          itemId,
-          count,
-        });
-        console.log('res0: ', patchItem.data)
-      } else {
-        const count = valueToSend;
-        const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
-          itemId,
-          count,
-        });
+  //       const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
+  //         itemId,
+  //         count,
+  //       });
+  //       console.log('res0: ', patchItem.data)
+  //     } else {
+  //       const count = valueToSend;
+  //       const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
+  //         itemId,
+  //         count,
+  //       });
   
-        console.log('res1: ', patchItem.data)
-      }
+  //       console.log('res1: ', patchItem.data)
+  //     }
 
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
 
   const handleRemoveElement = (position) => {
     // window.alert(position)
@@ -820,7 +820,7 @@ const PortfolioComp = ({
     }
 
     const valueToSend = String(finalValue - 1);
-    // console.log('final: ', valueToSend)
+    console.log('final: ', valueToSend)
 
     if (valueToSend === "-1") {
       const count = "0";
@@ -829,7 +829,7 @@ const PortfolioComp = ({
         itemId,
         count,
       });
-      // console.log('res0: ', patchItem.data)
+      console.log('res0: ', patchItem.data)
     } else {
       const count = valueToSend;
       const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
@@ -837,7 +837,7 @@ const PortfolioComp = ({
         count,
       });
 
-      // console.log('res1: ', patchItem.data)
+      console.log('res1: ', patchItem.data)
     }
   };
 
