@@ -14,6 +14,8 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 
+import ErrorBoundary from "../components/ErrorBoundary/ErrorBoundary";
+
 import { store, persistor } from "../core/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -66,6 +68,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="description" content="Hadaro NFT Rental" />
         <link rel="icon" href="/hadaro-icon.png" />
       </Head>
+      <ErrorBoundary>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <WagmiConfig client={client}>
@@ -73,6 +76,7 @@ function MyApp({ Component, pageProps }) {
         </WagmiConfig>
       </PersistGate>
     </Provider>
+    </ErrorBoundary>
     </>
   );
 }

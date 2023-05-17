@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { Dropdown } from "antd";
 import {
@@ -28,6 +29,10 @@ const Navbar = ({}) => {
   const [allNfts, setAllNfts] = useState([]);
   const [allCollections, setAllCollections] = useState([]);
 
+
+  const router = useRouter()
+
+  // console.log('jtr', router.pathname)
   const showModal = () => {
     setOpenMenuBar(false);
     setIsModalOpen(true);
@@ -189,7 +194,9 @@ const Navbar = ({}) => {
                   
                 </small> */}
               </div>
-              <p>
+
+              
+             { router.pathname !== "/collections" && (<p>
                 {" "}
                 <img
                   src="/images/Search.png"
@@ -207,7 +214,7 @@ const Navbar = ({}) => {
                   getCol={getAllCollections}
                   getNft={getAllNfts}
                 />
-              </p>
+              </p> )}
               <p>
                 {isConnected ? (
                   <Dropdown menu={{ items }} trigger={["click"]}>
@@ -288,10 +295,10 @@ const Navbar = ({}) => {
                   <Link href="/feedback"> Feedback </Link>
                 </small> */}
               </div>
-              <p>
+              { router.pathname !== "/collections" &&  ( <p>
                 {" "}
                 <img src="/images/Search.png" alt="search" />{" "}
-              </p>
+              </p>)}
               <p>
                 {isConnected ? (
                   <Dropdown menu={{ items }} trigger={["click"]}>
@@ -392,7 +399,7 @@ const Navbar = ({}) => {
                     <Link href="/feedback"> Feedback </Link>
                   </small> */}
                 </div>
-                <p>
+           {  router.pathname !== "/collections" &&  ( <p>
                   {" "}
                   <img
                     onClick={() => {
@@ -409,7 +416,7 @@ const Navbar = ({}) => {
                     getCol={getAllCollections}
                     getNft={getAllNfts}
                   />
-                </p>
+                </p>)}
                 <p>
                   {isConnected ? (
                     <Dropdown menu={{ items }} trigger={["click"]}>

@@ -38,7 +38,7 @@ const FeedbackComp = () => {
         )
         .then(
           (result) => {
-            console.log(result.text);
+            // console.log(result.text);
             e.target.reset();
             openNotificationWithIcon(
               "success",
@@ -47,7 +47,7 @@ const FeedbackComp = () => {
             );
           },
           (error) => {
-            console.log(error);
+            // console.log(error);
             openNotificationWithIcon(
               "error",
               "Something went wrong",

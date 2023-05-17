@@ -51,7 +51,7 @@ const VerificationComp = ({
   const [changeItem, setChangeItem] = useState(false);
   const [indexNum, setIndexNum] = useState(null);
 
-  console.log("verf", verifiedCollection);
+  // console.log("verf", verifiedCollection);
 
   const addToCurrentForUnverified = (position) => {
     const note = unVerifiedCollection[position].notes;
@@ -97,7 +97,7 @@ const VerificationComp = ({
   const uploadImage = async (e) => {
     const selectedFile = e.target.files[0];
 
-    console.log("seas", selectedFile);
+    // console.log("seas", selectedFile);
     const fileTypes = ["image/jpeg", "image/png", "image/svg"];
     if (fileTypes.includes(selectedFile.type)) {
       client.assets
@@ -106,7 +106,7 @@ const VerificationComp = ({
           filename: selectedFile.name,
         })
         .then(async (data) => {
-          console.log(data);
+          // console.log(data);
           // const verifyOp = await axios.post(`/api/updateCollectionStatus`, {
           //   iden,
           //   status,
@@ -126,7 +126,7 @@ const VerificationComp = ({
             image: data.url,
           });
 
-          console.log("xava", response.data);
+          // console.log("xava", response.data);
 
           if (response.data.status === "success") {
             message.success("image upload success!");
