@@ -1,1 +1,0 @@
-# hadaro-beta-v1
