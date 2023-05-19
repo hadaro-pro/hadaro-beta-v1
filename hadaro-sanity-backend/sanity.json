@@ -1,10 +1,10 @@
 {
   "root": true,
   "project": {
-    "name": "hadaro-sanity-backend"
+    "name": "hadaro-beta-v1"
   },
   "api": {
-    "projectId": "1vfwzna4",
+    "projectId": "3llup98r",
     "dataset": "production"
   },
   "plugins": [

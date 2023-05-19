@@ -32,7 +32,7 @@ const Navbar = ({}) => {
 
   const router = useRouter()
 
-  // console.log('jtr', router.pathname)
+  console.log('jtr', router.pathname === '/collections/[id]') 
   const showModal = () => {
     setOpenMenuBar(false);
     setIsModalOpen(true);
@@ -196,7 +196,7 @@ const Navbar = ({}) => {
               </div>
 
               
-             { router.pathname !== "/collections" && (<p>
+             { router.pathname !== '/collections/[id]' && (<p>
                 {" "}
                 <img
                   src="/images/Search.png"
@@ -295,7 +295,7 @@ const Navbar = ({}) => {
                   <Link href="/feedback"> Feedback </Link>
                 </small> */}
               </div>
-              { router.pathname !== "/collections" &&  ( <p>
+              { router.pathname !== '/collections/[id]' &&  ( <p>
                 {" "}
                 <img src="/images/Search.png" alt="search" />{" "}
               </p>)}
@@ -399,7 +399,7 @@ const Navbar = ({}) => {
                     <Link href="/feedback"> Feedback </Link>
                   </small> */}
                 </div>
-           {  router.pathname !== "/collections" &&  ( <p>
+           {  router.pathname !== '/collections/[id]' &&  ( <p>
                   {" "}
                   <img
                     onClick={() => {
