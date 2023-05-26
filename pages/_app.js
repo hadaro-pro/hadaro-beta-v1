@@ -60,23 +60,22 @@ const client = createClient({
 });
 
 function MyApp({ Component, pageProps }) {
-
   return (
     <>
-     <Head>
+      <Head>
         <title>Hadaro BETA</title>
         <meta name="description" content="Hadaro NFT Rental" />
         <link rel="icon" href="/hadaro-icon.png" />
       </Head>
       <ErrorBoundary>
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <WagmiConfig client={client}>
-          <Component {...pageProps} />
-        </WagmiConfig>
-      </PersistGate>
-    </Provider>
-    </ErrorBoundary>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <WagmiConfig client={client}>
+              <Component {...pageProps} />
+            </WagmiConfig>
+          </PersistGate>
+        </Provider>
+      </ErrorBoundary>
     </>
   );
 }

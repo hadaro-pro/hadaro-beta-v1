@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Dropdown, message, Modal, Tooltip, Alert, Button } from "antd";
+import { Dropdown, message, Modal, Tooltip, Alert, Button, Drawer, Input } from "antd";
+// import { generateSalt } from "../../utils/helper";
+
 import {
   DownOutlined,
   CaretDownOutlined,
@@ -10,6 +12,8 @@ import {
   InfoCircleOutlined,
   BulbOutlined,
   BulbFilled,
+  EyeOutlined, 
+  EyeInvisibleOutlined
 } from "@ant-design/icons";
 import {
   useAccount,
@@ -35,6 +39,10 @@ const VerificationComp = ({
   loadingUnverifiedData,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [pass, setPass] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+  const [uploadLoad, setUploadLoad] = useState(false);
   const [showPage, setShowPage] = useState(false);
   const [isApproved, setIsApproved] = useState(null);
   const [currentNote, setCurrentNote] = useState("");
@@ -50,6 +58,15 @@ const VerificationComp = ({
   forUnverifiedCol;
   const [changeItem, setChangeItem] = useState(false);
   const [indexNum, setIndexNum] = useState(null);
+
+
+
+  const showDrawer = () => {
+    setOpenDrawer(true);
+  };
+  const onCloseDrawer = () => {
+    setOpenDrawer(false);
+  };
 
   // console.log("verf", verifiedCollection);
 
@@ -442,6 +459,31 @@ const VerificationComp = ({
           key: "item-2",
         },
       ];
+  
+    
+
+    const updatePassword = async () => {
+      try{
+        setUploadLoad(true)
+        // console.log(true)
+        const fetchedPassword = await axios.post(`/api/fetchPassword`)
+        const passId = fetchedPassword.data[0]?._id
+        // console.log('pass dets', passId)
+        if(pass !== confirmPass) {
+          message.error('passwords do not match!')
+        } else {
+        const res =  await axios.post(`/api/updatePassword`, {id: passId, password: pass}) 
+        // console.log('update res', res.data)
+        if (res.data.status === 'success') {
+          message.success('update succesful')
+        }
+        }
+        setUploadLoad(false)
+      } catch(e) {
+        setUploadLoad(false)
+        console.error(e)
+      }
+    }
 
   return (
     <div className={styles.mainContainer}>
@@ -815,6 +857,10 @@ const VerificationComp = ({
                 )}
               </div>
             </div>
+            <div className={styles.passwordBtn}  onClick={showDrawer}>
+              
+              <button>Update Site Password</button>
+            </div>
             <div className={styles.homeBtn} onClick={() => router.push("/")}>
               <button>Go to Home Page</button>
             </div>
@@ -827,6 +873,39 @@ const VerificationComp = ({
           <h1>You are not cleared to view this page!😮...</h1>
         </div>
       )}
+               <Drawer
+        title="Change/Update Site Password"
+        placement={"right"}
+        // closable={false}
+        onClose={onCloseDrawer}
+        open={openDrawer}
+        // key={"right"}
+      >
+        <div className={styles.passwordDrawer}>
+             <Input.Password
+             className={styles.drawerInput1}
+            size="large"
+            value={pass}
+            onChange={(e) => setPass(e.target.value)}
+            placeholder="enter new password"
+            iconRender={(visible) =>
+              visible ? <EyeOutlined style={{ color: "#1D133F" }} /> : <EyeInvisibleOutlined style={{ color: "#1D133F" }} />
+            }
+          />
+           <Input.Password
+           className={styles.drawerInput2}
+            size="large"
+            value={confirmPass}
+            onChange={(e) => setConfirmPass(e.target.value)}
+            placeholder="confirm password"
+            iconRender={(visible) =>
+              visible ? <EyeOutlined style={{ color: "#1D133F" }} /> : <EyeInvisibleOutlined style={{ color: "#1D133F" }} />
+            }
+          />
+          <button onClick={updatePassword}> {uploadLoad ? 'Updating' : 'Update'} </button>
+          </div>
+      </Drawer>
+
     </div>
   );
 };

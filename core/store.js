@@ -8,7 +8,7 @@ import rootReducer from './reducers';
 const persistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ['collectionDetails', 'collectionItemDetails']
+  whitelist: ['collectionDetails', 'collectionItemDetails', 'sitePassword', 'lastUrl']
 };
 
 

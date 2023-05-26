@@ -31,6 +31,61 @@
   }
 }
 
+
+.passwordDrawer {
+  // border: 3px solid #e2bf36;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .drawerInput1, .drawerInput2 {
+    margin-bottom: 2rem;
+  }
+
+  button {
+    outline: none;
+    border: none;
+    background: #151055;
+    color: #fff;
+    font-size: .95rem;
+    font-weight: bold;
+    padding: .5rem 1.5rem;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+
+    &:hover {
+      opacity: 70%;
+    }
+  }
+}
+
+
+.passwordBtn {
+   // outline: 3px solid red;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ 
+   button {
+     border: none;
+     outline: none;
+     padding: 0.5rem 1rem;
+     width: fit-content;
+     border-radius: 10px;
+     background-color: #ad2020;
+     font-size: 1.2rem;
+     font-weight: 500;
+     color: #ffffff;
+     cursor: pointer;
+     transition: all 200ms ease-in;
+ 
+     &:hover {
+       opacity: 60%;
+     }
+   }
+}
+
 .homeBtn {
   // outline: 3px solid red;
   margin-top: 5rem;
@@ -609,6 +664,12 @@
     }
   }
 
+  .passwordBtn {
+    button {
+      font-size: 1.05rem;
+    }
+  }
+
   .homeBtn {
     // outline: 3px solid red;
     margin-top: 5rem;
@@ -800,6 +861,11 @@
     font-size: .85rem;
   }
 
+  .passwordBtn {
+    button {
+      font-size: 0.95rem;
+    }
+  }
 
   .homeBtn {
     // outline: 3px solid red;
@@ -1094,6 +1160,12 @@
         padding: 0.5rem 1rem;
         width: fit-content;
       }
+    }
+  }
+
+  .passwordBtn {
+    button {
+      font-size: 0.85rem;
     }
   }
 

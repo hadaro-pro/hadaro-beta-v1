@@ -11,6 +11,7 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 import walletAvatar from './walletAvatar'
 import testNftData from './testNftData'
 import testCollectionData from './testCollectionData'
+import sitePassword from './sitePassword'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -25,6 +26,7 @@ export default createSchema({
     // pendingCollectionData,
     // freshCollectionData,
     walletAvatar,
+    sitePassword,
     // test schemas
     testNftData,
     testCollectionData,

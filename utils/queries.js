@@ -6,10 +6,10 @@ export const allNftDataQuery = () => {
     chain,
     transactionType,
     metadataImage
-  }`
+  }`;
 
-  return query
-}
+  return query;
+};
 
 // export const allCollectionsQuery = () => {
 //   const query = `*[_type == "collectionsData"] {
@@ -28,16 +28,14 @@ export const allNftDataQuery = () => {
 //   return query
 // }
 
-
 export const firstNftImageQuery = (contractAddr) => {
   const query = `*[_type == "nftData"  && nftAddress == "${contractAddr}"] | order(_createdAt desc){
     _id,
     metadataImage,
     transactionType
-  }`
-  return query
-}
-
+  }`;
+  return query;
+};
 
 // export const allCollectionsQuery = () => {
 //   const query = `*[_type == "freshcollectionsData"] {
@@ -65,10 +63,9 @@ export const allTestCollectionsQuery = () => {
     collectionDesc,
     status,
     itemCount
-  }`
-  return query
-}
-
+  }`;
+  return query;
+};
 
 export const statusOfCollectionsQuery = (status) => {
   const query = `*[_type == "testcollectionsData" && status == '${status}'] {
@@ -82,25 +79,20 @@ export const statusOfCollectionsQuery = (status) => {
     itemCount,
     status,
     notes
-  }`
-  return query
-}
+  }`;
+  return query;
+};
 
-
-  export const firstNftByCollectionQuery = (contractAddr) => {
-    const query = `*[_type == "nftData" ] | order(_createdAt desc){
+export const firstNftByCollectionQuery = (contractAddr) => {
+  const query = `*[_type == "nftData" ] | order(_createdAt desc){
       _id,
       nftAddress,
       tokenID,
       chain
-    }`
+    }`;
 
-  return query
-}
-
-
-
-
+  return query;
+};
 
 export const allNftsByCollectionQuery = (contractAddr) => {
   const query = `*[_type == "testNftData"] {
@@ -120,22 +112,20 @@ export const allNftsByCollectionQuery = (contractAddr) => {
     nftStandard,
     nftCollectionName,
     renterAddress
-  }`
+  }`;
 
-return query
-}
-
-
+  return query;
+};
 
 export const walletAvatarQuery = (walletaddr) => {
   const query = `*[_type == "walletAvatarData" && walletAddress == "${walletaddr}"] | order(_createdAt desc) {
     _id,
     walletAddress,
     walletAvatar,
-  }`
+  }`;
 
-return query
-}
+  return query;
+};
 
 // export const collectionImageQuery = (collectionaddr) => {
 //   const query = `*[_type == "collectionImageData" && walletAddress == "${collectionaddr}"] | order(_createdAt desc) {
@@ -152,11 +142,10 @@ export const getItemCollectionCountQuery = (collectionAddr) => {
     _id,
     itemCount,
     collectionAddress
-  }`
+  }`;
 
-return query
-}
-
+  return query;
+};
 
 export const allMainNftsByCollectionQuery = (contractAddr) => {
   const query = `*[_type == "testNftData" && nftAddress == "${contractAddr}"] {
@@ -180,11 +169,10 @@ export const allMainNftsByCollectionQuery = (contractAddr) => {
     noOfRentDays,
     timeOfRent,
     renterAddress
-  }`
+  }`;
 
-return query
-}
-
+  return query;
+};
 
 export const allLendedNftsByAddressQuery = (lenderAddr) => {
   const query = `*[_type == "testNftData"   && lenderAddress == '${lenderAddr}'] {
@@ -209,9 +197,9 @@ export const allLendedNftsByAddressQuery = (lenderAddr) => {
     noOfRentDays,
     timeOfRent,
     isRentClaimed,
-  }`
-return query
-}
+  }`;
+  return query;
+};
 
 export const allRentedNftsByAddressQuery = (renterAddr) => {
   const query = `*[_type == "testNftData"  && renterAddress == '${renterAddr}' && transactionType == "lending renting"] {
@@ -236,9 +224,15 @@ export const allRentedNftsByAddressQuery = (renterAddr) => {
     rentTransactionHash,
     lendTransactionHash,
     isRentClaimed,
-  }`
-return query
-}
+  }`;
+  return query;
+};
 
+export const siteDataQuery = () => {
+  const query = `*[_type == "sitePassword"] | order(_createdAt desc){
+    _id,
+    password
+  }`;
 
-
+  return query;
+};

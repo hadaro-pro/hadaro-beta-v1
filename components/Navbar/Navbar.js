@@ -32,7 +32,7 @@ const Navbar = ({}) => {
 
   const router = useRouter()
 
-  console.log('jtr', router.pathname === '/collections/[id]') 
+  // console.log('jtr', router.pathname === '/collections/[id]') 
   const showModal = () => {
     setOpenMenuBar(false);
     setIsModalOpen(true);

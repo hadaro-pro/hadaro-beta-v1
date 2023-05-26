@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
 html,
 body {
@@ -6,8 +6,7 @@ body {
   margin: 0;
   // overflow-x: hidden;
   font-family: "Poppins" !important;
-  background: linear-gradient( to top,#1D133F 100%, #1A0952 100%);
-
+  background: linear-gradient(to top, #1d133f 100%, #1a0952 100%);
 }
 
 a {
@@ -19,12 +18,29 @@ a {
   box-sizing: border-box;
 }
 
- html {
+html {
   width: 100%;
   height: auto !important;
 }
 
+.ant-input:focus {
+  border-color: #1a0952 !important;
+  box-shadow: none !important;
+}
 
+.ant-input-affix-wrapper {
+  border: 1px solid #1d133f !important;
+  box-shadow: 0 0 0 0.5px rgb(29, 19, 63) !important;
+}
+
+.ant-input {
+  font-size: 0.85rem !important;
+}
+
+.ant-input-affix-wrapper-focused,
+.ant-input-affix-wrapper:focus {
+  box-shadow: 0 0 0 1.5px rgb(175, 155, 243) !important;
+}
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -41,29 +57,29 @@ a {
   background-color: transparent;
 }
 
-
-.slick-prev, .slick-next {
+.slick-prev,
+.slick-next {
   width: 50px !important;
   height: 50px !important;
   border-radius: 1.2rem !important;
-  background:#343444
-  !important;
+  background: #343444 !important;
 
   transition: all 200ms ease-in-out !important;
 }
 
-.slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
+.slick-prev:hover,
+.slick-prev:focus,
+.slick-next:hover,
+.slick-next:focus {
   color: #fff;
   outline: none;
-  background:#343444
-  !important;
+  background: #343444 !important;
   opacity: 70% !important;
 }
 
 .ant-carousel .slick-dots {
   margin: auto !important;
 }
-
 
 .ant-carousel .slick-dots li button {
   height: 6px !important;
@@ -73,16 +89,16 @@ a {
   display: none !important;
 }
 .ant-modal-content {
-  background-color: #523E93 !important;
+  background-color: #523e93 !important;
   border-radius: 15px !important;
   // padding: 1rem !important;
 }
 
-.ant-modal-close-x  {
+.ant-modal-close-x {
   display: none !important;
 }
 
-.ant-dropdown  {
+.ant-dropdown {
   z-index: 10000 !important;
 }
 
@@ -94,8 +110,8 @@ a {
   }
 }
 
-
-.slick-prev:before, .slick-next:before {
+.slick-prev:before,
+.slick-next:before {
   color: #fff !important;
   font-family: "Poppins" !important;
   // font-size: 1.5rem !important;
@@ -119,12 +135,5 @@ a {
 //   }
 // }
 
-
-
-
-
 @media only screen and (max-width: 768px) {
-
 }
-
-
