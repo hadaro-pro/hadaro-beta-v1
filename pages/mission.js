@@ -48,6 +48,10 @@ const Mission = () => {
 
   const checkForPassword = async (password) => {
     try {
+      if(savedPassword === null) {
+        dispatch(saveLastPageUrl(router.pathname));
+        router.push("/password-lock");
+      } else{
       const fetchedPassword = await axios.post(`/api/fetchPassword`);
       const passDetails = fetchedPassword.data[0]?.password;
       // console.log('pass', passDetails)
@@ -61,6 +65,7 @@ const Mission = () => {
         dispatch(saveLastPageUrl(router.pathname));
         router.push("/password-lock");
       }
+    }
     } catch (e) {
       console.error(e);
     }
