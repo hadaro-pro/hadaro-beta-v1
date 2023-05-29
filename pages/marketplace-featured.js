@@ -49,7 +49,7 @@ const MarketplaceFeatured = () => {
     } catch (e) {
       console.error(e);
     }
-  };
+  };  
 
   useEffect(() => {
     checkForPassword(savedPassword);
