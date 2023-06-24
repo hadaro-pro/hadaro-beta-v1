@@ -49,7 +49,7 @@ const MarketplaceFeatured = () => {
     } catch (e) {
       console.error(e);
     }
-  };
+  };  
 
   useEffect(() => {
     checkForPassword(savedPassword);
@@ -64,21 +64,21 @@ const MarketplaceFeatured = () => {
   //   }
   // }
 
-  const extractMetaData = async (nftObj) => {
-    const nftAddress = nftObj?.nftAddress;
-    const tokenID = nftObj?.tokenID;
-    const chain = nftObj?.chain;
+  // const extractMetaData = async (nftObj) => {
+  //   const nftAddress = nftObj?.nftAddress;
+  //   const tokenID = nftObj?.tokenID;
+  //   const chain = nftObj?.chain;
 
-    const metaData = await axios.get(`/api/fetchSingleNftMeta`, {
-      params: {
-        tokenAddr: nftAddress,
-        tokenID: tokenID,
-        chain: chain,
-      },
-    });
+  //   const metaData = await axios.get(`/api/fetchSingleNftMeta`, {
+  //     params: {
+  //       tokenAddr: nftAddress,
+  //       tokenID: tokenID,
+  //       chain: chain,
+  //     },
+  //   });
 
-    return metaData;
-  };
+  //   return metaData;
+  // };
 
   // const getFirstNftImage = async(address) => {
   //   try{
@@ -202,9 +202,52 @@ const MarketplaceFeatured = () => {
     }
   };
 
+  const getAllCollections_noLoad = async () => {
+    let mainArrItems = [];
+    let imagesArr = [];
+
+    try {
+      
+      const getCollections = await axios.post(
+        `/api/fetchCollectionDataByStatus`,
+        { status: "verified" }
+      );
+
+      const filteredCollections = getCollections.data?.filter(
+        (item) => item.status === "verified" && !item._id.includes("drafts")
+      );
+
+      filteredCollections.forEach(async (item) => {
+        const addr = item.collectionAddress.toLowerCase();
+      });
+
+      setImageArr(imagesArr);
+
+      setCollections(filteredCollections);
+
+      dispatch(saveCollectionItemDetails(mainArrItems));
+
+    } catch (e) {
+      //  console.error(e)
+    }
+  };
+
+
   useEffect(() => {
     getAllCollections();
   }, []);
+
+    // Make API call on a 1 minute interval
+useEffect(() => {
+  const interval = setInterval(async () => {
+    await getAllCollections_noLoad()
+    // console.log('refreshed')
+  }, 60000);
+
+  return () => {
+    clearInterval(interval);
+  }
+}, []);
 
   return (
     <div>

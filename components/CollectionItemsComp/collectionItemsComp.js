@@ -212,110 +212,110 @@ const CollectionItemsComp = ({
   //   }
   // };
 
-  const decodeTxnData = (dataSource, topicsObj) => {
-    const { topic1, topic2, topic3 } = topicsObj;
+  // const decodeTxnData = (dataSource, topicsObj) => {
+  //   const { topic1, topic2, topic3 } = topicsObj;
 
-    const res = web3.eth.abi.decodeLog(
-      [
-        {
-          indexed: false,
-          internalType: "bool",
-          name: "is721",
-          type: "bool",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "lenderAddress",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "nftAddress",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "tokenID",
-          type: "uint256",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "lendingID",
-          type: "uint256",
-        },
-        {
-          indexed: false,
-          internalType: "uint8",
-          name: "maxRentDuration",
-          type: "uint8",
-        },
-        {
-          indexed: false,
-          internalType: "bytes4",
-          name: "dailyRentPrice",
-          type: "bytes4",
-        },
-        {
-          indexed: false,
-          internalType: "uint16",
-          name: "lendAmount",
-          type: "uint16",
-        },
-        {
-          indexed: false,
-          internalType: "enum IResolver.PaymentToken",
-          name: "paymentToken",
-          type: "uint8",
-        },
-      ],
-      dataSource,
-      [topic1, topic2, topic3]
-    );
+  //   const res = web3.eth.abi.decodeLog(
+  //     [
+  //       {
+  //         indexed: false,
+  //         internalType: "bool",
+  //         name: "is721",
+  //         type: "bool",
+  //       },
+  //       {
+  //         indexed: true,
+  //         internalType: "address",
+  //         name: "lenderAddress",
+  //         type: "address",
+  //       },
+  //       {
+  //         indexed: true,
+  //         internalType: "address",
+  //         name: "nftAddress",
+  //         type: "address",
+  //       },
+  //       {
+  //         indexed: true,
+  //         internalType: "uint256",
+  //         name: "tokenID",
+  //         type: "uint256",
+  //       },
+  //       {
+  //         indexed: false,
+  //         internalType: "uint256",
+  //         name: "lendingID",
+  //         type: "uint256",
+  //       },
+  //       {
+  //         indexed: false,
+  //         internalType: "uint8",
+  //         name: "maxRentDuration",
+  //         type: "uint8",
+  //       },
+  //       {
+  //         indexed: false,
+  //         internalType: "bytes4",
+  //         name: "dailyRentPrice",
+  //         type: "bytes4",
+  //       },
+  //       {
+  //         indexed: false,
+  //         internalType: "uint16",
+  //         name: "lendAmount",
+  //         type: "uint16",
+  //       },
+  //       {
+  //         indexed: false,
+  //         internalType: "enum IResolver.PaymentToken",
+  //         name: "paymentToken",
+  //         type: "uint8",
+  //       },
+  //     ],
+  //     dataSource,
+  //     [topic1, topic2, topic3]
+  //   );
 
-    // console.log("prt", res)
+  //   // console.log("prt", res)
 
-    return res.lendingID;
-  };
+  //   return res.lendingID;
+  // };
 
-  const getLendingIdForNft = async (transactionHash, chain) => {
-    const config = {
-      headers: {
-        accept: "application/json",
-        "X-API-Key": moralisApiKey,
-      },
-    };
+  // const getLendingIdForNft = async (transactionHash, chain) => {
+  //   const config = {
+  //     headers: {
+  //       accept: "application/json",
+  //       "X-API-Key": moralisApiKey,
+  //     },
+  //   };
 
-    try {
-      const transactionLogs = await axios.get(
-        `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
-        config
-      );
+  //   try {
+  //     const transactionLogs = await axios.get(
+  //       `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
+  //       config
+  //     );
 
-      // console.log('data: ', transactionLogs.data?.logs[0])
+  //     // console.log('data: ', transactionLogs.data?.logs[0])
 
-      const mainLog = transactionLogs.data?.logs[0];
+  //     const mainLog = transactionLogs.data?.logs[0];
 
-      const dataToDecode = mainLog?.data;
+  //     const dataToDecode = mainLog?.data;
 
-      const topicsObj = {
-        topic1: mainLog?.topic1,
-        topic2: mainLog?.topic2,
-        topic3: mainLog?.topic3,
-      };
+  //     const topicsObj = {
+  //       topic1: mainLog?.topic1,
+  //       topic2: mainLog?.topic2,
+  //       topic3: mainLog?.topic3,
+  //     };
 
-      const result = decodeTxnData(dataToDecode, topicsObj);
+  //     const result = decodeTxnData(dataToDecode, topicsObj);
 
-      // console.log('topics: ', topicsObj)
+  //     // console.log('topics: ', topicsObj)
 
-      return result;
-    } catch (e) {
-      // console.error(e);
-    }
-  };
+  //     return result;
+  //   } catch (e) {
+  //     // console.error(e);
+  //   }
+  // };
 
   const parseStandards = (value) => {
     if (value === "0") {
@@ -781,7 +781,6 @@ const CollectionItemsComp = ({
     lendingID,
     rentDuration,
     rentAmount,
-    identity
   ) => {
     setRentingLoading(true);
     // console.log("gart", rentAmount)
@@ -800,22 +799,21 @@ const CollectionItemsComp = ({
       // console.log(receipt);
 
       if (receipt.blockNumber !== null && receipt.confirmations > 0) {
-        const rentTxnHash = receipt.transactionHash;
-
-        await handlePatch(
-          identity,
-          "in rent",
-          "lending renting",
-          rentDuration,
-          rentTxnHash,
-          Date.now(),
-          "not yet"
-        );
+        // const rentTxnHash = receipt.transactionHash;
+        // await handlePatch(
+        //   identity,
+        //   "in rent",
+        //   "lending renting",
+        //   rentDuration,
+        //   rentTxnHash,
+        //   Date.now(),
+        //   "not yet"
+        // );
         // console.log(finalObj)
         setRentingLoading(false);
         setRentalPeriod("");
         handleCancel();
-        message.success("rent success!");
+        message.success("rent operation in progress! your item will be displayed once confirmed on blockchain");
         getRefreshItems();
         // handleCancel();
         handleRentModalCancel();
@@ -827,7 +825,7 @@ const CollectionItemsComp = ({
         message.error("user rejected transaction");
       } else if (e.reason === "execution reverted: Hadaro::rentAmount is zero"  || e.reason ===   "execution reverted: Hadaro::invalid rent amount") {
         message.info("item returned to lender already, removing from marketplace...")
-        handlePatch(toDisplayData?._id, "non-available", "previousListed for Lending")
+        // handlePatch(toDisplayData?._id, "non-available", "previousListed for Lending")
         const itemAddr = toDisplayData?.nftAddress.toLowerCase()
         setRentingLoading(false);
         getColandUpdateItemCount(itemAddr);
@@ -879,10 +877,12 @@ const CollectionItemsComp = ({
                   // message.success("ride on to rent amigo!");
                   const transactionHash = toDisplayData?.lendTransactionHash;
 
-                  const lendingID = await getLendingIdForNft(
-                    transactionHash,
-                    "goerli"
-                  );
+
+                  const lendingID = toDisplayData?.lendingID
+                  // const lendingID = await getLendingIdForNft(
+                  //   transactionHash,
+                  //   "goerli"
+                  // );
                   // console.log('id: ', lendingID)
 
                   const nftStandard = Number(toDisplayData?.nftStandard);
@@ -897,17 +897,17 @@ const CollectionItemsComp = ({
                   const rentAmount = 1;
                   const rentTxnHash = toDisplayData?.rentTxnHash;
 
-                  const finalObj = {
-                    nftAddress,
-                    nftStandard,
-                    tokenID,
-                    lendingID,
-                    rentDuration,
-                    rentAmount,
-                  };
+                  // const finalObj = {
+                  //   nftAddress,
+                  //   nftStandard,
+                  //   tokenID,
+                  //   lendingID,
+                  //   rentDuration,
+                  //   rentAmount,
+                  // };
 // execution reverted: Hadaro::rentAmount is zero   execution reverted: Hadaro::invalid rent amount
 
-                  const msgValue = String(0);
+                  // const msgValue = String(0);
 
                   // console.log("values to be passed: ", finalObj);
 
@@ -1022,7 +1022,7 @@ const CollectionItemsComp = ({
         setRentingLoading(false);
       }
     } catch (e) {
-      // console.warn(e);
+      console.warn(e);
       if (e.reason === "execution reverted: SafeERC20: low-level call failed") {
         message.error(
           "You do not have enough funds to pay rental fees for this item!",
@@ -1042,7 +1042,7 @@ const CollectionItemsComp = ({
 
   useEffect(() => {
     getTokenBalances();
-  }, [alreadyConverted]);
+  }, [alreadyConverted, address, mainChain]);
 
   // const fetchCollectionNfts = async() => {
   //   try {

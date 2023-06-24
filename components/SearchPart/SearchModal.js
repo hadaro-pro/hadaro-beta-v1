@@ -14,7 +14,7 @@ const SearchModal = ({
   collectionItems,
   nftItems,
   getCol,
-  getNft,
+  // getNft,
 }) => {
   const [searchText, setSearchText] = useState("");
 
@@ -87,12 +87,12 @@ const SearchModal = ({
   };
 
   useEffect(() => {
-    const runFirst = async() => {
-    await getCol();
-    // await getNft();
-    }
+    const runFirst = async () => {
+      await getCol();
+      // await getNft();
+    };
 
-    runFirst()
+    runFirst();
   }, []);
 
   return (
@@ -112,52 +112,49 @@ const SearchModal = ({
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
-         <h1>Suggested Collections</h1>
+        <h1>Suggested Collections</h1>
       </div>
-      {searchText === ""  &&
-        (
-          <h1 className={styles.notFound}></h1>
-        )}
-    { searchText !== "" &&  ( <div className={styles.collectionsPart}>
-        {/* {filterCollection?.length > 0 && <h1> Collections </h1>} */}
-        <div className={styles.collectionsPartItems}>
-          {filterCollection.map((item, index) => (
-            <div
-              key={item?._id}
-              className={styles.collectionsPartItem}
-              onClick={() => {
-                previewCollectionToSave(index);
-              }}
-            >
-              <img
-                src={
-                  item?.collectionImage === null
-                    ? "/images/ART01.png"
-                    : item?.collectionImage
-                }
-                alt={item?.collectionName}
-              />
-              <small>
-                {item.collectionName.length > 15
-                  ? item.collectionName.slice(0, 10) + "..."
-                  : item.collectionName}
-              </small>
-              <small>
-                {" "}
-                {item.itemCount === null ? "0" : item.itemCount} {"item(s)"}
-              </small>
-            </div>
-          ))}
+      {searchText === "" && <h1 className={styles.notFound}></h1>}
+      {searchText !== "" && (
+        <div className={styles.collectionsPart}>
+          {/* {filterCollection?.length > 0 && <h1> Collections </h1>} */}
+          <div className={styles.collectionsPartItems}>
+            {filterCollection.map((item, index) => (
+              <div
+                key={item?._id}
+                className={styles.collectionsPartItem}
+                onClick={() => {
+                  previewCollectionToSave(index);
+                }}
+              >
+                <img
+                  src={
+                    item?.collectionImage === null
+                      ? "/images/ART01.png"
+                      : item?.collectionImage
+                  }
+                  alt={item?.collectionName}
+                />
+                <small>
+                  {item.collectionName.length > 15
+                    ? item.collectionName.slice(0, 10) + "..."
+                    : item.collectionName}
+                </small>
+                <small>
+                  {" "}
+                  {item.itemCount === null ? "0" : item.itemCount} {"item(s)"}
+                </small>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>)}
-      {searchText !== "" &&
-        filterCollection?.length === 0 &&
-        // filterNfts?.length === 0 && 
-        (
-          <h1 className={styles.notFound}>No items match your search😑...</h1>
-        )}
+      )}
+      {searchText !== "" && filterCollection?.length === 0 && (
+        // filterNfts?.length === 0 &&
+        <h1 className={styles.notFound}>No items match your search😑...</h1>
+      )}
       {/* <div className={styles.nftsPart}> */}
-        {/* {filterNfts?.length > 0 && <h1> NFTS </h1>}
+      {/* {filterNfts?.length > 0 && <h1> NFTS </h1>}
         <div className={styles.nftPartItems}>
           {filterNfts.map((item) => (
             <div key={item?._id} className={styles.nftPartItem}>

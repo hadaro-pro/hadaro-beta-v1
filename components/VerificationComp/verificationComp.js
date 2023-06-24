@@ -387,7 +387,7 @@ const VerificationComp = ({
     if (isConnected) {
       checkIfApproved();
     }
-  }, [isConnected]);
+  }, [isConnected, address]);
 
   {
     /* 
