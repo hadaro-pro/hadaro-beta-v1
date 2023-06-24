@@ -181,6 +181,36 @@ const Portfolio = () => {
     }
   };
 
+  const handleGetLendingNfts_noLoad = async () => {
+    try {
+      setLoadingLendingNfts(true);
+
+      // const lenderAddr = address
+
+      const response = await axios.post(`/api/fetchLendingNfts`, { address });
+
+      // console.log('responje', response.data)
+
+      // response.data.forEach((item) => {
+      //   lendNfts.push(item)
+      // })
+
+      const filterItems = response.data.filter(
+        (item) =>
+          item.transactionType === "lending" ||
+          item.transactionType === "lending renting"
+      );
+
+      // console.log('responje', filterItems)
+
+      setLendNfts(filterItems);
+
+      setLoadingLendingNfts(false);
+    } catch (e) {
+      // console.log(e)
+    }
+  };
+
   const handleGetRentingNfts = async () => {
     try {
       setLoadingRentingNfts(true);
@@ -200,6 +230,27 @@ const Portfolio = () => {
       setRentNfts(response.data);
 
       setLoadingRentingNfts(false);
+    } catch (e) {
+      // console.error(e)
+    }
+  };
+
+  const handleGetRentingNfts_noLoad = async () => {
+    try {
+
+      const addr = address;
+
+      // console.log('dff', address)
+
+      const response = await axios.post(`/api/fetchRentingNfts`, { addr });
+
+      // console.log('responjek', response.data)
+
+      // response.data.forEach((item) => {
+      //   lendNfts.push(item)
+      // })
+
+      setRentNfts(response.data);
     } catch (e) {
       // console.error(e)
     }
@@ -257,6 +308,56 @@ const Portfolio = () => {
     }
   };
 
+  const handleGetAllNfts_noLoad = async () => {
+    try {
+
+      let allNfts = [];
+
+      const response1 = await axios.get("/api/nft-balance", {
+        params: {
+          walletaddr: address,
+          // walletaddr: wallet,
+          chain: "0x5",
+        },
+      });
+
+      // const nftDataAdd1 = response1?.data?.result?.map((item) => item)
+
+      // allNfts.push(nftDataAdd1)
+
+      // console.log('x-factor: ', response1?.data?.result)
+
+      response1?.data?.result?.forEach((item) => {
+        allNfts.push(item);
+      });
+
+      // const response2 = await axios.get("/api/nft-balance", {
+      //   params: {
+      //     walletaddr: address,
+      //     // walletaddr: wallet,
+      //     chain: "0x89",
+      //   },
+      // });
+
+      // const nftDataAdd2 = response2?.data?.result?.map((item) => item)
+
+      // allNfts.push(nftDataAdd2)
+
+      // console.log('x-factor@: ', response2?.data?.result)
+
+      // response2?.data?.result?.forEach((item) => {
+      //   allNfts.push(item);
+      // });
+
+      // console.log('final: ', allNfts)
+
+      nftAggregating(allNfts);
+
+    } catch (e) {
+      // console.error(e);
+    }
+  };
+
   useEffect(() => {
     if (isConnected) {
       handleGetAllNfts();
@@ -266,6 +367,33 @@ const Portfolio = () => {
       getAllCollections();
     }
   }, [isConnected, address]);
+
+
+  // Make API call on a 1 minute interval
+useEffect(() => {
+  const interval = setInterval(async () => {
+    await handleGetLendingNfts_noLoad()
+    await handleGetRentingNfts_noLoad() 
+    await getAllCollections()
+  }, 60000);
+
+  return () => {
+    clearInterval(interval);
+  }
+}, [isConnected, address]);
+
+  // Make API call on a 1 minute interval
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      await handleGetAllNfts_noLoad()
+    }, 60000);
+  
+    return () => {
+      clearInterval(interval);
+    }
+  }, [nfts, isConnected, address]);
+
+
 
   // useEffect(() => {
   //     if(isConnected) {

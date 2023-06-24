@@ -12,6 +12,7 @@ import walletAvatar from './walletAvatar'
 import testNftData from './testNftData'
 import testCollectionData from './testCollectionData'
 import sitePassword from './sitePassword'
+import testBlockNftData from './testBlockNftData'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -28,6 +29,7 @@ export default createSchema({
     walletAvatar,
     sitePassword,
     // test schemas
+    testBlockNftData,
     testNftData,
     testCollectionData,
   ]),

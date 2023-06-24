@@ -75,27 +75,27 @@ const Navbar = ({}) => {
     }
   };
 
-  const getAllNfts = async () => {
-    try {
-      const response = await axios.get(`/api/fetchAllNftsInCollection`);
-      // console.log('erty', response.data)
-      const neededNfts = response.data.filter(
-        (item) =>
-          item?.status === "available" ||
-          (item?.status === "in rent" && !item._id?.includes("drafts"))
-      );
-      // console.log("nfts", neededNfts);
-      setAllNfts(neededNfts);
+  // const getAllNfts = async () => {
+  //   try {
+  //     const response = await axios.get(`/api/fetchAllNftsInCollection`);
+  //     // console.log('erty', response.data)
+  //     const neededNfts = response.data.filter(
+  //       (item) =>
+  //         item?.status === "available" ||
+  //         (item?.status === "in rent" && !item._id?.includes("drafts"))
+  //     );
+  //     // console.log("nfts", neededNfts);
+  //     setAllNfts(neededNfts);
 
-      // console.log("nfts", neededNfts);
-      setAllNfts(neededNfts);
-      // neededNfts.forEach((item) => {
-      //   allNfts.push(item)
-      // })
-    } catch (e) {
-      // console.error(e);
-    }
-  };
+  //     // console.log("nfts", neededNfts);
+  //     setAllNfts(neededNfts);
+  //     // neededNfts.forEach((item) => {
+  //     //   allNfts.push(item)
+  //     // })
+  //   } catch (e) {
+  //     // console.error(e);
+  //   }
+  // };
 
   const { address, connector, isConnected } = useAccount();
   // const { data: ensAvatar } = useEnsAvatar({ address })
@@ -134,8 +134,22 @@ const Navbar = ({}) => {
 
   useEffect(() => {
     getAllCollections();
-    getAllNfts();
+    // getAllNfts();
   }, []);
+
+  // Make API call on a 1 minute interval
+useEffect(() => {
+  const interval = setInterval(async () => {
+   await getAllCollections()
+  }, 60000);
+
+  return () => {
+    clearInterval(interval);
+  }
+}, []);
+
+
+
 
   return (
     <div className={styles.mainContainer}>
@@ -212,7 +226,7 @@ const Navbar = ({}) => {
                   collectionItems={allCollections}
                   nftItems={allNfts}
                   getCol={getAllCollections}
-                  getNft={getAllNfts}
+                  // getNft={getAllNfts}
                 />
               </p> )}
               <p>
@@ -414,7 +428,7 @@ const Navbar = ({}) => {
                     collectionItems={allCollections}
                     nftItems={allNfts}
                     getCol={getAllCollections}
-                    getNft={getAllNfts}
+                    // getNft={getAllNfts}
                   />
                 </p>)}
                 <p>

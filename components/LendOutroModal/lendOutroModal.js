@@ -308,75 +308,75 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
   
   
       if (receipt.blockNumber !== null && receipt.confirmations > 0) {
-        const document = {
-          // for live
-          // _type: "nftData",
-          // for test
-          _type: "testNftData",
-          nftAddress,
-          tokenID,
-          chain,
-          lenderAddress: address,
-          price: dailyRentPrice,
-          paymentToken: String(paymentToken),
-          maxDuration: maxRentDuration,
-          transactionType,
-          status,
-          metadataName,
-          metadataDesc,
-          metadataImage,
-          nftCollectionName: collectionName,
-          nftStandard: String(nftStandard),
-          lendTransactionHash: receipt.transactionHash,
-        };
+        // const document = {
+        //   // for live
+        //   // _type: "nftData",
+        //   // for test
+        //   _type: "testNftData",
+        //   nftAddress,
+        //   tokenID,
+        //   chain,
+        //   lenderAddress: address,
+        //   price: dailyRentPrice,
+        //   paymentToken: String(paymentToken),
+        //   maxDuration: maxRentDuration,
+        //   transactionType,
+        //   status,
+        //   metadataName,
+        //   metadataDesc,
+        //   metadataImage,
+        //   nftCollectionName: collectionName,
+        //   nftStandard: String(nftStandard),
+        //   lendTransactionHash: receipt.transactionHash,
+        // };
   
-        const resty = await axios.post(`/api/postNftData`, document);
+        // const resty = await axios.post(`/api/postNftData`, document);
   
         //  console.log('docusave', resty.data)
         // const nftAddres = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
         // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
-        const collectionAddr = nftAddress;
-        // const collectionAddr = nftAddres
-        const getCollection = await axios.get(`/api/fetchItemCollection`, {
-          collectionAddr,
-        });
+        // const collectionAddr = nftAddress;
+        // // const collectionAddr = nftAddres
+        // const getCollection = await axios.get(`/api/fetchItemCollection`, {
+        //   collectionAddr,
+        // });
   
           //  console.log('original col: ', getCollection.data)
 
-       const filterDraftsandCol = getCollection.data.filter(
-        (item) => !item._id?.includes("drafts") && item.collectionAddress === collectionAddr
-      );
+      //  const filterDraftsandCol = getCollection.data.filter(
+      //   (item) => !item._id?.includes("drafts") && item.collectionAddress === collectionAddr
+      // );
       // console.log('filter col: ', filterDraftsandCol)
 
-      const itemId = filterDraftsandCol[0]?._id;
+      // const itemId = filterDraftsandCol[0]?._id;
   
-      const itemCount = filterDraftsandCol[0]?.itemCount;
+      // const itemCount = filterDraftsandCol[0]?.itemCount;
       // console.log('item count: ', itemCount)
       // console.log('item id: ', itemId)
 
-        let finalValue;
+        // let finalValue;
   
-        if (itemCount === null) {
-          finalValue = 0;
-        } else {
-          finalValue = Number(itemCount);
-        }
+        // if (itemCount === null) {
+        //   finalValue = 0;
+        // } else {
+        //   finalValue = Number(itemCount);
+        // }
   
-        const valueToSend = String(finalValue + 1);
-        // console.log('final: ', valueToSend)
+        // const valueToSend = String(finalValue + 1);
+        // // console.log('final: ', valueToSend)
   
-        const count = valueToSend;
+        // const count = valueToSend;
   
-        await axios.post(`/api/updateCollectionItemCount`, {
-          itemId,
-          count,
-        });
+        // await axios.post(`/api/updateCollectionItemCount`, {
+        //   itemId,
+        //   count,
+        // });
   
         setLoadingTxn(false);
   
         cancelLendModal();
   
-        message.success("Lending successful!");
+        message.success("Lending in progress!...item will appear shortly on the marketplace once confirmed on the blockchain");
   
         removeLent(currentLendIndex);
         // console.log('res: ', patchItem.data)

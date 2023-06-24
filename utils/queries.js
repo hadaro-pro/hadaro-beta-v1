@@ -147,8 +147,9 @@ export const getItemCollectionCountQuery = (collectionAddr) => {
   return query;
 };
 
+// consider this for adjustment - test for new method of chain data
 export const allMainNftsByCollectionQuery = (contractAddr) => {
-  const query = `*[_type == "testNftData" && nftAddress == "${contractAddr}"] {
+  const query = `*[_type == "testBlockNftData" && nftAddress == "${contractAddr}"] {
     _id,
     nftAddress,
     tokenID,
@@ -165,17 +166,21 @@ export const allMainNftsByCollectionQuery = (contractAddr) => {
     nftStandard,
     nftCollectionName,
     lendTransactionHash,
-    rentTransactionHash,
     noOfRentDays,
     timeOfRent,
-    renterAddress
+    renterAddress,
+    lendingID,
+    rentingID,
+    lendAmount,
+    rentAmount
   }`;
 
   return query;
 };
 
+// consider this for adjustment - test for new method of chain data
 export const allLendedNftsByAddressQuery = (lenderAddr) => {
-  const query = `*[_type == "testNftData"   && lenderAddress == '${lenderAddr}'] {
+  const query = `*[_type == "testBlockNftData"   && lenderAddress == '${lenderAddr}'] {
     _id,
     nftAddress,
     tokenID,
@@ -191,8 +196,8 @@ export const allLendedNftsByAddressQuery = (lenderAddr) => {
     metadataName,
     nftStandard,
     nftCollectionName,
-    lendTransactionHash,
-    rentTransactionHash,
+    lendingID,
+    rentingID,
     renterAddress,
     noOfRentDays,
     timeOfRent,
@@ -201,8 +206,39 @@ export const allLendedNftsByAddressQuery = (lenderAddr) => {
   return query;
 };
 
+
+export const nftByLendingIDQuery = (lendingID) => {
+  const query = `*[_type == "testBlockNftData"   && lendingID == '${lendingID}'  && transactionType == "lending"] {
+    _id,
+    transactionType,
+    nftAddress
+  }`;
+  return query;
+};
+
+
+export const nftByRentingIDQuery = (rentingID) => {
+  const query = `*[_type == "testBlockNftData"   && rentingID == '${rentingID}'  && transactionType == "lending renting"] {
+    _id,
+    transactionType,
+    timeOfRent,
+    noOfRentDays,
+  }`;
+  return query;
+};
+
+
+export const nftByOnlyLendingIDQuery = (lendingID) => {
+  const query = `*[_type == "testBlockNftData"   && lendingID == '${lendingID}'] {
+    _id,
+    transactionType,
+  }`;
+  return query;
+};
+
+// consider this for adjustment - test for new method of chain data
 export const allRentedNftsByAddressQuery = (renterAddr) => {
-  const query = `*[_type == "testNftData"  && renterAddress == '${renterAddr}' && transactionType == "lending renting"] {
+  const query = `*[_type == "testBlockNftData"  && renterAddress == '${renterAddr}' && transactionType == "lending renting"] {
     _id,
     nftAddress,
     tokenID,
@@ -221,8 +257,8 @@ export const allRentedNftsByAddressQuery = (renterAddr) => {
     renterAddress,
     noOfRentDays,
     timeOfRent,
-    rentTransactionHash,
-    lendTransactionHash,
+    lendingID,
+    rentingID,
     isRentClaimed,
   }`;
   return query;

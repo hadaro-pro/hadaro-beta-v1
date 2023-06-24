@@ -60,19 +60,19 @@ const CollectionItems = () => {
 
   // console.log('addr: ', colAddress)
 
-  const extractMetaData = async (nftObj) => {
-    const { nftAddress, tokenID, chain } = nftObj;
+  // const extractMetaData = async (nftObj) => {
+  //   const { nftAddress, tokenID, chain } = nftObj;
 
-    const metaData = await axios.get(`/api/fetchSingleNftMeta`, {
-      params: {
-        tokenAddr: nftAddress,
-        tokenID: tokenID,
-        chain: chain,
-      },
-    });
+  //   const metaData = await axios.get(`/api/fetchSingleNftMeta`, {
+  //     params: {
+  //       tokenAddr: nftAddress,
+  //       tokenID: tokenID,
+  //       chain: chain,
+  //     },
+  //   });
 
-    return metaData;
-  };
+  //   return metaData;
+  // };
 
   const fetchCollectionNfts = async () => {
     try {
@@ -97,7 +97,7 @@ const CollectionItems = () => {
       // previousListed for lending
       // console.log('filtration', filterByActivity)
 
-      //   console.log('resti: ', response.data)
+        // console.log('resti: ', response.data)
 
       setFinalCollectionItems(filterByActivity);
 
@@ -107,9 +107,42 @@ const CollectionItems = () => {
     }
   };
 
+  const fetchCollectionNfts_noLoad = async () => {
+    try {
+      const contractAddr = colAddress.toLowerCase();
+
+      // console.log('contadrt: ', contractAddr)
+      const response = await axios.post(`/api/fetchMainNftsInCollection`, {
+        contractAddr,
+      });
+
+      const filterByActivity = response.data?.filter(
+        (item) =>
+          item.transactionType === "lending" ||
+          item.transactionType === "lending renting"
+      );
+
+      setFinalCollectionItems(filterByActivity);
+    } catch (err) {
+      // console.error(err)
+    }
+  };
+
   useEffect(() => {
     fetchCollectionNfts();
   }, []);
+
+
+// Make API call on a 1 minute interval
+useEffect(() => {
+  const interval = setInterval(async () => {
+   await fetchCollectionNfts_noLoad()
+  }, 60000);
+
+  return () => {
+    clearInterval(interval);
+  }
+}, []);
 
   return (
     <div>

@@ -91,8 +91,8 @@ const PortfolioComp = ({
   const [renterAddress, setRenterAddress] = useState("");
   const [transactionType, setTransactionType] = useState("");
   const [desc, setDesc] = useState("");
-  const [rentTxnData, setRentTxnData] = useState("");
-  const [lendTxnData, setLendTxnData] = useState("");
+  const [rentingID, setRentingID] = useState("");
+  const [lendingID, setLendingID] = useState("");
   const [dayPassed, setDayPassed] = useState(false);
   const [identi, setIdenti] = useState("");
   const [rentDays, setRentDays] = useState("");
@@ -566,8 +566,8 @@ const PortfolioComp = ({
     try {
       setLoadClaimRent(true);
 
-      const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
-      const rentingID = await getRentingId(rentTxnData, "goerli");
+      // const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
+      // const rentingID = await getRentingId(rentTxnData, "goerli");
 
       const rentingIDToString = String(rentingID);
 
@@ -582,7 +582,7 @@ const PortfolioComp = ({
           mainItemAddr,
           tokenId,
           lendingID,
-          rentingIDToString,
+          // rentingIDToString,
         };
 
         // console.log("txnpayload", whatToSend);
@@ -601,15 +601,15 @@ const PortfolioComp = ({
         // 0x9d91778c5e5f506701482ee59ca9668d16d308ae6deafb7d87c1fd90ac290b2f
         if (receipt.blockNumber !== null && receipt.confirmations > 0) {
           const newRenterAddress = "";
-          await handleLenderRentPatch(
-            identi,
-            newRenterAddress,
-            "already claimed",
-            "non-available",
-            "previousListed for lending"
-          );
-          await getColandUpdateItemCount(mainItemAddr);
-          message.success("successfully claimed rental fees!");
+          // await handleLenderRentPatch(
+          //   identi,
+          //   newRenterAddress,
+          //   "already claimed",
+          //   "non-available",
+          //   "previousListed for lending"
+          // );
+          // await getColandUpdateItemCount(mainItemAddr);
+          message.success("claiming rental fees in progress! changes would be propagated once confirmed on the blockchain");
           handleLendDetailsModalCancel();
           await getNewListFunc();
           await getWalletNfts();
@@ -625,13 +625,13 @@ const PortfolioComp = ({
         setLoadClaimRent(false);
         message.error("something went wrong");
       } else if(e.error.data.message === "execution reverted: Hadaro::zero address"){
-        await handlePatch(
-          identi,
-          "previousListed for lending",
-          "non-available"
-        );
-        await getColandUpdateItemCount(mainItemAddr);
-        message.success("item already being returned to your wallet, removing from lendings...", [5]);
+        // await handlePatch(
+        //   identi,
+        //   "previousListed for lending",
+        //   "non-available"
+        // );
+        // await getColandUpdateItemCount(mainItemAddr);
+        message.success("item already being returned to your wallet", [5]);
         handleLendDetailsModalCancel();
         await getNewListFunc();
         await getWalletNfts();
@@ -646,10 +646,10 @@ const PortfolioComp = ({
       // console.log('gfkdvdvb')
       setLoadStopRent(true);
 
-      const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
-      const rentingID = await getRentingId(rentTxnData, "goerli");
+      // const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
+      // const rentingID = await getRentingId(rentTxnData, "goerli");
 
-      const rentingIDToString = String(rentingID);
+      // const rentingIDToString = String(rentingID);
 
       // console.log("rnt", rentingID);
       // console.log("lnt", lendingID)
@@ -662,7 +662,7 @@ const PortfolioComp = ({
           mainItemAddr,
           tokenId,
           lendingID,
-          rentingIDToString,
+          // rentingIDToString,
         };
 
         // console.log("txnpayload", whatToSend);
@@ -679,27 +679,27 @@ const PortfolioComp = ({
         // console.log(receipt)
         // 0x9d91778c5e5f506701482ee59ca9668d16d308ae6deafb7d87c1fd90ac290b2f
         if (receipt.blockNumber !== null && receipt.confirmations > 0) {
-          const newRenterAddress = "";
-          if (dayPassed) {
-            await handleRentPatch(identi, newRenterAddress);
-            await handlePatch(
-              identi,
-              "previousListed for lending",
-              "non-available"
-            );
-            await getColandUpdateItemCount(mainItemAddr);
-          } else {
-            await handleRentPatch(identi, newRenterAddress);
-            await handlePatch(
-              identi,
-              "previousListed for lending",
-              "non-available"
-            );
-            await getColandUpdateItemCount(mainItemAddr);
-          }
+          // const newRenterAddress = "";
+          // if (dayPassed) {
+          //   await handleRentPatch(identi, newRenterAddress);
+          //   await handlePatch(
+          //     identi,
+          //     "previousListed for lending",
+          //     "non-available"
+          //   );
+          //   await getColandUpdateItemCount(mainItemAddr);
+          // } else {
+          //   await handleRentPatch(identi, newRenterAddress);
+          //   await handlePatch(
+          //     identi,
+          //     "previousListed for lending",
+          //     "non-available"
+          //   );
+          //   await getColandUpdateItemCount(mainItemAddr);
+          // }
           // await getColandUpdateItemCount(nftAddress);
           // await handleRemoveElement(position);
-          message.success("successfully stopped rent of NFT!");
+          message.success("stopping rental in progress!changes will reflect after confirmation on the blockchain");
           getRentingNfts();
         }
       }
@@ -721,13 +721,13 @@ const PortfolioComp = ({
         setLoadStopRent(false);
         await getRentingNfts()
       } else if(e.error.data.message === "execution reverted: Hadaro::zero address"){
-        await handlePatch(
-          identi,
-          "previousListed for lending",
-          "non-available"
-        );
-        await getColandUpdateItemCount(mainItemAddr);
-        message.success("item already returned to your wallet, removing from lendings...", [5]);
+        // await handlePatch(
+        //   identi,
+        //   "previousListed for lending",
+        //   "non-available"
+        // );
+        // await getColandUpdateItemCount(mainItemAddr);
+        message.success("item already returned to your wallet", [5]);
         handleLendDetailsModalCancel();
         setLoadStopRent(false);
         await getNewListFunc();
@@ -792,54 +792,54 @@ const PortfolioComp = ({
 
   // }
 
-  const getColandUpdateItemCount = async (collectionAddr) => {
-    // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
-    const getCollection = await axios.post(`/api/fetchItemCollection`, {
-      collectionAddr,
-    });
+  // const getColandUpdateItemCount = async (collectionAddr) => {
+  //   // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
+  //   const getCollection = await axios.post(`/api/fetchItemCollection`, {
+  //     collectionAddr,
+  //   });
 
-    const filterDrafts = getCollection.data.filter(
-      (item) =>
-        item.collectionAddress.toLowerCase() === collectionAddr.toLowerCase() &&
-        !item._id?.includes("drafts")
-    );
-    // console.log('results: ', getCollection.data)
-    // console.log('results: ', filterDrafts)
+  //   const filterDrafts = getCollection.data.filter(
+  //     (item) =>
+  //       item.collectionAddress.toLowerCase() === collectionAddr.toLowerCase() &&
+  //       !item._id?.includes("drafts")
+  //   );
+  //   // console.log('results: ', getCollection.data)
+  //   // console.log('results: ', filterDrafts)
 
-    const itemId = filterDrafts[0]?._id;
+  //   const itemId = filterDrafts[0]?._id;
 
-    const itemCount = filterDrafts[0]?.itemCount;
-    // console.log('results: ', itemCount)
+  //   const itemCount = filterDrafts[0]?.itemCount;
+  //   // console.log('results: ', itemCount)
 
-    let finalValue;
+  //   let finalValue;
 
-    if (itemCount === null) {
-      finalValue = 0;
-    } else {
-      finalValue = Number(itemCount);
-    }
+  //   if (itemCount === null) {
+  //     finalValue = 0;
+  //   } else {
+  //     finalValue = Number(itemCount);
+  //   }
 
-    const valueToSend = String(finalValue - 1);
-    console.log('final: ', valueToSend)
+  //   const valueToSend = String(finalValue - 1);
+  //   console.log('final: ', valueToSend)
 
-    if (valueToSend === "-1") {
-      const count = "0";
+  //   if (valueToSend === "-1") {
+  //     const count = "0";
 
-      const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
-        itemId,
-        count,
-      });
-      console.log('res0: ', patchItem.data)
-    } else {
-      const count = valueToSend;
-      const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
-        itemId,
-        count,
-      });
+  //     const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
+  //       itemId,
+  //       count,
+  //     });
+  //     console.log('res0: ', patchItem.data)
+  //   } else {
+  //     const count = valueToSend;
+  //     const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
+  //       itemId,
+  //       count,
+  //     });
 
-      console.log('res1: ', patchItem.data)
-    }
-  };
+  //     console.log('res1: ', patchItem.data)
+  //   }
+  // };
 
   const showLendingDetails = (position) => {
     const lendItem = lendingNfts[position];
@@ -854,8 +854,8 @@ const PortfolioComp = ({
     setItemName(lendItem?.metadataName);
     setTokenId(lendItem?.tokenID);
     setDesc(lendItem?.metadataDesc);
-    setRentTxnData(lendItem?.rentTransactionHash);
-    setLendTxnData(lendItem?.lendTransactionHash);
+    setRentingID(lendItem?.rentingID);
+    setLendingID(lendItem?.lendingID);
     setIdenti(lendItem?._id);
     setIsRentClaimed(lendItem?.isRentClaimed);
     setRenterAddress(lendItem?.renterAddress);
@@ -864,7 +864,7 @@ const PortfolioComp = ({
     const noOfRentDays = lendItem?.noOfRentDays;
     const timeRented = lendItem?.timeOfRent;
 
-    const formattedExpiry = moment(timeRented)
+    const formattedExpiry = moment(Number(timeRented * 1000))
       .add(noOfRentDays, "days")
       .format();
 
@@ -889,7 +889,7 @@ const PortfolioComp = ({
 
       // console.log('hash', transactionHash)
 
-      const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
+      // const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
 
       // console.log("id", lendingID);
 
@@ -924,13 +924,13 @@ const PortfolioComp = ({
           //  const iden = "7Fr0FUO69KxDBqVkyLHEmB"
           // const response = await axios.get(`/api/fetchAllNftsInCollection`)
           // console.log('hjs: ', response.data)
-          await handlePatch(
-            identi,
-            "previousListed for lending",
-            "non-available"
-          );
-          await getColandUpdateItemCount(mainItemAddr);
-          message.success("successfully stopped lend of NFT!");
+          // await handlePatch(
+          //   identi,
+          //   "previousListed for lending",
+          //   "non-available"
+          // );
+          // await getColandUpdateItemCount(mainItemAddr);
+          message.success("stopping lend for your NFT...item will be removed from lendings when confirmed on the blockchain");
           handleLendDetailsModalCancel();
           await getNewListFunc();
           await getWalletNfts();
@@ -946,13 +946,13 @@ const PortfolioComp = ({
         message.error("something went wrong");
         setLoadingLendRemove(false);
       } else if(e.error.message === "execution reverted: Hadaro::zero address"){
-        await handlePatch(
-          identi,
-          "previousListed for lending",
-          "non-available"
-        );
-        await getColandUpdateItemCount(mainItemAddr);
-        message.success("item already returned to your wallet, removing from lendings...", [5]);
+        // await handlePatch(
+        //   identi,
+        //   "previousListed for lending",
+        //   "non-available"
+        // );
+        // await getColandUpdateItemCount(mainItemAddr);
+        message.success("item already returned to your wallet", [5]);
         handleLendDetailsModalCancel();
         setLoadingLendRemove(false);
         await getNewListFunc();
