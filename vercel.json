@@ -2,6 +2,10 @@
   "crons": [
     {
       "path": "/api/transaction-scanning",
+      "schedule": "40 20 * * *"
+    },
+    {
+      "path": "/api/transaction-scanning",
       "schedule": "30 13 * * *"
     }
   ]
