@@ -492,7 +492,15 @@ const formattedExpiry = moment(Number(1687531435 * 1000))
 const formattedTime = new Date(formattedExpiry).getTime();
 
 export default async function handler(req, res) {
-  res.send({ message: moment(Date.now()).unix() });
+  // console.log("running a task every 3 minute");
+  
+  await getData();
+  console.log("process ended till next turn");
+ 
+ 
+ 
+ 
+  // res.send({ message: moment(Date.now()).unix() });
   // await Moralis.start({ apiKey: moralisApiKey });
 
   // const config = {
