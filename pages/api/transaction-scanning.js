@@ -496,11 +496,8 @@ export default async function handler(req, res) {
   
   await getData();
   console.log("process ended till next turn");
- 
- 
- 
- 
-  // res.send({ message: moment(Date.now()).unix() });
+  res.send({ message: 'already scanned through the blockchain for data' });
+
   // await Moralis.start({ apiKey: moralisApiKey });
 
   // const config = {
