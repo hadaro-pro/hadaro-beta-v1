@@ -28,17 +28,7 @@ const NewCollectionComp = ({ inHouseCollections }) => {
   const router = useRouter();
 
   const { address, isConnected } = useAccount();
-
-  //  console.log('bracka', inHouseCollections)
-
-  // if (imageFile !== null) {
-  //   // console.log('sfx', imageFile)
-  // }
-
-  // if (imageAsset !== null) {
-  //   // console.log('sfxazx', imageAsset)
-  // }
-
+  
   const key = "6LcutQ8kAAAAAIhv8K59NJVYPKEKFiJ7UOzntM14";
 
   //   const uploadImage = async(e) => {
@@ -66,7 +56,7 @@ const NewCollectionComp = ({ inHouseCollections }) => {
       collectionName: collectionName,
       collectionSymbol: collectionSymbol,
       collectionAddress: contractAddr.toLowerCase(),
-      // collectionImage: imageAsset?.url,
+      chain: chain,
       collectionDesc: collectionDesc,
       itemCount: String(0),
       status: "pending",

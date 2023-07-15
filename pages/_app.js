@@ -64,7 +64,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>Hadaro BETA</title>
-        <meta name="description" content="Hadaro NFT Rental" />
+        <meta name="description" content="Hadaro NFT Rental App" />
         <link rel="icon" href="/hadaro-icon.png" />
       </Head>
       <ErrorBoundary>

@@ -62,7 +62,9 @@ export const allTestCollectionsQuery = () => {
     collectionImage,
     collectionDesc,
     status,
-    itemCount
+    itemCount,
+    apiKey,
+    apiKeyCreationDate
   }`;
   return query;
 };
@@ -78,7 +80,9 @@ export const statusOfCollectionsQuery = (status) => {
     collectionDesc,
     itemCount,
     status,
-    notes
+    notes,
+    apiKey,
+    apiKeyCreationDate
   }`;
   return query;
 };
