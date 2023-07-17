@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, message, Select } from "antd";
 import { useConnect, useAccount, useNetwork, useSwitchNetwork } from "wagmi";
-import { Sylvester, PaymentToken } from "@renft/sdk";
+import { Sylvester, PaymentToken} from "@renft/sdk";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import styles from "./lendmodal.module.scss";
 

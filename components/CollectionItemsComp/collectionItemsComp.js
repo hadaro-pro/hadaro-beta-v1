@@ -1321,37 +1321,3 @@ const CollectionItemsComp = ({
 
 export default CollectionItemsComp;
 
-// {
-//   showRentMenu && (
-//     <div className={styles.showRentMenu}>
-//        <div className={styles.closeMenu}>
-//    <CloseOutlined
-//       className={styles.closeIcon}
-//       onClick={handleCancel}
-//  />
-//   </div>
-//       <h1>xvdfsf</h1>
-//     </div>
-//   )
-// //  <Modal
-// //   open={isModalOpen}
-// //   footer={null}
-// //   onCancel={handleCancel}
-// //   className={styles.modalContainer}
-// // >
-// //   <div className={styles.closeMenu}>
-// //     <CloseOutlined
-// //       className={styles.closeIcon}
-// //       onClick={handleCancel}
-// //     />
-// //   </div>
-// //   {/* <div className={styles.modalContent}>
-// //  <div className={styles.modalContentImage}>
-// //   <img src={`${image}`}  alt="alart" />
-// //  </div>
-// //  <div>
-// //   details part
-// //  </div>
-// //   </div> */}
-// // </Modal>
-// }

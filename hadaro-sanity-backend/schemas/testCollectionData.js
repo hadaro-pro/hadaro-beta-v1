@@ -56,7 +56,7 @@ export default {
     {
       name: 'apiKeyCreationDate',
       title: 'API Access Key Creation Date',
-      type: 'string'
+      type: 'number'
     },
   ]
 }

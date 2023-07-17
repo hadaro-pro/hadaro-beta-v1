@@ -157,7 +157,7 @@ const parseLendingLogs = async (item, prev) => {
         nftAddress: gottenStats.nftAddress.toLowerCase(),
         tokenID: gottenStats.tokenID,
         chain: chain,
-        lenderAddress: gottenStats.lenderAddress,
+        lenderAddress: gottenStats.lenderAddress.toLowerCase(),
         price: gottenStats.dailyRentPrice,
         paymentToken: gottenStats.paymentToken,
         maxDuration: Number(gottenStats.maxRentDuration),
@@ -265,7 +265,7 @@ const parseRentingLogs = async (item, prev) => {
       client
         .patch(identity) // Document ID to patch
         .set({
-          renterAddress: gottenStats.renterAddress,
+          renterAddress: gottenStats.renterAddress.toLowerCase(),
           rentTransactionHash: mainEvent.transactionHash,
           rentingID: gottenStats.rentingID,
           rentAmount: gottenStats.rentAmount,
