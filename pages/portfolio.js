@@ -221,7 +221,7 @@ const Portfolio = () => {
 
       const response = await axios.post(`/api/fetchRentingNfts`, { addr });
 
-      // console.log('responjek', response.data)
+      console.log('responjek', response.data)
 
       // response.data.forEach((item) => {
       //   lendNfts.push(item)

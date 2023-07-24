@@ -237,7 +237,7 @@ const parseLendingLogs = async (item, prev) => {
     }
     // console.log(document);
   } catch (err) {
-    console.log(err)
+    // console.log(err)
     console.log("error for lending");
     await parseRentingLogs(item, prev);
   }
@@ -270,11 +270,11 @@ const parseRentingLogs = async (item, prev) => {
         .patch(identity) // Document ID to patch
         .set({
           renterAddress: gottenStats.renterAddress.toLowerCase(),
-          rentTransactionHash: mainEvent.transactionHash,
-          rentingID: gottenStats.rentingID,
-          rentAmount: gottenStats.rentAmount,
-          noOfRentDays: Number(gottenStats.rentDuration),
-          timeOfRent: Number(gottenStats.rentedAt),
+          rentTransactionHash: mainEvent?.transactionHash,
+          rentingID: gottenStats?.rentingID,
+          rentAmount: gottenStats?.rentAmount,
+          noOfRentDays: Number(gottenStats?.rentDuration),
+          timeOfRent: Number(gottenStats?.rentedAt),
           isRentClaimed: "not yet",
           status: "in rent",
           transactionType: "lending renting",

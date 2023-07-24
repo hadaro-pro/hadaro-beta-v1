@@ -291,7 +291,7 @@ export const getCollectionByCollectionAddr = (collectionAddr) => {
 
 
 export const allRentingNftsByColAddressQuery = (collectionAddr) => {
-  const query = `*[_type == "testBlockNftData"   && nftAddress == '${collectionAddr}' && transactionType == 'lending renting'] {
+  const query = `*[_type == "testBlockNftData"   && nftAddress == '${collectionAddr}' && transactionType == "lending renting"] {
     _id,
     nftAddress,
     tokenID,
