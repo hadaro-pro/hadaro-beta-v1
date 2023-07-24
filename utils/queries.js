@@ -62,7 +62,9 @@ export const allTestCollectionsQuery = () => {
     collectionImage,
     collectionDesc,
     status,
-    itemCount
+    itemCount,
+    apiKey,
+    apiKeyCreationDate
   }`;
   return query;
 };
@@ -78,7 +80,9 @@ export const statusOfCollectionsQuery = (status) => {
     collectionDesc,
     itemCount,
     status,
-    notes
+    notes,
+    apiKey,
+    apiKeyCreationDate
   }`;
   return query;
 };
@@ -270,5 +274,129 @@ export const siteDataQuery = () => {
     password
   }`;
 
+  return query;
+};
+
+
+
+export const getCollectionByCollectionAddr = (collectionAddr) => {
+  const query = `*[_type == "testcollectionsData" && collectionAddress == '${collectionAddr}'] | order(_createdAt desc) {
+    _id,
+    apiKey
+  }`;
+
+  return query;
+};
+
+
+
+export const allRentingNftsByColAddressQuery = (collectionAddr) => {
+  const query = `*[_type == "testBlockNftData"   && nftAddress == '${collectionAddr}' && transactionType == 'lending renting'] {
+    _id,
+    nftAddress,
+    tokenID,
+    chain,
+    transactionType,
+    lenderAddress,
+    price,
+    status,
+    paymentToken,
+    maxDuration,
+    metadataImage,
+    metadataDesc,
+    metadataName,
+    nftStandard,
+    nftCollectionName,
+    lendingID,
+    rentingID,
+    renterAddress,
+    noOfRentDays,
+    timeOfRent,
+    isRentClaimed,
+  }`;
+  return query;
+};
+
+
+export const singleRentingNftByColAddressQuery = (collectionAddr, renterAddr) => {
+  const query = `*[_type == "testBlockNftData"   && nftAddress == '${collectionAddr}' && renterAddress == '${renterAddr}'  && transactionType == 'lending renting'] {
+    _id,
+    nftAddress,
+    tokenID,
+    chain,
+    transactionType,
+    lenderAddress,
+    price,
+    status,
+    paymentToken,
+    maxDuration,
+    metadataImage,
+    metadataDesc,
+    metadataName,
+    nftStandard,
+    nftCollectionName,
+    lendingID,
+    rentingID,
+    renterAddress,
+    noOfRentDays,
+    timeOfRent,
+    isRentClaimed,
+  }`;
+  return query;
+};
+
+
+export const allLendingNftsByColAddressQuery = (collectionAddr) => {
+  const query = `*[_type == "testBlockNftData"   && nftAddress == '${collectionAddr}' && transactionType == 'lending'] {
+    _id,
+    nftAddress,
+    tokenID,
+    chain,
+    transactionType,
+    lenderAddress,
+    price,
+    status,
+    paymentToken,
+    maxDuration,
+    metadataImage,
+    metadataDesc,
+    metadataName,
+    nftStandard,
+    nftCollectionName,
+    lendingID,
+    rentingID,
+    renterAddress,
+    noOfRentDays,
+    timeOfRent,
+    isRentClaimed,
+  }`;
+  return query;
+};
+
+
+export const singleLendingNftByColAddressQuery = (collectionAddr, lenderAddr) => {
+  const query = `*[_type == "testBlockNftData"   && nftAddress == '${collectionAddr}' && lenderAddress == '${lenderAddr}'  && transactionType == 'lending'] {
+    _id,
+    nftAddress,
+    tokenID,
+    chain,
+    transactionType,
+    lenderAddress,
+    price,
+    status,
+    paymentToken,
+    maxDuration,
+    metadataImage,
+    metadataDesc,
+    metadataName,
+    nftStandard,
+    nftCollectionName,
+    lendingID,
+    rentingID,
+    renterAddress,
+    noOfRentDays,
+    timeOfRent,
+    isRentClaimed,
+  }`;
   return query;
 };

@@ -1,5 +1,8 @@
 .mainContainer {
   // height: 100vh;
+  // overflow: scroll;
+  overflow: auto;
+  scrollbar-width: none;
 }
 
 .upperPart {
@@ -89,7 +92,8 @@
 .homeBtn {
   // outline: 3px solid red;
   margin-top: 5rem;
-  margin-bottom: 5rem;
+  // margin-bottom: 5rem;
+  padding-bottom: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -329,6 +333,25 @@
 }
 .addImagesBtn {
   background: #1809ff;
+  margin-right: 0.5rem;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 0.25rem 0.8rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: fit-content;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+
+  &:hover {
+    opacity: 60%;
+  }
+}
+
+.addKeysBtn {
+  background: #00008b;
   margin-right: 0.5rem;
   border: none;
   outline: none;
@@ -598,6 +621,125 @@
   }
 }
 
+.keysModalCover {
+  .closeMenu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .closeIcon {
+      background-color: darken($color: #523e93, $amount: 10%);
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: gray;
+      transition: background-color 100ms ease-in-out;
+      // opacity: 80%;
+      &:hover {
+        background-color: darken($color: #523e93, $amount: 15%);
+        width: 3rem;
+        height: 3rem;
+        // font-size: 1.3rem;
+      }
+    }
+  }
+
+  .keysModalMainPart {
+    // outline: 3px solid orange;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+
+
+    .warningPart {
+
+      p {
+        width: 80%;
+        border: 3px solid #e2bf36;
+        background: #fef8e1;
+        border-radius: 10px;
+        margin: 0 auto;
+        padding: .5rem 1rem;
+        font-weight: 500;
+        color: #00008b;
+        font-size: .8rem;
+      }
+    }
+
+    h4 {
+      color: #ffffff;
+      font-size: 1.1rem;
+    }
+
+    h5 {
+      color: #ffffff;
+      font-size: .95rem;
+    }
+
+    .keysModalBody {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      .keysModalBaseOne {
+        h5 {
+          color: #ffffff;
+          font-size: 1rem;
+        }
+
+        p {
+          // color: #ffffff;
+          font-size: 0.9rem;
+        }
+
+      .apiKeyPart {
+        // color: #0000 !important;
+        width: 100%;
+        outline: none;
+        border-radius: 5px;
+        padding: .5rem;
+        background: #ffff;
+        border: 2px solid gray;
+        font-size: .95rem;
+      }
+
+      .apiDatePart {
+        color: #ffff;
+        font-size: .95rem;
+      }
+      }
+    }
+
+   
+    button {
+      margin-top: 1.5rem !important;
+      outline: none;
+      border: none;
+      background: #151055;
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      width: fit-content;
+      margin: 0 auto;
+      cursor: pointer;
+      transition: all 200ms ease-in-out;
+
+      &:hover {
+        opacity: 75%;
+        padding: 0.55rem 1.05rem;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 992px) {
   .connectToView {
     // outline: 3px solid red;
@@ -833,6 +975,90 @@
       }
     }
   }
+
+
+
+
+
+  .keysModalCover {
+    .closeMenu {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+  
+      .closeIcon {
+        background-color: darken($color: #523e93, $amount: 10%);
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.2rem;
+      }
+    }
+  
+    .keysModalMainPart {
+      // outline: 3px solid orange;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      margin-top: 1rem;
+
+      .warningPart {
+        p {
+          font-size: .75rem;
+        }
+      }
+  
+      h4 {
+        color: #ffffff;
+        font-size: 1rem;
+      }
+
+      h5 {
+        color: #ffffff;
+        font-size: .9rem;
+      }
+  
+  
+      .keysModalBody {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+  
+        .keysModalBaseOne {
+          h5 {
+            color: #ffffff;
+            font-size: .95rem;
+          }
+  
+          p {
+            // color: #ffffff;
+            font-size: 0.85rem;
+          }
+  
+        .apiKeyPart {
+          // color: #0000 !important;
+          width: 100%;
+          padding: .5rem;
+          font-size: .9rem;
+        }
+  
+        .apiDatePart {
+          color: #ffff;
+          font-size: .9rem;
+        }
+        }
+      }
+  
+     
+      button {
+        margin-top: 1.5rem !important;
+        font-size: 0.9rem;
+        font-weight: 500;
+        padding: 0.5rem 1rem
+      }
+    }
+  }
+  
 }
 
 @media only screen and (max-width: 768px) {
@@ -856,6 +1082,12 @@
     font-size: .85rem;
   }
   .addImagesBtn {
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.8rem;
+    font-size: .85rem;
+  }
+
+  .addKeysBtn {
     margin-right: 0.5rem;
     padding: 0.25rem 0.8rem;
     font-size: .85rem;
@@ -1081,9 +1313,92 @@
       }
     }
   }
+  .keysModalCover {
+    .closeMenu {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+  
+      .closeIcon {
+        background-color: darken($color: #523e93, $amount: 10%);
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.2rem;
+      }
+    }
+  
+    .keysModalMainPart {
+      // outline: 3px solid orange;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      margin-top: 1rem;
+
+      .warningPart {
+        p {
+          font-size: .7rem;
+        }
+      }
+  
+      h4 {
+        color: #ffffff;
+        font-size: .95rem;
+      }
+
+      
+      h5 {
+        color: #ffffff;
+        font-size: .85rem;
+      }
+  
+      .keysModalBody {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+  
+        .keysModalBaseOne {
+          h5 {
+            color: #ffffff;
+            font-size: .9rem;
+          }
+  
+          p {
+            // color: #ffffff;
+            font-size: 0.8rem;
+          }
+  
+        .apiKeyPart {
+          // color: #0000 !important;
+          width: 100%;
+          padding: .5rem;
+          font-size: .8rem;
+        }
+  
+        .apiDatePart {
+          color: #ffff;
+          font-size: .8rem;
+        }
+        }
+      }
+  
+     
+      button {
+        margin-top: 1.5rem !important;
+        font-size: 0.8rem;
+        font-weight: 500;
+        padding: 0.5rem 1rem
+      }
+    }
+  }
+  
 }
 
 @media only screen and (max-width: 600px) {
+  .mainContainer {
+    // height: 100vh;
+    // overflow: auto;
+  }
   .connectToView {
     // outline: 3px solid red;
 
@@ -1103,6 +1418,12 @@
     font-size: .8rem;
   }
   .addImagesBtn {
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.8rem;
+    font-size: .8rem;
+  }
+
+  .addKeysBtn {
     margin-right: 0.5rem;
     padding: 0.25rem 0.8rem;
     font-size: .8rem;
@@ -1325,6 +1646,83 @@
             transition: all 200ms ease-in-out;
           }
         }
+      }
+    }
+  }
+
+  .keysModalCover {
+    .closeMenu {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+  
+      .closeIcon {
+        background-color: darken($color: #523e93, $amount: 10%);
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.2rem;
+      }
+    }
+  
+    .keysModalMainPart {
+      // outline: 3px solid orange;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      margin-top: 1rem;
+
+      .warningPart {
+        p {
+          font-size: .65rem;
+        }
+      }
+  
+      h4 {
+        color: #ffffff;
+        font-size: .9rem;
+      }
+
+      
+      h5 {
+        color: #ffffff;
+        font-size: .8rem;
+      }
+  
+      .keysModalBody {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+  
+        .keysModalBaseOne {
+          h5 {
+            color: #ffffff;
+            font-size: .8rem;
+          }
+  
+          p {
+            // color: #ffffff;
+            font-size: 0.75rem;
+          }
+  
+        .apiKeyPart {
+          // color: #0000 !important;
+          width: 100%;
+          padding: .5rem;
+          font-size: .75rem;
+        }
+  
+        .apiDatePart {
+          color: #ffff;
+          font-size: .75rem;
+        }
+        }
+      }
+  
+     
+      button {
+        font-size: 0.75rem;
       }
     }
   }

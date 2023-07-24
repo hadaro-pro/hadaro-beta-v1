@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import moment from "moment";
 import { useRouter } from "next/router";
-import { Dropdown, message, Modal, Tooltip, Alert, Button, Drawer, Input } from "antd";
-// import { generateSalt } from "../../utils/helper";
-
+import {
+  Dropdown,
+  message,
+  Modal,
+  Tooltip,
+  Alert,
+  Button,
+  Drawer,
+  Input,
+} from "antd";
+import useClipboard from "react-use-clipboard";
+import cryptoRandomString from "crypto-random-string";
 import {
   DownOutlined,
   CaretDownOutlined,
@@ -12,8 +21,9 @@ import {
   InfoCircleOutlined,
   BulbOutlined,
   BulbFilled,
-  EyeOutlined, 
-  EyeInvisibleOutlined
+  EyeOutlined,
+  EyeInvisibleOutlined,
+  CopyOutlined,
 } from "@ant-design/icons";
 import {
   useAccount,
@@ -53,13 +63,21 @@ const VerificationComp = ({
   const [imgAsset, setImgAsset] = useState(null);
   const [updateNoteLoading, setUpdateNoteLoading] = useState(false);
   const [isNotesModalOpen, setIsNotesModalOpen] = useState(false);
+  const [isKeysModalOpen, setIsKeysModalOpen] = useState(false);
+  const [isShowCreatedKeyModal,setIsShowCreatedKeyModal] = useState(false)
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [forUnverifiedCol, setForUnverifiedCol] = useState(false);
   forUnverifiedCol;
   const [changeItem, setChangeItem] = useState(false);
   const [indexNum, setIndexNum] = useState(null);
-
-
+  const [accessKey, setAccessKey] = useState("************************");
+  const [apiKey, setApiKey] = useState(null);
+  const [createdKey, setCreatedKey] = useState(null)
+  const [apiKeyCreatedDate, setApiCreatedDate] = useState(null);
+  const [createKeyLoad, setCreateKeyLoad] = useState(false)
+  const [isKeyCopied, setIsKeyCopied] = useClipboard(createdKey, {
+    successDuration: 1000,
+  });
 
   const showDrawer = () => {
     setOpenDrawer(true);
@@ -94,12 +112,24 @@ const VerificationComp = ({
     showNotesModal();
   };
 
-  const addToImageModalForVerified = (position) => {
+  const addToImageModalForVerified = () => {
     const identity = verifiedCollection[indexNum]._id;
     const col_image = verifiedCollection[indexNum].collectionImage;
     setIden(identity);
     setColImage(col_image);
     showImageModal();
+  };
+
+  const addToKeysForVerified = () => {
+    const identity = verifiedCollection[indexNum]._id;
+    // console.log(verifiedCollection[indexNum]);
+    const col_apiKey = verifiedCollection[indexNum].apiKey;
+    const col_apiKeyCreated = verifiedCollection[indexNum].apiKeyCreationDate;
+    setIden(identity);
+    setApiKey(col_apiKey);
+    setApiCreatedDate(col_apiKeyCreated);
+    // setColImage(col_image);
+    showKeysModal();
   };
 
   const addToCurrentForPending = (position) => {
@@ -111,6 +141,26 @@ const VerificationComp = ({
     showNotesModal();
   };
 
+
+  const handleCreateKey = async() => {
+    setCreateKeyLoad(true)
+    const identity = verifiedCollection[indexNum]._id;
+    const key = cryptoRandomString({length: 20, type: 'alphanumeric'})
+
+    const res = await axios.post(`/api/updateAccessKey`, {
+      id: identity,
+      createdKey: key,
+    });
+    // console.log('update res', res.data)
+    if (res.data.status === "success") {
+      setCreatedKey(key);
+      setApiCreatedDate(res.data.msg.apiKeyCreationDate)
+      showCreatedKeyModal();
+      getVerifiedCollection();
+    }
+    setCreateKeyLoad(false)
+    // console.log(verifiedCollection[indexNum])
+  }
   const uploadImage = async (e) => {
     const selectedFile = e.target.files[0];
 
@@ -159,7 +209,7 @@ const VerificationComp = ({
               if (verifyOp.data.status === "success") {
                 message.success("verification success!");
                 getPendingCollectionData();
-                getVerifiedCollection()
+                getVerifiedCollection();
                 handleImageCancel();
                 setForUnverifiedCol(false);
               }
@@ -211,6 +261,15 @@ const VerificationComp = ({
     }
   };
 
+
+ const showCreatedKeyModal = ()  => {
+    setIsShowCreatedKeyModal(true)
+ }
+
+  const showKeysModal = () => {
+    setIsKeysModalOpen(true);
+  };
+
   const showNotesModal = () => {
     setIsNotesModalOpen(true);
   };
@@ -218,9 +277,18 @@ const VerificationComp = ({
   const showImageModal = () => {
     setIsImageModalOpen(true);
   };
-  // const handleOk = () => {
-  //   setIsModalOpen(false);
-  // };
+
+  const handleKeysCancel = () => {
+    setIsKeysModalOpen(false);
+  };
+
+  
+  const handleCreatedKeyCancel = () => {
+    setIsShowCreatedKeyModal(false);
+    setIsKeysModalOpen(false)
+  };
+
+
   const handleImageCancel = () => {
     setIsImageModalOpen(false);
   };
@@ -434,6 +502,19 @@ const VerificationComp = ({
             </button>
           ),
         },
+        {
+          key: "ctn-4",
+          label: (
+            <button
+              className={styles.addKeysBtn}
+              onClick={() => {
+                addToKeysForVerified();
+              }}
+            >
+              access key
+            </button>
+          ),
+        },
       ]
     : [
         {
@@ -459,31 +540,32 @@ const VerificationComp = ({
           key: "item-2",
         },
       ];
-  
-    
 
-    const updatePassword = async () => {
-      try{
-        setUploadLoad(true)
-        // console.log(true)
-        const fetchedPassword = await axios.post(`/api/fetchPassword`)
-        const passId = fetchedPassword.data[0]?._id
-        // console.log('pass dets', passId)
-        if(pass !== confirmPass) {
-          message.error('passwords do not match!')
-        } else {
-        const res =  await axios.post(`/api/updatePassword`, {id: passId, password: pass}) 
+  const updatePassword = async () => {
+    try {
+      setUploadLoad(true);
+      // console.log(true)
+      const fetchedPassword = await axios.post(`/api/fetchPassword`);
+      const passId = fetchedPassword.data[0]?._id;
+      // console.log('pass dets', passId)
+      if (pass !== confirmPass) {
+        message.error("passwords do not match!");
+      } else {
+        const res = await axios.post(`/api/updatePassword`, {
+          id: passId,
+          password: pass,
+        });
         // console.log('update res', res.data)
-        if (res.data.status === 'success') {
-          message.success('update succesful')
+        if (res.data.status === "success") {
+          message.success("update succesful");
         }
-        }
-        setUploadLoad(false)
-      } catch(e) {
-        setUploadLoad(false)
-        console.error(e)
       }
+      setUploadLoad(false);
+    } catch (e) {
+      setUploadLoad(false);
+      console.error(e);
     }
+  };
 
   return (
     <div className={styles.mainContainer}>
@@ -771,6 +853,84 @@ const VerificationComp = ({
                             </button>
                           </div>
                         </Modal>
+                        <Modal
+                          className={styles.keysModalCover}
+                          footer={null}
+                          open={isKeysModalOpen}
+                          onCancel={handleKeysCancel}
+                        >
+                          <div className={styles.closeMenu}>
+                            <CloseOutlined
+                              className={styles.closeIcon}
+                              onClick={handleKeysCancel}
+                            />
+                          </div>
+                          <div className={styles.keysModalMainPart}>
+                            <h4>API Access Key</h4>
+                            {apiKey === null ? (
+                              <div>
+                                <h5>No API key created yet...😮</h5>
+                              </div>
+                            ) : (
+                              <div className={styles.keysModalBody}>
+                                <div className={styles.keysModalBaseOne}>
+                                  <h5>KEY</h5>
+                                  <p className={styles.apiKeyPart}>
+                                    {accessKey}
+                                  </p>
+                                </div>
+                                <div className={styles.keysModalBaseOne}>
+                                  <h5>Date Created</h5>
+                                  <p className={styles.apiDatePart}>
+                                    {moment(apiKeyCreatedDate).format("MMMM Do YYYY, h:mm:ss a")}
+                                  </p>
+                                </div>
+                              </div>
+                            )}
+
+                            {apiKey === null ? (
+                              <button onClick={handleCreateKey}>{createKeyLoad ? 'Generating...' : 'Generate key'}</button>
+                            ) : (
+                              <button onClick={handleCreateKey}>{createKeyLoad ? 'Generating...' : 'Generate new key'}</button>
+                            )}
+                          </div>
+                        </Modal>
+                        <Modal
+                          className={styles.keysModalCover}
+                          footer={null}
+                          open={isShowCreatedKeyModal}
+                          onCancel={handleCreatedKeyCancel}
+                        >
+                          <div className={styles.closeMenu}>
+                            <CloseOutlined
+                              className={styles.closeIcon}
+                              onClick={handleCreatedKeyCancel}
+                            />
+                          </div>
+                          <div className={styles.keysModalMainPart}>
+                            <h4>API Access Key</h4>
+                          
+                              <div className={styles.keysModalBody}>
+                                <div className={styles.keysModalBaseOne}>
+                                  <h5>KEY</h5>
+                                  <p className={styles.apiKeyPart}>
+                                    {createdKey} <Tooltip title={isKeyCopied ? 'copied!' : 'copy to clipboard'}>
+                            <CopyOutlined onClick={setIsKeyCopied}  style={{ cursor: "pointer" }}/>
+  </Tooltip>
+                                  </p>
+                                </div>
+                                <div className={styles.keysModalBaseOne}>
+                                  <h5>Date Created</h5>
+                                  <p className={styles.apiDatePart}>
+                                    {moment(apiKeyCreatedDate).format("MMMM Do YYYY, h:mm:ss a")}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className={styles.warningPart}>
+                                <p>API Keys can only be viewed once! Kindly store in a safe place😮...</p>
+                              </div>
+                          </div>
+                        </Modal>
                       </div>
                     </div>
                   ))
@@ -857,8 +1017,7 @@ const VerificationComp = ({
                 )}
               </div>
             </div>
-            <div className={styles.passwordBtn}  onClick={showDrawer}>
-              
+            <div className={styles.passwordBtn} onClick={showDrawer}>
               <button>Update Site Password</button>
             </div>
             <div className={styles.homeBtn} onClick={() => router.push("/")}>
@@ -873,7 +1032,7 @@ const VerificationComp = ({
           <h1>You are not cleared to view this page!😮...</h1>
         </div>
       )}
-               <Drawer
+      <Drawer
         title="Change/Update Site Password"
         placement={"right"}
         // closable={false}
@@ -882,30 +1041,40 @@ const VerificationComp = ({
         // key={"right"}
       >
         <div className={styles.passwordDrawer}>
-             <Input.Password
-             className={styles.drawerInput1}
+          <Input.Password
+            className={styles.drawerInput1}
             size="large"
             value={pass}
             onChange={(e) => setPass(e.target.value)}
             placeholder="enter new password"
             iconRender={(visible) =>
-              visible ? <EyeOutlined style={{ color: "#1D133F" }} /> : <EyeInvisibleOutlined style={{ color: "#1D133F" }} />
+              visible ? (
+                <EyeOutlined style={{ color: "#1D133F" }} />
+              ) : (
+                <EyeInvisibleOutlined style={{ color: "#1D133F" }} />
+              )
             }
           />
-           <Input.Password
-           className={styles.drawerInput2}
+          <Input.Password
+            className={styles.drawerInput2}
             size="large"
             value={confirmPass}
             onChange={(e) => setConfirmPass(e.target.value)}
             placeholder="confirm password"
             iconRender={(visible) =>
-              visible ? <EyeOutlined style={{ color: "#1D133F" }} /> : <EyeInvisibleOutlined style={{ color: "#1D133F" }} />
+              visible ? (
+                <EyeOutlined style={{ color: "#1D133F" }} />
+              ) : (
+                <EyeInvisibleOutlined style={{ color: "#1D133F" }} />
+              )
             }
           />
-          <button onClick={updatePassword}> {uploadLoad ? 'Updating' : 'Update'} </button>
-          </div>
+          <button onClick={updatePassword}>
+            {" "}
+            {uploadLoad ? "Updating" : "Update"}{" "}
+          </button>
+        </div>
       </Drawer>
-
     </div>
   );
 };
@@ -930,3 +1099,6 @@ export default VerificationComp;
         </div>) )
         } */
 }
+
+  
+

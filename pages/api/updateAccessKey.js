@@ -4,16 +4,18 @@ import { client } from "../../utils/client";
 const saltRounds = process.env.NEXT_PUBLIC_SALT_ROUNDS;
 
 export default async function handler(req, res) {
-  const { id, password } = req.body;
+  const { id, createdKey } = req.body;
 
-  const hashedPass = bcrypt.hashSync(password, Number(saltRounds));
+  const hashedPass = bcrypt.hashSync(createdKey, Number(saltRounds));
 
   client
     .patch(id) // Document ID to patch
-    .set({ password: hashedPass }) // Shallow merge
+    .set({ apiKey: hashedPass, apiKeyCreationDate: Date.now() }) // Shallow merge
     .commit() // Perform the patch and return a promise
     .then((updatedDoc) => {
-      return res.status(200).json({
+      // console.log(updatedDoc)
+      // res.send(updatedDoc);
+      return res.send({
         status: "success",
         msg: updatedDoc,
       });
@@ -21,5 +23,4 @@ export default async function handler(req, res) {
     .catch((err) => {
       res.send(err);
     });
-    
 }

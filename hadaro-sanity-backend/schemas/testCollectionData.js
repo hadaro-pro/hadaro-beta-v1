@@ -47,6 +47,16 @@ export default {
       name: 'itemCount',
       title: 'Items Count',
       type: 'string'
-    }
+    },
+    {
+      name: 'apiKey',
+      title: 'API Access Key',
+      type: 'string'
+    },
+    {
+      name: 'apiKeyCreationDate',
+      title: 'API Access Key Creation Date',
+      type: 'number'
+    },
   ]
 }

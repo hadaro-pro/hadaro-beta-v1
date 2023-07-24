@@ -819,18 +819,14 @@ const CollectionItemsComp = ({
         handleRentModalCancel();
       }
     } catch (e) {
-      // console.warn(e)
+      console.warn(e)
+      console.log(e.error.data.message)
+      setRentingLoading(false);
       if (e.code === "ACTION_REJECTED") {
-        setRentingLoading(false);
         message.error("user rejected transaction");
-      } else if (e.reason === "execution reverted: Hadaro::rentAmount is zero"  || e.reason ===   "execution reverted: Hadaro::invalid rent amount") {
-        message.info("item returned to lender already, removing from marketplace...")
-        // handlePatch(toDisplayData?._id, "non-available", "previousListed for Lending")
-        const itemAddr = toDisplayData?.nftAddress.toLowerCase()
         setRentingLoading(false);
-        getColandUpdateItemCount(itemAddr);
-        getRefreshItems();
-      } else if (e.reason="execution reverted: Hadaro::cant rent own nft") {
+      }
+      if (e.error.data.message="execution reverted: Hadaro::cant rent own nft") {
         message.error("can't rent own item!")
         setRentingLoading(false);
       } else {
@@ -1321,37 +1317,3 @@ const CollectionItemsComp = ({
 
 export default CollectionItemsComp;
 
-// {
-//   showRentMenu && (
-//     <div className={styles.showRentMenu}>
-//        <div className={styles.closeMenu}>
-//    <CloseOutlined
-//       className={styles.closeIcon}
-//       onClick={handleCancel}
-//  />
-//   </div>
-//       <h1>xvdfsf</h1>
-//     </div>
-//   )
-// //  <Modal
-// //   open={isModalOpen}
-// //   footer={null}
-// //   onCancel={handleCancel}
-// //   className={styles.modalContainer}
-// // >
-// //   <div className={styles.closeMenu}>
-// //     <CloseOutlined
-// //       className={styles.closeIcon}
-// //       onClick={handleCancel}
-// //     />
-// //   </div>
-// //   {/* <div className={styles.modalContent}>
-// //  <div className={styles.modalContentImage}>
-// //   <img src={`${image}`}  alt="alart" />
-// //  </div>
-// //  <div>
-// //   details part
-// //  </div>
-// //   </div> */}
-// // </Modal>
-// }
