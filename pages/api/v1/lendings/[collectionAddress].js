@@ -75,7 +75,7 @@ export default async function handler(req, res) {
       const query3 = singleLendingNftByColAddressQuery(collectionAddress, lenderAddress);
 
       const dataFromDB3 = await client.fetch(query3);
-      console.log(dataFromDB3);
+      // console.log(dataFromDB3);
 
       if(dataFromDB3.length === 0) res.send({error: 'lender address does not exist!'})
         const item = dataFromDB3[0]

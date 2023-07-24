@@ -52,7 +52,7 @@ const getData = async () => {
 
   // console.log(web3.utils.hexToNumber(response_currentBlock.data.result))
 
-  const unix_timeStamp = moment(Date.now()).subtract(5, "minutes").unix();
+  const unix_timeStamp = moment(Date.now()).subtract(10, "minutes").unix();
 
   console.log(unix_timeStamp);
 
@@ -111,7 +111,10 @@ const getData = async () => {
   // await parseLendingLogs(
   //   response_Logs.data.result[currentIndex],
   //   response_Logs.data.result[currentIndex - 1]
-  // );
+  // 1690186980
+// 9398846 );
+
+
 };
 
 const parseLendingLogs = async (item, prev) => {
@@ -154,24 +157,24 @@ const parseLendingLogs = async (item, prev) => {
       const parseMetadata = JSON.parse(metaDataResponse?.data?.metadata);
 
       const objToSaveToDB = {
-        nftAddress: gottenStats.nftAddress.toLowerCase(),
-        tokenID: gottenStats.tokenID,
+        nftAddress: gottenStats?.nftAddress.toLowerCase(),
+        tokenID: gottenStats?.tokenID,
         chain: chain,
-        lenderAddress: gottenStats.lenderAddress.toLowerCase(),
-        price: gottenStats.dailyRentPrice,
-        paymentToken: gottenStats.paymentToken,
-        maxDuration: Number(gottenStats.maxRentDuration),
+        lenderAddress: gottenStats?.lenderAddress.toLowerCase(),
+        price: gottenStats?.dailyRentPrice,
+        paymentToken: gottenStats?.paymentToken,
+        maxDuration: Number(gottenStats?.maxRentDuration),
         transactionType: "lending",
         status: "available",
-        lendTransactionHash: mainEvent.transactionHash,
-        metadataName: parseMetadata.name,
-        metadataDesc: parseMetadata.description,
-        metadataImage: nftImageAggregating(parseMetadata.image),
+        lendTransactionHash: mainEvent?.transactionHash,
+        metadataName: parseMetadata?.name,
+        metadataDesc: parseMetadata?.description,
+        metadataImage: nftImageAggregating(parseMetadata?.image),
         nftStandard: nftStandard,
-        lendingID: gottenStats.lendingID,
+        lendingID: gottenStats?.lendingID,
         entryDate: moment(Date.now()).unix(),
-        entryBlock: web3.utils.hexToNumber(item.blockNumber),
-        lendAmount: gottenStats.lendAmount,
+        entryBlock: web3.utils.hexToNumber(item?.blockNumber),
+        lendAmount: gottenStats?.lendAmount,
       };
 
       const document = {
@@ -234,6 +237,7 @@ const parseLendingLogs = async (item, prev) => {
     }
     // console.log(document);
   } catch (err) {
+    console.log(err)
     console.log("error for lending");
     await parseRentingLogs(item, prev);
   }
