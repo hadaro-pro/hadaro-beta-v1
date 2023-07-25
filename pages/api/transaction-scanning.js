@@ -28,11 +28,11 @@ const web3 = new Web3(
   Web3.givenProvider || "ws://some.local-or-remote.node:8546"
 );
 
-cron.schedule("*/3 * * * *", async function () {
-  console.log("running a task every 3 minute");
-  await getData();
-  console.log("process ended till next turn");
-});
+// cron.schedule("*/3 * * * *", async function () {
+//   console.log("running a task every 3 minute");
+//   await getData();
+//   console.log("process ended till next turn");
+// });
 
 const chain = "0x5";
 
@@ -61,6 +61,8 @@ const getData = async () => {
   const response_blockNo = await axios.get(requestUrl_blockNo);
 
   const estimatedBlock = response_blockNo.data.result;
+  // 9405386
+  // const estimatedBlock = 9405345
 
   console.log(estimatedBlock);
 
@@ -72,13 +74,13 @@ const getData = async () => {
   } else {
     const requestUrl_Logs = `https://api-goerli.etherscan.io/api?module=logs&action=getLogs&address=${addr}&fromBlock=${estimatedBlock}&page=1&offset=1000&apikey=${etherscanApiKey}`;
 
-    // console.log("xvroyte", requestUrl_Logs);
+ 
 
     // // &fromBlock=12878196
 
     const response_Logs = await axios.get(requestUrl_Logs);
 
-    console.log(response_Logs.data.result.length);
+    console.log('batch to process', response_Logs.data.result.length);
 
     if (response_Logs.data.result.length === 0) {
       console.log("no transactions found this time");
@@ -140,7 +142,11 @@ const parseLendingLogs = async (item, prev) => {
 
     const gottenStats = decodeLendingTxnData(dataToDecode, topicsToLog);
 
+    // console.log('stats', gottenStats)
+
     const query = nftByOnlyLendingIDQuery(gottenStats.lendingID);
+
+    
 
     const dataFromDB = await client.fetch(query);
 
@@ -239,9 +245,11 @@ const parseLendingLogs = async (item, prev) => {
   } catch (err) {
     // console.log(err)
     console.log("error for lending");
+    console.log('run renting')
     await parseRentingLogs(item, prev);
+
   }
-};
+}; 
 
 const parseRentingLogs = async (item, prev) => {
   try {
@@ -260,7 +268,11 @@ const parseRentingLogs = async (item, prev) => {
 
     const query = nftByLendingIDQuery(gottenStats.lendingID);
 
+    // console.log('lending id for renting', gottenStats)
+
     const dataFromDB = await client.fetch(query);
+
+    // console.log('length for rental', dataFromDB.length)
 
     if (dataFromDB.length !== 0) {
       // update details
