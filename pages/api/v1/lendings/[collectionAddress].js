@@ -79,23 +79,46 @@ export default async function handler(req, res) {
 
       if(dataFromDB3.length === 0) res.send({error: 'lender address does not exist!'})
         const item = dataFromDB3[0]
-        const objToSend = {
-          renter_address: item.renterAddress,
-          lender_address: item.lenderAddress,
-          chain: item.chain,
-          status: item.status,
-          lending_id: item.lendingID,
-          renting_id: item.rentingID,
-          time_of_rent: item.timeOfRent,
-          days_for_rent: item.noOfRentDays,
-          claimed_rent_status: item.isRentClaimed,
-          token_id: item.tokenID,
-          token_standard: parseStandards(item.nftStandard),
-          rental_price: unpackPrice(item.price),
-          item_payment_token: parsePaymentToken(item.paymentToken),
+
+        let newObj = []
+        if (dataFromDB3.length > 1) {
+          dataFromDB3.forEach((item) => {
+            const objToSend = {
+              renter_address: item.renterAddress,
+              lender_address: item.lenderAddress,
+              chain: item.chain,
+              status: item.status,
+              lending_id: item.lendingID,
+              renting_id: item.rentingID,
+              time_of_rent: item.timeOfRent,
+              days_for_rent: item.noOfRentDays,
+              claimed_rent_status: item.isRentClaimed,
+              token_id: item.tokenID,
+              token_standard: parseStandards(item.nftStandard),
+              rental_price: unpackPrice(item.price),
+              item_payment_token: parsePaymentToken(item.paymentToken),
+            }
+            newObj.push(objToSend)
+          })
+          res.send({ message: "success", data: newObj });
+        } else {
+          const objToSend = {
+            renter_address: item.renterAddress,
+            lender_address: item.lenderAddress,
+            chain: item.chain,
+            status: item.status,
+            lending_id: item.lendingID,
+            renting_id: item.rentingID,
+            time_of_rent: item.timeOfRent,
+            days_for_rent: item.noOfRentDays,
+            claimed_rent_status: item.isRentClaimed,
+            token_id: item.tokenID,
+            token_standard: parseStandards(item.nftStandard),
+            rental_price: unpackPrice(item.price),
+            item_payment_token: parsePaymentToken(item.paymentToken),
+          }
+        res.send({ message: "success", data: objToSend });
         }
-    
-      res.send({ message: "success", data: objToSend });
     }
   } catch(err) {
     res.send(err)

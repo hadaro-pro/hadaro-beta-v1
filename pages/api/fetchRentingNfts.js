@@ -5,8 +5,8 @@ export default async function handler(req, res) {
   const { addr } = req.body;
 
   try {
-    // console.log(address)
-    const query = allRentedNftsByAddressQuery(addr);
+    // console.log(addr.toLowerCase())
+    const query = allRentedNftsByAddressQuery(addr.toLowerCase());
 
     const data = await client.fetch(query);
 

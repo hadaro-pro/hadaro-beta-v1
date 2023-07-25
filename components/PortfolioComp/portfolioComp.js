@@ -351,6 +351,7 @@ const PortfolioComp = ({
   };
 
 
+
   // const updateCount = async () => {
   //   try {
   //     const collectionAddr = '0x2b9732bcf1e37a09ac4a578ed442f04e3e8f2d44';
@@ -864,9 +865,12 @@ const PortfolioComp = ({
     const noOfRentDays = lendItem?.noOfRentDays;
     const timeRented = lendItem?.timeOfRent;
 
-    const formattedExpiry = moment(Number(timeRented * 1000))
-      .add(noOfRentDays, "days")
-      .format();
+    // const formattedExpiry = moment(Number(timeRented * 1000))
+    //   .add(noOfRentDays, "days")
+    //   .format();
+
+
+    const formattedExpiry = timeRented + (noOfRentDays * 24 * 60 * 60)
 
     setTargetTime(formattedExpiry);
     setAlreadySetTime(true);
@@ -969,19 +973,23 @@ const PortfolioComp = ({
   let interval;
 
   const startTimer = () => {
-    const countDown = new Date(targetTime).getTime();
+    // const countDown = new Date(targetTime).getTime();
+    const countDown = targetTime
 
     interval = setInterval(() => {
-      const now = new Date().getTime();
+      const now = moment(Date.now()).unix()
+      // const now = new Date().getTime();
 
       const diff = countDown - now;
 
-      const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+      // console.log('dffer',diff)
+
+      const days = Math.floor(diff / (24 * 60 * 60));
       const hours = Math.floor(
-        (diff % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60)
+        (diff % (24 * 60 * 60)) / (60 * 60)
       );
-      const minutes = Math.floor((diff % (60 * 60 * 1000)) / (1000 * 60));
-      const seconds = Math.floor((diff % (60 * 1000)) / 1000);
+      const minutes = Math.floor((diff % (60 * 60)) / (60));
+      const seconds = Math.floor((diff % (60)));
 
       // console.log('diff', isNaN(diff))
       if (isNaN(diff) === true) {
@@ -1023,17 +1031,21 @@ const PortfolioComp = ({
     setItemName(rentItem?.metadataName);
     setTokenId(rentItem?.tokenID);
     setDesc(rentItem?.metadataDesc);
-    setRentTxnData(rentItem?.rentTransactionHash);
-    setLendTxnData(rentItem?.lendTransactionHash);
+    // setRentTxnData(rentItem?.rentTransactionHash);
+    // setLendTxnData(rentItem?.lendTransactionHash);
     setIdenti(rentItem?._id);
 
     const noOfRentDays = rentItem?.noOfRentDays;
     const timeRented = rentItem?.timeOfRent;
+
+    console.log(noOfRentDays)
+    console.log(timeRented)
+
     const expiryDate = noOfRentDays * 24 * 60 * 60 + timeRented;
 
-    const singleDay = 24 * 60 * 60 * 1000;
+    const singleDay = 24 * 60 * 60;
 
-    const isSingleDayPassed = Date.now() - timeRented > singleDay;
+    const isSingleDayPassed = moment(Date.now()).unix() - timeRented > singleDay;
 
     // console.log('check', isSingleDayPassed)
 
@@ -1041,10 +1053,12 @@ const PortfolioComp = ({
       setDayPassed(true);
     }
 
-    const formattedExpiry = moment(timeRented)
-      .add(noOfRentDays, "days")
-      .format();
-    const formattedStartDate = moment(timeRented).format();
+    // const formattedExpiry = moment(timeRented)
+    //   .add(noOfRentDays, "days").unix();
+
+    const formattedExpiry = timeRented + (noOfRentDays * 24 * 60 * 60)
+   
+      const formattedStartDate = moment(timeRented).format();
 
     const eventTime = new Date(formattedExpiry).getTime();
 
@@ -1055,9 +1069,9 @@ const PortfolioComp = ({
 
     setTargetTime(formattedExpiry);
     setAlreadySetTime(true);
-    // console.log('rent dets', rentItem);
+    // console.log('rent dets', timeRented);
     // console.log('start date: ', formattedStartDate)
-    // console.log("end date: ", formattedExpiry);
+    console.log("end date: ", formattedExpiry);
     // console.log('timeRemaining ', eventTime)
     showRentDetailsModal();
   };
@@ -1323,9 +1337,9 @@ const PortfolioComp = ({
                                   </button>
                                 ) : (
                                   <div>
-                                  <button onClick={prepareStopLend}>
+                                  {/* <button className={styles.inProg} onClick={prepareStopLend}>
                                     Stop Lend
-                                  </button>
+                                  </button> */}
                                     <button className={styles.inProg}>
                                       Rental in progress
                                     </button>
@@ -1581,7 +1595,7 @@ const PortfolioComp = ({
               </div>
             </div>
           </div>
-          {/* <button onClick={updateCount}>get and add to item count</button> */}
+          {/* <button onClick={checkStuff}>get and add to item count</button> */}
         </div>
       </div>
     </div> 

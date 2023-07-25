@@ -820,7 +820,7 @@ const CollectionItemsComp = ({
       }
     } catch (e) {
       console.warn(e)
-      console.log(e.error.data.message)
+      // console.log(e.error.data.message)
       setRentingLoading(false);
       if (e.code === "ACTION_REJECTED") {
         message.error("user rejected transaction");
