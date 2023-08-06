@@ -52,7 +52,7 @@ const getData = async () => {
 
   // console.log(web3.utils.hexToNumber(response_currentBlock.data.result))
 
-  const unix_timeStamp = moment(Date.now()).subtract(10, "minutes").unix();
+  const unix_timeStamp = moment(Date.now()).subtract(2, "hours").unix();
 
   console.log(unix_timeStamp);
 
