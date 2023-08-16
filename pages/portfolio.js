@@ -70,9 +70,9 @@ const Portfolio = () => {
     }
   };
 
-  useEffect(() => {
-    checkForPassword(savedPassword);
-  }, []);
+  // useEffect(() => {
+  //   checkForPassword(savedPassword);
+  // }, []);
 
   const { address, isConnected } = useAccount();
 
@@ -173,6 +173,7 @@ const Portfolio = () => {
 
       // console.log('responje', filterItems)
 
+
       setLendNfts(filterItems);
 
       setLoadingLendingNfts(false);
@@ -183,7 +184,7 @@ const Portfolio = () => {
 
   const handleGetLendingNfts_noLoad = async () => {
     try {
-      setLoadingLendingNfts(true);
+      // setLoadingLendingNfts(true);
 
       // const lenderAddr = address
 
@@ -205,7 +206,7 @@ const Portfolio = () => {
 
       setLendNfts(filterItems);
 
-      setLoadingLendingNfts(false);
+      // setLoadingLendingNfts(false);
     } catch (e) {
       // console.log(e)
     }
@@ -221,7 +222,7 @@ const Portfolio = () => {
 
       const response = await axios.post(`/api/fetchRentingNfts`, { addr });
 
-      console.log('responjek', response.data)
+      // console.log('responjek', response.data)
 
       // response.data.forEach((item) => {
       //   lendNfts.push(item)

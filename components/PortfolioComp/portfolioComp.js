@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import LendNfts from "../LendNfts/LendNfts";
 import WalletNfts from "../WalletNftsComp/walletNfts";
 import axios from "axios";
@@ -98,6 +98,8 @@ const PortfolioComp = ({
   const [rentDays, setRentDays] = useState("");
   const [payToken, setPayToken] = useState("");
   const [price, setPrice] = useState("");
+  const [rentTxnData, setRentTxnData] = useState("");
+  const [lendTxnData, setLendTxnData] = useState("");
   const [targetTime, setTargetTime] = useState("");
   const [alreadySetTime, setAlreadySetTime] = useState(false);
   const [timerDays, setTimerDays] = useState();
@@ -108,6 +110,13 @@ const PortfolioComp = ({
   const [loadStopRent, setLoadStopRent] = useState(false);
   const [loadClaimRent, setLoadClaimRent] = useState(false);
   const [nanValue, setNanValue] = useState(false);
+  const [timer, setTimer] = useState(null);
+
+  // console.log(timerDays, "dd");
+  // console.log(timerHours, "mm");
+  // console.log(timerMinutes, "hh");
+  // console.log(timerSeconds, "ss");
+  // console.log(targetTime, "targ time");
 
   const showRentDetailsModal = () => {
     setShowRentDetailsMenu(true);
@@ -116,6 +125,12 @@ const PortfolioComp = ({
   const handleRentDetailsModalCancel = () => {
     setShowRentDetailsMenu(false);
     setAlreadySetTime(false);
+    setTargetTime("");
+    setTimerDays();
+    setTimerHours();
+    setTimerMinutes();
+    setTimerSeconds();
+    // console.log("closed");
   };
 
   const showLendDetailsModal = () => {
@@ -125,6 +140,7 @@ const PortfolioComp = ({
   const handleLendDetailsModalCancel = () => {
     setShowLendDetailsMenu(false);
     setAlreadySetTime(false);
+    setTargetTime("");
   };
 
   const web3 = new Web3(
@@ -136,13 +152,6 @@ const PortfolioComp = ({
   const { data: signer } = useSigner();
 
   const { chain: mainChain, chains } = useNetwork();
-
-  // const collateralFreeContract = new Sylvester(signer);
-
-  const collateralFreeContract = getRenftContract({
-    deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
-    signer,
-  }).claimCollateral;
 
   const hadaroGoerliTestContract = new Contract(
     HADARO_GOERLI_ADDRESS,
@@ -350,8 +359,6 @@ const PortfolioComp = ({
     }
   };
 
-
-
   // const updateCount = async () => {
   //   try {
   //     const collectionAddr = '0x2b9732bcf1e37a09ac4a578ed442f04e3e8f2d44';
@@ -368,13 +375,12 @@ const PortfolioComp = ({
   //     // console.log('filter col: ', filterDraftsandCol)
 
   //     const itemId = filterDraftsandCol[0]?._id;
-  
+
   //     const itemCount = filterDraftsandCol[0]?.itemCount;
   //     // console.log('item count: ', itemCount)
   //     // console.log('item id: ', itemId)
 
   //     let finalValue;
-
 
   //     if (itemCount === null) {
   //       finalValue = 0;
@@ -382,13 +388,12 @@ const PortfolioComp = ({
   //       finalValue = Number(itemCount);
   //     }
 
-  
   //     const valueToSend = String(finalValue - 1);
   //     console.log('final: ', valueToSend)
-  
+
   //     if (valueToSend === "-1") {
   //       const count = "0";
-  
+
   //       const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
   //         itemId,
   //         count,
@@ -400,7 +405,7 @@ const PortfolioComp = ({
   //         itemId,
   //         count,
   //       });
-  
+
   //       console.log('res1: ', patchItem.data)
   //     }
 
@@ -481,50 +486,56 @@ const PortfolioComp = ({
       },
     };
 
-    try {
-      const transactionLogs = await axios.get(
-        `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
-        config
-      );
-
-      // console.log('data: ', transactionLogs.data?.logs[0])
-
-      const mainLog = transactionLogs.data?.logs[0];
-
-      const dataToDecode = mainLog?.data;
-
-      const topicsObj = {
-        topic1: mainLog?.topic1,
-        topic2: mainLog?.topic2,
-        topic3: mainLog?.topic3,
-      };
-
-      const result = decodeLendingTxnData(dataToDecode, topicsObj);
-
-      // console.log('topics: ', topicsObj)
-
-      // const queryNft = `
-      // query LendingsQuery {
-      //     lendings (where: {nftAddress: "${tokenAddr}", tokenID: "${tokenID}"}) {
-      //       id
-      //       tokenID
-      //     }
-      //   }`;
-
-      // const urqlClient = createClient({
-      //   url: SYLVESTER_SUBGRAPH_URL,
-      // });
-
-      // const response = await urqlClient.query(queryNft).toPromise();
-
-      // const result = response.data;
-
-      // console.log(result)
-
-      return result;
-    } catch (e) {
-      // console.error(e);
+    if(lendingID === null) {
+      try {
+        const transactionLogs = await axios.get(
+          `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
+          config
+        );
+  
+        // console.log('data: ', transactionLogs.data?.logs[0])
+  
+        const mainLog = transactionLogs.data?.logs[0];
+  
+        const dataToDecode = mainLog?.data;
+  
+        const topicsObj = {
+          topic1: mainLog?.topic1,
+          topic2: mainLog?.topic2,
+          topic3: mainLog?.topic3,
+        };
+  
+        const result = decodeLendingTxnData(dataToDecode, topicsObj);
+  
+        // console.log('topics: ', topicsObj)
+  
+        // const queryNft = `
+        // query LendingsQuery {
+        //     lendings (where: {nftAddress: "${tokenAddr}", tokenID: "${tokenID}"}) {
+        //       id
+        //       tokenID
+        //     }
+        //   }`;
+  
+        // const urqlClient = createClient({
+        //   url: SYLVESTER_SUBGRAPH_URL,
+        // });
+  
+        // const response = await urqlClient.query(queryNft).toPromise();
+  
+        // const result = response.data;
+  
+        // console.log(result, 'lendId result')
+  
+        return result;
+      } catch (e) {
+        // console.error(e);
+      }
+    } else {
+      return lendingID
     }
+
+  
   };
 
   const getRentingId = async (transactionHash, chain) => {
@@ -535,31 +546,36 @@ const PortfolioComp = ({
       },
     };
 
-    try {
-      const transactionLogs = await axios.get(
-        `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
-        config
-      );
 
-      // console.log('data: ', transactionLogs.data?.logs[1])
-
-      const mainLog = transactionLogs.data?.logs[1];
-
-      const dataToDecode = mainLog?.data;
-      // web3.utils.hexToNumber(mainLog?.topic3);
-      const topicsObj = {
-        // topic1: mainLog?.topic1,
-        // topic2: mainLog?.topic2,
-        topic3: web3.utils.hexToNumber(mainLog?.topic3),
-      };
-
-      // console.log("datatopics: ", topicsObj);
-      const result = topicsObj?.topic3;
-      // const result = decodeRentTxnData(dataToDecode, topicsObj);
-      // console.log("dataresult: ", result);
-      return result;
-    } catch (e) {
-      // console.error(e);
+    if(rentingID === null) {
+      try {
+        const transactionLogs = await axios.get(
+          `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
+          config
+        );
+  
+        // console.log('data: ', transactionLogs.data?.logs[1])
+  
+        const mainLog = transactionLogs.data?.logs[1];
+  
+        const dataToDecode = mainLog?.data;
+        // web3.utils.hexToNumber(mainLog?.topic3);
+        const topicsObj = {
+          // topic1: mainLog?.topic1,
+          // topic2: mainLog?.topic2,
+          topic3: web3.utils.hexToNumber(mainLog?.topic3),
+        };
+  
+        // console.log("datatopics: ", topicsObj);
+        const result = topicsObj?.topic3;
+        // const result = decodeRentTxnData(dataToDecode, topicsObj);
+        // console.log("dataresult: ", result);
+        return `${result}`;
+      } catch (e) {
+        // console.error(e);
+      }
+    } else {
+      return rentingID
     }
   };
 
@@ -567,10 +583,14 @@ const PortfolioComp = ({
     try {
       setLoadClaimRent(true);
 
-      // const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
-      // const rentingID = await getRentingId(rentTxnData, "goerli");
+      // if (!rentingID) {
+        const rentingIdToUse = await getRentingId(rentTxnData, "goerli");
+      //   setRentingID(rentingIdToUse);
+      // }
 
-      const rentingIDToString = String(rentingID);
+      const lendingIdToUse = await getLendingIdForNft(lendTxnData, "goerli");
+
+      // const rentingIDToString = String(rentingID);
 
       // console.log("rnt", rentingID);
       // console.log("lnt", lendingID)
@@ -582,7 +602,8 @@ const PortfolioComp = ({
           mainStandard,
           mainItemAddr,
           tokenId,
-          lendingID,
+          lendingIdToUse,
+          rentingIdToUse
           // rentingIDToString,
         };
 
@@ -592,8 +613,8 @@ const PortfolioComp = ({
           [mainStandard],
           [mainItemAddr],
           [tokenId],
-          [lendingID],
-          [rentingID]
+          [lendingIdToUse],
+          [rentingIdToUse]
         );
 
         const receipt = await txn.wait();
@@ -602,15 +623,16 @@ const PortfolioComp = ({
         // 0x9d91778c5e5f506701482ee59ca9668d16d308ae6deafb7d87c1fd90ac290b2f
         if (receipt.blockNumber !== null && receipt.confirmations > 0) {
           const newRenterAddress = "";
-          // await handleLenderRentPatch(
-          //   identi,
-          //   newRenterAddress,
-          //   "already claimed",
-          //   "non-available",
-          //   "previousListed for lending"
-          // );
-          // await getColandUpdateItemCount(mainItemAddr);
-          message.success("claiming rental fees in progress! changes would be propagated once confirmed on the blockchain");
+          await handleLenderRentPatch(
+            identi,
+            newRenterAddress,
+            "already claimed",
+            "non-available",
+            "previousListed for lending"
+          );
+          await getColandUpdateItemCount(mainItemAddr);
+          // message.success("claiming rental fees in progress! changes would be propagated once confirmed on the blockchain");
+          message.success("successfully claimed rental fees!");
           handleLendDetailsModalCancel();
           await getNewListFunc();
           await getWalletNfts();
@@ -618,20 +640,22 @@ const PortfolioComp = ({
       }
       setLoadClaimRent(false);
     } catch (e) {
-      // console.warn(e) 
+      // console.warn(e)
       if (e.code === "ACTION_REJECTED") {
         setLoadClaimRent(false);
         message.error("user rejected transaction");
       } else if (e.message[0] === "F") {
         setLoadClaimRent(false);
         message.error("something went wrong");
-      } else if(e.error.data.message === "execution reverted: Hadaro::zero address"){
-        // await handlePatch(
-        //   identi,
-        //   "previousListed for lending",
-        //   "non-available"
-        // );
-        // await getColandUpdateItemCount(mainItemAddr);
+      } else if (
+        e.error.data.message === "execution reverted: Hadaro::zero address"
+      ) {
+        await handlePatch(
+          identi,
+          "previousListed for lending",
+          "non-available"
+        );
+        await getColandUpdateItemCount(mainItemAddr);
         message.success("item already being returned to your wallet", [5]);
         handleLendDetailsModalCancel();
         await getNewListFunc();
@@ -647,8 +671,19 @@ const PortfolioComp = ({
       // console.log('gfkdvdvb')
       setLoadStopRent(true);
 
+      // if (!rentingID) {
+      //   console.log("rntTxn", rentTxnData);
+        const rentingIdToUse = await getRentingId(rentTxnData, "goerli");
+        // console.log(rentingIdToUse, 'rentingIdToUse')
+      //   setRentingID(rentingIdToUse);
+      // }
+
+      // if (!lendingID) {
+        const lendingIdToUse = await getLendingIdForNft(lendTxnData, "goerli");
+      //   setLendingID(lendingIdToUse);
+      // }
+
       // const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
-      // const rentingID = await getRentingId(rentTxnData, "goerli");
 
       // const rentingIDToString = String(rentingID);
 
@@ -662,7 +697,8 @@ const PortfolioComp = ({
           mainStandard,
           mainItemAddr,
           tokenId,
-          lendingID,
+          lendingIdToUse,
+          rentingIdToUse
           // rentingIDToString,
         };
 
@@ -671,8 +707,8 @@ const PortfolioComp = ({
           [mainStandard],
           [mainItemAddr],
           [tokenId],
-          [lendingID],
-          [rentingID]
+          [lendingIdToUse],
+          [rentingIdToUse]
         );
 
         const receipt = await txn.wait();
@@ -680,7 +716,7 @@ const PortfolioComp = ({
         // console.log(receipt)
         // 0x9d91778c5e5f506701482ee59ca9668d16d308ae6deafb7d87c1fd90ac290b2f
         if (receipt.blockNumber !== null && receipt.confirmations > 0) {
-          // const newRenterAddress = "";
+          const newRenterAddress = "";
           // if (dayPassed) {
           //   await handleRentPatch(identi, newRenterAddress);
           //   await handlePatch(
@@ -698,15 +734,24 @@ const PortfolioComp = ({
           //   );
           //   await getColandUpdateItemCount(mainItemAddr);
           // }
-          // await getColandUpdateItemCount(nftAddress);
+          await handleRentPatch(identi, newRenterAddress);
+          await handlePatch(
+            identi,
+            "previousListed for lending",
+            "non-available"
+          );
+          await getColandUpdateItemCount(mainItemAddr);
           // await handleRemoveElement(position);
-          message.success("stopping rental in progress!changes will reflect after confirmation on the blockchain");
+          // message.success("stopping rental in progress!changes will reflect after confirmation on the blockchain");
+          message.success("successfully stopped rent of NFT!");
+          handleRentDetailsModalCancel()
           getRentingNfts();
         }
       }
       setLoadStopRent(false);
     } catch (e) {
-      // console.warn(e);
+      console.warn(e);
+      setLoadStopRent(false);
       if (e.message[0] === "u" && e.message[1] === "s") {
         message.error("user rejected transaction");
         setLoadStopRent(false);
@@ -717,19 +762,24 @@ const PortfolioComp = ({
         e.error.data.message === "execution reverted: Hadaro::past return date"
       ) {
         message.error("You failed to return item before expiry!");
-        const newRenterAddress = "" 
+        const newRenterAddress = "";
         await handleRentPatch(identi, newRenterAddress);
+        handleRentDetailsModalCancel()
         setLoadStopRent(false);
-        await getRentingNfts()
-      } else if(e.error.data.message === "execution reverted: Hadaro::zero address"){
-        // await handlePatch(
-        //   identi,
-        //   "previousListed for lending",
-        //   "non-available"
-        // );
-        // await getColandUpdateItemCount(mainItemAddr);
-        message.success("item already returned to your wallet", [5]);
-        handleLendDetailsModalCancel();
+        await getRentingNfts();
+      } else if (
+        e.error.data.message === "execution reverted: Hadaro::zero address"
+      ) {
+        const newRenterAddress = "";
+        await handleRentPatch(identi, newRenterAddress);
+        await handlePatch(
+          identi,
+          "previousListed for lending",
+          "non-available"
+        );
+        await getColandUpdateItemCount(mainItemAddr, identi);
+        message.success("item already returned to owner wallet", [5]);
+        handleRentDetailsModalCancel();
         setLoadStopRent(false);
         await getNewListFunc();
         await getWalletNfts();
@@ -742,7 +792,6 @@ const PortfolioComp = ({
   //     setLoadingRentRemove(true)
   //   const objToLook = rentingNfts[position]
   //   // console.log('prep up', objToLook)
-
   //   const tokenAddr = objToLook?.nftAddress
   //   const tokenID = objToLook?.tokenID
   //   const nftStandard = objToLook?.nftStandard
@@ -793,54 +842,109 @@ const PortfolioComp = ({
 
   // }
 
-  // const getColandUpdateItemCount = async (collectionAddr) => {
-  //   // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
-  //   const getCollection = await axios.post(`/api/fetchItemCollection`, {
-  //     collectionAddr,
-  //   });
+  const getColandUpdateItemCount = async (collectionAddr, id) => {
+    // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
+    if (id) {
+      const findItem = await axios.post(`/api/fetchItemDetails`, {
+        id,
+      });
 
-  //   const filterDrafts = getCollection.data.filter(
-  //     (item) =>
-  //       item.collectionAddress.toLowerCase() === collectionAddr.toLowerCase() &&
-  //       !item._id?.includes("drafts")
-  //   );
-  //   // console.log('results: ', getCollection.data)
-  //   // console.log('results: ', filterDrafts)
+      const foundItem = findItem.data[0] || findItem.data;
+      if (foundItem.transactionType !== "previousListed for lending") {
+        const getCollection = await axios.post(`/api/fetchItemCollection`, {
+          collectionAddr,
+        });
 
-  //   const itemId = filterDrafts[0]?._id;
+        const filterDrafts = getCollection.data.filter(
+          (item) =>
+            item.collectionAddress.toLowerCase() ===
+              collectionAddr.toLowerCase() && !item._id?.includes("drafts")
+        );
+        // console.log('results: ', getCollection.data)
+        // console.log('results: ', filterDrafts)
 
-  //   const itemCount = filterDrafts[0]?.itemCount;
-  //   // console.log('results: ', itemCount)
+        const itemId = filterDrafts[0]?._id;
 
-  //   let finalValue;
+        const itemCount = filterDrafts[0]?.itemCount;
+        // console.log('results: ', itemCount)
 
-  //   if (itemCount === null) {
-  //     finalValue = 0;
-  //   } else {
-  //     finalValue = Number(itemCount);
-  //   }
+        let finalValue;
 
-  //   const valueToSend = String(finalValue - 1);
-  //   console.log('final: ', valueToSend)
+        if (itemCount === null) {
+          finalValue = 0;
+        } else {
+          finalValue = Number(itemCount);
+        }
 
-  //   if (valueToSend === "-1") {
-  //     const count = "0";
+        const valueToSend = String(finalValue - 1);
+        // console.log("final: ", valueToSend);
 
-  //     const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
-  //       itemId,
-  //       count,
-  //     });
-  //     console.log('res0: ', patchItem.data)
-  //   } else {
-  //     const count = valueToSend;
-  //     const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
-  //       itemId,
-  //       count,
-  //     });
+        if (valueToSend === "-1") {
+          const count = "0";
 
-  //     console.log('res1: ', patchItem.data)
-  //   }
-  // };
+          const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
+            itemId,
+            count,
+          });
+          // console.log("res0: ", patchItem.data);
+        } else {
+          const count = valueToSend;
+          const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
+            itemId,
+            count,
+          });
+
+          // console.log("res1: ", patchItem.data);
+        }
+      }
+    } else {
+      const getCollection = await axios.post(`/api/fetchItemCollection`, {
+        collectionAddr,
+      });
+
+      const filterDrafts = getCollection.data.filter(
+        (item) =>
+          item.collectionAddress.toLowerCase() ===
+            collectionAddr.toLowerCase() && !item._id?.includes("drafts")
+      );
+      // console.log('results: ', getCollection.data)
+      // console.log('results: ', filterDrafts)
+
+      const itemId = filterDrafts[0]?._id;
+
+      const itemCount = filterDrafts[0]?.itemCount;
+      // console.log('results: ', itemCount)
+
+      let finalValue;
+
+      if (itemCount === null) {
+        finalValue = 0;
+      } else {
+        finalValue = Number(itemCount);
+      }
+
+      const valueToSend = String(finalValue - 1);
+      // console.log("final: ", valueToSend);
+
+      if (valueToSend === "-1") {
+        const count = "0";
+
+        const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
+          itemId,
+          count,
+        });
+        // console.log("res0: ", patchItem.data);
+      } else {
+        const count = valueToSend;
+        const patchItem = await axios.post(`/api/updateCollectionItemCount`, {
+          itemId,
+          count,
+        });
+
+        // console.log("res1: ", patchItem.data);
+      }
+    }
+  };
 
   const showLendingDetails = (position) => {
     const lendItem = lendingNfts[position];
@@ -861,6 +965,8 @@ const PortfolioComp = ({
     setIsRentClaimed(lendItem?.isRentClaimed);
     setRenterAddress(lendItem?.renterAddress);
     setTransactionType(lendItem?.transactionType);
+    setRentTxnData(lendItem?.rentTransactionHash);
+    setLendTxnData(lendItem?.lendTransactionHash);
 
     const noOfRentDays = lendItem?.noOfRentDays;
     const timeRented = lendItem?.timeOfRent;
@@ -869,8 +975,7 @@ const PortfolioComp = ({
     //   .add(noOfRentDays, "days")
     //   .format();
 
-
-    const formattedExpiry = timeRented + (noOfRentDays * 24 * 60 * 60)
+    const formattedExpiry = timeRented + noOfRentDays * 24 * 60 * 60;
 
     setTargetTime(formattedExpiry);
     setAlreadySetTime(true);
@@ -893,6 +998,11 @@ const PortfolioComp = ({
 
       // console.log('hash', transactionHash)
 
+      // if (!lendingID) {
+        const lending_id = await getLendingIdForNft(lendTxnData, "goerli");
+        // setLendingID(lending_id);
+      // }
+
       // const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
 
       // console.log("id", lendingID);
@@ -907,7 +1017,7 @@ const PortfolioComp = ({
           mainStandard,
           mainItemAddr,
           tokenId,
-          lendingID,
+          lending_id,
         };
 
         // console.log('cdf', mst)
@@ -916,7 +1026,7 @@ const PortfolioComp = ({
           [mainStandard],
           [mainItemAddr],
           [tokenId],
-          [lendingID]
+          [lending_id]
         );
 
         const receipt = await txn.wait();
@@ -928,13 +1038,14 @@ const PortfolioComp = ({
           //  const iden = "7Fr0FUO69KxDBqVkyLHEmB"
           // const response = await axios.get(`/api/fetchAllNftsInCollection`)
           // console.log('hjs: ', response.data)
-          // await handlePatch(
-          //   identi,
-          //   "previousListed for lending",
-          //   "non-available"
-          // );
-          // await getColandUpdateItemCount(mainItemAddr);
-          message.success("stopping lend for your NFT...item will be removed from lendings when confirmed on the blockchain");
+          await handlePatch(
+            identi,
+            "previousListed for lending",
+            "non-available"
+          );
+          await getColandUpdateItemCount(mainItemAddr);
+          // message.success("stopping lend for your NFT...item will be removed from lendings when confirmed on the blockchain");
+          message.success("successfully stopped lend of NFT!");
           handleLendDetailsModalCancel();
           await getNewListFunc();
           await getWalletNfts();
@@ -949,20 +1060,24 @@ const PortfolioComp = ({
       } else if (e.message[0] === "F") {
         message.error("something went wrong");
         setLoadingLendRemove(false);
-      } else if(e.error.message === "execution reverted: Hadaro::zero address"){
-        // await handlePatch(
-        //   identi,
-        //   "previousListed for lending",
-        //   "non-available"
-        // );
-        // await getColandUpdateItemCount(mainItemAddr);
+      } else if (
+        e.error.message === "execution reverted: Hadaro::zero address"
+      ) {
+        await handlePatch(
+          identi,
+          "previousListed for lending",
+          "non-available"
+        );
+        await getColandUpdateItemCount(mainItemAddr);
         message.success("item already returned to your wallet", [5]);
         handleLendDetailsModalCancel();
         setLoadingLendRemove(false);
         await getNewListFunc();
         await getWalletNfts();
-      }  else if (e.error.message === "execution reverted: Hadaro::actively rented") {
-        message.error("Unable to perform action! rental is in progress...")
+      } else if (
+        e.error.message === "execution reverted: Hadaro::actively rented"
+      ) {
+        message.error("Unable to perform action! rental is in progress...");
         setLoadingLendRemove(false);
       }
     }
@@ -970,14 +1085,14 @@ const PortfolioComp = ({
 
   // console.log('owned', ownedNfts)
 
-  let interval;
+  // let interval = useRef();
 
   const startTimer = () => {
     // const countDown = new Date(targetTime).getTime();
-    const countDown = targetTime
+    const countDown = targetTime;
 
-    interval = setInterval(() => {
-      const now = moment(Date.now()).unix()
+    const interval = setInterval(() => {
+      const now = moment(Date.now()).unix();
       // const now = new Date().getTime();
 
       const diff = countDown - now;
@@ -985,11 +1100,9 @@ const PortfolioComp = ({
       // console.log('dffer',diff)
 
       const days = Math.floor(diff / (24 * 60 * 60));
-      const hours = Math.floor(
-        (diff % (24 * 60 * 60)) / (60 * 60)
-      );
-      const minutes = Math.floor((diff % (60 * 60)) / (60));
-      const seconds = Math.floor((diff % (60)));
+      const hours = Math.floor((diff % (24 * 60 * 60)) / (60 * 60));
+      const minutes = Math.floor((diff % (60 * 60)) / 60);
+      const seconds = Math.floor(diff % 60);
 
       // console.log('diff', isNaN(diff))
       if (isNaN(diff) === true) {
@@ -997,14 +1110,14 @@ const PortfolioComp = ({
       }
 
       if (diff <= 0 || isNaN(diff) === true) {
-        clearInterval(interval.current);
+        clearInterval(interval);
       } else {
         setTimerDays(days);
         setTimerHours(hours);
         setTimerMinutes(minutes);
         setTimerSeconds(seconds);
       }
-    });
+    }, 1000);
   };
 
   const handleRemoveFromRent = async () => {
@@ -1022,6 +1135,7 @@ const PortfolioComp = ({
 
   const handleViewRentDetails = (position) => {
     const rentItem = rentingNfts[position];
+    // console.log('rent items', rentItem)
     setImg(nftImageAggregating(rentItem?.metadataImage));
     setRenter(addEllipsis(rentItem?.renterAddress));
     setStandard(parseStandards(rentItem?.nftStandard));
@@ -1031,21 +1145,24 @@ const PortfolioComp = ({
     setItemName(rentItem?.metadataName);
     setTokenId(rentItem?.tokenID);
     setDesc(rentItem?.metadataDesc);
-    // setRentTxnData(rentItem?.rentTransactionHash);
-    // setLendTxnData(rentItem?.lendTransactionHash);
+    setRentingID(rentItem?.rentingID);
+    setLendingID(rentItem?.lendingID);
+    setRentTxnData(rentItem?.rentTransactionHash);
+    setLendTxnData(rentItem?.lendTransactionHash);
     setIdenti(rentItem?._id);
 
     const noOfRentDays = rentItem?.noOfRentDays;
     const timeRented = rentItem?.timeOfRent;
 
-    console.log(noOfRentDays)
-    console.log(timeRented)
+    // console.log(noOfRentDays);
+    // console.log(timeRented);
 
     const expiryDate = noOfRentDays * 24 * 60 * 60 + timeRented;
 
     const singleDay = 24 * 60 * 60;
 
-    const isSingleDayPassed = moment(Date.now()).unix() - timeRented > singleDay;
+    const isSingleDayPassed =
+      moment(Date.now()).unix() - timeRented > singleDay;
 
     // console.log('check', isSingleDayPassed)
 
@@ -1056,9 +1173,9 @@ const PortfolioComp = ({
     // const formattedExpiry = moment(timeRented)
     //   .add(noOfRentDays, "days").unix();
 
-    const formattedExpiry = timeRented + (noOfRentDays * 24 * 60 * 60)
-   
-      const formattedStartDate = moment(timeRented).format();
+    const formattedExpiry = timeRented + noOfRentDays * 24 * 60 * 60;
+
+    const formattedStartDate = moment(timeRented).format();
 
     const eventTime = new Date(formattedExpiry).getTime();
 
@@ -1069,18 +1186,61 @@ const PortfolioComp = ({
 
     setTargetTime(formattedExpiry);
     setAlreadySetTime(true);
-    // console.log('rent dets', timeRented);
+    // console.log("rent days", noOfRentDays);
     // console.log('start date: ', formattedStartDate)
-    console.log("end date: ", formattedExpiry);
-    // console.log('timeRemaining ', eventTime)
+    // console.log("end date: ", formattedExpiry);
+    // console.log("timeDiff", formattedExpiry - moment().unix());
     showRentDetailsModal();
   };
 
   useEffect(() => {
     if (targetTime !== "" || targetTime !== "Invalid date") {
-      startTimer();
+      // startTimer();
+      // console.log('time changed')
+
+      // const countDown = new Date(targetTime).getTime();
+      const countDown = targetTime;
+
+      const interval = setInterval(() => {
+        const now = moment(Date.now()).unix();
+
+        const diff = countDown - now;
+
+        const days = Math.floor(diff / (24 * 60 * 60));
+        const hours = Math.floor((diff % (24 * 60 * 60)) / (60 * 60));
+        const minutes = Math.floor((diff % (60 * 60)) / 60);
+        const seconds = Math.floor(diff % 60);
+
+        if (isNaN(diff) === true) {
+          setNanValue(true);
+        }
+
+        if (diff <= 0 || isNaN(diff) === true) {
+          clearInterval(interval);
+        } else {
+          setTimerDays(days);
+          setTimerHours(hours);
+          setTimerMinutes(minutes);
+          setTimerSeconds(seconds);
+        }
+      }, 1000);
+
+      setTimer(interval);
+
+      return () => clearInterval(interval);
     }
-  }, [alreadySetTime]);
+  }, [targetTime]);
+
+  useEffect(() => {
+    if (targetTime === "" || targetTime === null || targetTime === undefined) {
+      setTimerDays();
+      setTimerHours();
+      setTimerMinutes();
+      setTimerSeconds();
+      clearInterval(timer);
+      setTimer(null);
+    }
+  }, [targetTime]);
 
   return (
     <div className={styles.mainContainer}>
@@ -1205,7 +1365,14 @@ const PortfolioComp = ({
                           </div>
                           <div className={styles.infoContainer}>
                             <div className={styles.infoImage}>
-                              <img src={img.includes('undefined') ? "/images/no-image-placeholder.png" : img } alt="item-image" />
+                              <img
+                                src={
+                                  img.includes("undefined")
+                                    ? "/images/no-image-placeholder.png"
+                                    : img
+                                }
+                                alt="item-image"
+                              />
                             </div>
                             <div className={styles.infoDesc}>
                               <div className={styles.infoDescLender}>
@@ -1215,7 +1382,12 @@ const PortfolioComp = ({
                               <div className={styles.infoDescName}>
                                 <div className={styles.infoDescMetaNames}>
                                   {/* <h3> {collectionName} </h3> */}
-                                  <h2> {itemName === null ? "No name" : itemName} </h2>
+                                  <h2>
+                                    {" "}
+                                    {itemName === null
+                                      ? "No name"
+                                      : itemName}{" "}
+                                  </h2>
                                 </div>
                                 <div className={styles.miniInfo}>
                                   <small> {standard} </small>
@@ -1337,7 +1509,7 @@ const PortfolioComp = ({
                                   </button>
                                 ) : (
                                   <div>
-                                  {/* <button className={styles.inProg} onClick={prepareStopLend}>
+                                    {/* <button className={styles.inProg} onClick={prepareStopLend}>
                                     Stop Lend
                                   </button> */}
                                     <button className={styles.inProg}>
@@ -1395,7 +1567,13 @@ const PortfolioComp = ({
                           <div key={index}>
                             <RentNfts
                               nftname={el?.metadataName}
-                              nftImage={nftImageAggregating(el.metadataImage).includes('undefined')?"/images/no-image-placeholder.png": nftImageAggregating(el.metadataImage)}
+                              nftImage={
+                                nftImageAggregating(el.metadataImage).includes(
+                                  "undefined"
+                                )
+                                  ? "/images/no-image-placeholder.png"
+                                  : nftImageAggregating(el.metadataImage)
+                              }
                               nftStatus={el.status}
                               position={index}
                               loadingRent={loadingRentRemove}
@@ -1417,7 +1595,14 @@ const PortfolioComp = ({
                           </div>
                           <div className={styles.infoContainer}>
                             <div className={styles.infoImage}>
-                              <img src={img.includes('undefined')? "/images/no-image-placeholder.png": img} alt="item-image" />
+                              <img
+                                src={
+                                  img.includes("undefined")
+                                    ? "/images/no-image-placeholder.png"
+                                    : img
+                                }
+                                alt="item-image"
+                              />
                             </div>
                             <div className={styles.infoDesc}>
                               <div className={styles.infoDescLender}>
@@ -1427,7 +1612,12 @@ const PortfolioComp = ({
                               <div className={styles.infoDescName}>
                                 <div className={styles.infoDescMetaNames}>
                                   {/* <h3> {collectionName} </h3> */}
-                                  <h2> {itemName === null ? "No name" : itemName} </h2>
+                                  <h2>
+                                    {" "}
+                                    {itemName === null
+                                      ? "No name"
+                                      : itemName}{" "}
+                                  </h2>
                                 </div>
                                 <div className={styles.miniInfo}>
                                   <small> {standard} </small>
@@ -1598,7 +1788,7 @@ const PortfolioComp = ({
           {/* <button onClick={checkStuff}>get and add to item count</button> */}
         </div>
       </div>
-    </div> 
+    </div>
   );
 };
 

@@ -14,18 +14,14 @@ import {
 import { Contract, utils } from "ethers";
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { Wallet } from "@ethersproject/wallet";
-import {
-  Sylvester,
-  NFTStandard,
-  packPrice,
-  SYLVESTER_ADDRESS,
-  getRenftContract,
-  DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
-} from "@renft/sdk";
+import { Sylvester, NFTStandard, packPrice } from "@renft/sdk";
 import Web3 from "web3";
-import { HADARO_GOERLI_ADDRESS, HADARO_GOERLI_ABI, erc1155Abi } from "../../constants/abis";
+import {
+  HADARO_GOERLI_ADDRESS,
+  HADARO_GOERLI_ABI,
+  erc1155Abi,
+} from "../../constants/abis";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
-import { SylvieABI } from "../../utils/abis";
 import styles from "./lendoutro.module.scss";
 
 const LendOutroModal = ({
@@ -38,7 +34,7 @@ const LendOutroModal = ({
   setLoadingTxn,
   loadingTxn,
   showLendModal,
-  setApprovalLoad
+  setApprovalLoad,
 }) => {
   const parseStandards = (value) => {
     if (value === "ERC721") {
@@ -74,16 +70,6 @@ const LendOutroModal = ({
   const web3 = new Web3(
     Web3.givenProvider || "ws://some.local-or-remote.node:8546"
   );
-
-  // const collateralFreeContract =  getRenftContract({
-  //   deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
-  //   signer,
-  // });
-
-  // const provider = new JsonRpcProvider('https://mainnet.infura.io/v3/6fe73d73563b4e56aef1516412dfe130');
-  // const privKey = '6d62eb36590393197c6bc45f7471fbc7f66ae9363f33c1c03144957df95a75d4';
-  // let wallet = new Wallet(privKey);
-  // wallet = wallet.connect(provider);
 
   const unfakeTxn = () =>
     setTimeout(() => {
@@ -132,152 +118,150 @@ const LendOutroModal = ({
   async function requestE1155Approval() {
     setApprovalLoad(true);
     try {
-  // Get signer's address
-  const address = await signer.getAddress();
+      // Get signer's address
+      const address = await signer.getAddress();
 
-  // Initialize a contract instance for the NFT contract
-  const ERC1155Contract = new Contract(nftAddress, erc1155Abi, signer);
+      // Initialize a contract instance for the NFT contract
+      const ERC1155Contract = new Contract(nftAddress, erc1155Abi, signer);
 
-  // Make sure user is owner of the NFT in question
+      // Make sure user is owner of the NFT in question
 
-  // console.log('token id', tokenID)
-  const tokenOwner = await ERC1155Contract.balanceOf(address, tokenID);
-  const convHex = web3.utils
-  .toBN(tokenOwner._hex)
-  .toString();
-  // console.log('token owner: ', convHex)
-  // console.log('address: ', address)
-  if (convHex === 0 ) {
-    setApprovalLoad(false);
-    throw new Error(`You do not own this NFT`); 
-  }
+      // console.log('token id', tokenID)
+      const tokenOwner = await ERC1155Contract.balanceOf(address, tokenID);
+      const convHex = web3.utils.toBN(tokenOwner._hex).toString();
+      // console.log('token owner: ', convHex)
+      // console.log('address: ', address)
+      if (convHex === 0) {
+        setApprovalLoad(false);
+        throw new Error(`You do not own this NFT`);
+      }
 
-  // // getApproved(uint256 tokenId)
-  // // approve(address to, uint256 tokenId)
-  // Check if user already gave approval to the marketplace
-  const isApproved = await ERC1155Contract.isApprovedForAll(address, HADARO_GOERLI_ADDRESS);
-  // console.log('approve: ', isApproved)
-  // If not approved
-  if (!isApproved) {
-    // console.log("Requesting approval over NFTs...");
+      // // getApproved(uint256 tokenId)
+      // // approve(address to, uint256 tokenId)
+      // Check if user already gave approval to the marketplace
+      const isApproved = await ERC1155Contract.isApprovedForAll(
+        address,
+        HADARO_GOERLI_ADDRESS
+      );
+      // console.log('approve: ', isApproved)
+      // If not approved
+      if (!isApproved) {
+        // console.log("Requesting approval over NFTs...");
 
-    // Send approval transaction to NFT contract
-const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRESS, true)
-      const receipt = await approvalTxn.wait();
+        // Send approval transaction to NFT contract
+        const approvalTxn = await ERC1155Contract.setApprovalForAll(
+          HADARO_GOERLI_ADDRESS,
+          true
+        );
+        const receipt = await approvalTxn.wait();
 
-      // console.log('approval', receipt)
+        // console.log('approval', receipt)
 
-
-      if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+        if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+          // const transferToken =  await ERC1155Contract.safeTransferFrom(address, HADARO_GOERLI_ADDRESS, tokenID, lendAmount, "0x00")
+          // const receipt = await transferToken.wait();
+          //  console.log('approval2i', receipt)
+          //  if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+          setApprovalLoad(false);
+          return "operation success";
+        }
+      } else {
+        // console.log("viva")
+        setApprovalLoad(false);
+        return "operation success";
         // const transferToken =  await ERC1155Contract.safeTransferFrom(address, HADARO_GOERLI_ADDRESS, tokenID, lendAmount, "0x00")
         // const receipt = await transferToken.wait();
-        //  console.log('approval2i', receipt)
-        //  if (receipt.blockNumber !== null && receipt.confirmations > 0) { 
-          setApprovalLoad(false);
-          return "operation success"
+        //  console.log('approval2j', receipt)
+        //  if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+        // setApprovalLoad(false);
+        // setAlreadyApprovedToken(true)
+        //  }
+        // setAlreadyApprovedToken(true)
       }
-  } else {
-    // console.log("viva")
-    setApprovalLoad(false);
-    return "operation success"
-    // const transferToken =  await ERC1155Contract.safeTransferFrom(address, HADARO_GOERLI_ADDRESS, tokenID, lendAmount, "0x00")
-    // const receipt = await transferToken.wait();
-    //  console.log('approval2j', receipt)
-    //  if (receipt.blockNumber !== null && receipt.confirmations > 0) { 
       // setApprovalLoad(false);
-      // setAlreadyApprovedToken(true)
-    //  }
-    // setAlreadyApprovedToken(true)
-  } 
-    // setApprovalLoad(false);
     } catch (e) {
       // console.warn(e)
       if (e.code === "ACTION_REJECTED") {
-        message.error("user denied transaction")
-        setApprovalLoad(false)
-        return "operation failed"
+        message.error("user denied transaction");
+        setApprovalLoad(false);
+        return "operation failed";
         //  setAlreadyApprovedToken(false)
       } else {
-        message.error("something went wrong...")
-        setApprovalLoad(false)
-        return "operation failed"
+        message.error("something went wrong...");
+        setApprovalLoad(false);
+        return "operation failed";
         // setAlreadyApprovedToken(false)
       }
     }
-   
-  
   }
   async function requestE721Approval() {
     setApprovalLoad(true);
     try {
-  // Get signer's address
-  const address = await signer.getAddress();
+      // Get signer's address
+      const address = await signer.getAddress();
 
-  // Initialize a contract instance for the NFT contract
-  const ERC721Contract = new Contract(nftAddress, erc721ABI, signer);
+      // Initialize a contract instance for the NFT contract
+      const ERC721Contract = new Contract(nftAddress, erc721ABI, signer);
 
-  // Make sure user is owner of the NFT in question
+      // Make sure user is owner of the NFT in question
 
-  // console.log('token id', tokenID)
-  const tokenOwner = await ERC721Contract.ownerOf(tokenID);
-  // console.log('token owner: ', tokenOwner)
-  // console.log('address: ', address)
-  if (tokenOwner.toLowerCase() !== address.toLowerCase()) {
-    setApprovalLoad(false);
-    throw new Error(`You do not own this NFT`); 
-  }
-
-  // getApproved(uint256 tokenId)
-  // approve(address to, uint256 tokenId)
-  // Check if user already gave approval to the marketplace
-  const isApproved = await ERC721Contract.getApproved(Number(tokenID));
-  // console.log('approve: ', isApproved)
-  // If not approved
-  if (isApproved.toLowerCase() !== HADARO_GOERLI_ADDRESS.toLowerCase()) {
-    // console.log("Requesting approval over NFTs...");
-
-    // Send approval transaction to NFT contract
-    const approvalTxn = await ERC721Contract.approve(
-      HADARO_GOERLI_ADDRESS,
-      Number(tokenID)
-    );
-      const receipt = await approvalTxn.wait();
-
-      // console.log('approval', receipt)
-
-
-      if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+      // console.log('token id', tokenID)
+      const tokenOwner = await ERC721Contract.ownerOf(tokenID);
+      // console.log('token owner: ', tokenOwner)
+      // console.log('address: ', address)
+      if (tokenOwner.toLowerCase() !== address.toLowerCase()) {
         setApprovalLoad(false);
-        return "operation success"
+        throw new Error(`You do not own this NFT`);
+      }
+
+      // getApproved(uint256 tokenId)
+      // approve(address to, uint256 tokenId)
+      // Check if user already gave approval to the marketplace
+      const isApproved = await ERC721Contract.getApproved(Number(tokenID));
+      // console.log('approve: ', isApproved)
+      // If not approved
+      if (isApproved.toLowerCase() !== HADARO_GOERLI_ADDRESS.toLowerCase()) {
+        // console.log("Requesting approval over NFTs...");
+
+        // Send approval transaction to NFT contract
+        const approvalTxn = await ERC721Contract.approve(
+          HADARO_GOERLI_ADDRESS,
+          Number(tokenID)
+        );
+        const receipt = await approvalTxn.wait();
+
+        // console.log('approval', receipt)
+
+        if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+          setApprovalLoad(false);
+          return "operation success";
+          // setLoadingTxn(true)
+          // setAlreadyApprovedToken(true)
+        }
+      } else {
+        setApprovalLoad(false);
+        return "operation success";
         // setLoadingTxn(true)
         // setAlreadyApprovedToken(true)
       }
-  } else {
-    setApprovalLoad(false);
-    return "operation success"
-    // setLoadingTxn(true)
-    // setAlreadyApprovedToken(true)
-  } 
-    // setApprovalLoad(false);
+      // setApprovalLoad(false);
     } catch (e) {
       // console.warn(e)
       // console.warn(e.code)
       if (e.code === "ACTION_REJECTED") {
-        message.error("user denied transaction")
-        setApprovalLoad(false)
-        return "operation failed"
+        message.error("user denied transaction");
+        setApprovalLoad(false);
+        return "operation failed";
         // setAlreadyApprovedToken(false)
         // setLoadingTxn(false)
       } else {
-        message.error("something went wrong...")
-        setApprovalLoad(false)
-        return "operation failed"
+        message.error("something went wrong...");
+        setApprovalLoad(false);
+        return "operation failed";
         // setLoadingTxn(false)
         // setAlreadyApprovedToken(false)
       }
     }
-   
-  
   }
 
   const createId = (value) => {
@@ -301,121 +285,100 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
         [paymentToken],
         [false]
       );
-  
+
       const receipt = await txn.wait();
-  
+
       //  console.log(receipt);
-  
-  
+
       if (receipt.blockNumber !== null && receipt.confirmations > 0) {
-        // const document = {
-        //   // for live
-        //   // _type: "nftData",
-        //   // for test
-        //   _type: "testNftData",
-        //   nftAddress,
-        //   tokenID,
-        //   chain,
-        //   lenderAddress: address,
-        //   price: dailyRentPrice,
-        //   paymentToken: String(paymentToken),
-        //   maxDuration: maxRentDuration,
-        //   transactionType,
-        //   status,
-        //   metadataName,
-        //   metadataDesc,
-        //   metadataImage,
-        //   nftCollectionName: collectionName,
-        //   nftStandard: String(nftStandard),
-        //   lendTransactionHash: receipt.transactionHash,
-        // };
-  
-        // const resty = await axios.post(`/api/postNftData`, document);
-  
+        const document = {
+          // for live
+          // _type: "nftData",
+          // for test
+          // _type: "testNftData",
+          // for new block test
+          _type: "testBlockNftData",
+          nftAddress,
+          tokenID,
+          chain,
+          lenderAddress: address.toLowerCase(),
+          price: dailyRentPrice,
+          paymentToken: String(paymentToken),
+          maxDuration: maxRentDuration,
+          transactionType,
+          status,
+          metadataName,
+          metadataDesc,
+          metadataImage,
+          nftCollectionName: collectionName,
+          nftStandard: String(nftStandard),
+          lendTransactionHash: receipt.transactionHash,
+        };
+
+        const resty = await axios.post(`/api/postNftData`, document);
+
         //  console.log('docusave', resty.data)
         // const nftAddres = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
         // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
-        // const collectionAddr = nftAddress;
+        const collectionAddr = nftAddress;
         // // const collectionAddr = nftAddres
-        // const getCollection = await axios.get(`/api/fetchItemCollection`, {
-        //   collectionAddr,
-        // });
-  
-          //  console.log('original col: ', getCollection.data)
+        const getCollection = await axios.get(`/api/fetchItemCollection`, {
+          collectionAddr,
+        });
 
-      //  const filterDraftsandCol = getCollection.data.filter(
-      //   (item) => !item._id?.includes("drafts") && item.collectionAddress === collectionAddr
-      // );
-      // console.log('filter col: ', filterDraftsandCol)
+        //  console.log('original col: ', getCollection.data)
 
-      // const itemId = filterDraftsandCol[0]?._id;
-  
-      // const itemCount = filterDraftsandCol[0]?.itemCount;
-      // console.log('item count: ', itemCount)
-      // console.log('item id: ', itemId)
+        const filterDraftsandCol = getCollection.data.filter(
+          (item) =>
+            !item._id?.includes("drafts") &&
+            item.collectionAddress === collectionAddr
+        );
+        // console.log('filter col: ', filterDraftsandCol)
 
-        // let finalValue;
-  
-        // if (itemCount === null) {
-        //   finalValue = 0;
-        // } else {
-        //   finalValue = Number(itemCount);
-        // }
-  
-        // const valueToSend = String(finalValue + 1);
+        const itemId = filterDraftsandCol[0]?._id;
+
+        const itemCount = filterDraftsandCol[0]?.itemCount;
+        // console.log('item count: ', itemCount)
+        // console.log('item id: ', itemId)
+
+        let finalValue;
+
+        if (itemCount === null) {
+          finalValue = 0;
+        } else {
+          finalValue = Number(itemCount);
+        }
+
+        const valueToSend = String(finalValue + 1);
         // // console.log('final: ', valueToSend)
-  
-        // const count = valueToSend;
-  
-        // await axios.post(`/api/updateCollectionItemCount`, {
-        //   itemId,
-        //   count,
-        // });
-  
+
+        const count = valueToSend;
+
+        await axios.post(`/api/updateCollectionItemCount`, {
+          itemId,
+          count,
+        });
+
         setLoadingTxn(false);
-  
+
         cancelLendModal();
-  
-        message.success("Lending in progress!...item will appear shortly on the marketplace once confirmed on the blockchain");
-  
+
+        // message.success("Lending in progress!...item will appear shortly on the marketplace once confirmed on the blockchain");
+
+        message.success("Lending successful!");
+
         removeLent(currentLendIndex);
         // console.log('res: ', patchItem.data)
       }
-  
     } catch (e) {
       // console.info(e)
       if (e.code === "ACTION_REJECTED") {
-        message.error("user denied transaction")
-        setLoadingTxn(false)
+        message.error("user denied transaction");
+        setLoadingTxn(false);
       } else {
-        message.error("something went wrong")
+        message.error("something went wrong");
       }
     }
-
-    // const collection = {
-    //   _type: "collectionsData",
-    //   _id: createId(collectionName),
-    //   collectionName: collectionName,
-    //   collectionSymbol: collectionSymbol,
-    //   chain,
-    //   collectionAddress: nftAddress,
-    // };
-
-    // console.log(response.data);
-
-    //   if(response.data.msg === 'success') {
-
-    //     const res = await axios.post(`/api/postCollectionsData`, collection);
-    //     console.log('for collectionCreation', res.data);
-
-    //     if(res.data.msg === 'success') {
-    //        console.log('collection created successfully')
-    //   }
-
-    //   if(res.data.response.body.error.items[0].error.description === `Document by ID "${createId(collectionName)}" already exists`){
-    //     console.log('collection successful')
-    //   }
-    //  }
   };
 
   const processLend = async () => {
@@ -457,29 +420,26 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
 
       // console.log(data?.hash);
       if (nftStandard === 0) {
-        const stat =  await requestE721Approval();
+        const stat = await requestE721Approval();
         // console.log('stats1', stat)
         if (stat === "operation success") {
-         // if (alreadyApprovedToken) {
-           await sylvesterLend(transactionType, chain, status);
-   
+          // if (alreadyApprovedToken) {
+          await sylvesterLend(transactionType, chain, status);
         }
-         }
-   
-         if (nftStandard === 1) {
-           // console.log("xyz")
-        const stat =  await requestE1155Approval()
+      }
+
+      if (nftStandard === 1) {
+        // console.log("xyz")
+        const stat = await requestE1155Approval();
         // console.log('stats2', stat)
         if (stat === "operation success") {
-           await sylvesterLend(transactionType, chain, status);
+          await sylvesterLend(transactionType, chain, status);
         }
-       
-         }
+      }
       // unfakeTxn()
-
     } catch (e) {
       // console.warn(e)
-      setApprovalLoad(false)
+      setApprovalLoad(false);
       // if (e.message[0] === "u") {
       //   message.error(e.message.slice(0, 25), [3]);
       // } else if (e === "You do not own this NFT") {
@@ -496,7 +456,6 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
       // // console.warn(e)
       // // console.warn((prepareError || error)?.message);
       // setLoadingTxn(false);
-      
     }
   };
 
