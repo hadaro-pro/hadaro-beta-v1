@@ -52,10 +52,12 @@ const getData = async () => {
 
   // console.log(web3.utils.hexToNumber(response_currentBlock.data.result))
 
-  const unix_timeStamp = moment(Date.now()).subtract(2, "hours").unix();
+  // const unix_timeStamp = moment(Date.now()).subtract(2, "hours").unix();
+
+  const unix_timeStamp = moment(Date.now()).subtract(12,"hours").unix();
 
   console.log(unix_timeStamp);
-
+   
   const requestUrl_blockNo = `https://api-goerli.etherscan.io/api?module=block&action=getblocknobytime&timestamp=${unix_timeStamp}&closest=before&apikey=${etherscanApiKey}`;
 
   const response_blockNo = await axios.get(requestUrl_blockNo);
@@ -192,7 +194,7 @@ const parseLendingLogs = async (item, prev) => {
       const sendToDB = await client.create(document);
 
       if (sendToDB) {
-        console.log("added new item to DB");
+        // console.log("added new item to DB");
 
         const query = getItemCollectionCountQuery(document.nftAddress);
 
@@ -230,7 +232,7 @@ const parseLendingLogs = async (item, prev) => {
           .set({ itemCount: count }) // Shallow merge
           .commit() // Perform the patch and return a promise
           .then((updatedDoc) => {
-            // console.log("update col count success", updatedDoc);
+            console.log("update col count success");
           })
           .catch((err) => {
             console.log(err);
@@ -243,7 +245,7 @@ const parseLendingLogs = async (item, prev) => {
     }
     // console.log(document);
   } catch (err) {
-    // console.log(err)
+    console.log(err)
     console.log("error for lending");
     console.log('run renting')
     await parseRentingLogs(item, prev);

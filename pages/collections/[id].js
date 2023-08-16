@@ -48,9 +48,9 @@ const CollectionItems = () => {
     }
   };
 
-  useEffect(() => {
-    checkForPassword(savedPassword);
-  }, []);
+  // useEffect(() => {
+  //   checkForPassword(savedPassword);
+  // }, []);
 
   const collectionDetails = useSelector((state) => state.collectionDetails);
 

@@ -18,15 +18,10 @@ import {
   Sylvester,
   NFTStandard,
   packPrice,
-  SYLVESTER_ADDRESS,
-  getRenftContract,
-  SylvesterV0FunctionInterface,
-  DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
 } from "@renft/sdk";
 import { HADARO_GOERLI_ADDRESS, HADARO_GOERLI_ABI } from "../../constants/abis";
 import Web3 from "web3";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
-import { SylvieABI } from "../../utils/abis";
 import { erc1155Abi } from "../../constants/abis";
 import styles from "./portfolliolendoutro.module.scss";
 
@@ -319,120 +314,80 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
     //  console.log('confirmations', receipt.confirmations)
 
     if (receipt.blockNumber !== null && receipt.confirmations > 0) {
-      // const document = {
-      //   // for live
-      //   // _type: "nftData",
-      //   // for test
-      //   _type: "testNftData",
-      //   nftAddress,
-      //   tokenID,
-      //   chain,
-      //   lenderAddress: address,
-      //   price: dailyRentPrice,
-      //   paymentToken: String(paymentToken),
-      //   maxDuration: maxRentDuration,
-      //   transactionType,
-      //   status,
-      //   metadataName,
-      //   metadataDesc,
-      //   metadataImage,
-      //   nftStandard: String(nftStandard),
-      //   lendTransactionHash: receipt.transactionHash,
-      // };
+      const document = {
+        // for live
+        // _type: "nftData",
+        // for test
+        // _type: "testNftData",
+        // for new block test
+        _type: "testBlockNftData",
+        nftAddress,
+        tokenID,
+        chain,
+        lenderAddress: address.toLowerCase(),
+        price: dailyRentPrice,
+        paymentToken: String(paymentToken),
+        maxDuration: maxRentDuration,
+        transactionType,
+        status,
+        metadataName,
+        metadataDesc,
+        metadataImage,
+        nftCollectionName: collectionName,
+        nftStandard: String(nftStandard),
+        lendTransactionHash: receipt.transactionHash,
+      };
 
-      // await axios.post(`/api/postNftData`, document);
+      await axios.post(`/api/postNftData`, document);
       // const nftAddres = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
 
       // console.log('docusave', resty.data)
 
       // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
-      // const collectionAddr = nftAddress;
+      const collectionAddr = nftAddress;
       //  const collectionAddr = nftAddres
-      // const getCollection = await axios.get(`/api/fetchItemCollection`, {
-      //   collectionAddr,
-      // });
+      const getCollection = await axios.get(`/api/fetchItemCollection`, {
+        collectionAddr,
+      });
 
      //  console.log('original col: ', getCollection.data)
 
-    //  const filterDraftsandCol = getCollection.data.filter(
-    //   (item) => !item._id?.includes("drafts") && item.collectionAddress === collectionAddr
-    // );
+     const filterDraftsandCol = getCollection.data.filter(
+      (item) => !item._id?.includes("drafts") && item.collectionAddress === collectionAddr
+    );
     // console.log('filter col: ', filterDraftsandCol)
 
-    // const itemId = filterDraftsandCol[0]?._id;
+    const itemId = filterDraftsandCol[0]?._id;
 
-    // const itemCount = filterDraftsandCol[0]?.itemCount;
+    const itemCount = filterDraftsandCol[0]?.itemCount;
     // console.log('item count: ', itemCount)
     // console.log('item id: ', itemId)
 
-      // let finalValue;
+      let finalValue;
 
-      // if (itemCount === null) {
-      //   finalValue = 0;
-      // } else {
-      //   finalValue = Number(itemCount);
-      // }
+      if (itemCount === null) {
+        finalValue = 0;
+      } else {
+        finalValue = Number(itemCount);
+      }
 
-      // const valueToSend = String(finalValue + 1);
+      const valueToSend = String(finalValue + 1);
       // // console.log('final: ', valueToSend)
 
-      // const count = valueToSend;
+      const count = valueToSend;
 
-      // await axios.post(`/api/updateCollectionItemCount`, {
-      //   itemId,
-      //   count,
-      // });
+      await axios.post(`/api/updateCollectionItemCount`, {
+        itemId,
+        count,
+      });
 
-      message.success("Lending in progress!...item will appear shortly on the marketplace once confirmed on the blockchain");
+      // message.success("Lending in progress!...item will appear shortly on the marketplace once confirmed on the blockchain");
+      message.success("Lending successful!");
       await getWalletNft();
       await getLendNfts();
       setLoadingTxn(false);
       // console.log('res: ', patchItem.data)
     }
-
-    // const document = {
-    //   _type: "nftData",
-    //   nftAddress,
-    //   tokenID,
-    //   chain,
-    //   lenderAddress: address,
-    //   price: dailyRentPrice,
-    //   paymentToken: String(paymentToken),
-    //   maxDuration: maxRentDuration,
-    //   transactionType,
-    //   status,
-    //   metadataName,
-    //   metadataDesc,
-    //   metadataImage,
-    //   nftStandard: String(nftStandard)
-    // };
-
-    // const collection = {
-    //   _type: "collectionsData",
-    //   _id: createId(collectionName),
-    //   collectionName: collectionName,
-    //   collectionSymbol: collectionSymbol,
-    //   chain,
-    //   collectionAddress: nftAddress,
-    // };
-
-    // await axios.post(`/api/postNftData`, document);
-
-    // console.log(response.data);
-
-    //   if(response.data.msg === 'success') {
-
-    //     const res = await axios.post(`/api/postCollectionsData`, collection);
-    //     console.log('for collectionCreation', res.data);
-
-    //     if(res.data.msg === 'success') {
-    //        console.log('collection created successfully')
-    //   }
-
-    //   if(res.data.response.body.error.items[0].error.description === `Document by ID "${createId(collectionName)}" already exists`){
-    //     console.log('collection successful')
-    //   }
-    //  }
   } catch (e) {
       // console.info(e)
       if (e.code === "ACTION_REJECTED") {

@@ -10,6 +10,7 @@ export default async function handler(req, res) {
     renterAddress,
     rentTxnHash,
     rentClaimedStatus,
+    lendingID
   } = req.body;
 
   client
@@ -22,6 +23,7 @@ export default async function handler(req, res) {
       renterAddress: renterAddress,
       rentTransactionHash: rentTxnHash,
       isRentClaimed: rentClaimedStatus,
+      lendingID: lendingID
     }) // Shallow merge
     .commit() // Perform the patch and return a promise
     .then((updatedDoc) => {

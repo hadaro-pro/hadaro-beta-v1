@@ -99,9 +99,9 @@ const LendPortfolio = () => {
     }
   };
 
-  useEffect(() => {
-    checkForPassword(savedPassword);
-  }, []);
+  // useEffect(() => {
+  //   checkForPassword(savedPassword);
+  // }, []);
 
   useEffect(() => {
     getAllCollections();

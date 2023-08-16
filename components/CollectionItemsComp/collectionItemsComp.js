@@ -27,9 +27,10 @@ import {
 } from "../../constants/abis";
 import { Contract, BigNumber, utils } from "ethers";
 import { createClient } from "urql";
-import { SYLVESTER_SUBGRAPH_URL, moralisApiKey } from "../../creds";
+import { moralisApiKey } from "../../creds";
 import axios from "axios";
 import Web3 from "web3";
+import moment from "moment";
 import { message, Modal, Select } from "antd";
 import { CloseOutlined, SyncOutlined } from "@ant-design/icons";
 import ArtCard from "../ArtCard/ArtCard";
@@ -175,147 +176,116 @@ const CollectionItemsComp = ({
     signer
   );
 
-  const collateralFreeContract = getRenftContract({
-    deployment: DEPLOYMENT_SYLVESTER_ETHEREUM_MAINNET_V0,
-    signer,
-  }).rent;
-
   const hadaroGoerliTestContract = new Contract(
     HADARO_GOERLI_ADDRESS,
     HADARO_GOERLI_ABI,
     signer
   );
 
-  // const getLendingIdForNft = async (tokenAddr, tokenID) => {
-  //   try {
-  //     const queryNft = `
-  //     query LendingsQuery {
-  //         lendings (where: {nftAddress: "${tokenAddr}", tokenID: "${tokenID}"}) {
-  //           id
-  //           tokenID
-  //         }
-  //       }`;
+  const decodeTxnData = (dataSource, topicsObj) => {
+    const { topic1, topic2, topic3 } = topicsObj;
 
-  //     const urqlClient = createClient({
-  //       url: SYLVESTER_SUBGRAPH_URL,
-  //     });
+    const res = web3.eth.abi.decodeLog(
+      [
+        {
+          indexed: false,
+          internalType: "bool",
+          name: "is721",
+          type: "bool",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "lenderAddress",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "nftAddress",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "tokenID",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "lendingID",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "uint8",
+          name: "maxRentDuration",
+          type: "uint8",
+        },
+        {
+          indexed: false,
+          internalType: "bytes4",
+          name: "dailyRentPrice",
+          type: "bytes4",
+        },
+        {
+          indexed: false,
+          internalType: "uint16",
+          name: "lendAmount",
+          type: "uint16",
+        },
+        {
+          indexed: false,
+          internalType: "enum IResolver.PaymentToken",
+          name: "paymentToken",
+          type: "uint8",
+        },
+      ],
+      dataSource,
+      [topic1, topic2, topic3]
+    );
 
-  //     const response = await urqlClient.query(queryNft).toPromise();
+    // console.log("prt", res)
 
-  //     const result = response.data;
+    return res.lendingID;
+  };
 
-  //     // console.log(result)
+  const getLendingIdForNft = async (transactionHash, chain) => {
+    const config = {
+      headers: {
+        accept: "application/json",
+        "X-API-Key": moralisApiKey,
+      },
+    };
 
-  //     return result;
-  //   } catch (e) {
-  //     // console.log(e)
-  //   }
-  // };
+    try {
+      const transactionLogs = await axios.get(
+        `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
+        config
+      );
 
-  // const decodeTxnData = (dataSource, topicsObj) => {
-  //   const { topic1, topic2, topic3 } = topicsObj;
+      // console.log('data: ', transactionLogs.data?.logs[0])
 
-  //   const res = web3.eth.abi.decodeLog(
-  //     [
-  //       {
-  //         indexed: false,
-  //         internalType: "bool",
-  //         name: "is721",
-  //         type: "bool",
-  //       },
-  //       {
-  //         indexed: true,
-  //         internalType: "address",
-  //         name: "lenderAddress",
-  //         type: "address",
-  //       },
-  //       {
-  //         indexed: true,
-  //         internalType: "address",
-  //         name: "nftAddress",
-  //         type: "address",
-  //       },
-  //       {
-  //         indexed: true,
-  //         internalType: "uint256",
-  //         name: "tokenID",
-  //         type: "uint256",
-  //       },
-  //       {
-  //         indexed: false,
-  //         internalType: "uint256",
-  //         name: "lendingID",
-  //         type: "uint256",
-  //       },
-  //       {
-  //         indexed: false,
-  //         internalType: "uint8",
-  //         name: "maxRentDuration",
-  //         type: "uint8",
-  //       },
-  //       {
-  //         indexed: false,
-  //         internalType: "bytes4",
-  //         name: "dailyRentPrice",
-  //         type: "bytes4",
-  //       },
-  //       {
-  //         indexed: false,
-  //         internalType: "uint16",
-  //         name: "lendAmount",
-  //         type: "uint16",
-  //       },
-  //       {
-  //         indexed: false,
-  //         internalType: "enum IResolver.PaymentToken",
-  //         name: "paymentToken",
-  //         type: "uint8",
-  //       },
-  //     ],
-  //     dataSource,
-  //     [topic1, topic2, topic3]
-  //   );
+      const mainLog = transactionLogs.data?.logs[0];
 
-  //   // console.log("prt", res)
+      const dataToDecode = mainLog?.data;
 
-  //   return res.lendingID;
-  // };
+      const topicsObj = {
+        topic1: mainLog?.topic1,
+        topic2: mainLog?.topic2,
+        topic3: mainLog?.topic3,
+      };
 
-  // const getLendingIdForNft = async (transactionHash, chain) => {
-  //   const config = {
-  //     headers: {
-  //       accept: "application/json",
-  //       "X-API-Key": moralisApiKey,
-  //     },
-  //   };
+      const result = decodeTxnData(dataToDecode, topicsObj);
 
-  //   try {
-  //     const transactionLogs = await axios.get(
-  //       `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
-  //       config
-  //     );
+      // console.log('topics: ', topicsObj)
 
-  //     // console.log('data: ', transactionLogs.data?.logs[0])
-
-  //     const mainLog = transactionLogs.data?.logs[0];
-
-  //     const dataToDecode = mainLog?.data;
-
-  //     const topicsObj = {
-  //       topic1: mainLog?.topic1,
-  //       topic2: mainLog?.topic2,
-  //       topic3: mainLog?.topic3,
-  //     };
-
-  //     const result = decodeTxnData(dataToDecode, topicsObj);
-
-  //     // console.log('topics: ', topicsObj)
-
-  //     return result;
-  //   } catch (e) {
-  //     // console.error(e);
-  //   }
-  // };
+      return result;
+    } catch (e) {
+      // console.error(e);
+    }
+  };
 
   const parseStandards = (value) => {
     if (value === "0") {
@@ -464,40 +434,7 @@ const CollectionItemsComp = ({
     }
   };
 
-  // const transferPlatformFunds = async () => {
-  //   try {
-  //     const ERC20Contract = new Contract(
-  //       `0x0b8ad9582c257aC029e335788017dCB1dE5FBE21`,
-  //       erc20ABI,
-  //       signer
-  //     );
-
-  //     const fundsToTransfer = displayAmount * 0.03;
-  //     //  console.log('tccr', fundsToTransfer)
-
-  //     // const erc20Value = BigNumber.from(fundsToTransfer * 10**18)
-  //     // const erc20Value = BigNumber.from(Number(String(0.9)).toFixed(18))
-
-  //     // console.log('tccr', erc20Value._hex)
-
-  //     const processFee = await ERC20Contract.transfer(
-  //       `0x0b8ad9582c257aC029e335788017dCB1dE5FBE21`,
-  //       utils.parseEther(0.9 * 10 ** 18)
-  //     );
-
-  //     await processFee.wait();
-
-  //     // console.log(processFee);
-  //   } catch (e) {
-  //     // console.error(e.message);
-  //     if (e.message[0] === "u" && e.message[1] === "s") {
-  //       message.error("user rejected transaction");
-  //     } else if (e.message[0] === "F") {
-  //       message.error("something went wrong");
-  //     }
-  //   }
-  // };
-
+  
   const addEllipsis = (value) => {
     const firstPart = value?.slice(0, 4);
     const lastPart = value?.slice(-3);
@@ -572,14 +509,15 @@ const CollectionItemsComp = ({
     noOfRentDays,
     rentTxnHash,
     timeOfRent,
-    rentClaimedStatus
+    rentClaimedStatus,
+    lendingID
   ) => {
     try {
       // await axios.put(`/api/updateNftStatus`, { identity, status });
 
       // // console.log('nfts patch result: ', allNfts.data)
 
-      const renterAddress = address;
+      const renterAddress = address.toLowerCase();
 
       const patchData = await axios.put(`/api/updateNftData`, {
         identity,
@@ -590,6 +528,7 @@ const CollectionItemsComp = ({
         renterAddress,
         rentTxnHash,
         rentClaimedStatus,
+        lendingID
       });
 
       // console.log("nfts patch result: ", patchData.data);
@@ -781,6 +720,7 @@ const CollectionItemsComp = ({
     lendingID,
     rentDuration,
     rentAmount,
+    identity
   ) => {
     setRentingLoading(true);
     // console.log("gart", rentAmount)
@@ -799,21 +739,23 @@ const CollectionItemsComp = ({
       // console.log(receipt);
 
       if (receipt.blockNumber !== null && receipt.confirmations > 0) {
-        // const rentTxnHash = receipt.transactionHash;
-        // await handlePatch(
-        //   identity,
-        //   "in rent",
-        //   "lending renting",
-        //   rentDuration,
-        //   rentTxnHash,
-        //   Date.now(),
-        //   "not yet"
-        // );
+        const rentTxnHash = receipt.transactionHash;
+        await handlePatch(
+          identity,
+          "in rent",
+          "lending renting",
+          rentDuration,
+          rentTxnHash,
+          moment(Date.now()).unix(),
+          "not yet",
+          lendingID
+        );
         // console.log(finalObj)
         setRentingLoading(false);
         setRentalPeriod("");
         handleCancel();
-        message.success("rent operation in progress! your item will be displayed once confirmed on blockchain");
+        message.success("rent success!");
+        // message.success("rent operation in progress! your item will be displayed once confirmed on blockchain");
         getRefreshItems();
         // handleCancel();
         handleRentModalCancel();
@@ -834,10 +776,9 @@ const CollectionItemsComp = ({
         setRentingLoading(false);
       }
     }
-  };
+  }; 
 
   const handleCompleteRent = async () => {
-    // transferPlatformFunds()
     // console.log("display: ", toDisplayData);
     try {
       setRentingLoading(true);
@@ -874,13 +815,17 @@ const CollectionItemsComp = ({
                   const transactionHash = toDisplayData?.lendTransactionHash;
 
 
-                  const lendingID = toDisplayData?.lendingID
-                  // const lendingID = await getLendingIdForNft(
-                  //   transactionHash,
-                  //   "goerli"
-                  // );
+                  let lendingID = toDisplayData?.lendingID
+
+                  if (!lendingID) {
+  lendingID = await getLendingIdForNft(
+                    transactionHash,
+                    "goerli"
+                  );
                   // console.log('id: ', lendingID)
 
+                  }
+                
                   const nftStandard = Number(toDisplayData?.nftStandard);
                   const nftAddress = toDisplayData?.nftAddress.toLowerCase();
 
