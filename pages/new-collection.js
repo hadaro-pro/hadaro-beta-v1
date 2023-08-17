@@ -43,9 +43,9 @@ const NewCollection = () => {
     }
   };
 
-  // useEffect(() => {
-  //   checkForPassword(savedPassword);
-  // }, []);
+  useEffect(() => {
+    checkForPassword(savedPassword);
+  }, []);
 
   const [verifiedCollectionsArray, setVerifiedCollectionsArray] = useState([]);
 

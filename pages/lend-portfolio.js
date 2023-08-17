@@ -98,10 +98,10 @@ const LendPortfolio = () => {
       // console.error(e);
     }
   };
-
-  // useEffect(() => {
-  //   checkForPassword(savedPassword);
-  // }, []);
+ 
+  useEffect(() => {
+    checkForPassword(savedPassword);
+  }, []);
 
   useEffect(() => {
     getAllCollections();

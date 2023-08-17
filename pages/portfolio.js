@@ -70,9 +70,9 @@ const Portfolio = () => {
     }
   };
 
-  // useEffect(() => {
-  //   checkForPassword(savedPassword);
-  // }, []);
+  useEffect(() => {
+    checkForPassword(savedPassword);
+  }, []);
 
   const { address, isConnected } = useAccount();
 
