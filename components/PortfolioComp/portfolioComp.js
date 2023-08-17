@@ -13,7 +13,7 @@ import {
   useSigner,
   useProvider,
   erc721ABI,
-  useNetwork,
+  useNetwork, 
 } from "wagmi";
 import { HADARO_GOERLI_ABI, HADARO_GOERLI_ADDRESS } from "../../constants/abis";
 import { client } from "../../utils/client";

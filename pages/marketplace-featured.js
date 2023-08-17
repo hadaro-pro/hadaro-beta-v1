@@ -51,9 +51,9 @@ const MarketplaceFeatured = () => {
     }
   };  
 
-  // useEffect(() => {
-  //   checkForPassword(savedPassword);
-  // }, []);
+  useEffect(() => {
+    checkForPassword(savedPassword);
+  }, []);
 
   // const sharpSTuff = async() => {
   //   try {
