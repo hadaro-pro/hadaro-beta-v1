@@ -357,6 +357,8 @@ const CollectionItemsComp = ({
 
   const handleRentModalCancel = () => {
     setIsRentModalOpen(false);
+    setDisplayAmount(null)
+    setRentalPeriod("")
   };
 
   const getTokenBalances = async () => {
@@ -1119,6 +1121,7 @@ const CollectionItemsComp = ({
                           <div className={styles.formFillPartInput}>
                             <input
                               type="text"
+                              value={rentalPeriod}
                               placeholder="Set Rental Period"
                               onChange={(e) => {
                                 showTotalAmount(e.target.value);
