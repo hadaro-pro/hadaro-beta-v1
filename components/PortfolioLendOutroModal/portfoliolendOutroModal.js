@@ -314,6 +314,13 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
     //  console.log('confirmations', receipt.confirmations)
 
     if (receipt.blockNumber !== null && receipt.confirmations > 0) {
+      const checkIfItemExists = await axios.get(`/api/checkItemTxn`, {
+        txnHash: receipt.transactionHash,
+       });
+
+       
+       if(checkIfItemExists.data.length === 0) {
+
       const document = {
         // for live
         // _type: "nftData",
@@ -387,6 +394,7 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
       await getLendNfts();
       setLoadingTxn(false);
       // console.log('res: ', patchItem.data)
+    }
     }
   } catch (e) {
       // console.info(e)

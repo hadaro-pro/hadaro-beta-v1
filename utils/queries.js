@@ -160,6 +160,15 @@ export const getItemDetailsQuery = (id) => {
   return query;
 };
 
+export const getItemTxnQuery = (txnHash) => {
+  const query = `*[_type == "testBlockNftData" && lendTransactionHash == "${txnHash}"] | order(_createdAt desc) {
+    _id,
+    transactionType
+  }`;
+
+  return query;
+};
+
 
 
 
