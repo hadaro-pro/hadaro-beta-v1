@@ -203,6 +203,38 @@ export const allMainNftsByCollectionQuery = (contractAddr) => {
   return query;
 };
 
+
+export const testQuery = (no) => {
+  const query = `*[_type == "testNftData" && tokenID == '${no}' ] {
+    _id,
+    nftAddress,
+    tokenID,
+    chain,
+    transactionType,
+    lenderAddress,
+    price,
+    status,
+    paymentToken,
+    maxDuration,
+    metadataImage,
+    metadataDesc,
+    metadataName,
+    nftStandard,
+    nftCollectionName,
+    lendingID,
+    rentingID,
+    renterAddress,
+    noOfRentDays,
+    timeOfRent,
+    isRentClaimed,
+    lendTransactionHash,
+    rentTransactionHash
+  }`;
+  return query;
+};
+
+
+
 // consider this for adjustment - test for new method of chain data
 export const allLendedNftsByAddressQuery = (lenderAddr) => {
   const query = `*[_type == "testBlockNftData"   && lenderAddress == '${lenderAddr}'] {
@@ -259,6 +291,7 @@ export const nftByOnlyLendingIDQuery = (lendingID) => {
   const query = `*[_type == "testBlockNftData"   && lendingID == '${lendingID}'] {
     _id,
     transactionType,
+    status
   }`;
   return query;
 };
