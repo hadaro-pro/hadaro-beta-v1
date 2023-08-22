@@ -315,11 +315,11 @@ const CollectionItemsComp = ({
   const [isRentModalOpen, setIsRentModalOpen] = useState(false);
   const [chain, setChain] = useState("0x5");
   const [balances, setBalances] = useState([]);
-  const [wethBalance, setWethBalance] = useState(null);
-  const [daiBalance, setDaiBalance] = useState(null);
-  const [usdcBalance, setUsdcBalance] = useState(null);
-  const [usdtBalance, setUsdtBalance] = useState(null);
-  const [linkBalance, setLinkBalance] = useState(null);
+  const [wethBalance, setWethBalance] = useState(0);
+  const [daiBalance, setDaiBalance] = useState(0);
+  const [usdcBalance, setUsdcBalance] = useState(0);
+  const [usdtBalance, setUsdtBalance] = useState(0);
+  const [linkBalance, setLinkBalance] = useState(0);
   const [converterModalOpen, setconverterModalOpen] = useState(false);
   const [isConverterModalOpen, setIsConverterModalOpen] = useState(false);
   const [walletBalance, setWalletBalance] = useState(0);
@@ -986,6 +986,11 @@ const CollectionItemsComp = ({
   useEffect(() => {
     getTokenBalances();
   }, [alreadyConverted, address, mainChain]);
+
+
+  useEffect(() => {
+    getTokenBalances();
+  }, []);
 
   // const fetchCollectionNfts = async() => {
   //   try {

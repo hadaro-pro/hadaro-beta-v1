@@ -240,8 +240,48 @@ const parseLendingLogs = async (item, prev) => {
       }
 
       // console.log(sendToDB);
-    } else {
-      console("nothing to show here");
+    } else if (dataFromDB.length === 1) {
+      const itemId = dataFromDB[0]?._id
+      const metaDataResponse = await axios.get(
+        `https://deep-index.moralis.io/api/v2/nft/${gottenStats.nftAddress}/${gottenStats.tokenID}?chain=${chain}&format=decimal`,
+        config
+      );
+
+      const nftStandard = parseStandards(metaDataResponse?.data?.contract_type);
+
+      const parseMetadata = JSON.parse(metaDataResponse?.data?.metadata);
+
+      const objToSaveToDB = {
+        nftAddress: gottenStats?.nftAddress.toLowerCase(),
+        tokenID: gottenStats?.tokenID,
+        chain: chain,
+        lenderAddress: gottenStats?.lenderAddress.toLowerCase(),
+        price: gottenStats?.dailyRentPrice,
+        paymentToken: gottenStats?.paymentToken,
+        maxDuration: Number(gottenStats?.maxRentDuration),
+        transactionType: "lending",
+        status: "available",
+        lendTransactionHash: mainEvent?.transactionHash,
+        metadataName: parseMetadata?.name,
+        metadataDesc: parseMetadata?.description,
+        metadataImage: nftImageAggregating(parseMetadata?.image),
+        nftStandard: nftStandard,
+        lendingID: gottenStats?.lendingID,
+        entryDate: moment(Date.now()).unix(),
+        entryBlock: web3.utils.hexToNumber(item?.blockNumber),
+        lendAmount: gottenStats?.lendAmount,
+      };
+
+      client
+      .patch(itemId) // Document ID to patch
+      .set({ ...objToSaveToDB }) // Shallow merge
+      .commit() // Perform the patch and return a promise
+      .then((updatedDoc) => {
+        console.log("updated lended item details success");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     }
     // console.log(document);
   } catch (err) {
@@ -249,7 +289,6 @@ const parseLendingLogs = async (item, prev) => {
     console.log("error for lending");
     console.log('run renting')
     await parseRentingLogs(item, prev);
-
   }
 }; 
 
