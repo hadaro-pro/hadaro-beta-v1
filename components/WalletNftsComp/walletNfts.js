@@ -42,7 +42,7 @@ const WalletNfts = ({
 
   const router = useRouter();
 
-  // console.log(currentLendItem)
+  // console.log(nftImg)
 
   const pushToNewArray = () => {
     const metadataInfo = JSON.parse(allInfo.metadata);

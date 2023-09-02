@@ -237,7 +237,7 @@ const LendPortfolioComp = ({
         }
       }
     });
-
+    console.log("nft-list", nftList);
     setNfts(nftList);
   };
 
@@ -474,7 +474,11 @@ const LendPortfolioComp = ({
                         <div key={index} className={styles.lendArt}>
                           <div className={styles.lendArtImage}>
                             <img
-                              src={item.image ? item.image : "/images/no-image-placeholder.png"}
+                              src={
+                                item.image
+                                  ? item.image
+                                  : "/images/no-image-placeholder.png"
+                              }
                               alt={item.name}
                             />
                           </div>

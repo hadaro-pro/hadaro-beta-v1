@@ -5,18 +5,20 @@ import { etherscanApiKey, moralisApiKey } from "../../creds";
 import {
   decodeLendingTxnData,
   parseStandards,
-  nftImageAggregating,
+  // nftImageAggregating,
   decodeRentingTxnData,
   decodeStopLendingTxnData,
   decodeClaimRentTxnData,
   decodeStopRentTxnData,
 } from "../../utils/eventsDecoder";
+import { nftImageAggregating } from "../../utils/helpers";
 import Web3 from "web3";
 import {
   nftByLendingIDQuery,
   nftByOnlyLendingIDQuery,
   nftByRentingIDQuery,
   getItemCollectionCountQuery,
+  getItemTxnQuery
 } from "../../utils/queries";
 import moment from "moment";
 // import {
@@ -54,7 +56,7 @@ const getData = async () => {
 
   // const unix_timeStamp = moment(Date.now()).subtract(2, "hours").unix();
 
-  const unix_timeStamp = moment(Date.now()).subtract(12,"hours").unix();
+  const unix_timeStamp = moment(Date.now()).subtract(26,"hours").unix();
 
   console.log(unix_timeStamp);
    
@@ -98,6 +100,7 @@ const getData = async () => {
         // console.log(response_Logs.data.result[index]);
         if (currTime >= timeStamp + 2 * 60) {
           console.log(`txn with index of ${index} will be processed`);
+          // console.log('particulars',response_Logs.data.result[index])
           await parseLendingLogs(
             response_Logs.data.result[index],
             response_Logs.data.result[index - 1]
@@ -146,9 +149,9 @@ const parseLendingLogs = async (item, prev) => {
 
     // console.log('stats', gottenStats)
 
-    const query = nftByOnlyLendingIDQuery(gottenStats.lendingID);
+    // const query = nftByOnlyLendingIDQuery(gottenStats.lendingID);
 
-    
+    const query = getItemTxnQuery(mainEvent?.transactionHash);
 
     const dataFromDB = await client.fetch(query);
 
@@ -252,22 +255,9 @@ const parseLendingLogs = async (item, prev) => {
       const parseMetadata = JSON.parse(metaDataResponse?.data?.metadata);
 
       const objToSaveToDB = {
-        nftAddress: gottenStats?.nftAddress.toLowerCase(),
-        tokenID: gottenStats?.tokenID,
-        chain: chain,
-        lenderAddress: gottenStats?.lenderAddress.toLowerCase(),
-        price: gottenStats?.dailyRentPrice,
         paymentToken: gottenStats?.paymentToken,
         maxDuration: Number(gottenStats?.maxRentDuration),
-        transactionType: "lending",
-        status: "available",
-        lendTransactionHash: mainEvent?.transactionHash,
-        metadataName: parseMetadata?.name,
-        metadataDesc: parseMetadata?.description,
-        metadataImage: nftImageAggregating(parseMetadata?.image),
-        nftStandard: nftStandard,
         lendingID: gottenStats?.lendingID,
-        entryDate: moment(Date.now()).unix(),
         entryBlock: web3.utils.hexToNumber(item?.blockNumber),
         lendAmount: gottenStats?.lendAmount,
       };
@@ -307,13 +297,14 @@ const parseRentingLogs = async (item, prev) => {
     // // &fromBlock=12878196
     const gottenStats = decodeRentingTxnData(dataToDecode, topicsToLog);
 
-    const query = nftByLendingIDQuery(gottenStats.lendingID);
 
     // console.log('lending id for renting', gottenStats)
 
+    const query = nftByLendingIDQuery(gottenStats.lendingID);
+
     const dataFromDB = await client.fetch(query);
 
-    // console.log('length for rental', dataFromDB.length)
+    // console.log('length for rental', dataFromDB)
 
     if (dataFromDB.length !== 0) {
       // update details
@@ -361,6 +352,7 @@ const parseStopLendingLogs = async (item, prev) => {
     const gottenStats = decodeStopLendingTxnData(dataToDecode, topicsToLog);
 
     // console.log("stop lending parts", gottenStats);
+
     const query1 = nftByLendingIDQuery(gottenStats.lendingID);
     const dataFromDB_lending = await client.fetch(query1);
 
@@ -387,7 +379,7 @@ const parseStopLendingLogs = async (item, prev) => {
       const query = getItemCollectionCountQuery(colAddr);
 
       const dataFromDB = await client.fetch(query);
-      console.log("collection data", dataFromDB);
+      // console.log("collection data", dataFromDB);
 
       const filterDrafts = dataFromDB.filter(
         (item) =>

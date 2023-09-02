@@ -6,6 +6,7 @@ import { saveCollectionDetails } from "../../core/actions/collectionActions.js/c
 import ArtCard from "../ArtCard/ArtCard";
 import styles from "./marketfeatured.module.scss";
 import CollectionCard from "../collectionCard/collectionCard";
+
 import axios from "axios";
 
 
@@ -44,23 +45,6 @@ const parseImage = (position) => {
 
 
 
-  const nftImageAggregating = (image) => {
-    let imageToDisplay;
-    if (image?.includes(".")) {
-      imageToDisplay = image;
-    } else {
-      imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + image;
-    }
-
-    if (image?.includes("https://") || image?.includes("data:image/")) {
-      imageToDisplay = image;
-    } else {
-      let splicer = image?.slice(7);
-      imageToDisplay = "https://gateway.ipfscdn.io/ipfs/" + splicer;
-    }
-
-    return imageToDisplay;
-  };
 
   // const getImgForCollection = async(address) => {
   //   try{

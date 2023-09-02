@@ -25,7 +25,7 @@ const ArtCard = ({
   const handleCancel = () => {
     setIsModalOpen(false);
   };
- 
+
   // console.log(image)
   // console.log(title)
   // console.log(collectionName)
@@ -33,7 +33,15 @@ const ArtCard = ({
 
   return (
     <div className={styles.mainCover}>
-      <img src={image.includes('undefined') ? "/images/no-image-placeholder.png" : image} alt="artwork" />
+      {/* {console.log(image)} */}
+      <img
+        src={
+          image.includes("undefined")
+            ? "/images/no-image-placeholder.png"
+            : image
+        }
+        alt="artwork"
+      />
       <div className={styles.artDesc}>
         <div className={styles.topCaption}>
           <span> {title === null ? "No name" : title} </span>
@@ -41,11 +49,15 @@ const ArtCard = ({
         </div>
         <div className={styles.captionDetails}>
           <div className={styles.captionDetails1}>
-            {status === "lending" ?  <div className={styles.statusOne}>
-              <small>Available</small>
-            </div> :  <div className={styles.statusTwo}>
-              <small>Rented</small>
-            </div>}
+            {status === "lending" ? (
+              <div className={styles.statusOne}>
+                <small>Available</small>
+              </div>
+            ) : (
+              <div className={styles.statusTwo}>
+                <small>Rented</small>
+              </div>
+            )}
           </div>
           <div className={styles.captionDetails2}>
             <small>Price</small>

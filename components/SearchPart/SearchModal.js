@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { saveCollectionDetails } from "../../core/actions/collectionActions.js/collectionActions";
 import { CloseOutlined } from "@ant-design/icons";
 import { unpackPrice } from "@renft/sdk";
+import { nftImageAggregating } from "../../utils/helpers";
 import styles from "./searchmodal.module.scss";
 
 const SearchModal = ({
@@ -41,23 +42,7 @@ const SearchModal = ({
       : item?.metadataName.toLowerCase().includes(searchText.toLowerCase());
   });
 
-  const nftImageAggregating = (image) => {
-    let imageToDisplay;
-    if (image?.includes(".")) {
-      imageToDisplay = image;
-    } else {
-      imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + image;
-    }
-
-    if (image?.includes("https://") || image?.includes("data:image/")) {
-      imageToDisplay = image;
-    } else {
-      let splicer = image?.slice(7);
-      imageToDisplay = "https://gateway.ipfscdn.io/ipfs/" + splicer;
-    }
-
-    return imageToDisplay;
-  };
+ 
 
   const convertToken = (value) => {
     if (value === "1") {
