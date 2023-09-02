@@ -13,7 +13,7 @@ import {
   useSigner,
   useProvider,
   erc721ABI,
-  useNetwork, 
+  useNetwork,
 } from "wagmi";
 import { HADARO_GOERLI_ABI, HADARO_GOERLI_ADDRESS } from "../../constants/abis";
 import { client } from "../../utils/client";
@@ -32,6 +32,7 @@ import styles from "./portfoliocomp.module.scss";
 import { message, Modal } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import RentNfts from "../RentNfts/RentNfts";
+import { nftImageAggregating } from "../../utils/helpers";
 
 const PortfolioComp = ({
   walletConnectStatus,
@@ -158,6 +159,9 @@ const PortfolioComp = ({
     HADARO_GOERLI_ABI,
     signer
   );
+  
+
+  
 
   // console.log('sax: ',lendingNfts)
   // console.log('saxon: ',rentingNfts)
@@ -299,23 +303,7 @@ const PortfolioComp = ({
     }
   };
 
-  const nftImageAggregating = (image) => {
-    let imageToDisplay;
-    if (image?.includes(".")) {
-      imageToDisplay = image;
-    } else {
-      imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + image;
-    }
-
-    if (image?.includes("https://") || image?.includes("data:image/")) {
-      imageToDisplay = image;
-    } else {
-      let splicer = image?.slice(7);
-      imageToDisplay = "https://gateway.ipfscdn.io/ipfs/" + splicer;
-    }
-
-    return imageToDisplay;
-  };
+ 
 
   const uploadImage = async (e) => {
     const selectedFile = e.target.files[0];
@@ -486,29 +474,29 @@ const PortfolioComp = ({
       },
     };
 
-    if(lendingID === null) {
+    if (lendingID === null) {
       try {
         const transactionLogs = await axios.get(
           `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
           config
         );
-  
+
         // console.log('data: ', transactionLogs.data?.logs[0])
-  
+
         const mainLog = transactionLogs.data?.logs[0];
-  
+
         const dataToDecode = mainLog?.data;
-  
+
         const topicsObj = {
           topic1: mainLog?.topic1,
           topic2: mainLog?.topic2,
           topic3: mainLog?.topic3,
         };
-  
+
         const result = decodeLendingTxnData(dataToDecode, topicsObj);
-  
+
         // console.log('topics: ', topicsObj)
-  
+
         // const queryNft = `
         // query LendingsQuery {
         //     lendings (where: {nftAddress: "${tokenAddr}", tokenID: "${tokenID}"}) {
@@ -516,26 +504,24 @@ const PortfolioComp = ({
         //       tokenID
         //     }
         //   }`;
-  
+
         // const urqlClient = createClient({
         //   url: SYLVESTER_SUBGRAPH_URL,
         // });
-  
+
         // const response = await urqlClient.query(queryNft).toPromise();
-  
+
         // const result = response.data;
-  
+
         // console.log(result, 'lendId result')
-  
+
         return result;
       } catch (e) {
         // console.error(e);
       }
     } else {
-      return lendingID
+      return lendingID;
     }
-
-  
   };
 
   const getRentingId = async (transactionHash, chain) => {
@@ -546,18 +532,17 @@ const PortfolioComp = ({
       },
     };
 
-
-    if(rentingID === null) {
+    if (rentingID === null) {
       try {
         const transactionLogs = await axios.get(
           `https://deep-index.moralis.io/api/v2/transaction/${transactionHash}/verbose?chain=${chain}`,
           config
         );
-  
+
         // console.log('data: ', transactionLogs.data?.logs[1])
-  
+
         const mainLog = transactionLogs.data?.logs[1];
-  
+
         const dataToDecode = mainLog?.data;
         // web3.utils.hexToNumber(mainLog?.topic3);
         const topicsObj = {
@@ -565,7 +550,7 @@ const PortfolioComp = ({
           // topic2: mainLog?.topic2,
           topic3: web3.utils.hexToNumber(mainLog?.topic3),
         };
-  
+
         // console.log("datatopics: ", topicsObj);
         const result = topicsObj?.topic3;
         // const result = decodeRentTxnData(dataToDecode, topicsObj);
@@ -575,7 +560,7 @@ const PortfolioComp = ({
         // console.error(e);
       }
     } else {
-      return rentingID
+      return rentingID;
     }
   };
 
@@ -584,7 +569,7 @@ const PortfolioComp = ({
       setLoadClaimRent(true);
 
       // if (!rentingID) {
-        const rentingIdToUse = await getRentingId(rentTxnData, "goerli");
+      const rentingIdToUse = await getRentingId(rentTxnData, "goerli");
       //   setRentingID(rentingIdToUse);
       // }
 
@@ -603,7 +588,7 @@ const PortfolioComp = ({
           mainItemAddr,
           tokenId,
           lendingIdToUse,
-          rentingIdToUse
+          rentingIdToUse,
           // rentingIDToString,
         };
 
@@ -673,13 +658,13 @@ const PortfolioComp = ({
 
       // if (!rentingID) {
       //   console.log("rntTxn", rentTxnData);
-        const rentingIdToUse = await getRentingId(rentTxnData, "goerli");
-        // console.log(rentingIdToUse, 'rentingIdToUse')
+      const rentingIdToUse = await getRentingId(rentTxnData, "goerli");
+      // console.log(rentingIdToUse, 'rentingIdToUse')
       //   setRentingID(rentingIdToUse);
       // }
 
       // if (!lendingID) {
-        const lendingIdToUse = await getLendingIdForNft(lendTxnData, "goerli");
+      const lendingIdToUse = await getLendingIdForNft(lendTxnData, "goerli");
       //   setLendingID(lendingIdToUse);
       // }
 
@@ -698,7 +683,7 @@ const PortfolioComp = ({
           mainItemAddr,
           tokenId,
           lendingIdToUse,
-          rentingIdToUse
+          rentingIdToUse,
           // rentingIDToString,
         };
 
@@ -744,7 +729,7 @@ const PortfolioComp = ({
           // await handleRemoveElement(position);
           // message.success("stopping rental in progress!changes will reflect after confirmation on the blockchain");
           message.success("successfully stopped rent of NFT!");
-          handleRentDetailsModalCancel()
+          handleRentDetailsModalCancel();
           getRentingNfts();
         }
       }
@@ -764,7 +749,7 @@ const PortfolioComp = ({
         message.error("You failed to return item before expiry!");
         const newRenterAddress = "";
         await handleRentPatch(identi, newRenterAddress);
-        handleRentDetailsModalCancel()
+        handleRentDetailsModalCancel();
         setLoadStopRent(false);
         await getRentingNfts();
       } else if (
@@ -999,8 +984,8 @@ const PortfolioComp = ({
       // console.log('hash', transactionHash)
 
       // if (!lendingID) {
-        const lending_id = await getLendingIdForNft(lendTxnData, "goerli");
-        // setLendingID(lending_id);
+      const lending_id = await getLendingIdForNft(lendTxnData, "goerli");
+      // setLendingID(lending_id);
       // }
 
       // const lendingID = await getLendingIdForNft(lendTxnData, "goerli");
@@ -1568,11 +1553,11 @@ const PortfolioComp = ({
                             <RentNfts
                               nftname={el?.metadataName}
                               nftImage={
-                                nftImageAggregating(el.metadataImage).includes(
+                                nftImageAggregating(el?.metadataImage).includes(
                                   "undefined"
                                 )
                                   ? "/images/no-image-placeholder.png"
-                                  : nftImageAggregating(el.metadataImage)
+                                  : nftImageAggregating(el?.metadataImage)
                               }
                               nftStatus={el.status}
                               position={index}

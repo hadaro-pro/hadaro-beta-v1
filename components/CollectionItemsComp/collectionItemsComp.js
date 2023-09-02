@@ -34,6 +34,7 @@ import moment from "moment";
 import { message, Modal, Select } from "antd";
 import { CloseOutlined, SyncOutlined } from "@ant-design/icons";
 import ArtCard from "../ArtCard/ArtCard";
+import { nftImageAggregating } from "../../utils/helpers";
 import styles from "./collectioncomp.module.scss";
 // import { BigNumber } from "ethers";
 
@@ -357,8 +358,8 @@ const CollectionItemsComp = ({
 
   const handleRentModalCancel = () => {
     setIsRentModalOpen(false);
-    setDisplayAmount(null)
-    setRentalPeriod("")
+    setDisplayAmount(null);
+    setRentalPeriod("");
   };
 
   const getTokenBalances = async () => {
@@ -436,7 +437,6 @@ const CollectionItemsComp = ({
     }
   };
 
-  
   const addEllipsis = (value) => {
     const firstPart = value?.slice(0, 4);
     const lastPart = value?.slice(-3);
@@ -453,7 +453,6 @@ const CollectionItemsComp = ({
     // openFooter(true);
     // window.scrollTo(0, 100);
   };
-
 
   const getColandUpdateItemCount = async (collectionAddr) => {
     // const collectionAddr = "0x999e88075692bCeE3dBC07e7E64cD32f39A1D3ab"
@@ -530,7 +529,7 @@ const CollectionItemsComp = ({
         renterAddress,
         rentTxnHash,
         rentClaimedStatus,
-        lendingID
+        lendingID,
       });
 
       // console.log("nfts patch result: ", patchData.data);
@@ -550,23 +549,7 @@ const CollectionItemsComp = ({
 
   // console.log("rental pd ", rentalPeriod);
 
-  const nftImageAggregating = (image) => {
-    let imageToDisplay;
-    if (image?.includes(".")) {
-      imageToDisplay = image;
-    } else {
-      imageToDisplay = "https://ipfs.moralis.io:2053/ipfs/" + image;
-    }
 
-    if (image?.includes("https://") || image?.includes("data:image/")) {
-      imageToDisplay = image;
-    } else {
-      let splicer = image?.slice(7);
-      imageToDisplay = "https://gateway.ipfscdn.io/ipfs/" + splicer;
-    }
-
-    return imageToDisplay;
-  };
 
   const showTotalAmount = (value) => {
     // console.log("cyle ", value);
@@ -763,22 +746,24 @@ const CollectionItemsComp = ({
         handleRentModalCancel();
       }
     } catch (e) {
-      console.warn(e)
+      console.warn(e);
       // console.log(e.error.data.message)
       setRentingLoading(false);
       if (e.code === "ACTION_REJECTED") {
         message.error("user rejected transaction");
         setRentingLoading(false);
       }
-      if (e.error.data.message="execution reverted: Hadaro::cant rent own nft") {
-        message.error("can't rent own item!")
+      if (
+        (e.error.data.message = "execution reverted: Hadaro::cant rent own nft")
+      ) {
+        message.error("can't rent own item!");
         setRentingLoading(false);
       } else {
-        message.error("something went wrong...")
+        message.error("something went wrong...");
         setRentingLoading(false);
       }
     }
-  }; 
+  };
 
   const handleCompleteRent = async () => {
     // console.log("display: ", toDisplayData);
@@ -793,7 +778,7 @@ const CollectionItemsComp = ({
             message.info("set a rental period then proceed to renting");
             setRentingLoading(false);
           } else {
-            // console.log("styer", toDisplayData?.paymentToken); 
+            // console.log("styer", toDisplayData?.paymentToken);
             // console.log("styarz", wethBalance);
             if (toDisplayData?.paymentToken === "1") {
               const balanceOfToken = returnBalance(wethBalance);
@@ -816,18 +801,16 @@ const CollectionItemsComp = ({
                   // message.success("ride on to rent amigo!");
                   const transactionHash = toDisplayData?.lendTransactionHash;
 
-
-                  let lendingID = toDisplayData?.lendingID
+                  let lendingID = toDisplayData?.lendingID;
 
                   if (!lendingID) {
-  lendingID = await getLendingIdForNft(
-                    transactionHash,
-                    "goerli"
-                  );
-                  // console.log('id: ', lendingID)
-
+                    lendingID = await getLendingIdForNft(
+                      transactionHash,
+                      "goerli"
+                    );
+                    // console.log('id: ', lendingID)
                   }
-                
+
                   const nftStandard = Number(toDisplayData?.nftStandard);
                   const nftAddress = toDisplayData?.nftAddress.toLowerCase();
 
@@ -848,7 +831,7 @@ const CollectionItemsComp = ({
                   //   rentDuration,
                   //   rentAmount,
                   // };
-// execution reverted: Hadaro::rentAmount is zero   execution reverted: Hadaro::invalid rent amount
+                  // execution reverted: Hadaro::rentAmount is zero   execution reverted: Hadaro::invalid rent amount
 
                   // const msgValue = String(0);
 
@@ -987,7 +970,6 @@ const CollectionItemsComp = ({
     getTokenBalances();
   }, [alreadyConverted, address, mainChain]);
 
-
   useEffect(() => {
     getTokenBalances();
   }, []);
@@ -1061,11 +1043,15 @@ const CollectionItemsComp = ({
                     <div className={styles.infoContainer}>
                       <div className={styles.infoImage}>
                         <img
-                          src={nftImageAggregating(
-                            toDisplayData?.metadataImage
-                          ).includes('undefined') ? "/images/no-image-placeholder.png": nftImageAggregating(
-                            toDisplayData?.metadataImage
-                          )}
+                          src={
+                            nftImageAggregating(
+                              toDisplayData?.metadataImage
+                            ).includes("undefined")
+                              ? "/images/no-image-placeholder.png"
+                              : nftImageAggregating(
+                                  toDisplayData?.metadataImage
+                                )
+                          }
                           alt={toDisplayData?.metadataName}
                         />
                       </div>
@@ -1080,7 +1066,12 @@ const CollectionItemsComp = ({
                         <div className={styles.infoDescName}>
                           <div className={styles.infoDescMetaNames}>
                             <h3> {colName} </h3>
-                            <h2> {toDisplayData?.metadataName === null ? "No Name" : toDisplayData?.metadataName} </h2>
+                            <h2>
+                              {" "}
+                              {toDisplayData?.metadataName === null
+                                ? "No Name"
+                                : toDisplayData?.metadataName}{" "}
+                            </h2>
                           </div>
                           <div className={styles.miniInfo}>
                             <small>
@@ -1269,4 +1260,3 @@ const CollectionItemsComp = ({
 };
 
 export default CollectionItemsComp;
-

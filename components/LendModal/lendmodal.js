@@ -15,7 +15,15 @@ const LendModal = ({
   loadingTxn,
   loadingApproval
 }) => {
+
+  // console.log('loading lend state', loadingTxn)
+  // console.log("approval state", loadingApproval)
+
+
   const { isConnected, address } = useAccount();
+
+
+
 
   const [size, setSize] = useState("middle");
   const [dailyRentPrice, setDailyRentPrice] = useState(0);
@@ -229,7 +237,7 @@ const LendModal = ({
         </div>
 
         <button onClick={() => addCollateralAndLendPrice()}>
-          { loadingApproval ? "Requesting Approval"  : loadingTxn ? "Processing Lending..." : "Complete Lend"}
+          { loadingApproval ? "Requesting Approval"  : loadingTxn ? "Processing Lending..." : !loadingTxn ? "Complete Lend" : "Complete Lend"  }
         </button>
       </div>
     </Modal>

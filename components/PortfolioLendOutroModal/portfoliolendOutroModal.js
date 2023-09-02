@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, message, Select } from "antd";
 import axios from "axios";
+import moment from "moment";
 import {
   useAccount,
   useSigner,
@@ -197,11 +198,13 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
       // console.warn(e)
       if (e.code === "ACTION_REJECTED") {
         message.error("user denied transaction")
+        setLoadingTxn(false)
         setApprovalLoad(false)
         return "operation failed"
         //  setAlreadyApprovedToken(false)
       } else {
         message.error("something went wrong...")
+        setLoadingTxn(false)
         setApprovalLoad(false)
         return "operation failed"
         // setAlreadyApprovedToken(false)
@@ -263,16 +266,17 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
   } 
     // setApprovalLoad(false);
     } catch (e) {
-      // console.warn(e)
+      console.warn(e)
       // console.warn(e.code)
       if (e.code === "ACTION_REJECTED") {
         message.error("user denied transaction")
+        setLoadingTxn(false)
         setApprovalLoad(false)
         return "operation failed"
         // setAlreadyApprovedToken(false)
-        // setLoadingTxn(false)
       } else {
         message.error("something went wrong...")
+        setLoadingTxn(false)
         setApprovalLoad(false)
         return "operation failed"
         // setLoadingTxn(false)
@@ -340,9 +344,9 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
         metadataName,
         metadataDesc,
         metadataImage,
-        nftCollectionName: collectionName,
         nftStandard: String(nftStandard),
         lendTransactionHash: receipt.transactionHash,
+        entryDate: moment(Date.now()).unix()
       };
 
       await axios.post(`/api/postNftData`, document);
@@ -468,6 +472,7 @@ const approvalTxn = await ERC1155Contract.setApprovalForAll(HADARO_GOERLI_ADDRES
     } catch (e) {
       // console.warn(e)
       setApprovalLoad(false)
+      setLoadingTxn(false)
  
     }    
   };

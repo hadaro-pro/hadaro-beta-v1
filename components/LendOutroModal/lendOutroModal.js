@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, message, Select } from "antd";
 import axios from "axios";
+import moment from "moment";
 import {
   useAccount,
   useSigner,
@@ -133,6 +134,7 @@ const LendOutroModal = ({
       // console.log('address: ', address)
       if (convHex === 0) {
         setApprovalLoad(false);
+        setLoadingTxn(false);
         throw new Error(`You do not own this NFT`);
       }
 
@@ -163,11 +165,13 @@ const LendOutroModal = ({
           //  console.log('approval2i', receipt)
           //  if (receipt.blockNumber !== null && receipt.confirmations > 0) {
           setApprovalLoad(false);
+          setLoadingTxn(false);
           return "operation success";
         }
       } else {
         // console.log("viva")
         setApprovalLoad(false);
+        setLoadingTxn(false);
         return "operation success";
         // const transferToken =  await ERC1155Contract.safeTransferFrom(address, HADARO_GOERLI_ADDRESS, tokenID, lendAmount, "0x00")
         // const receipt = await transferToken.wait();
@@ -184,6 +188,7 @@ const LendOutroModal = ({
       if (e.code === "ACTION_REJECTED") {
         message.error("user denied transaction");
         setApprovalLoad(false);
+        setLoadingTxn(false);
         return "operation failed";
         //  setAlreadyApprovedToken(false)
       } else {
@@ -246,16 +251,18 @@ const LendOutroModal = ({
       }
       // setApprovalLoad(false);
     } catch (e) {
-      // console.warn(e)
+      console.warn(e)
       // console.warn(e.code)
       if (e.code === "ACTION_REJECTED") {
         message.error("user denied transaction");
+        setLoadingTxn(false)
         setApprovalLoad(false);
         return "operation failed";
         // setAlreadyApprovedToken(false)
         // setLoadingTxn(false)
       } else {
         message.error("something went wrong...");
+        setLoadingTxn(false)
         setApprovalLoad(false);
         return "operation failed";
         // setLoadingTxn(false)
@@ -315,9 +322,9 @@ const LendOutroModal = ({
             metadataName,
             metadataDesc,
             metadataImage,
-            nftCollectionName: collectionName,
             nftStandard: String(nftStandard),
             lendTransactionHash: receipt.transactionHash,
+            entryDate: moment(Date.now()).unix()
           };
   
           const resty = await axios.post(`/api/postNftData`, document);
@@ -445,7 +452,10 @@ const LendOutroModal = ({
       // unfakeTxn()
     } catch (e) {
       // console.warn(e)
-      setApprovalLoad(false);
+      // setApprovalLoad(false);
+      setLoadingTxn(false);
+
+
       // if (e.message[0] === "u") {
       //   message.error(e.message.slice(0, 25), [3]);
       // } else if (e === "You do not own this NFT") {

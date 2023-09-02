@@ -14,8 +14,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { saveLastPageUrl } from "../core/actions/passwordLockActions/passwordLockActions";
+import { ipfs_key } from "../utils/helpers";
 
-import { SYLVESTER_SUBGRAPH_URL } from "../creds";
 import { message } from "antd";
 import { connect } from "react-redux";
 
@@ -128,7 +128,6 @@ const Portfolio = () => {
         } else {
           item.image = "https://ipfs.moralis.io:2053/ipfs/" + meta.image;
         }
-
         if (
           meta.image?.includes("https://") ||
           meta.image?.includes("data:image/")
@@ -136,7 +135,7 @@ const Portfolio = () => {
           item.image = meta.image;
         } else {
           let splicer = meta.image?.slice(7);
-          item.image = "https://gateway.ipfscdn.io/ipfs/" + splicer;
+          item.image = `https://${ipfs_key}.ipfscdn.io/ipfs/` + splicer;
         }
       }
     });
